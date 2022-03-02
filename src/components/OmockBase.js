@@ -8,8 +8,23 @@ import Div from "./Div";
 
 
 const OmockBase = () => {
-  const order = useSelector((state) => state.omock.order);
-  console.log("순서",order);
+  // const order = useSelector((state) => state.omock.order);
+  const [orders, setOrders] = useState("1");
+  const socketRef = useRef();
+  console.log("순서",orders);
+let i;
+  useEffect(() => {
+    socketRef.current = io.connect("http://localhost:4001");
+    socketRef.current.on('omok', order => {
+        setOrders(order);
+        i=order
+    });
+    console.log(i)
+    socketRef.current.emit('omok', orders);
+    return () => socketRef.current.disconnect();
+    
+  }, [orders]);
+
 
   return (
     <>
@@ -21,7 +36,11 @@ const OmockBase = () => {
                 {[...Array(19)].map((n, index) => {
                   return (
                     <Td key={index}>
-                      <Div x={index} y={i} order={order} />
+                      <Div 
+                      x={index} 
+                      y={i} 
+                      order={orders}
+                      setorder={setOrders} />
                     </Td>
                   );
                 })}
