@@ -5,7 +5,7 @@ import io from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as omockCreators } from "../redux/modules/omock";
 
-const Div = ({ x, y, order }) => {
+const Div = ({ x, y, order,setorder }) => {
   const dispatch = useDispatch();
   const [stone, setStone] = useState("");
 
@@ -13,26 +13,40 @@ const Div = ({ x, y, order }) => {
   const socketRef = useRef();
 
   const Click = () => {
-    socketRef.current.emit("omok", {  x, y, order });
+     
 
     if (stone) {
       console.log("돌아가");
       console.log(stone);
       return;
     }
-    dispatch(omockCreators.order(order));
+    // socketRef.current = io.connect("http://localhost:4001");
+    // socketRef.current.emit("omok", order);
+    // dispatch(omockCreators.order(order));
     console.log("x :", x, "y :", y);
     setStone(order);
-    console.log(stone);
+if(order==="1"){
+  order="2"
+}else{
+  order="1"
+}
+    setorder(order);
+    // socketRef.current.on("omok", order=>{
+    // })
+     console.log("stone", stone, order);
+    //  return () => socketRef.current.disconnect();
   };
 
-  useEffect(() => {
-    socketRef.current = io.connect("http://localhost:4001");
-    socketRef.current.on("omok", ({  x, y, order}) => {
-      setStone(order);
-    });
-    return () => socketRef.current.disconnect();
-  }, []);
+  // useEffect(() => {
+  //   socketRef.current = io.connect("http://localhost:4001");
+  // //   socketRef.current.on("omok", (order}) => {
+  // //     if(xs=== x && ys === y){
+  // //       setStone(order);
+  // //     }
+  // //   });
+  //   return () => socketRef.current.disconnect();
+
+  // }, [stone]);
 
 
   return (
