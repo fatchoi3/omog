@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 
-import OmockBase from "../components/OmockBase";
+import Omog from "../components/Omog";
 import Chatting from "../components/Chatting";
 
 const Game = ()=>{
     return(
         <GameContainer>
-        <OmockBase/>
+        <Omog/>
         <Chatting/>
         </GameContainer>
     )
