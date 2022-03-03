@@ -8,8 +8,29 @@ import Div from "./Div";
 
 
 const OmockBase = () => {
-  const order = useSelector((state) => state.omock.order);
-  console.log("순서",order);
+  // const order = useSelector((state) => state.omock.order);
+  // const [orders, setOrders] = useState("1");
+  const [gamestate, setState]= useState({x:"", y:"",order:"1"});
+  const socketRef = useRef();
+  console.log("순서",gamestate.order);
+let i;
+  useEffect(() => {
+    
+    console.log("gamestate",gamestate)
+    socketRef.current = io.connect("http://localhost:4001");
+    socketRef.current.on('omok', ({x,y,order}) => {
+        
+        setState({x,y,order})
+       
+    });
+    const {x,y,order}=gamestate;
+    socketRef.current.emit('omok', {x,y,order});
+    
+    return () => socketRef.current.disconnect();
+   
+
+  }, [gamestate.order]);
+  console.log(gamestate)
 
   return (
     <>
@@ -21,7 +42,15 @@ const OmockBase = () => {
                 {[...Array(19)].map((n, index) => {
                   return (
                     <Td key={index}>
-                      <Div x={index} y={i} order={order} />
+                      <Div 
+                      X={index} 
+                      Y={i} 
+                      // order={orders}
+                      // setorder={setOrders}
+                      state={gamestate} 
+                      setState={setState}
+                      socket={socketRef.current}
+                      />
                     </Td>
                   );
                 })}
