@@ -4,6 +4,10 @@ import styled from 'styled-components';
 import { Button } from '@material-ui/core';
 
 function Waiting(props) {
+
+
+
+
     return (
         <div className="main_container" style={{ display: "flex", justifyContent: "center" }}>
             <div className="container_left">
