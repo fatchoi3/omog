@@ -90,7 +90,7 @@ const userList = [
 };
 const UserInfoContainer = styled.div`
 height: 800px;
-margin: 30px 10px;
+width : 200px;
 `;
 const User = styled.div`
 height: 30%;
