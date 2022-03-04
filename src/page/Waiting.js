@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Button } from '@material-ui/core';
+import WaitingChatting from '../components/WaitingChatting';
 
 function Waiting(props) {
 
@@ -38,7 +39,7 @@ function Waiting(props) {
                 </div>
             </div>
             <div className="container_right" style={{ padding: "20px" }}>
-                채팅입니다
+                <WaitingChatting />
             </div>
         </div>
     );
