@@ -10,19 +10,22 @@ import "../shared/App.css";
 const Chatting = () => {
   const [state, setState] = useState({ message: "", name: "" });
   const [chat, setChat] = useState([]);
-
   const testID = state.name;
 
   const socketRef = useRef();
   const oneChat = useRef();
   const renderOneChat = oneChat.current;
+  
   useEffect(() => {
+    console.log("채팅은 언제나옴?   ")
     socketRef.current = io.connect("http://localhost:4001");
     socketRef.current.on("message", ({ name, message }) => {
       setChat([...chat, { name, message }]);
     });
     return () => socketRef.current.disconnect();
   }, [chat]);
+
+
 
   const onTextChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
