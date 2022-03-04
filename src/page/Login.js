@@ -18,7 +18,7 @@ function Login(props) {
     const [nickname, setNickname] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [passwordConfirm, setPasswordConfirm] = React.useState("");
-    const [signup, setSignup] = React.useState(false);
+    const [signupModal, setSignupModal] = React.useState(false);
 
 
     const handleIdInput = (e) => {
@@ -79,6 +79,10 @@ function Login(props) {
         // )
     }
 
+    const handleSignupModal = () => {
+        setSignupModal(true);
+    }
+
     const handleLogin = () => {
         if (id === '' || password === '') {
             alert('입력하지 않은 칸이 있습니다!');
@@ -98,17 +102,28 @@ function Login(props) {
 
     return (
         <>
-
+            {
+                signupModal &&
+                <SignupModal>
+                    <div>이곳에 회원가입 모달창이 만들어집니다.
+                        <input placeholder="아이디" />
+                        <input />
+                        <input />
+                    </div>
+                </SignupModal>
+            }
             <LoginPageTitle>타이틀 혹은 로고가 위치합니다.</LoginPageTitle>
             <LoginPageContainer>
                 <LoginPageSlider />
-
                 <LoginPageLoginBox>
                     <Text is_size="26px">로그인</Text>
                     <Input is_border="none" placeholder="아이디" is_padding="3px" is_margin="4px" is_border_bottom="1px solid black"></Input>
                     <Input is_border="none" placeholder="비밀번호" is_padding="3px" is_margin="4px" is_border_bottom="1px solid black"></Input>
                     <Button>로그인</Button>
-                    <div className="signup_to_box" style={{ textAlign: "center" }}>새로 가입하시겠습니까? 회원가입</div>
+                    <div className="signup_to_box" style={{ textAlign: "center" }}>
+                        새로 가입하시겠습니까?
+                        <span onClick={handleSignupModal} style={{ cursor: "pointer" }}>회원가입</span>
+                    </div>
                     <div className="password_search_box" style={{ textAlign: "center" }}>비밀번호 찾기</div>
                 </LoginPageLoginBox>
             </LoginPageContainer>
@@ -135,6 +150,41 @@ const LoginPageLoginBox = styled.div`
 
 `
 
+const SignupModal = styled.div`
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+
+    > div {
+        position: relative;
+        transition: 0.3s;
+        width: 600px;
+        height: 780px;
+        animation: 400ms ease-in-out 0ms 1 normal forwards running modalIn;
+        box-shadow: rgb(0 0 0 / 9%) 0px 2px 12px 0px;
+        background: gray;
+        display: flex;
+
+        @keyframes modalIn {
+            0%{
+                transform: translateY(600px);
+                opacity: 0;
+            }  
+            100%{
+                transform: translateY(0px);
+                opacity: 1;
+            }
+        }
+        
+    }
+    }
+`
 
 
 export default Login;
