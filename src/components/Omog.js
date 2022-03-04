@@ -238,8 +238,6 @@ const Omog = () => {
       }
     }
   };
-
-
     // 마우스 클릭한 위치를 정확한 눈금 위치로 보정
     document.addEventListener("mouseup", (e) => {
       //   console.log(e.offsetX)

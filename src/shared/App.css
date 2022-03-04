@@ -40,7 +40,8 @@
 
 }
 form {
-  max-width: 350px;
+  max-width: 600px;
+  width: 400px;
   border-radius: 5px;
   padding: 20px;
   box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
@@ -91,7 +92,7 @@ span {
   position: absolute;
   right: 15px;
   top: 50%;
-  width: 1.25vw;
+  width: 400px;
   transform: translateY(-50%);
 }
 .chat_textfield_container .chat_send_btn > img {

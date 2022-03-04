@@ -86,7 +86,6 @@ const Roomlist = ()=>{
                     )
                 })}
             </Tbody>
-
         </Table>
         
     )
@@ -94,7 +93,7 @@ const Roomlist = ()=>{
 const Table = styled.table`
  width : 1000px;
  border : 2px solid black;
- scroll: auto;
+ 
 `;
 const Thead= styled.thead`
 background-color : gray;

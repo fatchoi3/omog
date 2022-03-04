@@ -14,5 +14,7 @@ const Game = ()=>{
 };
 const GameContainer = styled.div`
 display:flex;
+width : 1000px;
+margin : 0 auto;
 `;
 export default Game;
