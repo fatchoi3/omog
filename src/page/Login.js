@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { actionCreators as userActions } from '../redux/modules/user';
 
 import Button from '../elements/Button';
 import Text from '../elements/Text';
@@ -16,7 +17,6 @@ function Login(props) {
     const modalEl = React.useRef();
 
     const [id, setId] = React.useState("");
-    const [nickname, setNickname] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [passwordConfirm, setPasswordConfirm] = React.useState("");
     const [isOpen, setIsOpen] = React.useState(false);
@@ -24,10 +24,6 @@ function Login(props) {
 
     const handleIdInput = (e) => {
         setId(e.target.value);
-    }
-
-    const handleNicknameInput = (e) => {
-        setNickname(e.target.value);
     }
 
     const handlePasswordInput = (e) => {
@@ -44,38 +40,39 @@ function Login(props) {
     }
 
     const pwdCheck = (password) => {
+        // 최소 8 자, 최소 하나의 문자, 하나의 숫자 및 하나의 특수 문자 :
         let _reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
         return _reg.test(password);
     }
 
     const handleSignup = () => {
-        if (!emailCheck(id)) {
-            alert('이메일이 형식에 맞지 않습니다!');
-            return;
-        }
+        // if (!emailCheck(id)) {
+        //     alert('이메일이 형식에 맞지 않습니다!');
+        //     return;
+        // }
 
-        if (!pwdCheck(password)) {
-            alert('비밀번호가 형식에 맞지 않습니다!');
-            return;
-        }
+        // if (!pwdCheck(password)) {
+        //     alert('비밀번호가 형식에 맞지 않습니다!');
+        //     return;
+        // }
 
         if (password !== passwordConfirm) {
             alert('비밀번호가 일치하지 않습니다!');
             return;
         }
 
-        if (id === '' || password === '' || nickname === '' || passwordConfirm === '') {
+        if (id === '' || password === '' || passwordConfirm === '') {
             alert('입력하지 않은 칸이 있습니다!');
             return;
         }
 
-        // dispatch(userActions.signupDB(id, password, passwordConfirm, nickname)).then(
-        //     (res) => {
-        //         if(res === 'OK'){
-        //             setSignup(false);
-        //         }
-        //     }
-        // )
+        dispatch(userActions.signupDB(id, password, passwordConfirm)).then(
+            (res) => {
+                if (res === 'OK') {
+                    setIsOpen(false);
+                }
+            }
+        )
     }
 
     const handleLogin = () => {
@@ -83,14 +80,14 @@ function Login(props) {
             alert('입력하지 않은 칸이 있습니다!');
             return;
         }
-        // dispatch(userActions.loginDB(id, password)).then(
-        //     (res) => {
-        //         if (res === 'ok') {
-        //             alert('로그인 되었습니다!');
-        //             props.close();
-        //         }
-        //     }
-        // )
+        dispatch(userActions.loginDB(id, password)).then(
+            (res) => {
+                if (res === 'ok') {
+                    alert('로그인 되었습니다!');
+                    props.close();
+                }
+            }
+        )
     }
 
     const handleSignupModal = () => {

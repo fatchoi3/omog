@@ -19,19 +19,12 @@ const logout = createAction((LOG_OUT), (user) => ({ user }));
 
 
 // middleware actions
-const signupDB = (id, password, passwordConfirm, nickname) => {
+const signupDB = (id, password, passwordConfirm) => {
     return async function (dispatch, getState, { history }) {
-        // const userInfo = {
-        //     loginId: id,
-        //     pass: password,
-        //     confirmPass: passwordConfirm,
-        //     nickname: nickname,
-        // };
         await axios
             .post("/signup",
                 {
                     id: id,
-                    nickname: nickname,
                     pass: password,
                     confirmPass: passwordConfirm
                 }
@@ -44,7 +37,6 @@ const signupDB = (id, password, passwordConfirm, nickname) => {
                 if (err.ok === false) {
                     window.alert(`${err.errorMessage}`);
                 }
-                window.alert("회원가입에 실패했어요😥");
             });
     };
 };
@@ -78,9 +70,8 @@ export default handleActions({
     }),
     [LOG_OUT]: (state, action) =>
         produce(state, (draft) => {
-            localStorage.removeItem("name")
             localStorage.removeItem("token")
-            window.location.replace("/")
+            window.location.replace("/login")
             console.log("로그아웃합니다")
         }),
 },
@@ -89,6 +80,7 @@ export default handleActions({
 
 const actionCreators = {
     signupDB,
+    loginDB,
     getUser,
     logout,
 }
