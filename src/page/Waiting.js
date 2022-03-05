@@ -10,7 +10,7 @@ function Waiting(props) {
 
 
     return (
-        <div className="main_container" style={{ display: "flex", justifyContent: "center" }}>
+        <div className="main_container" style={{ display: "flex", justifyContent: "center", boxSizing: "border-box" }}>
             <div className="container_left">
                 <div className="player_container" style={{ display: "flex", justifyContent: "space-between" }}>
                     <div className="player_box" style={{ textAlign: "center" }}>

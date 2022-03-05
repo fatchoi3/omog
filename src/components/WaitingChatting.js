@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import io from "socket.io-client";
@@ -8,6 +9,8 @@ import ScrollToBottom from "react-scroll-to-bottom";
 const socket = io.connect("http://localhost:3001");
 
 function WaitingChatting(props) {
+    const dispatch = useDispatch();
+
     const [currentMessage, setCurrentMessage] = useState("");
     const [messageList, setMessageList] = useState([]);
     const [userInformation, setUserInformation] = useState([]);
@@ -17,6 +20,7 @@ function WaitingChatting(props) {
     const status = "black";
 
     useEffect(() => {
+        // dispatch()
         socket.on("connection", async () => {
             console.log("연결되었습니다.")
             socket.emit("nickname", id);
@@ -52,15 +56,32 @@ function WaitingChatting(props) {
     };
 
     const goodbyeChat = async () => {
-        await socket.emit("disconnecting", id);
+        await socket.emit("bye", id);
     }
 
 
     return (
         <>
             <ChattingWindow>
-                <div className="chat-header">
-                    <p>Live Chat</p>
+                <div className="chat-header"
+                    style={{
+                        height: "45px",
+                        borderRadius: "5px",
+                        background: "#263238",
+                        position: "relative",
+                        cursor: "pointer",
+                        marginTop: "0",
+                    }}>
+                    <p style={{
+                        display: "block",
+                        padding: "0 1em 0 2em",
+                        color: "#fff",
+                        fontWeight: "700",
+                        lineHeight: "45px",
+                        margin: "0",
+                    }}>
+                        Live Chat
+                    </p>
                 </div>
                 <div className="chat-body">
                     <ScrollToBottom className="message-container">
@@ -108,7 +129,8 @@ function WaitingChatting(props) {
 const ChattingWindow = styled.div`
     width: 300px;
     height: 420px;
-    border: 1px solid red;
+    border: 5px solid gray;
+    border-radius: 5px;
 `
 
 
