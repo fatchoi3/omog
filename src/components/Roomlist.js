@@ -92,7 +92,7 @@ const Roomlist = ()=>{
 };
 const Table = styled.table`
  width : 1000px;
- border : 2px solid black;
+ border : 2px solid #F9FFBC;
  
 `;
 const Thead= styled.thead`
@@ -100,26 +100,26 @@ background-color : gray;
 height : 50px;
 `;
 const Tbody = styled.tbody`
-border : 2px solid black;
+border : 2px solid #F9FFBC;
 
 `;
 const Tr = styled.tr`
-border : 1px solid black;
+border : 1px solid #F9FFBC;
 height : 50px;
 `;
 const Th = styled.th`
-border : 1px solid black;
+border : 1px solid #F9FFBC;
 `;
 const TdR = styled.td`
-border : 1px solid black;
+border : 1px solid #F9FFBC;
 `;
 const TdP = styled.td`
-border : 1px solid black;
+border : 1px solid #F9FFBC;
 `;
 const TdO = styled.td`
-border : 1px solid black;
+border : 1px solid #F9FFBC;
 `;
 const TdS = styled.td`
-border : 1px solid black;
+border : 1px solid #F9FFBC;
 `;
 export default Roomlist;

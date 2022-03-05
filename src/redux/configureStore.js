@@ -4,14 +4,15 @@ import { createBrowserHistory } from "history";
 import { connectRouter } from "connected-react-router";
 
 import User from "./modules/user";
-import Omock from "./modules/omock";
-
+import Room from "./modules/room"
+import Game from "./modules/game";
 
 export const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
     user: User,
-    omock: Omock,
+    room: Room,
+    game: Game,
     router: connectRouter(history),
   });
 
