@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import io from "socket.io-client";
 import ScrollToBottom from "react-scroll-to-bottom";
 
+import { actionCreators as roomActions } from '../redux/modules/room';
 
 const socket = io.connect("http://localhost:3001");
 
@@ -15,12 +16,40 @@ function WaitingChatting(props) {
     const [messageList, setMessageList] = useState([]);
     const [userInformation, setUserInformation] = useState([]);
 
-    const roomNum = "123";
+
+    const info = {
+        roomNum: 123,
+        user1: {
+            id: "아이디1",
+            score: 150,
+            point: 1000,
+            state: "player",
+        },
+        user2: {
+            id: "아이디2",
+            score: 170,
+            point: 1000,
+            state: "player",
+        },
+        user3: {
+            id: "아이디3",
+            score: 200,
+            point: 1400,
+            state: "observer",
+        },
+    }
+
+    const roomNum = info.roomNum;
     const id = "testId";
     const status = "black";
 
     useEffect(() => {
-        // dispatch()
+        dispatch(roomActions.getWaitingInfoDB(roomNum))
+            .then((res) => {
+                if (res) {
+
+                }
+            })
         socket.on("connection", async () => {
             console.log("연결되었습니다.")
             socket.emit("nickname", id);
