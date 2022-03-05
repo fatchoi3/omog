@@ -63,7 +63,7 @@ function LoginPageSlider(props) {
 
 
     return (
-        <div className="SliderContainer">
+        <div className="SliderContainer" >
             <Container>
                 <div className="arrow_box" style={{ display: "flex", alignItems: "center" }}>
                     <Arrow isLeft={true} onClick={handlePrevClick}>
@@ -102,6 +102,7 @@ const FillImage = styled.img`
     width: 384px;
     height: 384px;
     object-fit: cover;
+    box-shadow: 3px 3px 3px #999;
 `;
 
 const PickerWrapper = styled.div`
