@@ -5,7 +5,9 @@ import io from "socket.io-client";
 import ScrollToBottom from "react-scroll-to-bottom";
 
 
-const socket = io.connect("http://localhost:3001");
+const socket = io.connect(
+    //"http://localhost:3001"
+    );
 
 function WaitingChatting(props) {
     const [currentMessage, setCurrentMessage] = useState("");
