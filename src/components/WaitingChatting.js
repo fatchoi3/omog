@@ -1,65 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import io from "socket.io-client";
 import ScrollToBottom from "react-scroll-to-bottom";
 
-import { actionCreators as roomActions } from '../redux/modules/room';
 
 const socket = io.connect("http://localhost:3001");
 
 function WaitingChatting(props) {
-    const dispatch = useDispatch();
+    // const { roomNum } = props;
+    // const user_list = props.userList;
 
     const [currentMessage, setCurrentMessage] = useState("");
     const [messageList, setMessageList] = useState([]);
     const [userInformation, setUserInformation] = useState([]);
 
 
-    const info = {
-        roomNum: 123,
-        user1: {
-            id: "아이디1",
-            score: 150,
-            point: 1000,
-            state: "player",
-        },
-        user2: {
-            id: "아이디2",
-            score: 170,
-            point: 1000,
-            state: "player",
-        },
-        user3: {
-            id: "아이디3",
-            score: 200,
-            point: 1400,
-            state: "observer",
-        },
-    }
-
-    const roomNum = info.roomNum;
-    const id = "testId";
-    const status = "black";
-
-    useEffect(() => {
-        dispatch(roomActions.getWaitingInfoDB(roomNum))
-            .then((res) => {
-                if (res) {
-
-                }
-            })
-        socket.on("connection", async () => {
-            console.log("연결되었습니다.")
-            socket.emit("nickname", id);
-            socket.emit("enterRoomPlayer", roomNum, status);
-            await socket.on("welcome", (nickname, userInfo) => {
-                console.log("welcome", nickname, userInfo);
-            });
-        });
-    }, [])
-
+    const id = "아이디1";
+    const score = 150;
+    const point = 1000;
+    const state = "player";
+    const roomNum = "123";
 
     useEffect(() => {
         const receiveChat = () => socket.on("chat", (messageData) => {
