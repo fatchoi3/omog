@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Input = (props) => {
-  const { _onChange, is_margin, is_padding, is_width, is_height, is_color, is_border, is_radius, value, type, placeholder, is_border_bottom } = props;
+  const { _onKeyPress, _onChange, is_margin, is_padding, is_width, is_height, is_color, is_border, is_radius, value, type, placeholder, is_border_bottom } = props;
 
   const styles = {
     is_margin: is_margin,
@@ -23,6 +23,7 @@ const Input = (props) => {
         placeholder={placeholder}
         type={type}
         onChange={_onChange}
+        onKeyPress={_onKeyPress}
       />
     </>
   );

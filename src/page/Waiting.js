@@ -12,34 +12,50 @@ const socket = io.connect("http://localhost:3001");
 
 
 function Waiting(props) {
-    const [blackPlayer, setBlackPlayer] = React.useState({});
+    const [blackPlayer, setBlackPlayer] = React.useState({ id: "흑돌", score: "50%", point: 1023 });
     const [whitePlayer, setWhitePlayer] = React.useState({});
 
-    const [blackObserverList, setBlackObserverList] = React.useState([]);
-    const [whiteObserverList, setWhiteObserverList] = React.useState([]);
+    const [blackObserverList, setBlackObserverList] = React.useState([
+        {
+            id: "아이디1",
+            score: 150,
+            point: 1000,
+            state: "observer",
+        },
+        {
+            id: "아이디2",
+            score: 170,
+            point: 1000,
+            state: "observer",
+        },
+        {
+            id: "아이디3",
+            score: 200,
+            point: 1400,
+            state: "observer",
+        }
+    ]);
+    const [whiteObserverList, setWhiteObserverList] = React.useState([
+        {
+            id: "아이디1",
+            score: 150,
+            point: 1000,
+            state: "observer",
+        },
+        {
+            id: "아이디2",
+            score: 170,
+            point: 1000,
+            state: "observer",
+        },
+        {
+            id: "아이디3",
+            score: 200,
+            point: 1400,
+            state: "observer",
+        }
+    ]);
 
-
-    // const userInfo = {
-    //     roomNum: 123,
-    //     userList: [{
-    //         id: "아이디1",
-    //         score: 150,
-    //         point: 1000,
-    //         state: "player",
-    //     },
-    //     {
-    //         id: "아이디2",
-    //         score: 170,
-    //         point: 1000,
-    //         state: "player",
-    //     },
-    //     {
-    //         id: "아이디3",
-    //         score: 200,
-    //         point: 1400,
-    //         state: "observer",
-    //     }],
-    // }
 
     const id = "아이디1";
     const state = "Aplayer";
@@ -66,6 +82,7 @@ function Waiting(props) {
         });
     }, [])
 
+
     return (
         <div className="main_container" style={{ display: "flex", justifyContent: "center", boxSizing: "border-box" }}>
             <div className="container_left" style={{ padding: "20px" }}>
@@ -73,9 +90,9 @@ function Waiting(props) {
                     <div className="white_player_box" style={{ textAlign: "center", width: "100%" }}>
                         {whitePlayer &&
                             <PlayerCard>
-                                <Text>id</Text>
-                                <Text>score</Text>
-                                <Text>승률</Text>
+                                <Text>{whitePlayer.id}</Text>
+                                <Text>승률 : {whitePlayer.score}</Text>
+                                <Text>point : {whitePlayer.point}</Text>
                                 {/* <PlayerThumbnail /> */}
                             </PlayerCard>
                         }
@@ -83,9 +100,9 @@ function Waiting(props) {
                     <div className="black_player_box" style={{ textAlign: "center", width: "100%", color: "white", backgroundColor: "black" }}>
                         {blackPlayer &&
                             <PlayerCard>
-                                <Text>id</Text>
-                                <Text>score</Text>
-                                <Text>승률</Text>
+                                <Text>{blackPlayer.id}</Text>
+                                <Text>승률 : {blackPlayer.score}</Text>
+                                <Text>point : {blackPlayer.point}</Text>
                                 {/* <PlayerThumbnail /> */}
                             </PlayerCard>
                         }
@@ -96,19 +113,35 @@ function Waiting(props) {
                 </div>
                 <div className="observer_container" style={{ display: "flex", justifyContent: "space-between" }}>
                     <div className="white_observer_box" style={{ textAlign: "center" }}>
-                        <ObserverCard></ObserverCard>
+                        <ObserverCard>
+                            {whiteObserverList &&
+                                whiteObserverList.map((observer, idx) => (
+                                    <Text key={idx}>{observer.id}</Text>
+                                ))}
+                        </ObserverCard>
                         <Button is_width="10px" is_border="1px solid pink">버튼</Button>
                     </div>
                     <div className="black_observer_box" style={{ textAlign: "center", backgroundColor: "black" }}>
-                        <ObserverCard></ObserverCard>
+                        <ObserverCard>
+                            {blackObserverList &&
+                                blackObserverList.map((observer, idx) => (
+                                    <Text key={idx} is_color="white">{observer.id}</Text>
+                                ))}
+                        </ObserverCard>
                         <Button is_width="10px" is_border="1px solid pink">버튼</Button>
                     </div>
                 </div>
             </div>
             <div className="container_right" style={{ padding: "20px" }}>
-                <WaitingChatting />
+                <WaitingChatting
+                    socket={socket}
+                    blackPlayer={blackPlayer}
+                    whitePlayer={whitePlayer}
+                    blackObserverList={blackObserverList}
+                    whiteObserverList={whiteObserverList}
+                />
             </div>
-        </div>
+        </div >
     );
 }
 
