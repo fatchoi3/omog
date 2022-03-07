@@ -60,6 +60,10 @@ function Waiting(props) {
     const state = "Aplayer";
     const roomNum = "123";
 
+    const localId = "아이디1";
+    const me = id === localId ? true : false;
+    console.log(me)
+
     useEffect(() => {
         socket.on("connection", async () => {
             console.log("연결되었습니다.")
@@ -96,7 +100,13 @@ function Waiting(props) {
                             </PlayerCard>
                         }
                     </div>
-                    <div className="black_player_box" style={{ textAlign: "center", width: "100%", color: "white", backgroundColor: "black" }}>
+                    <div
+                        className="black_player_box"
+                        style={{
+                            textAlign: "center",
+                            width: "100%", color: "white",
+                            backgroundColor: "black"
+                        }}>
                         {blackPlayer &&
                             <PlayerCard>
                                 <Text>{blackPlayer.id}</Text>
@@ -110,7 +120,7 @@ function Waiting(props) {
                 <div className="button_box" style={{ textAlign: "center" }}>
                     <Button is_width="10px" is_border="1px solid pink">버튼</Button>
                 </div>
-                <div className="observer_container" style={{ display: "flex", justifyContent: "space-between" }}>
+                <ObserverContainer>
                     <div className="white_observer_box" style={{ textAlign: "center" }}>
                         <ObserverCard>
                             {whiteObserverList &&
@@ -129,7 +139,7 @@ function Waiting(props) {
                         </ObserverCard>
                         <Button is_width="10px" is_border="1px solid pink">버튼</Button>
                     </div>
-                </div>
+                </ObserverContainer>
             </div>
             <div className="container_right" style={{ padding: "20px" }}>
                 <WaitingChatting
@@ -138,6 +148,7 @@ function Waiting(props) {
                     whitePlayer={whitePlayer}
                     blackObserverList={blackObserverList}
                     whiteObserverList={whiteObserverList}
+                    me={me}
                 />
             </div>
         </div >
@@ -146,6 +157,7 @@ function Waiting(props) {
 
 const PlayerCard = styled.div`
     width: 100%;
+    border: 1px solid red;
 `
 
 const PlayerThumbnail = styled.img`
@@ -166,6 +178,11 @@ const PlayerThumbnail = styled.img`
         border: 1px solid black;
         object-fit: cover;
     }
+`
+
+const ObserverContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
 `
 
 const ObserverCard = styled.div`
