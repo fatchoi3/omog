@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 
-const Input = (props) => {
-  const { _onChange, is_margin, is_padding, is_width, is_height, is_color, is_border, is_radius, value, type, placeholder, is_border_bottom } = props;
+
+const Input = forwardRef(({ _onKeyPress, _onChange, is_margin, is_padding, is_width, is_height, is_color, is_border, is_radius, value, type, placeholder, is_border_bottom }, ref) => {
 
   const styles = {
     is_margin: is_margin,
@@ -23,10 +23,12 @@ const Input = (props) => {
         placeholder={placeholder}
         type={type}
         onChange={_onChange}
+        onKeyPress={_onKeyPress}
+        ref={ref}
       />
     </>
   );
-};
+});
 
 Input.defaultProps = {
   _onChange: () => { },

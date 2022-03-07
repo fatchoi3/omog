@@ -1,52 +1,163 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import io from "socket.io-client";
 
 import { Button } from '@material-ui/core';
 import WaitingChatting from '../components/WaitingChatting';
+import Text from '../elements/Text';
+
+const socket = io.connect("http://localhost:3001");
+
 
 function Waiting(props) {
+    const [blackPlayer, setBlackPlayer] = React.useState({ id: "흑돌", score: "50%", point: 1023 });
+    const [whitePlayer, setWhitePlayer] = React.useState({});
+
+    const [blackObserverList, setBlackObserverList] = React.useState([
+        {
+            id: "아이디1",
+            score: 150,
+            point: 1000,
+            state: "observer",
+        },
+        {
+            id: "아이디2",
+            score: 170,
+            point: 1000,
+            state: "observer",
+        },
+        {
+            id: "아이디3",
+            score: 200,
+            point: 1400,
+            state: "observer",
+        }
+    ]);
+    const [whiteObserverList, setWhiteObserverList] = React.useState([
+        {
+            id: "아이디1",
+            score: 150,
+            point: 1000,
+            state: "observer",
+        },
+        {
+            id: "아이디2",
+            score: 170,
+            point: 1000,
+            state: "observer",
+        },
+        {
+            id: "아이디3",
+            score: 200,
+            point: 1400,
+            state: "observer",
+        }
+    ]);
 
 
+    const id = "아이디1";
+    const state = "Aplayer";
+    const roomNum = "123";
+
+    const localId = "아이디1";
+    const me = id === localId ? true : false;
+    console.log(me)
+
+    useEffect(() => {
+        socket.on("connection", async () => {
+            console.log("연결되었습니다.")
+            socket.emit("nickname", id);
+            socket.emit("enterRoomPlayer", roomNum, state);
+            await socket.on("welcome", (id, userInfo) => {
+                console.log("welcome 실행완료", id, userInfo)
+                if (state === "Aplayer") {
+                    setWhitePlayer(userInfo)
+                } else if (state === "Bplayer") {
+                    setBlackPlayer(userInfo)
+                } else if (state === "AObserver") {
+                    setWhiteObserverList([...whiteObserverList, userInfo])
+                } else {
+                    setBlackObserverList([...blackObserverList, userInfo])
+
+                }
+            });
+        });
+    }, [])
 
 
     return (
-        <div className="main_container" style={{ display: "flex", justifyContent: "center" }}>
-            <div className="container_left">
+        <div className="main_container" style={{ display: "flex", justifyContent: "center", boxSizing: "border-box" }}>
+            <div className="container_left" style={{ padding: "20px" }}>
                 <div className="player_container" style={{ display: "flex", justifyContent: "space-between" }}>
-                    <div className="player_box" style={{ textAlign: "center" }}>
-                        <PlayerCard>
-                            <PlayerThumbnail />
-                        </PlayerCard>
+                    <div className="white_player_box" style={{ textAlign: "center", width: "100%" }}>
+                        {whitePlayer &&
+                            <PlayerCard>
+                                <Text>{whitePlayer.id}</Text>
+                                <Text>승률 : {whitePlayer.score}</Text>
+                                <Text>point : {whitePlayer.point}</Text>
+                                {/* <PlayerThumbnail /> */}
+                            </PlayerCard>
+                        }
                     </div>
-                    <div className="player_box" style={{ textAlign: "center" }}>
-                        <PlayerCard>
-                            <PlayerThumbnail />
-                        </PlayerCard>
+                    <div
+                        className="black_player_box"
+                        style={{
+                            textAlign: "center",
+                            width: "100%", color: "white",
+                            backgroundColor: "black"
+                        }}>
+                        {blackPlayer &&
+                            <PlayerCard>
+                                <Text>{blackPlayer.id}</Text>
+                                <Text>승률 : {blackPlayer.score}</Text>
+                                <Text>point : {blackPlayer.point}</Text>
+                                {/* <PlayerThumbnail /> */}
+                            </PlayerCard>
+                        }
                     </div>
                 </div>
                 <div className="button_box" style={{ textAlign: "center" }}>
                     <Button is_width="10px" is_border="1px solid pink">버튼</Button>
                 </div>
-                <div className="observer_container" style={{ display: "flex", justifyContent: "space-between" }}>
-                    <div className="observer_box" style={{ textAlign: "center" }}>
-                        <ObserverCard></ObserverCard>
+                <ObserverContainer>
+                    <div className="white_observer_box" style={{ textAlign: "center" }}>
+                        <ObserverCard>
+                            {whiteObserverList &&
+                                whiteObserverList.map((observer, idx) => (
+                                    <Text key={idx}>{observer.id}</Text>
+                                ))}
+                        </ObserverCard>
                         <Button is_width="10px" is_border="1px solid pink">버튼</Button>
                     </div>
-                    <div className="observer_box" style={{ textAlign: "center" }}>
-                        <ObserverCard></ObserverCard>
+                    <div className="black_observer_box" style={{ textAlign: "center", backgroundColor: "black" }}>
+                        <ObserverCard>
+                            {blackObserverList &&
+                                blackObserverList.map((observer, idx) => (
+                                    <Text key={idx} is_color="white">{observer.id}</Text>
+                                ))}
+                        </ObserverCard>
                         <Button is_width="10px" is_border="1px solid pink">버튼</Button>
                     </div>
-                </div>
+                </ObserverContainer>
             </div>
             <div className="container_right" style={{ padding: "20px" }}>
-                <WaitingChatting />
+                <WaitingChatting
+                    socket={socket}
+                    blackPlayer={blackPlayer}
+                    whitePlayer={whitePlayer}
+                    blackObserverList={blackObserverList}
+                    whiteObserverList={whiteObserverList}
+                    me={me}
+                />
             </div>
-        </div>
+        </div >
     );
 }
 
 const PlayerCard = styled.div`
-
+    width: 100%;
+    border: 1px solid red;
 `
 
 const PlayerThumbnail = styled.img`
@@ -55,7 +166,6 @@ const PlayerThumbnail = styled.img`
     height: 100px;
     position: relative;
     padding-top: 75%;
-    border: 1px solid red;
 
     img {
         position: absolute;
@@ -68,6 +178,11 @@ const PlayerThumbnail = styled.img`
         border: 1px solid black;
         object-fit: cover;
     }
+`
+
+const ObserverContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
 `
 
 const ObserverCard = styled.div`
