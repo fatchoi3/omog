@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, forwardRef } from 'react';
 import styled from 'styled-components';
 import Input from '../elements/Input';
 import Button from '../elements/Button';
@@ -110,7 +110,7 @@ function WaitingChatting(props) {
                         display: "flex",
                     }}>
                     <Input
-                        // defaultValue={currentMessage}
+                        defaultValue={currentMessage}
                         _onChange={(e) => setCurrentMessage(e.target.value)}
                         _onKeyPress={(e) => { e.key === "Enter" && sendMessage(); }}
                         is_width="100%"

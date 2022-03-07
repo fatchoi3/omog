@@ -6,7 +6,6 @@ import io from "socket.io-client";
 import { Button } from '@material-ui/core';
 import WaitingChatting from '../components/WaitingChatting';
 import Text from '../elements/Text';
-import { actionCreators as roomActions } from '../redux/modules/room';
 
 const socket = io.connect("http://localhost:3001");
 
