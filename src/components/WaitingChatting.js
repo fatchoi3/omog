@@ -6,7 +6,6 @@ import Text from '../elements/Text';
 
 import ScrollToBottom from 'react-scroll-to-bottom';
 
-
 function WaitingChatting(props) {
     const { roomNum, me } = props;
     const inputRef = useRef(null);
