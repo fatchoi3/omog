@@ -28,8 +28,6 @@ function App() {
         <Route path="/game" exact component={Game} />
         <Route path="/test" exact component={Omog} />
       </ConnectedRouter>
-
-
     </React.Fragment>
   );
 }

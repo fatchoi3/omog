@@ -15,7 +15,7 @@ const Chatting = () => {
 
   const socketRef = useRef();
   const oneChat = useRef();
-  const renderOneChat = oneChat.current;
+ 
   
   useEffect(() => {
     console.log("채팅은 언제나옴?   ")
@@ -26,7 +26,7 @@ const Chatting = () => {
     return () => socketRef.current.disconnect();
   }, [chat]);
 
-
+console.log(chat)
 
   const onTextChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
@@ -52,9 +52,6 @@ const Chatting = () => {
       </div>
     ));
   };
-  const viewBottom = () => {
-    renderOneChat?.lastChild?.lastChild.scrollIntoView();
-  };
   return (
     <ChattingContainer>
 
@@ -67,7 +64,6 @@ const Chatting = () => {
         <Chat_render_oneChat ref={oneChat}>
           <h1>Chatting</h1>
           {renderChat()}
-          {/* {viewBottom()} */}
         </Chat_render_oneChat>
 
         <div className="name-field">
