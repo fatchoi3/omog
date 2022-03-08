@@ -2,11 +2,16 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import io from "socket.io-client";
 
-const Omog = () => {
-  const [order, setOrder] = useState(true);
+import { Text } from "../elements";
 
+const Omog = () => {
+  
   const canvasRef = useRef(null);
   const socketRef = useRef();
+  const [X, setX] = useState();
+  const [Y, setY] = useState();
+  const [count,setCount] = useState(0);
+  const [order, setOrder] = useState(true);
 
   const [min, setMin] = useState(5);
   const [sec, setSec] = useState(0);
@@ -17,12 +22,14 @@ const Omog = () => {
   const [sec2, setSec2] = useState(0);
   const time2 = useRef(300);
   const timeout2 = useRef(null);
+  
 
-  //   const [board, setBoard] = useState(new Array(Math.pow(row + 1, 2)).fill(-1));
+  const [board, setBoard] = useState(new Array(Math.pow(19, 2)).fill(-1));
+  // let board = new Array(Math.pow(19, 2)).fill(-1); // 144개의 배열을 생성해서 -1로 채움
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    let board = new Array(Math.pow(19, 2)).fill(-1); // 144개의 배열을 생성해서 -1로 채움
+    
     const margin = 30;
     canvas.width = 600 + margin * 2;
     canvas.height = 600 + margin * 2;
@@ -33,7 +40,7 @@ const Omog = () => {
     const rowSize = 600 / row; // 바둑판 한 칸의 너비
     const dolSize = 13; // 바둑돌 크기
 
-    let count = 0;
+    
     let history = new Array();
     let checkDirection = [
       [1, -1],
@@ -208,8 +215,8 @@ const Omog = () => {
       let lastBoard = history.slice(-1)[0]; // 바둑판 마지막 모양
       board = lastBoard;
       // setBoard(lastBoard);
-      count--; // 흑,백 차례를 한 수 뒤로 물림
-
+      // setCount(count-1); // 흑,백 차례를 한 수 뒤로 물림
+      count--;
       draw();
 
       //직전 판의 모양으로 바둑판 다시 그리기
@@ -246,7 +253,7 @@ const Omog = () => {
     };
     // 마우스 클릭한 위치를 정확한 눈금 위치로 보정
     document.addEventListener("mouseup", (e) => {
-      console.log(board);
+      
       if (e.target.id == "canvas") {
         let x = Math.round(Math.abs(e.offsetX - 30) / 33.3);
         //margin rowSize
@@ -263,36 +270,54 @@ const Omog = () => {
             console.log("돌아가");
           } else {
             // let tmpBoard = board;
+            // count % 2 == 0
+            // ?(board[xyToIndex(x, y)] = 1)
+            // :(board[xyToIndex(x, y)] = 2);
+           
+
             // 비어있는 자리, 순서에 따라서 흑,백 구분해서 그리는 함수 실행
-            count % 2 == 0
-              ? (board[xyToIndex(x, y)] = 1)
-              : (board[xyToIndex(x, y)] = 2);
-              count % 2 == 0
-              ? clearInterval(timeout.current)
-              : clearInterval(timeout2.current);
-              count % 2 == 0
-              ?  timeOut2()
-              :  timeOut()
-            count++;
+            // count % 2 == 0
+            //   ? (board[xyToIndex(x, y)] = 1)
+            //   : (board[xyToIndex(x, y)] = 2);
+              console.log(board);
             drawCircle(x, y);
-            console.log(timeout.current);
-            socketRef.current.emit("omog", { x, y });
+            
+          const data ={x,y,board,count,order}
+            // const tmpx=x;
+            // const tmpy=y;
+            socketRef.current.emit("omog",  data);
+            console.log("여긴 클릭! 들어가는데야",data);
           }
         }
       }
     });
 
-    drawCircle();
-  }, []);
+    drawCircle(X,Y);
+    console.log("여긴 그리기 유즈이펙",X,Y,count)
+  }, [order]);
 
   useEffect(() => {
     socketRef.current = io.connect("http://localhost:4001");
-    socketRef.current.on("omog", ({ x, y }) => {
-      console.log("반가워");
-      // drawCircle(x, y);
+    socketRef.current.on("omog", (data) => {
+      console.log("여긴 소켓유즈이펙이야",data.x,data.y,data.board,data.count);
+      
+      count % 2 == 0
+      ? clearInterval(timeout.current)
+      : clearInterval(timeout2.current);
+      count % 2 == 0
+      ?  timeOut2()
+      :  timeOut();
+      // setCount(data.count);
+      setCount(data.count+1);
+      setBoard(data.board);
+      setY(data.y);
+      setX(data.x);
+      setOrder(data.order?false:true)
+      console.log("여기도 소켓유즈이팩에서 바꾼 후야",X,Y,count)
     });
     return () => socketRef.current.disconnect();
   });
+
 const timeOut = () =>{
   timeout.current = setInterval(() => {
     setMin(parseInt(time.current / 60));
@@ -300,6 +325,7 @@ const timeOut = () =>{
     time.current -= 1;
   }, 1000);
 };
+
 const timeOut2 = () =>{
   timeout2.current = setInterval(() => {
     setMin2(parseInt(time2.current / 60));
@@ -307,19 +333,6 @@ const timeOut2 = () =>{
     time2.current -= 1;
   }, 1000);
 };
-  useEffect(() => {
-    
-    timeOut()
-    
-    
-    console.log(sec);
-    console.log(sec2);
-    // return () => {
-    //   clearInterval(timeout.current)
-    //   clearInterval(timeout2.current)
-    // }
-      ;
-  }, []);
 
   useEffect(() => {
     if (time.current < 0) {
@@ -331,7 +344,6 @@ const timeOut2 = () =>{
       clearInterval(timeout2.current);
     }
 
-    console.log(sec);
   }, [sec,sec2]);
 
   return (
@@ -353,14 +365,16 @@ const timeOut2 = () =>{
       </button>
       <GameWrap>
         <TimerWrap>
-          
-          {min}분 {sec}초
+          <Text
+          is_size="25px"
+          >{min}분 {sec}초</Text>
         </TimerWrap>
         <canvas ref={canvasRef} id="canvas" />
         <TimerWrap>
-          
-          {min2}분 {sec2}초
-        </TimerWrap>
+          <Text
+          is_size="25px"
+          >{min2}분 {sec2}초</Text>
+          </TimerWrap>
       </GameWrap>
     </div>
   );
@@ -369,6 +383,7 @@ const TimerWrap = styled.div`
   height: 660px;
   width: 100px;
   margin: auto 20px;
+  line-height: 660px;
 `;
 const GameWrap = styled.div`
   display: flex;
