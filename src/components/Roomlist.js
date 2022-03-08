@@ -1,4 +1,5 @@
 import React  from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 import {Text ,Button} from "../elements/index"
@@ -6,6 +7,11 @@ import {Text ,Button} from "../elements/index"
 
 
 const Roomlist = ()=>{
+
+    const room_list = useSelector((state)=>state.room);
+
+    console.log("room_list",room_list)
+
  const roomList= [
         { 
         roomNum:1,

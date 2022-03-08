@@ -7,7 +7,7 @@ import { Button } from '@material-ui/core';
 import WaitingChatting from '../components/WaitingChatting';
 import Text from '../elements/Text';
 
-const socket = io.connect("http://localhost:3001");
+const socket = io.connect("http://localhost:4001");
 
 
 function Waiting(props) {

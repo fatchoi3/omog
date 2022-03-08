@@ -27,7 +27,7 @@ const logout = createAction((LOG_OUT), (user) => ({ user }));
 // middleware actions
 const signupDB = (id, password, passwordConfirm) => {
     return async function (dispatch, getState, { history }) {
-        await axios
+        await api
             .post("/signup",
                 {
                     id: id,
@@ -50,7 +50,7 @@ const signupDB = (id, password, passwordConfirm) => {
 
 const loginDB = (id, password) => {
     return async function (dispatch, getState, { history }) {
-        await axios.post("/login", { id: id, pass: password })
+        await api.post("/login", { id: id, pass: password })
             .then(function (response) {
                 console.log(response);
                 if (response.data.token) {
@@ -69,7 +69,7 @@ const loginDB = (id, password) => {
 
 const getUserDB = () =>{
     return async function ( dispatch, getState, { history }){
-        await axios.get( "/lobby/userList")
+        await api.get( "/lobby/userList")
         .then(function(response){
             console.log(response);
             //dispatch(getUserInfo(response));
@@ -79,7 +79,7 @@ const getUserDB = () =>{
 
 const getLeaderDB = () =>{
     return async function ( dispatch, getState, { history }){
-        await axios.get( "/lobby/leaderList")
+        await api.get( "/lobby/leaderList")
         .then(function(response){
             console.log(response);
             //dispatch(getLeaderBorad(response));

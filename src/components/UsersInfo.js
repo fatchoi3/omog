@@ -5,10 +5,19 @@ import { Text } from "../elements/index";
 
 import Progress from "./Progress";
 import LeaderBoard from "./LeaderBoard";
+import { useSelector } from "react-redux";
 
 const UsersInfo = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const get_user = useSelector((state)=>state.user);
+  const user_list = useSelector((state)=>state.user);
+  const user_leaders = useSelector((state)=>state.user);
+  const leader_board = useSelector((state)=>state.user);
 
+  console.log("get_user",get_user);
+  console.log("user_list",user_list);
+  console.log("user_leaders",user_leaders);
+  console.log("leader_board",leader_board);
   const openModal = () => {
     setModalOpen(true);
   };
