@@ -25,6 +25,7 @@ function App() {
         <Route
           path='/waiting'
           render={() => <Waiting socket={socket} />} />
+        <Route path="/waiting" exact component={Waiting} />
         <Route path="/game" exact component={Game} />
         <Route path="/test" exact component={Omog} />
       </ConnectedRouter>

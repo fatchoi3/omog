@@ -10,7 +10,7 @@ const Omog = () => {
   const socketRef = useRef();
   const [X, setX] = useState();
   const [Y, setY] = useState();
-  const [count,setCount] = useState(0);
+  const [count,setCount] = useState();
   const [order, setOrder] = useState(true);
 
   const [min, setMin] = useState(5);
@@ -24,9 +24,8 @@ const Omog = () => {
   const timeout2 = useRef(null);
   
 
-  const [board, setBoard] = useState(new Array(Math.pow(19, 2)).fill(-1));
+  const [board, setBoard] = useState();
   // let board = new Array(Math.pow(19, 2)).fill(-1); // 144개의 배열을 생성해서 -1로 채움
-
   useEffect(() => {
     const canvas = canvasRef.current;
     
@@ -103,11 +102,11 @@ const Omog = () => {
       const ctx = canvas.getContext("2d");
       draw();
       drawRect(x, y);
-      for (let i = 0; i < board.length; i++) {
+      for (let i = 0; i <361; i++) {
         // 모든 눈금의 돌의 유무,색깔 알아내기
         let a = indexToXy(i)[0];
         let b = indexToXy(i)[1];
-
+        if(board){
         if (board[xyToIndex(a, b)] == 1) {
           ctx.fillStyle = "black";
           ctx.beginPath();
@@ -132,6 +131,7 @@ const Omog = () => {
           );
           ctx.fill();
         }
+      }
       }
 
       checkWin(x, y); // 돌이 5개 연속 놓였는지 확인 함수 실행
@@ -203,7 +203,7 @@ const Omog = () => {
 
     // 배열 index값을 x,y좌표로 변환
     let indexToXy = (i) => {
-      let w = Math.sqrt(board.length);
+      let w = Math.sqrt(361);
       let x = i % w;
       let y = Math.floor(i / w);
       return [x, y];
@@ -253,7 +253,7 @@ const Omog = () => {
     };
     // 마우스 클릭한 위치를 정확한 눈금 위치로 보정
     document.addEventListener("mouseup", (e) => {
-      
+      let ccount =0;
       if (e.target.id == "canvas") {
         let x = Math.round(Math.abs(e.offsetX - 30) / 33.3);
         //margin rowSize
@@ -266,9 +266,10 @@ const Omog = () => {
           e.offsetY < 640
         ) {
           // 이미 돌이 놓여진 자리
-          if (board[xyToIndex(x, y)] != -1) {
-            console.log("돌아가");
-          } else {
+          
+          // if (board[xyToIndex(x, y)] != -1) {
+          //   console.log("돌아가");
+          // } else {
             // let tmpBoard = board;
             // count % 2 == 0
             // ?(board[xyToIndex(x, y)] = 1)
@@ -279,22 +280,26 @@ const Omog = () => {
             // count % 2 == 0
             //   ? (board[xyToIndex(x, y)] = 1)
             //   : (board[xyToIndex(x, y)] = 2);
-              console.log(board);
+              // console.log(board);
+              if(board){
             drawCircle(x, y);
+          }
             
-          const data ={x,y,board,count,order}
+          const data ={x,y,board,ccount,order}
             // const tmpx=x;
             // const tmpy=y;
             socketRef.current.emit("omog",  data);
             console.log("여긴 클릭! 들어가는데야",data);
-          }
+          // }
         }
       }
     });
-
+    draw();
+    if(board){
     drawCircle(X,Y);
-    console.log("여긴 그리기 유즈이펙",X,Y,count)
-  }, [order]);
+  }
+    console.log("여긴 그리기 유즈이펙",X,Y,count,board)
+  }, [X]);
 
   useEffect(() => {
     socketRef.current = io.connect("http://localhost:4001");
@@ -308,7 +313,7 @@ const Omog = () => {
       ?  timeOut2()
       :  timeOut();
       // setCount(data.count);
-      setCount(data.count+1);
+      setCount(data.ccount);
       setBoard(data.board);
       setY(data.y);
       setX(data.x);
