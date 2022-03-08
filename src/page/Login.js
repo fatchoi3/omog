@@ -17,6 +17,7 @@ function Login(props) {
     const modalEl = React.useRef();
 
     const [id, setId] = React.useState("");
+    const [nickname, setNickname] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [passwordConfirm, setPasswordConfirm] = React.useState("");
     const [isOpen, setIsOpen] = React.useState(false);
@@ -32,6 +33,10 @@ function Login(props) {
 
     const handlePasswordConfirmInput = (e) => {
         setPasswordConfirm(e.target.value);
+    }
+
+    const handleNicknameInput = (e) => {
+        setNickname(e.target.value);
     }
 
     const emailCheck = (id) => {
@@ -61,12 +66,13 @@ function Login(props) {
             return;
         }
 
-        if (id === '' || password === '' || passwordConfirm === '') {
+        if (id === '' || password === '' || nickname === '' || passwordConfirm === '') {
             alert('입력하지 않은 칸이 있습니다!');
             return;
         }
+        console.log(id, password, passwordConfirm)
 
-        dispatch(userActions.signupDB(id, password, passwordConfirm)).then(
+        dispatch(userActions.signupDB(id, nickname, password, passwordConfirm)).then(
             (res) => {
                 if (res === 'OK') {
                     setIsOpen(false);
@@ -76,6 +82,7 @@ function Login(props) {
     }
 
     const handleLogin = () => {
+        console.log(id, password)
         if (id === '' || password === '') {
             alert('입력하지 않은 칸이 있습니다!');
             return;
@@ -117,6 +124,7 @@ function Login(props) {
                     <SignupModal ref={modalEl}>
                         <div style={{ display: "flex", margin: "0 auto", flexDirection: "column", alignContent: "center", alignItems: "center", justifyContent: "center", width: "100%" }}>
                             <Input is_width="60%" is_height="30px" placeholder="아이디" _onChange={handleIdInput} />
+                            <Input is_width="60%" is_height="30px" placeholder="닉네임" _onChange={handleNicknameInput} />
                             <Input is_width="60%" is_height="30px" placeholder="비밀번호" _onChange={handlePasswordInput} />
                             <Input is_width="60%" is_height="30px" placeholder="비밀번호 확인" _onChange={handlePasswordConfirmInput} />
                             <Button is_width="30%" is_height="30px" _onClick={handleSignup}>회원가입</Button>
@@ -141,6 +149,7 @@ function Login(props) {
                             is_padding="3px"
                             is_margin="10px"
                             is_border_bottom="1px solid black"
+                            _onChange={handleIdInput}
                         />
                         <Input
                             is_border="none"
@@ -148,6 +157,7 @@ function Login(props) {
                             is_padding="3px"
                             is_margin="10px"
                             is_border_bottom="1px solid black"
+                            _onChange={handlePasswordInput}
                         />
                     </div>
 
