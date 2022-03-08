@@ -18,7 +18,7 @@ const getGame = createAction(GETGAME , (gameInfo) => ({gameInfo}));
 // middleware actions
 const getGameDB = (gameNum) =>{
     return async function ( dispatch, getState, { history }){
-        await axios.get( `/game/start/${gameNum}`)
+        await api.get( `/game/start/${gameNum}`)
         .then(function(response){
             console.log(response);
             //dispatch(getGame(response));

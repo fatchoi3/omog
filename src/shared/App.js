@@ -19,8 +19,8 @@ function App() {
   return (
     <React.Fragment>
       <ConnectedRouter history={history}>
-        <Route path="/" exact component={Main} />
-        <Route path="/login" exact component={Login} />
+        <Route path="/main" exact component={Main} />
+        <Route path="/" exact component={Login} />
         <Route path="/waiting" exact component={Waiting} />
         <Route path="/game" exact component={Game} />
         <Route path="/test" exact component={Omog} />

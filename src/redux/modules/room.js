@@ -26,7 +26,7 @@ const getRoomListDB = () =>{
         await axios.get( "/lobby")
         .then(function(response){
             console.log(response);
-            //dispatch(getRoomList(response));
+            dispatch(getRoomList(response));
         })
     }
 };
@@ -35,7 +35,7 @@ const getRoomInfoDB = (roomNum) =>{
         await axios.get( `/lobby/joinroom/${roomNum}`)
         .then(function(response){
             console.log(response);
-            //dispatch(getRoomInfo(response));
+            dispatch(getRoomInfo(response));
         })
     }
 };
@@ -61,7 +61,7 @@ const joinRoomDB = (room ) => {
             .then(function (response) {
                 console.log("안녕 나는 미들웨어 join",response)
                 // history.push('/room/waiting/:roomNum')
-                //dispatch(joinRoom(response));
+                dispatch(joinRoom(response));
               }).catch(error => {
                 // window.alert("방참가 실패!");
                 console.log(error)
@@ -71,10 +71,10 @@ const joinRoomDB = (room ) => {
 
 const getWaitingInfoDB = (roomNum) =>{
     return async function ( dispatch, getState, { history }){
-        await axios.get( `/room/waiting/${roomNum}`)
+        await api.get( `/room/waiting/${roomNum}`)
         .then(function(response){
             console.log(response);
-            //dispatch(getWaiting(response));
+            dispatch(getWaiting(response));
         })
     }
 };
