@@ -7,11 +7,89 @@ import api from "../../api/api";
 // initialState
 const initialState = {
     userInfo: {
-        'id': '',
+        id: 1,
         'nickname': '',
-        'score': 0,
-        'point': 0,
-    }
+        score: [
+            {win : 0},
+            {lose : 0}
+        ],
+        point:10000,
+    },
+    list:[{
+        id: 1,
+        score: [
+            {win : 0},
+            {lose : 0}
+        ],
+        point:10000,
+        state:"online"
+    },{
+        id: 1,
+        score: [
+            {win : 0},
+            {lose : 0}
+        ],
+        point:10000,
+        state:"online"
+    },{
+        id: 1,
+        score: [
+            {win : 0},
+            {lose : 0}
+        ],
+        point:10000,
+        state:"online"
+    }],
+    leader_list:[{
+        id: 1,
+        score: [
+            {win : 0},
+            {lose : 0}
+        ],
+        point:10000,
+        state:"online"
+    },{
+        id: 1,
+        score: [
+            {win : 0},
+            {lose : 0}
+        ],
+        point:10000,
+        state:"online"
+    },{
+        id: 1,
+        score: [
+            {win : 0},
+            {lose : 0}
+        ],
+        point:10000,
+        state:"online"
+    }],
+    leader_board:[{
+        id: 1,
+        score: [
+            {win : 0},
+            {lose : 0}
+        ],
+        point:10000,
+        state:"online"
+    },{
+        id: 1,
+        score: [
+            {win : 0},
+            {lose : 0}
+        ],
+        point:10000,
+        state:"online"
+    },{
+        id: 1,
+        score: [
+            {win : 0},
+            {lose : 0}
+        ],
+        point:10000,
+        state:"online"
+    }]
 }
 
 // actions
@@ -65,6 +143,7 @@ const loginDB = (id, password) => {
                 console.log(response);
                 if (response.data.token) {
                     localStorage.setItem('token', response.data.token);
+                    localStorage.setItem('userId', response.data.id);
                     history.push('/main')
                     console.log("로그인이 되었어요")
                     dispatch(loginCheckDB(id))
@@ -80,8 +159,8 @@ const getUserDB = () =>{
     return async function ( dispatch, getState, { history }){
         await api.get( "/lobby/userList")
         .then(function(response){
-            console.log(response);
-            //dispatch(getUserInfo(response));
+            // console.log(response.data);
+            dispatch(getUserInfo(response.data));
         })
     }
 };
@@ -91,27 +170,28 @@ const loginCheckDB = (id) => {
     return async function (dispatch, getState, { history }) {
         await axios.get(`http://15.164.103.116/userinfo/${id}`)
             .then((res) => {
-                dispatch(loginCheck(res.userInfo))
+                console.log("res",res.data)
+                dispatch(loginCheck(res.data))
             })
     }
 }
 
 const getLeaderDB = () =>{
     return async function ( dispatch, getState, { history }){
-        await api.get( "/lobby/leaderList")
+        await api.get("/lobby/leaderList")
         .then(function(response){
-            console.log(response);
-            //dispatch(getLeaderBorad(response));
+            // console.log(response.data);
+            dispatch(getLeaders(response.data));
         })
     }
 };
 
 const getLeaderBoardDB = () =>{
     return async function ( dispatch, getState, { history }){
-        await axios.get( "leaderBoard")
+        await api.get("/leaderBoard")
         .then(function(response){
-            console.log(response);
-            //dispatch(getLeaderBorad(response));
+            // console.log(response.data);
+            dispatch(getLeaderBorad(response.data));
         })
     }
 };
@@ -124,12 +204,14 @@ export default handleActions({
     }),
     [LOG_OUT]: (state, action) =>
         produce(state, (draft) => {
-            localStorage.removeItem("token")
-            window.location.replace("/login")
+            localStorage.removeItem("token");
+            localStorage.removeItem("userId");
+            window.location.replace("/")
             console.log("로그아웃합니다")
     }),
     [LOGIN_CHECK]: (state, action) => produce(state, (draft) => {
         draft.userInfo = action.payload.userInfo;
+        // console.log("action.payload.userInfo",action.payload.userInfo)
     }),
     [GET_USER_INFO]: (state, action) => produce(state, (draft) => {
         draft.list = action.payload.user_list;
