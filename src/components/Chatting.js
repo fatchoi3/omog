@@ -26,7 +26,7 @@ const Chatting = () => {
     return () => socketRef.current.disconnect();
   }, [chat]);
 
-
+console.log(chat)
 
   const onTextChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
