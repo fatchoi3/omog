@@ -11,7 +11,7 @@ function WaitingChatting(props) {
     const inputRef = useRef(null);
     const scrollRef = useRef();
 
-    const id = "dkdlel"
+    const id = "아이디1"
 
 
     const { socket, blackPlayer, whitePlayer, blackObserverList, whiteObserverList } = props;
@@ -38,24 +38,22 @@ function WaitingChatting(props) {
                 nickname: id,
                 chat: inputMessage.chat,
             };
-            console.log(inputMessage)
-            socket.emit('chat', inputMessage);
+            console.log("보내는 채팅", inputMessage.chat)
+            socket.emit('chat', inputMessage.chat);
             setInputMessage({ ...inputMessage, chat: '' });
             inputRef.current.value = "";
         }
     };
 
-
     useEffect(() => {
-        const receiveChat = async () => await socket.on("chat", (chat) => {
-            console.log("받아오는 채팅", chat)
-            setRecentChat(chat);
+        const receiveChat = async () => await socket.on("chat", (data) => {
+            console.log("받아오는 채팅", data)
+            setRecentChat(data);
             // setChatMonitor([...chatMonitor, recentChat])
         })
 
         receiveChat();
     }, []);
-
 
     useEffect(() => {
         const setChat = async () => {
@@ -63,39 +61,8 @@ function WaitingChatting(props) {
         }
 
         setChat().then(() => moveScrollToReceiveMessage())
-
         setRecentChat('');
     }, [recentChat]);
-
-
-    //   const sendMessage = async () => {
-    //     if (currentMessage !== "") {
-    //         const chat = {
-    //             nickname: id,
-    //             chat: currentMessage,
-    //         };
-
-    //         await socket.emit("chat", chat);
-    //         setCurrentMessage((list) => [...list, chat]);
-    //         inputRef.current.value = "";
-    //     }
-    // };
-
-
-
-
-    // useEffect(() => {
-    //     const receiveChat = async () => await socket.on("chat", (chat) => {
-    //         // chat =  {nickname, chat}
-    //         console.log("받아오는 채팅", chat)
-    //         setMessageList((list) => [...list, chat]);
-    //     });
-    //     receiveChat();
-    //     moveScrollToReceiveMessage();
-    // }, [socket]);
-
-
-
 
     const moveScrollToReceiveMessage = useCallback(() => {
         if (scrollRef.current) {
@@ -133,16 +100,16 @@ function WaitingChatting(props) {
                                 className="Message-box"
                                 style={{
                                     display: "flex",
-                                    justifyContent: me ? "flex-end" : "flex-star",
+                                    justifyContent: messageContent.nickname === id ? "flex-end" : "flex-star",
                                     margin: "5px 0 5px 0"
                                 }}>
                                 <div>
                                     <MessageContent
-                                        style={{ backgroundColor: me ? "cornflowerblue" : "#43a047" }}>
+                                        style={{ backgroundColor: messageContent.nickname === id ? "cornflowerblue" : "#43a047" }}>
                                         <Text is_padding="3px" is_margin="3px" >{messageContent.chat}</Text>
                                     </MessageContent>
                                     <MessageMeta
-                                        style={{ justifyContent: me ? "flex-end" : "flex-star" }}
+                                        style={{ justifyContent: messageContent.nickname === id ? "flex-end" : "flex-star" }}
                                     >
                                         <Text is_margin="0 3px" is_bold="600">{messageContent.nickname}</Text>
                                     </MessageMeta>
@@ -165,12 +132,12 @@ function WaitingChatting(props) {
                         is_width="100%"
                         ref={inputRef}
                     />
-                    <Button
+                    {/* <Button
                         _onClick={handleEnter}
                         is_width="30%"
                     >
                         &#9658;
-                    </Button>
+                    </Button> */}
                 </div>
             </ChattingWindow>
             <button onClick={goodbyeChat}>나가기 버튼</button>

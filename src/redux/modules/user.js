@@ -6,10 +6,16 @@ import api from "../../api/api";
 
 // initialState
 const initialState = {
-    nickname: null,
+    userInfo: {
+        'id': '',
+        'nickname': '',
+        'score': 0,
+        'point': 0,
+    }
 }
 
 // actions
+const LOGIN_CHECK = "LOGIN_CHECK";
 const GET_USER = "GET_USER";
 const LOG_OUT = "LOG_OUT";
 const GET_USER_INFO = "GET_USER_INFO";
@@ -17,6 +23,7 @@ const GET_LEADERS = "GET_LEADERS";
 const GET_LEADER_BOARD = "GET_LEADER_BOARD";
 
 // action creators
+const loginCheck = createAction(LOGIN_CHECK, (userInfo) => ({ userInfo }));
 const getUser = createAction(GET_USER, (user) => ({ user }));
 const getUserInfo = createAction((GET_USER_INFO), (user_list) => ({user_list }));
 const getLeaders = createAction((GET_LEADERS), (leader_list)=>({leader_list}))
@@ -25,13 +32,14 @@ const logout = createAction((LOG_OUT), (user) => ({ user }));
 
 
 // middleware actions
-const signupDB = (id, password, passwordConfirm) => {
+const signupDB = (id, nickname, password, passwordConfirm) => {
     return async function (dispatch, getState, { history }) {
         await api
             .post("/signup",
                 {
                     id: id,
                     pass: password,
+                    nickname: nickname,
                     confirmPass: passwordConfirm
                 }
             )
@@ -50,15 +58,16 @@ const signupDB = (id, password, passwordConfirm) => {
 
 const loginDB = (id, password) => {
     return async function (dispatch, getState, { history }) {
+
         await api.post("/login", { id: id, pass: password })
+
             .then(function (response) {
                 console.log(response);
                 if (response.data.token) {
                     localStorage.setItem('token', response.data.token);
-                    history.push('/')
-                    window.location.replace("/")
-
+                    history.push('/main')
                     console.log("로그인이 되었어요")
+                    dispatch(loginCheckDB(id))
                 }
             })
             .catch((err) => {
@@ -76,6 +85,16 @@ const getUserDB = () =>{
         })
     }
 };
+
+
+const loginCheckDB = (id) => {
+    return async function (dispatch, getState, { history }) {
+        await axios.get(`http://15.164.103.116/userinfo/${id}`)
+            .then((res) => {
+                dispatch(loginCheck(res.userInfo))
+            })
+    }
+}
 
 const getLeaderDB = () =>{
     return async function ( dispatch, getState, { history }){
@@ -100,7 +119,7 @@ const getLeaderBoardDB = () =>{
 //reducer
 export default handleActions({
     [GET_USER]: (state, action) => produce(state, (draft) => {
-        draft.name = action.payload.user
+        draft.name = action.payload.user;
         console.log("action.payload.user", action.payload.user)
     }),
     [LOG_OUT]: (state, action) =>
@@ -108,6 +127,9 @@ export default handleActions({
             localStorage.removeItem("token")
             window.location.replace("/login")
             console.log("로그아웃합니다")
+    }),
+    [LOGIN_CHECK]: (state, action) => produce(state, (draft) => {
+        draft.userInfo = action.payload.userInfo;
     }),
     [GET_USER_INFO]: (state, action) => produce(state, (draft) => {
         draft.list = action.payload.user_list;
@@ -130,6 +152,8 @@ const actionCreators = {
     loginDB,
     getUser,
     logout,
+    loginCheckDB,
+    loginCheck,
     getUserDB,
     getLeaderDB,
     getLeaderBoardDB,
