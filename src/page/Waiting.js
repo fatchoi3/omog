@@ -4,11 +4,11 @@ import styled from 'styled-components';
 import { Button } from '@material-ui/core';
 import WaitingChatting from '../components/WaitingChatting';
 import Text from '../elements/Text';
-
+import io from "socket.io-client";
 // http://15.164.103.116/
 // http://localhost:3001
 
-const socket = io.connect("http://localhost:4001");
+//  const socket = io.connect("http://localhost:4001");
 
 
 

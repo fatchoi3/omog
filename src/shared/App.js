@@ -11,10 +11,9 @@ import Game from "../page/Game";
 import Omog from "../components/Omog";
 import Waiting from '../page/Waiting';
 
-const socket = io.connect("http://localhost:3001/");
+const socket = io.connect("http://localhost:4001/");
 
 function App() {
-
 
 
   return (
@@ -25,7 +24,7 @@ function App() {
         <Route
           path='/waiting'
           render={() => <Waiting socket={socket} />} />
-        <Route path="/waiting" exact component={Waiting} />
+        <Route path="/waiting:id" exact component={Waiting} />
         <Route path="/game" exact component={Game} />
         <Route path="/test" exact component={Omog} />
       </ConnectedRouter>
