@@ -18,7 +18,7 @@ const UsersInfo = () => {
   const leader_board = useSelector((state)=>state.user.leader_board);
   const userId = localStorage.getItem("userId");
 
-  console.log("get_user",get_user.score[0].win);
+  // console.log("get_user",get_user.score[0].win);
   ;
   const openModal = () => {
     setModalOpen(true);
