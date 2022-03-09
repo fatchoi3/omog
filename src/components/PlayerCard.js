@@ -1,16 +1,16 @@
-import React  from "react";
+import React from "react";
 import styled from "styled-components";
 import { Text } from "../elements/index";
 
 
-const PlayerCard = (props) =>{
-    return(
+const PlayerCard = (props) => {
+    return (
         <Container>
-          <h1> {props.playerInfo.id}</h1>
+            <h1> {props.playerInfo.id}</h1>
             <Text
-            is_size = "15px"
-            >승{props.playerInfo.score[0]} 
-            패{props.playerInfo.score[1]} </Text>
+                is_size="15px"
+            >승{props.playerInfo.score[0]}
+                패{props.playerInfo.score[1]} </Text>
         </Container>
     )
 };
