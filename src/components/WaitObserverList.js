@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Text, Button } from '../elements';
+import Text from '../elements/Text';
+import Button from '../elements/Button';
 
-function ObserverList(props) {
+function WaitObserverList(props) {
     const { whiteObserverList, blackObserverList } = props
     return (
         <ObserverContainer>
@@ -42,4 +43,4 @@ const ObserverCard = styled.div`
     border: 1px solid blue;
 `
 
-export default ObserverList;
+export default WaitObserverList;
