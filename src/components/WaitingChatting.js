@@ -31,10 +31,6 @@ function WaitingChatting(props) {
 
     const handleEnter = (e) => {
         if (e.key === 'Enter') {
-            const chat = {
-                nickname: userId,
-                chat: inputMessage.chat,
-            };
             console.log("보내는 채팅", inputMessage.chat)
             socket.emit('chat', inputMessage.chat);
             setInputMessage({ ...inputMessage, chat: '' });
@@ -42,6 +38,14 @@ function WaitingChatting(props) {
         }
     };
 
+    const moveScrollToReceiveMessage = useCallback(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollTo({
+                top: scrollRef.current.scrollHeight,
+                behavior: "smooth",
+            });
+        }
+    });
 
     useEffect(() => {
         const receiveChat = async () => await socket.on("chat", (data) => {
@@ -61,15 +65,6 @@ function WaitingChatting(props) {
         setChat().then(() => moveScrollToReceiveMessage())
         setRecentChat('');
     }, [recentChat]);
-
-    const moveScrollToReceiveMessage = useCallback(() => {
-        if (scrollRef.current) {
-            scrollRef.current.scrollTo({
-                top: scrollRef.current.scrollHeight,
-                behavior: "smooth",
-            });
-        }
-    });
 
 
     const goodbyeChat = async () => {
