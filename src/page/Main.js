@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { history } from "../redux/configureStore";
 
 import { Button, Text } from "../elements/index";
 import Roomlist from "../components/Roomlist";
 import UsersInfo from "../components/UsersInfo";
+import { useDispatch } from "react-redux";
+import { actionCreators as userActions } from "../redux/modules/user";
+import { actionCreators as roomActions } from "../redux/modules/room";
 
 const Main = () => {
+  const dispatch = useDispatch();
+
   return (
     <Container>
       <UserInfoWrap>
@@ -22,7 +27,7 @@ const Main = () => {
             is_width="100px"
             is_height="35px"
             _onClick={() => {
-              history.push("/game");
+              dispatch(roomActions.addRoomDB());
             }}
           >
             방만들기
@@ -41,8 +46,16 @@ const Main = () => {
           <Button is_margin="0 10px" is_height="50px" is_width="200px" is_border="#6071CE solid 2px">
             관전자 빠른 참가
           </Button>
+          
         </ButtonWrap>
       </ListDiv>
+      <Button
+      _onClick={()=>{
+        dispatch(userActions.logout());
+      }}
+      >
+        로그아웃
+      </Button>
     </Container>
   );
 };

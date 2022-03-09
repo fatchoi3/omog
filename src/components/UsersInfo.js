@@ -1,23 +1,25 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { Text } from "../elements/index";
 
 import Progress from "./Progress";
 import LeaderBoard from "./LeaderBoard";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { actionCreators as userActions } from "../redux/modules/user";
 
 const UsersInfo = () => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const get_user = useSelector((state)=>state.user);
-  const user_list = useSelector((state)=>state.user);
-  const user_leaders = useSelector((state)=>state.user);
-  const leader_board = useSelector((state)=>state.user);
+  const dispatch=useDispatch();
 
-  console.log("get_user",get_user);
-  console.log("user_list",user_list);
-  console.log("user_leaders",user_leaders);
-  console.log("leader_board",leader_board);
+  const [modalOpen, setModalOpen] = useState(false);
+  const get_user = useSelector((state)=>state.user.userInfo);
+  const user_list = useSelector((state)=>state.user.list);
+  const user_leaders = useSelector((state)=>state.user.leader_list);
+  const leader_board = useSelector((state)=>state.user.leader_board);
+  const userId = localStorage.getItem("userId");
+
+  console.log("get_user",get_user.score[0].win);
+  ;
   const openModal = () => {
     setModalOpen(true);
   };
@@ -25,56 +27,38 @@ const UsersInfo = () => {
     setModalOpen(false);
   };
 
-  const win = 6;
-  const lose = 4;
-  const userList = [
-    {
-      user_url: "사진",
-      user_name: "닉네임123",
-    },
-    {
-      user_url: "사진",
-      user_name: "닉네임123",
-    },
-    {
-      user_url: "사진",
-      user_name: "닉네임123",
-    },
-    {
-      user_url: "사진",
-      user_name: "닉네임123",
-    },
-    {
-      user_url: "사진",
-      user_name: "닉네임123",
-    },
-    {
-      user_url: "사진",
-      user_name: "닉네임123",
-    },
-  ];
+  const win = get_user.score[0].win;
+  const lose = get_user.score[1].lose;
+  
 
+
+  useEffect(()=>{
+    dispatch(userActions.getUserDB());
+    dispatch(userActions.getLeaderDB());
+    dispatch(userActions.getLeaderBoardDB());
+    dispatch(userActions.loginCheckDB(userId));
+  },[]);
   return (
     <UserInfoContainer>
       <User>
-        닉네임123
+        {get_user.id}
         <Progress win={win} lose={lose} />
         <UserScore>
-          <p>승률 {(win / (win + lose)) * 100 + "%"}</p>
+          <p>승률 {(win / (win + lose))? (win / (win + lose)) * 100 + "%" : 0 +"%"}</p>
           <p>
             (전체 {win}승 {lose}패)
           </p>
         </UserScore>
-        <Text> Point 1000P</Text>
+        <Text> Point {get_user.point} P</Text>
       </User>
       <UserS>
         <p>현재 접속 유저</p>
         <UserContents>
-          {userList.map((p, idx) => {
+          {user_list.map((p, idx) => {
             return (
               <UserContent key={idx}>
                 <Userurl />
-                <Text is_size="15px" is_color="black">{`${p.user_name}`}</Text>
+                <Text is_size="15px" is_color="black">{`${p.id}`}</Text>
               </UserContent>
             );
           })}
@@ -97,25 +81,25 @@ const UsersInfo = () => {
             header="Modal heading"
           >
             {" "}
-            {userList.map((p, idx) => {
+            {leader_board.map((p, idx) => {
               return (
                 <UserContent key={idx}>
                   <Userurl />
                   <Text
                     is_size="15px"
                     is_color="black"
-                  >{`${p.user_name}`}</Text>
+                  >{`${p.id}`}</Text>
                 </UserContent>
               );
             })}
           </LeaderBoard>
         </RankingTitle>
         <UserContents>
-          {userList.map((p, idx) => {
+          {user_leaders.map((p, idx) => {
             return (
               <UserContent key={idx}>
                 <Userurl />
-                <Text is_size="15px" is_color="black">{`${p.user_name}`}</Text>
+                <Text is_size="15px" is_color="black">{`${p.id}`}</Text>
               </UserContent>
             );
           })}

@@ -5,7 +5,29 @@ import api from "../../api/api";
 
 // initialState
 const initialState = {
-    nickname: null,
+    list:[
+        {
+            roomName: 1,
+            roomNum:2,
+            playerCnt:1,
+            observeCnt:4,
+            state: ""
+            },
+    ],
+
+    roomInfo:{
+        roomNum:1,
+        playerCnt:2,
+        observeCnt:4
+        },
+
+    userInfo:[
+        {
+            id:1,
+            state: ""
+        }
+    ],
+
 }
 
 // actions
@@ -40,13 +62,20 @@ const getRoomInfoDB = (roomNum) =>{
     }
 };
 
-const addRoomDB = (room ) => {
+const addRoomDB = ( ) => {
     return async function (dispatch, useState, { history }) {
-        // const token = localStorage.getItem('token');
-        await api.post("/lobby/create",room)
+         const userId = localStorage.getItem('userId');
+         const roomName ="너만 오면 ㄱ"
+        await api.post("/lobby/create",
+      {  
+          roomName : roomName,
+            id: userId
+    }
+
+        )
             .then(function (response) {
-                console.log("안녕 나는 미들웨어 add",response)
-                // history.push('/room/waiting/:roomNum')
+                console.log("안녕 나는 미들웨어 add",response.data.roomNum)
+             history.push(`/waiting/${response.data.roomNum}`)
               }).catch(error => {
                 // window.alert("방생성 실패!");
                 console.log(error)
