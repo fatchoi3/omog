@@ -1,56 +1,42 @@
-import React  from "react";
-import { useSelector } from "react-redux";
+import { React, useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 import {Text ,Button} from "../elements/index"
-
-
+import LeaderBoard from "./LeaderBoard";
+import { actionCreators as roomActions } from "../redux/modules/room";
 
 const Roomlist = ()=>{
+    const dispatch = useDispatch();
+    const [modalOpen, setModalOpen] = useState(false);
+    const [state , setState] = useState()
+    const room_list = useSelector((state)=>state.room.list);
+    const room_info = useSelector((state)=>state.room.roomInfo);
+    const userId = localStorage.getItem("userId")
+    
+    console.log("room_list",room_list);
+    console.log("room_info",room_info);
+    console.log("userId",userId);
 
-    const room_list = useSelector((state)=>state.room);
 
-    console.log("room_list",room_list)
+    const openModal = () => {
+        setModalOpen(true);
+      };
+      const closeModal = () => {
+        setModalOpen(false);
+      };
+      const changeRadioQ1 = (e) => {
+        setState(e.target.value)
+        console.log(e.target.value);
+    };
+    const joinWaiting= ()=>{
+        dispatch(roomActions.joinRoomDB(state))
+    }
 
- const roomList= [
-        { 
-        roomNum:1,
-        roomName : "너만 오면 ㄱ",
-        playCnt: 2,
-        observerCnt: 10,
-        playState : "게임중"
-        },{ 
-        roomNum:1,
-        roomName : "너만 오면 ㄱ",
-        playCnt: 2,
-        observerCnt: 10,
-        playState : "게임중"
-        },{ 
-        roomNum:1,
-        roomName : "너만 오면 ㄱ",
-        playCnt: 2,
-        observerCnt: 10,
-        playState : "게임중"
-        },{ 
-        roomNum:1,
-        roomName : "너만 오면 ㄱ",
-        playCnt: 2,
-        observerCnt: 10,
-        playState : "게임중"
-        },{ 
-        roomNum:1,
-        roomName : "너만 오면 ㄱ",
-        playCnt: 2,
-        observerCnt: 10,
-        playState : "게임중"
-        },{ 
-        roomNum:1,
-        roomName : "너만 오면 ㄱ",
-        playCnt: 2,
-        observerCnt: 10,
-        playState : "게임중"
-        }
- ];
+    useEffect(()=>{
+        dispatch(roomActions.getRoomListDB());
+    },[]);
+
     return(
 
         <Table>
@@ -72,7 +58,7 @@ const Roomlist = ()=>{
                 </Tr>
                 </Thead>
                 <Tbody>
-                {roomList.map((n,idx)=>{
+                {room_list.map((n,idx)=>{
                     return(
                         <Tr key={idx}>
                             <Th>{n.roomNum}</Th>
@@ -80,14 +66,48 @@ const Roomlist = ()=>{
                         {n.roomName}
                     </TdR>
                     <TdP>
-                        {n.playCnt}
+                        {n.playerCnt}
                     </TdP>
                     <TdO>
                        {n.observerCnt}
                     </TdO>
                     <TdS>
-                        {n.playState}
+                        <Button
+                        _onClick={()=>{
+                            openModal();
+                            dispatch(roomActions.getRoomInfoDB(n.roomNum));
+                        }}
+                        >대기실 모달창 입장{n.roomNum}</Button>
+                        {n.state}
+                        <LeaderBoard
+                        open={modalOpen}
+                        close={closeModal}
+                        header="Modal heading"
+                        >
+                            <>
+                            {room_info.roomName}
+                            {room_info.roomNum}
+                            <div><input type="radio" id="1" name="state" value="Aplayer" onChange={changeRadioQ1}/></div>
+                            <div><input type="radio" id="2" name="state" value="Bplayer" onChange={changeRadioQ1}/></div>
+                            <div><input type="radio" id="3" name="state" value="Aobserver" onChange={changeRadioQ1}/></div>
+                            <div><input type="radio" id="4" name="state" value="Bobserver" onChange={changeRadioQ1}/></div>
+                            <div>
+
+                            <Button
+                            is_border="5px solid black"
+                            is_color="black"
+                            is_width="200px"
+                            is_height="50px"
+                            _onClick={()=>{
+                                joinWaiting();
+                            }}
+                            > 대기실 입장</Button>
+
+                            </div>
+                            </>
+                        </LeaderBoard>
                     </TdS>
+                    
                         </Tr>
                     )
                 })}

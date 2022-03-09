@@ -16,7 +16,7 @@ const initialState = {
     ],
 
     roomInfo:{
-        roomNum:1,
+        roomNum:2,
         playerCnt:2,
         observeCnt:4
         },
@@ -45,19 +45,20 @@ const getWaiting= createAction(GET_WAITING,(waitingInfo)=>({waitingInfo}))
 // middleware actions
 const getRoomListDB = () =>{
     return async function ( dispatch, getState, { history }){
-        await axios.get( "/lobby")
+        await api.get( "/lobby")
         .then(function(response){
-            console.log(response);
-            dispatch(getRoomList(response));
+            // console.log(response.data);
+            dispatch(getRoomList(response.data));
         })
     }
 };
 const getRoomInfoDB = (roomNum) =>{
     return async function ( dispatch, getState, { history }){
-        await axios.get( `/lobby/joinroom/${roomNum}`)
+        console.log("roomNum",roomNum);
+        await api.get( `/lobby/joinroom/${roomNum}`)
         .then(function(response){
-            console.log(response);
-            dispatch(getRoomInfo(response));
+             console.log(response.data);
+            dispatch(getRoomInfo(response.data));
         })
     }
 };
@@ -90,7 +91,7 @@ const joinRoomDB = (room ) => {
             .then(function (response) {
                 console.log("안녕 나는 미들웨어 join",response)
                 // history.push('/room/waiting/:roomNum')
-                dispatch(joinRoom(response));
+                dispatch(joinRoom(response.data));
               }).catch(error => {
                 // window.alert("방참가 실패!");
                 console.log(error)
@@ -102,8 +103,8 @@ const getWaitingInfoDB = (roomNum) =>{
     return async function ( dispatch, getState, { history }){
         await api.get( `/room/waiting/${roomNum}`)
         .then(function(response){
-            console.log(response);
-            dispatch(getWaiting(response));
+            console.log(response.data);
+            dispatch(getWaiting(response.data));
         })
     }
 };
@@ -112,8 +113,8 @@ const getWaitingInfoDB = (roomNum) =>{
 //reducer
 export default handleActions({
     [GET_ROOM]: (state, action) => produce(state, (draft) => {
-        draft.list = action.payload.roomlist
-        console.log("action.payload.roomlist", action.payload.roomlist)
+        draft.list = action.payload.roomList
+        // console.log("action.payload.roomList", action.payload.roomList)
     }),
     [GET_ROOM_INFO]: (state, action) => produce(state, (draft) => {
         draft.roomInfo = action.payload.roomInfo
