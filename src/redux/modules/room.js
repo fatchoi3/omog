@@ -90,8 +90,8 @@ const joinRoomDB = (room ) => {
         await api.post("/lobby/joinroom",room)
             .then(function (response) {
                 console.log("안녕 나는 미들웨어 join",response)
-                // history.push('/room/waiting/:roomNum')
                 dispatch(joinRoom(response.data));
+                history.push(`/waiting/${room.roomNum}`)
               }).catch(error => {
                 // window.alert("방참가 실패!");
                 console.log(error)
