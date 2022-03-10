@@ -12,16 +12,16 @@ import WaitPlayerList from '../components/WaitPlayerList';
 function Waiting(props) {
     const { roomNum } = useParams();
     const { socket } = props;
-    console.log(roomNum, socket)
+    // console.log(roomNum, socket)
 
     const userId = localStorage.getItem('userId') // 로컬 스토리지에 저장되있는것
     const get_user = useSelector((state) => state.user.userInfo);
-    console.log(get_user)
+    // console.log(get_user)
     const me_check = get_user.id === userId ? true : false;
 
     const [content, setContent] = React.useState('');
-    const [blackPlayer, setBlackPlayer] = React.useState({});
-    const [whitePlayer, setWhitePlayer] = React.useState({});
+    const [blackPlayer, setBlackPlayer] = React.useState([]);
+    const [whitePlayer, setWhitePlayer] = React.useState([]);
     const [blackObserverList, setBlackObserverList] = React.useState([]);
     const [whiteObserverList, setWhiteObserverList] = React.useState([]);
 
@@ -33,32 +33,15 @@ function Waiting(props) {
     }
 
 
-    // socket.on("connect", () => {
-    //     const room2 = "blackTeam"
-    //     const title = document.createElement("h3")
-    //     title.innerText = `Room Name: ${roomName}`
-    //     chatTitle.appendChild(title)
-    //     socket.emit("nickname", id)
-    //     socket.emit("enter_room", roomName, room2)
-    //     const li = document.createElement("li");
-    //     li.innerText = `${id}님이 입장하셨습니다!`;
-    //     chatBox.appendChild(li);
-
-    // });
-
-    // socket.on("welcome", (user) => {
-    // addMessage(`${user}님이 입장하셨습니다!`)
-    // })
-
-
     useEffect(() => {
         if (!socket) return;
+        // 대기실 입장
         socket.on("connect", () => {
-            console.log("연결되었습니다.")
-            console.log(socket.connected);
+            console.log("연결되었습니다.", socket.connected);
             socket.emit("nickname", userId);
             console.log(userId, "닉네임을 보냈습니다.");
 
+            // 입장 정보 보내기
             if (userInfo_base.state === "Aplayer" || "Bplayer") {
                 socket.emit("enterRoomPlayer", roomNum);
                 console.log(`플레이어 입장 정보를 방번호 : ${roomNum}로 보냈습니다.`);
@@ -67,16 +50,18 @@ function Waiting(props) {
                 console.log(`옵져버 입장 정보를 방번호 : ${roomNum}로 보냈습니다.`)
             }
         });
+    }, [])
 
+    useEffect(() => {
         socket.on("welcome", (nickname, userInfo) => {
-            console.log(nickname, userInfo)
             console.log("welcome 실행완료", nickname, userInfo)
-            if (userInfo.state === "player") {
-                setWhitePlayer(userInfo);
-                setContent(`${nickname} 님이 플레이어로 입장했습니다.`);
-            } else if (userInfo.state === "Bplayer") {
-                setBlackPlayer(userInfo);
-                setContent(`${nickname} 님이 플레이어로 입장했습니다.`);
+
+            if (userInfo.state === "Aplayer") {
+                setWhitePlayer([...whitePlayer, userInfo]);
+                setContent(`${nickname} 님이 white 플레이어로 입장했습니다.`);
+            } else if (whitePlayer.length > 0 || userInfo.state === "Bplayer") {
+                setBlackPlayer([...blackPlayer, userInfo])
+                setContent(`${nickname} 님이 black 플레이어로 입장했습니다.`);
             } else if (userInfo.state === "Aobserver") {
                 setWhiteObserverList([...whiteObserverList, userInfo]);
                 setContent(`${nickname} 님이 백팀 관전자로 입장했습니다.`);
@@ -90,11 +75,10 @@ function Waiting(props) {
 
     const handleChangeState = () => {
         socket.emit("changeToPlayer", "player")
-            .then(() => {
-                socket.on("moveToPlayer", (id) => {
 
-                })
-            })
+        socket.on("moveToPlayer", (id) => {
+            console.log(id)
+        })
     }
 
     return (
@@ -104,7 +88,7 @@ function Waiting(props) {
                 <WaitPlayerList whitePlayer={whitePlayer} blackPlayer={blackPlayer} />
 
                 <div className="button_box" style={{ textAlign: "center" }}>
-                    <Button is_width="10px" is_border="1px solid pink" _onClick={handleChangeState}>버튼</Button>
+                    <button style={{ width: "50px", border: "1px solid pink" }} onClick={handleChangeState}>버튼</button>
                 </div>
 
                 <WaitObserverList whiteObserverList={whiteObserverList} blackObserverList={blackObserverList} />
