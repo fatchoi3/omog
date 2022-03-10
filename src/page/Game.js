@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
-import styled ,{ keyframes }from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 import Omog from "../components/Omog";
 import Chatting from "../components/Chatting";
 import Teaching from "../components/Teaching";
 import PlayerCard from "../components/PlayerCard";
 import FlyingWord from "../components/FlyingWord";
+import { Text } from "../elements";
 
 import io from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,10 +14,10 @@ import { actionCreators as userActions } from "../redux/modules/user";
 
 const Game = () => {
   const dispatch = useDispatch();
-  const get_user = useSelector((state)=>state.user.userInfo);
+  const get_user = useSelector((state) => state.user.userInfo);
   const userId = localStorage.getItem("userId");
 
-  console.log("get_user",get_user)
+  console.log("get_user", get_user);
   const userInfo = {
     id: "jong0325",
     score: (2, 3),
@@ -41,10 +42,10 @@ const Game = () => {
     },
   ];
   const socketRef = useRef();
-  const [loading, setLoading]= useState(true);
+  const [loading, setLoading] = useState(1);
   const [flying, setFlying] = useState();
-  const gameNum =3;
-  
+  const gameNum = 3;
+
   useEffect(() => {
     dispatch(userActions.loginCheckDB(userId));
     console.log("Fly훈수는 언제나옴?");
@@ -53,36 +54,44 @@ const Game = () => {
 
     socketRef.current.emit("joinGame", gameNum);
     socketRef.current.emit("nickname", userId);
-    
+
     socketRef.current.on("flyingWord", (data) => {
-        setFlying(data.chat.chat);
-        setLoading(false);
-        console.log( "되네")
-        let timer= setTimeout(()=>{
-          console.log("시간은 똑딲똑딱")
-          setLoading(true);
-      },1000);
+      setFlying(data.chat.chat);
+      setLoading(0);
+      console.log("되네");
+      let timer = setTimeout(() => {
+        console.log("시간은 똑딲똑딱");
+        setLoading(1);
+      }, 1000);
     });
     return () => socketRef.current.disconnect();
   }, []);
 
   return (
     <GameContainer>
-      {loading ?"":<FlyingWrap loading={loading}><FlyingWord flying={flying} setLoading={setLoading} type={'page'} is_dim={true}/></FlyingWrap>}
+      {loading ? (
+        ""
+      ) : (
+        <DialogBlock>
+          <Text
+          is_size="50px"
+          >{flying}</Text>
+        </DialogBlock>
+      )}
       <Wrap>
         <Omog userInfo={userInfo} />
         <UnderInfo>
-          {userInfo.state == "playerW" || userInfo.state =="playerB" ? (
-            <TeachingWrap>
-              <Teaching playerInfo={playerlist[0]} />
-              <Teaching playerInfo={playerlist[1]} />
-            </TeachingWrap>
-          ) : (
-            <PlayerCardWrap>
+          {/* {userInfo.state == "playerW" || userInfo.state =="playerB" ? ( */}
+          <TeachingWrap>
+            <Teaching playerInfo={playerlist[0]} />
+            <Teaching playerInfo={playerlist[1]} />
+          </TeachingWrap>
+          {/* ) : ( */}
+          {/* <PlayerCardWrap>
               <PlayerCard playerInfo={playerlist[0]} />
               <PlayerCard playerInfo={playerlist[1]} />
             </PlayerCardWrap>
-          )}
+          )} */}
         </UnderInfo>
       </Wrap>
       <Chatting />
@@ -99,33 +108,35 @@ const TeachingWrap = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-const PlayerCardWrap = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-const UnderInfo = styled.div`
-`;
-const animate = keyframes`
-0%
-{
-    transform: translateY(0);
-    opacity: 0;
+
+const UnderInfo = styled.div``;
+
+const slideUp = keyframes`
+from {
+  transform: translateX(600px);
 }
-10%
-{
-    opacity: 1;
-}
-90%
-{
-    opacity: 1;
-}
-100%
-{
-    transform : translateY(-2000%);
-    opacity: 0;
+to {
+  transform : translateX(0px);
 }
 `;
-const FlyingWrap=styled.div`
-animation: ${(props)=>props.loading ? `` : `right 6.5s 4s infinite`};
+
+const DialogBlock = styled.div`
+position: absolute;
+top: 200px;
+width: 400px;
+height: 200px;
+line-height: 200px;
+  border-radius: 20px;
+  background-color: pink;
+  border: 2px solid black 
+  text-align: center;
+  animation-duration: 1s;
+  animation-timing-fuction: ease-out;
+  animation-name: ${slideUp};
+  animation-fill-mode: forwards;
+  zIndex: 9999;
+`;
+const Block = styled.div`
+background-color: pink;
 `;
 export default Game;
