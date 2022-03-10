@@ -4,7 +4,7 @@ import io from "socket.io-client";
 
 import { Text } from "../elements";
 
-const Omog = () => {
+const Omog = (props) => {
   
   const canvasRef = useRef(null);
   const socketRef = useRef();
@@ -312,6 +312,7 @@ const timeOut2 = () =>{
   }, [sec,sec2]);
 
   useEffect(()=>{
+    if(props.userInfo.state == "playerW" || props.userInfo.state == "playerB" ){
  // 마우스 클릭한 위치를 정확한 눈금 위치로 보정
  document.addEventListener("mouseup", (e) => {
   // let ccount =0;
@@ -342,19 +343,20 @@ const timeOut2 = () =>{
         //   ? (board[xyToIndex(x, y)] = 1)
         //   : (board[xyToIndex(x, y)] = 2);
           // console.log(board);
-          if(board){
+          // if(board){
         // drawCircle(x, y);
-      }
+      // }
         
       const data ={x,y,board,count,order}
         // const tmpx=x;
         // const tmpy=y;
-        socketRef.current.emit("omog",  data);
+        socketRef.current.emit("omog",  data ,props.userInfo.state);
         console.log("여긴 클릭! 들어가는데야",data);
       // }
     }
   }
 });
+}
   },[])
 
   return (
@@ -375,26 +377,36 @@ const timeOut2 = () =>{
         무르기
       </button>
       <GameWrap>
-        <TimerWrap>
+        <TimerWrapL count={count}>
           <Text
+           is_color={count % 2 == 0 ?"#F9FFBC" :"#619fcc"}
           is_size="25px"
           >{min}분 {sec}초</Text>
-        </TimerWrap>
+        </TimerWrapL>
         <canvas ref={canvasRef} id="canvas" />
-        <TimerWrap>
+        <TimerWrapR  count={count}>
           <Text
+          is_color={count % 2 == 0 ? "#619fcc":"#F9FFBC"}
           is_size="25px"
           >{min2}분 {sec2}초</Text>
-          </TimerWrap>
+          </TimerWrapR>
       </GameWrap>
     </div>
   );
 };
-const TimerWrap = styled.div`
+const TimerWrapL = styled.div`
+  height: 660px;
+  width: 100px;
+  margin: auto 20px;
+  line-height: 660px;333333;
+  background-color : ${(props)=>props.count%2==0?"#619fcc":"#F9FFBC"};
+`;
+const TimerWrapR = styled.div`
   height: 660px;
   width: 100px;
   margin: auto 20px;
   line-height: 660px;
+  background-color : ${(props)=>props.count%2==0?"#F9FFBC":"#619fcc"};
 `;
 const GameWrap = styled.div`
   display: flex;
