@@ -4,14 +4,15 @@ import io from "socket.io-client";
 
 import { Text } from "../elements";
 
-const Omog = () => {
-  
+const Omog = (props) => {
+  const userid = localStorage.getItem("userId");
+  const gameNum =3;
   const canvasRef = useRef(null);
   const socketRef = useRef();
   const [X, setX] = useState();
   const [Y, setY] = useState();
-  const [count,setCount] = useState();
-  const [order, setOrder] = useState(true);
+  const [count,setCount] = useState(0);
+  const [order, setOrder] = useState();
 
   const [min, setMin] = useState(5);
   const [sec, setSec] = useState(0);
@@ -184,7 +185,8 @@ const Omog = () => {
           winShow(2);
         }
       }
-    } // 승리확인 함수 끝
+    }; 
+    // 승리확인 함수 끝
     // 승리 화면 표시
     function winShow(x) {
       switch (x) {
@@ -251,58 +253,21 @@ const Omog = () => {
         }
       }
     };
-    // 마우스 클릭한 위치를 정확한 눈금 위치로 보정
-    document.addEventListener("mouseup", (e) => {
-      let ccount =0;
-      if (e.target.id == "canvas") {
-        let x = Math.round(Math.abs(e.offsetX - 30) / 33.3);
-        //margin rowSize
-        let y = Math.round(Math.abs(e.offsetY - margin) / rowSize);
-        //   console.log(e.offsetX, e.offsetY, x, y);
-        if (
-          e.offsetX > 10 &&
-          e.offsetX < 640 &&
-          e.offsetY > 10 &&
-          e.offsetY < 640
-        ) {
-          // 이미 돌이 놓여진 자리
-          
-          // if (board[xyToIndex(x, y)] != -1) {
-          //   console.log("돌아가");
-          // } else {
-            // let tmpBoard = board;
-            // count % 2 == 0
-            // ?(board[xyToIndex(x, y)] = 1)
-            // :(board[xyToIndex(x, y)] = 2);
-           
-
-            // 비어있는 자리, 순서에 따라서 흑,백 구분해서 그리는 함수 실행
-            // count % 2 == 0
-            //   ? (board[xyToIndex(x, y)] = 1)
-            //   : (board[xyToIndex(x, y)] = 2);
-              // console.log(board);
-              if(board){
-            drawCircle(x, y);
-          }
-            
-          const data ={x,y,board,ccount,order}
-            // const tmpx=x;
-            // const tmpy=y;
-            socketRef.current.emit("omog",  data);
-            console.log("여긴 클릭! 들어가는데야",data);
-          // }
-        }
-      }
-    });
+   
     draw();
     if(board){
     drawCircle(X,Y);
   }
-    console.log("여긴 그리기 유즈이펙",X,Y,count,board)
-  }, [X]);
+    console.log("여긴 그리기 유즈이펙",X,Y,board,count,order)
+  }, [count]);
 
   useEffect(() => {
-    socketRef.current = io.connect("http://localhost:4001");
+    socketRef.current = io.connect("http://15.164.103.116/game");
+    // socketRef.current = io.connect("http://localhost:4001");
+
+    socketRef.current.emit("joinGame", gameNum);
+    socketRef.current.emit("nickname", userid);
+
     socketRef.current.on("omog", (data) => {
       console.log("여긴 소켓유즈이펙이야",data.x,data.y,data.board,data.count);
       
@@ -313,15 +278,16 @@ const Omog = () => {
       ?  timeOut2()
       :  timeOut();
       // setCount(data.count);
-      setCount(data.ccount);
+      
       setBoard(data.board);
       setY(data.y);
       setX(data.x);
       setOrder(data.order?false:true)
-      console.log("여기도 소켓유즈이팩에서 바꾼 후야",X,Y,count)
+      setCount(data.count);
+      console.log("여기도 소켓유즈이팩에서 바꾼 후count",count)
     });
     return () => socketRef.current.disconnect();
-  });
+  },[]);
 
 const timeOut = () =>{
   timeout.current = setInterval(() => {
@@ -351,17 +317,57 @@ const timeOut2 = () =>{
 
   }, [sec,sec2]);
 
+  useEffect(()=>{
+    if(props.userInfo.state == "playerW" || props.userInfo.state == "playerB" ){
+ // 마우스 클릭한 위치를 정확한 눈금 위치로 보정
+ document.addEventListener("mouseup", (e) => {
+  // let ccount =0;
+  if (e.target.id == "canvas") {
+    let x = Math.round(Math.abs(e.offsetX - 30) / 33.3);
+    //margin rowSize
+    let y = Math.round(Math.abs(e.offsetY - 30) / 33.3);
+    //   console.log(e.offsetX, e.offsetY, x, y);
+    if (
+      e.offsetX > 10 &&
+      e.offsetX < 640 &&
+      e.offsetY > 10 &&
+      e.offsetY < 640
+    ) {
+      // 이미 돌이 놓여진 자리
+      
+      // if (board[xyToIndex(x, y)] != -1) {
+      //   console.log("돌아가");
+      // } else {
+        // let tmpBoard = board;
+        // count % 2 == 0
+        // ?(board[xyToIndex(x, y)] = 1)
+        // :(board[xyToIndex(x, y)] = 2);
+       
+
+        // 비어있는 자리, 순서에 따라서 흑,백 구분해서 그리는 함수 실행
+        // count % 2 == 0
+        //   ? (board[xyToIndex(x, y)] = 1)
+        //   : (board[xyToIndex(x, y)] = 2);
+          // console.log(board);
+          // if(board){
+        // drawCircle(x, y);
+      // }
+        
+      const data ={x, y, board, count, order}
+        // const tmpx=x;
+        // const tmpy=y;
+        socketRef.current.emit("omog",  data ,props.userInfo.state);
+        console.log("여긴 클릭! 들어가는데야",data);
+      // }
+    }
+  }
+});
+}
+  },[])
+
   return (
     <div>
-      <button
-        onClick={() => {
-          window.location.reload();
-        }}
-      >
-        한번더
-      </button>
-      <button
-
+     <button
       // onClick={() => {
       //   withdraw();
       // }}
@@ -369,26 +375,36 @@ const timeOut2 = () =>{
         무르기
       </button>
       <GameWrap>
-        <TimerWrap>
+        <TimerWrapL count={count}>
           <Text
+           is_color={count % 2 == 0 ?"#F9FFBC" :"#619fcc"}
           is_size="25px"
           >{min}분 {sec}초</Text>
-        </TimerWrap>
+        </TimerWrapL>
         <canvas ref={canvasRef} id="canvas" />
-        <TimerWrap>
+        <TimerWrapR  count={count}>
           <Text
+          is_color={count % 2 == 0 ? "#619fcc":"#F9FFBC"}
           is_size="25px"
           >{min2}분 {sec2}초</Text>
-          </TimerWrap>
+          </TimerWrapR>
       </GameWrap>
     </div>
   );
 };
-const TimerWrap = styled.div`
+const TimerWrapL = styled.div`
+  height: 660px;
+  width: 100px;
+  margin: auto 20px;
+  line-height: 660px;333333;
+  background-color : ${(props)=>props.count%2==0?"#619fcc":"#F9FFBC"};
+`;
+const TimerWrapR = styled.div`
   height: 660px;
   width: 100px;
   margin: auto 20px;
   line-height: 660px;
+  background-color : ${(props)=>props.count%2==0?"#F9FFBC":"#619fcc"};
 `;
 const GameWrap = styled.div`
   display: flex;
