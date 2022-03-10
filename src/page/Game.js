@@ -21,8 +21,8 @@ const Game = () => {
     id: "jong0325",
     score: (2, 3),
     point: 1000,
-    state: "playerW",
-    // state: "playerB",
+    // state: "playerW",
+    state: "playerB",
     // state: "observerW",
     // state: "observerB",
   };
