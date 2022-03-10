@@ -28,6 +28,7 @@ function Waiting(props) {
     const get_user = useSelector((state) => state.room.userInfo);
     // const me_check = get_user.id === userId ? true : false;
 
+
     const [content, setContent] = useState('');
     const [blackPlayer, setBlackPlayer] = useState([]);
     const [whitePlayer, setWhitePlayer] = useState([]);
