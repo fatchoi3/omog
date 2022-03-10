@@ -9,9 +9,8 @@ import Login from "../page/Login";
 import Game from "../page/Game";
 import Omog from "../components/Omog";
 import Waiting from '../page/Waiting';
-import socketio from "socket.io-client";
+import Waiting2 from '../page/Waiting2';
 
-const socketWait = socketio.connect("http://15.164.103.116/waiting");
 // const socketWait = socketio.connect("http://localhost:4001");
 
 function App() {
@@ -20,7 +19,8 @@ function App() {
       <ConnectedRouter history={history}>
         <Route path="/main" exact component={Main} />
         <Route path="/" exact component={Login} />
-        <Route path="/waiting/:roomNum" exact render={() => <Waiting socket={socketWait} />} />
+        {/* <Route path="/waiting/:roomNum" exact render={() => <Waiting socket={socketWait} />} /> */}
+        <Route path="/waiting/:roomNum" exact component={Waiting} />
         <Route path="/game/:roomNum" exact component={Game} />
         <Route path="/test" exact component={Omog} />
       </ConnectedRouter>
