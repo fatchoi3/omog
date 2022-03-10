@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Input from '../elements/Input';
 import Text from '../elements/Text';
+import { actionCreators as roomActions } from '../redux/modules/room';
 
 import { Button } from '@material-ui/core';
 import WaitingChatting from '../components/WaitingChatting';
@@ -11,19 +13,20 @@ import WaitObserverList from '../components/WaitObserverList';
 import WaitPlayerList from '../components/WaitPlayerList';
 import socketio from "socket.io-client";
 
-const socket = socketio.connect("http://15.164.103.116/waiting");
-// const socket = socketio.connect("http://localhost:4001");
+// const socket = socketio.connect("http://15.164.103.116/waiting");
+const socket = socketio.connect("http://localhost:4001");
 
 
 function Waiting(props) {
+    const dispatch = useDispatch();
     const { roomNum } = useParams();
     // const { socket } = props;
     // console.log(roomNum, socket)
 
     const userId = localStorage.getItem('userId') // 로컬 스토리지에 저장되있는것
-    const get_user = useSelector((state) => state.user.userInfo);
-    // console.log(get_user)
-    const me_check = get_user.id === userId ? true : false;
+    // const get_user = useSelector((state) => state.room.waitingInfo);
+    const get_user = useSelector((state) => state.room.userInfo);
+    // const me_check = get_user.id === userId ? true : false;
 
     const [content, setContent] = useState('');
     const [blackPlayer, setBlackPlayer] = useState([]);
@@ -76,36 +79,55 @@ function Waiting(props) {
     const handleChangeState = () => {
         if (get_user.state === "whitePlayer" || get_user.state === "blackPlayer") {
             socket.emit("changeToObserver", "observer")
-            socket.on("moveToObserver", (id) => {
-                console.log(id);
-            })
         }
 
         socket.emit("changeToPlayer", "player")
-        socket.on("moveToPlayer", (id) => {
-            console.log(id);
-        })
     };
 
     const goodbyeChat = async () => {
         await socket.emit("bye", userId);
     }
 
+    const gameStart = () => {
+        // if (blackPlayer.length > 0 && whitePlayer.length > 0 && blackObserverList.length > 0 && whiteObserverList.length > 0)
+        dispatch(roomActions.gameStartDB(blackPlayer, whitePlayer, blackObserverList, whiteObserverList))
+    }
+
+
     useEffect(() => {
-        if (!socket) return;
+        const io = socketio.connect("http://15.164.103.116/waiting");
+        io.on("moveToObserver", (id) => {
+            setBlackPlayer('')
+            setBlackObserverList([...blackObserverList, id])
+            console.log(id);
+        });
+
+        io.on("moveToPlayer", (id) => {
+            setBlackObserverList([...blackObserverList])
+            setBlackPlayer()
+            console.log(id);
+        });
+    }, [])
+
+
+    useEffect(() => {
+        // dispatch(roomActions.getWaitingInfoDB(roomNum));
+        const io = socketio.connect("http://15.164.103.116/waiting");
+
+        // if (!socket) return;
         // 대기실 입장
-        socket.connect();
-        socket.on("connect", () => {
-            console.log("연결되었습니다.", socket.connected);
+        // socket.connect();
+        io.on("connect", () => {
+            // console.log("연결되었습니다.", io.connected);
             socket.emit("nickname", userId);
             console.log(userId, "닉네임을 보냈습니다.");
 
             // 입장 정보 보내기
             if (get_user.state === "whitePlayer" || "blackPlayer") {
-                socket.emit("enterRoomPlayer", roomNum);
+                io.emit("enterRoomPlayer", roomNum);
                 console.log(`플레이어 입장 정보를 방번호 : ${roomNum}로 보냈습니다.`);
             } else {
-                socket.emit("enterRoomObserver", roomNum);
+                io.emit("enterRoomObserver", roomNum);
                 console.log(`옵져버 입장 정보를 방번호 : ${roomNum}로 보냈습니다.`)
             }
         });
@@ -127,7 +149,8 @@ function Waiting(props) {
 
 
     useEffect(() => {
-        socket.on("welcome", (nickname, userInfo) => {
+        const io = socketio.connect("http://15.164.103.116/waiting");
+        io.on("welcome", (nickname, userInfo) => {
             console.log("welcome 실행완료", nickname, userInfo)
 
             if (userInfo.state === "whitePlayer") {
@@ -273,6 +296,7 @@ function Waiting(props) {
                     </div>
                 </ChattingWindow>
                 <button onClick={goodbyeChat}>나가기 버튼</button>
+                <button onClick={gameStart}>게임 시작</button>
 
 
             </div>

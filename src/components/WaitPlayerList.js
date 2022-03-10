@@ -5,6 +5,7 @@ import Text from '../elements/Text';
 
 function WaitPlayerList(props) {
     const { blackPlayer, whitePlayer } = props
+    console.log(blackPlayer, whitePlayer)
 
     return (
         <div className="player_container" style={{ display: "flex", justifyContent: "space-between" }}>
@@ -15,7 +16,7 @@ function WaitPlayerList(props) {
                     ?
                     <PlayerCard>
                         <Text>아이디: {whitePlayer[0].id}</Text>
-                        <Text>승률 : {whitePlayer[0].score}</Text>
+                        <Text>승률 : {whitePlayer[0].score[0].win}</Text>
                         <Text>point : {whitePlayer[0].point}</Text>
                         {/* <PlayerThumbnail /> */}
                     </PlayerCard>
@@ -36,11 +37,11 @@ function WaitPlayerList(props) {
                     backgroundColor: "black"
                 }}>
                 {blackPlayer &&
-                    whitePlayer.length > 0
+                    blackPlayer.length > 0
                     ?
                     <PlayerCard>
                         <Text>아이디: {blackPlayer[0].id}</Text>
-                        <Text>승률 : {blackPlayer[0].score}</Text>
+                        <Text>승률 : {blackPlayer[0].score[0].win}</Text>
                         <Text>point : {blackPlayer[0].point}</Text>
                         {/* <PlayerThumbnail /> */}
                     </PlayerCard>
