@@ -5,7 +5,8 @@ import io from "socket.io-client";
 import { Text } from "../elements";
 
 const Omog = (props) => {
-  
+  const userid = localStorage.getItem("userId");
+  const gameNum =3;
   const canvasRef = useRef(null);
   const socketRef = useRef();
   const [X, setX] = useState();
@@ -261,9 +262,14 @@ const Omog = (props) => {
   }, [count]);
 
   useEffect(() => {
-    socketRef.current = io.connect("http://localhost:4001");
+    socketRef.current = io.connect("http://15.164.103.116/game");
+    // socketRef.current = io.connect("http://localhost:4001");
+
+    socketRef.current.emit("joinGame", gameNum);
+    socketRef.current.emit("nickname", userid);
+
     socketRef.current.on("omog", (data) => {
-      // console.log("여긴 소켓유즈이펙이야",data.x,data.y,data.board,data.count);
+      console.log("여긴 소켓유즈이펙이야",data.x,data.y,data.board,data.count);
       
       count % 2 == 0
       ? clearInterval(timeout.current)
@@ -281,7 +287,7 @@ const Omog = (props) => {
       console.log("여기도 소켓유즈이팩에서 바꾼 후count",count)
     });
     return () => socketRef.current.disconnect();
-  });
+  },[]);
 
 const timeOut = () =>{
   timeout.current = setInterval(() => {
@@ -347,7 +353,7 @@ const timeOut2 = () =>{
         // drawCircle(x, y);
       // }
         
-      const data ={x,y,board,count,order}
+      const data ={x, y, board, count, order}
         // const tmpx=x;
         // const tmpy=y;
         socketRef.current.emit("omog",  data ,props.userInfo.state);
@@ -361,15 +367,7 @@ const timeOut2 = () =>{
 
   return (
     <div>
-      <button
-        onClick={() => {
-          window.location.reload();
-        }}
-      >
-        한번더
-      </button>
-      <button
-
+     <button
       // onClick={() => {
       //   withdraw();
       // }}

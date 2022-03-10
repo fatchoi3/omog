@@ -3,26 +3,33 @@ import styled from "styled-components";
 
 import { Text } from "../elements";
 import io from "socket.io-client";
-
+const gameNum =3;
 const Teaching = (props) => {
-  const [state, setState] = useState({ message: "", name: "" });
+  const [state, setState] = useState({ message: "", id: "" });
   const [teaching, setTeaching] = useState([]);
-  const testID = state.name;
+  const testID = state.id;
   console.log(1, props.playerInfo);
   const socketRef = useRef();
   const oneChat = useRef();
+  const userid = localStorage.getItem("userId");
 
+  
   useEffect(() => {
     console.log("훈수는 언제나옴?");
+    // socketRef.current = io.connect("http://15.164.103.116/game");
     socketRef.current = io.connect("http://localhost:4001");
-    socketRef.current.on("teaching", ({ name, message }) => {
-      setTeaching([...teaching, { name, message }]);
-    });
-    return () => socketRef.current.disconnect();
-  }, [teaching]);
+    socketRef.current.emit("joinGame", gameNum);
+    socketRef.current.emit("nickname", userid);
+    socketRef.current.on("teaching", (data) => {
+      console.log( "data.name", data.name);
+        setTeaching([...teaching, {id : data.name, message:data.chat.chat }]);
 
+    });
+     return () => socketRef.current.disconnect();
+  }, [teaching]);
+ 
   const renderChat = () => {
-    return teaching.map(({ name, message }, index) => (
+    return teaching.map(({ id, message }, index) => (
       <ChatContents key={index}>
         <ChatId 
         playerInfo={props.playerInfo}
@@ -31,7 +38,7 @@ const Teaching = (props) => {
           is_size="15px"
           is_color="#BFCAAC"
           >
-            {name}
+            {id}
             </Text>
           </ChatId>
 

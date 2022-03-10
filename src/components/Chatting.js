@@ -6,90 +6,92 @@ import TextField from "@material-ui/core/TextField";
 import { history } from "../redux/configureStore";
 import "../shared/App.css";
 import { Button } from "../elements";
+import { useSelector } from "react-redux";
 
 //const socket =  io.connect('http://localhost:4001/')
 
 const Chatting = () => {
-  const [state, setState] = useState({ message: "", name: "" });
+  const [state, setState] = useState({ message: "", id: "" });
   const [chat, setChat] = useState([]);
-  const [teaching, setTeaching] =useState();
-
-  const testID = state.name;
-
+  const [teaching, setTeaching] = useState();
+  const userid = localStorage.getItem("userId");
+  // const testID = state.id;
+  const gameNum = 3;
   const socketRef = useRef();
   const oneChat = useRef();
 
-  const id = "userId";
-  
+  const get_user = useSelector((state) => state.user.userInfo);
+  const userId = get_user.id;
+
+  // const id = "userId";
+
   const onTextChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
   };
-  const teachingChoice =(e)=>{
+  const teachingChoice = (e) => {
     setTeaching(e.target.value);
-   
   };
-  
 
   const onMessageSubmit = (e) => {
-    const { name, message } = state;
-    if(teaching === "Text"){
-      console.log("이상무")
-      socketRef.current.emit("teaching", { name, message });
+    const { id, message } = state;
+    if (teaching === "Text") {
+      console.log("이상무");
+      socketRef.current.emit("teaching", { chat: message });
     }
-    if(teaching === "Fly"){
-      console.log("이이상상무무")
-      socketRef.current.emit("flyingWord", { name, message });
+    if (teaching === "Fly") {
+      console.log("이이상상무무");
+      socketRef.current.emit("flyingWord", { chat: message });
     }
-    socketRef.current.emit("message", { name, message });
+    socketRef.current.emit("chat", { chat: message });
     e.preventDefault();
-    setState({ message: "", name });
+    setState({ message: "", id: userId });
   };
 
   const renderChat = () => {
-    return chat.map(({ name, message }, index) => (
+    return chat.map(({ id, message }, index) => (
       <div
         key={index}
-        className={testID == name ? "chat_from_me" : "chat_from_friend"}
+        className={userId == id ? "chat_from_me" : "chat_from_friend"}
       >
-        {testID != name ? <div className="chat_nick">{name}</div> : null}
+        {userId != id ? <div className="chat_nick">{id}</div> : null}
         <div className="chat_content">
           <div className="chat_message">{message}</div>
         </div>
       </div>
     ));
   };
- const onClick = () =>{
-   console.log()
- };
- const onKeyPress =(e)=>{
-   if(e.key == "Enter"){
-    onTextChange(state.message);
-   }
- };
-
-
-
+  const onKeyPress = (e) => {
+    if (e.key == "Enter") {
+      onTextChange(state.message);
+    }
+  };
 
   useEffect(() => {
     console.log("채팅은 언제나옴?   ");
-    socketRef.current = io.connect("http://localhost:4001");
-    socketRef.current.on("message", ({ name, message }) => {
-      setChat([...chat, { name, message }]);
+
+    socketRef.current = io.connect("http://15.164.103.116/game");
+    // socketRef.current = io.connect("http://localhost:4001");
+
+    socketRef.current.emit("joinGame", gameNum);
+    socketRef.current.emit("nickname", userid);
+    socketRef.current.on("chat", (data) => {
+      console.log(data.chat.chat);
+      console.log("안녕 난 소켓 채팅이야");
+      setChat([...chat, { id: data.name, message: data.chat.chat }]);
     });
     return () => socketRef.current.disconnect();
   }, [chat]);
 
   return (
     <ChattingContainer>
-      <Button 
-      is_width="400px" is_height="50px"
-      _onClick={()=>{
-        socketRef.current.emit("bye", { id });
-        history.push("/main")
-      }}
+      <Button
+        is_width="400px"
+        is_height="50px"
+        _onClick={() => {
+          socketRef.current.emit("bye", { id: userId });
+          history.push("/main");
+        }}
       >
-        
-        
         나가기
       </Button>
 
@@ -99,39 +101,43 @@ const Chatting = () => {
           {renderChat()}
         </Chat_render_oneChat>
         <>
-          <select onChange={(e)=>{teachingChoice(e)}}>
+          <select
+            onChange={(e) => {
+              teachingChoice(e);
+            }}
+          >
             <option defaultValue="훈수하기"> 훈수하기</option>
             <option value="Text">Text</option>
             <option value="Point">Point</option>
             <option value="Fly">Fly</option>
           </select>
         </>
-        <div className="name-field">
+        {/* <div className="name-field">
           <TextField
             name="name"
             onChange={(e) => onTextChange(e)}
             value={state.name}
             label="Name"
           />
-        </div>
+        </div> */}
         <div>
           <TextField
             name="message"
-            onKeyDown={(e)=>onKeyPress(e)}
-            onChange={(e) => {onTextChange(e)}}
+            onKeyDown={(e) => onKeyPress(e)}
+            onChange={(e) => {
+              onTextChange(e);
+            }}
             value={state.message}
             id="outlined-multiline-static"
             variant="outlined"
             label="Message"
             width="350px"
           ></TextField>
-          
-          <Button
-          is_height="57px"
-          is_width="100px"
-          >Send Message</Button>
+
+          <Button is_height="57px" is_width="100px">
+            Send Message
+          </Button>
         </div>
-        
       </form>
     </ChattingContainer>
   );
