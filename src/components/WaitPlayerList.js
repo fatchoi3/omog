@@ -9,19 +9,21 @@ function WaitPlayerList(props) {
     return (
         <div className="player_container" style={{ display: "flex", justifyContent: "space-between" }}>
             <div className="white_player_box" style={{ textAlign: "center", width: "100%" }}>
-                {whitePlayer
+                {whitePlayer &&
+
+                    whitePlayer.length > 0
                     ?
                     <PlayerCard>
-                        <Text>아이디: {whitePlayer.id}</Text>
-                        <Text>승률 : {whitePlayer.score}</Text>
-                        <Text>point : {whitePlayer.point}</Text>
+                        <Text>아이디: {whitePlayer[0].id}</Text>
+                        <Text>승률 : {whitePlayer[0].score}</Text>
+                        <Text>point : {whitePlayer[0].point}</Text>
                         {/* <PlayerThumbnail /> */}
                     </PlayerCard>
                     :
                     <PlayerCard>
-                        <Text>아이디: {whitePlayer.id}</Text>
-                        <Text>승률 : {whitePlayer.score}</Text>
-                        <Text>point : {whitePlayer.point}</Text>
+                        <Text>아이디: </Text>
+                        <Text>승률 : </Text>
+                        <Text>point : </Text>
                         {/* <PlayerThumbnail /> */}
                     </PlayerCard>
                 }
@@ -34,10 +36,19 @@ function WaitPlayerList(props) {
                     backgroundColor: "black"
                 }}>
                 {blackPlayer &&
+                    whitePlayer.length > 0
+                    ?
                     <PlayerCard>
-                        <Text>아이디: {blackPlayer.id}</Text>
-                        <Text>승률 : {blackPlayer.score}</Text>
-                        <Text>point : {blackPlayer.point}</Text>
+                        <Text>아이디: {blackPlayer[0].id}</Text>
+                        <Text>승률 : {blackPlayer[0].score}</Text>
+                        <Text>point : {blackPlayer[0].point}</Text>
+                        {/* <PlayerThumbnail /> */}
+                    </PlayerCard>
+                    :
+                    <PlayerCard>
+                        <Text>아이디: </Text>
+                        <Text>승률 : </Text>
+                        <Text>point : </Text>
                         {/* <PlayerThumbnail /> */}
                     </PlayerCard>
                 }
