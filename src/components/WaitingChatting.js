@@ -4,21 +4,14 @@ import Input from '../elements/Input';
 import Button from '../elements/Button';
 import Text from '../elements/Text';
 
-import ScrollToBottom from 'react-scroll-to-bottom';
 
 function WaitingChatting(props) {
-    const { roomNum, me } = props;
+    const { roomNum, me_check, userId, content } = props;
     const inputRef = useRef(null);
     const scrollRef = useRef();
 
-    const id = "아이디1"
-
-
     const { socket, blackPlayer, whitePlayer, blackObserverList, whiteObserverList } = props;
 
-    // const [currentMessage, setCurrentMessage] = useState("");
-    // const [messageList, setMessageList] = useState([]);
-    // const [userInformation, setUserInformation] = useState([]);
 
     const [inputMessage, setInputMessage] = useState({ nickname: '', chat: '' });
     const [chatMonitor, setChatMonitor] = useState([]);
@@ -27,42 +20,19 @@ function WaitingChatting(props) {
     const handleInput = (e) => {
         setInputMessage({
             ...inputMessage,
-            nickname: id,
+            nickname: userId,
             chat: e.target.value,
         });
     };
 
     const handleEnter = (e) => {
-        if (e.key === 'Enter') {
-            const chat = {
-                nickname: id,
-                chat: inputMessage.chat,
-            };
-            console.log("보내는 채팅", inputMessage.chat)
-            socket.emit('chat', inputMessage.chat);
-            setInputMessage({ ...inputMessage, chat: '' });
-            inputRef.current.value = "";
-        }
+        // if (e.key === 'Enter') {
+        console.log("보내는 채팅", inputMessage.chat)
+        socket.emit('chat', inputMessage.chat);
+        setInputMessage({ ...inputMessage, chat: '' });
+        inputRef.current.value = "";
+        // }
     };
-
-    useEffect(() => {
-        const receiveChat = async () => await socket.on("chat", (data) => {
-            console.log("받아오는 채팅", data)
-            setRecentChat(data);
-            // setChatMonitor([...chatMonitor, recentChat])
-        })
-
-        receiveChat();
-    }, []);
-
-    useEffect(() => {
-        const setChat = async () => {
-            (await recentChat.chat?.length) > 0 && setChatMonitor([...chatMonitor, recentChat])
-        }
-
-        setChat().then(() => moveScrollToReceiveMessage())
-        setRecentChat('');
-    }, [recentChat]);
 
     const moveScrollToReceiveMessage = useCallback(() => {
         if (scrollRef.current) {
@@ -73,9 +43,30 @@ function WaitingChatting(props) {
         }
     });
 
+    console.log("왜 이러니")
+    useEffect(() => {
+        const receiveChat = async () => await socket.on("chat", (data) => {
+            console.log("받아오는 채팅", data)
+            setRecentChat(data);
+            setChatMonitor([...chatMonitor, recentChat])
+        })
+
+        receiveChat();
+    }, []);
+
+    useEffect(() => {
+        const setChat = async () => {
+            (await recentChat.chat?.length) > 0 && setChatMonitor([...chatMonitor, recentChat])
+        }
+
+        setChat()
+            .then(() => moveScrollToReceiveMessage())
+        setRecentChat('');
+    }, [recentChat]);
+
 
     const goodbyeChat = async () => {
-        await socket.emit("bye", id);
+        await socket.emit("bye", userId);
     }
 
     return (
@@ -91,7 +82,17 @@ function WaitingChatting(props) {
                         Live Chat
                     </Text>
                 </ChattingHeader>
-
+                <div className="welcome-message" style={{ textAlign: "center" }}>
+                    <span style={{ color: "purple", fontWeight: "800" }}>{userId}</span> 님 환영합니다!
+                </div>
+                {
+                    content.length > 0 ?
+                        <div className="user-message" style={{ textAlign: "center" }}>
+                            <span>{content}</span>
+                        </div>
+                        :
+                        null
+                }
                 <div className="chat-body" style={{ width: "100%", height: "100%", overflowX: "hidden" }} ref={scrollRef}>
                     {chatMonitor.map((messageContent, idx) => {
                         return (
@@ -100,16 +101,16 @@ function WaitingChatting(props) {
                                 className="Message-box"
                                 style={{
                                     display: "flex",
-                                    justifyContent: messageContent.nickname === id ? "flex-end" : "flex-star",
+                                    justifyContent: messageContent.nickname === userId ? "flex-end" : "flex-star",
                                     margin: "5px 0 5px 0"
                                 }}>
                                 <div>
                                     <MessageContent
-                                        style={{ backgroundColor: messageContent.nickname === id ? "cornflowerblue" : "#43a047" }}>
+                                        style={{ backgroundColor: messageContent.nickname === userId ? "cornflowerblue" : "#43a047" }}>
                                         <Text is_padding="3px" is_margin="3px" >{messageContent.chat}</Text>
                                     </MessageContent>
                                     <MessageMeta
-                                        style={{ justifyContent: messageContent.nickname === id ? "flex-end" : "flex-star" }}
+                                        style={{ justifyContent: messageContent.nickname === userId ? "flex-end" : "flex-star" }}
                                     >
                                         <Text is_margin="0 3px" is_bold="600">{messageContent.nickname}</Text>
                                     </MessageMeta>
@@ -128,16 +129,16 @@ function WaitingChatting(props) {
                     <Input
                         defaultValue={chatMonitor}
                         _onChange={handleInput}
-                        _onKeyPress={handleEnter}
+                        // _onKeyPress={handleEnter}
                         is_width="100%"
                         ref={inputRef}
                     />
-                    {/* <Button
+                    <Button
                         _onClick={handleEnter}
                         is_width="30%"
                     >
                         &#9658;
-                    </Button> */}
+                    </Button>
                 </div>
             </ChattingWindow>
             <button onClick={goodbyeChat}>나가기 버튼</button>

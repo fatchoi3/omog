@@ -70,7 +70,6 @@ function Login(props) {
             alert('입력하지 않은 칸이 있습니다!');
             return;
         }
-        console.log(id, password, passwordConfirm)
 
         dispatch(userActions.signupDB(id, nickname, password, passwordConfirm)).then(
             (res) => {
@@ -82,7 +81,6 @@ function Login(props) {
     }
 
     const handleLogin = () => {
-        console.log(id, password)
         if (id === '' || password === '') {
             alert('입력하지 않은 칸이 있습니다!');
             return;
@@ -123,11 +121,12 @@ function Login(props) {
                 <SignupModalContainer>
                     <SignupModal ref={modalEl}>
                         <div style={{ display: "flex", margin: "0 auto", flexDirection: "column", alignContent: "center", alignItems: "center", justifyContent: "center", width: "100%" }}>
-                            <Input is_width="60%" is_height="30px" placeholder="아이디" _onChange={handleIdInput} />
-                            <Input is_width="60%" is_height="30px" placeholder="닉네임" _onChange={handleNicknameInput} />
-                            <Input is_width="60%" is_height="30px" placeholder="비밀번호" _onChange={handlePasswordInput} />
-                            <Input is_width="60%" is_height="30px" placeholder="비밀번호 확인" _onChange={handlePasswordConfirmInput} />
-                            <Button is_width="30%" is_height="30px" _onClick={handleSignup}>회원가입</Button>
+                            <h2>회원가입</h2>
+                            <Input is_width="60%" is_padding="0 5px" is_height="30px" placeholder="아이디" _onChange={handleIdInput} />
+                            <Input is_width="60%" is_padding="0 5px" is_height="30px" placeholder="닉네임" _onChange={handleNicknameInput} />
+                            <Input is_width="60%" is_padding="0 5px" is_height="30px" placeholder="비밀번호" type="password" _onChange={handlePasswordInput} />
+                            <Input is_width="60%" is_padding="0 5px" is_height="30px" placeholder="비밀번호 확인" type="password" _onChange={handlePasswordConfirmInput} />
+                            <Button is_width="30%" is_margin="10px 0 0 0" is_height="30px" _onClick={handleSignup}>회원가입</Button>
                         </div>
                     </SignupModal>
                 </SignupModalContainer>
@@ -157,6 +156,7 @@ function Login(props) {
                             is_padding="3px"
                             is_margin="10px"
                             is_border_bottom="1px solid black"
+                            type="password"
                             _onChange={handlePasswordInput}
                         />
                     </div>
