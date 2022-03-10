@@ -9,7 +9,8 @@ import { actionCreators as roomActions } from "../redux/modules/room";
 const Roomlist = ()=>{
     const dispatch = useDispatch();
     const [modalOpen, setModalOpen] = useState(false);
-    const [state , setState] = useState()
+    const [state , setState] = useState();
+    const [disBut, setDisBut] = useState();
     const room_list = useSelector((state)=>state.room.list);
     const room_info = useSelector((state)=>state.room.roomInfo);
     const userId = localStorage.getItem("userId")
@@ -73,10 +74,11 @@ const Roomlist = ()=>{
                     </TdO>
                     <TdS>
                         <Button
+                        disabled={n.state == "wait"?false:true}
                         _onClick={()=>{
                             openModal();
                             dispatch(roomActions.getRoomInfoDB(n.roomNum));
-                        }}
+                            }}
                         >대기실 모달창 입장{n.roomNum}</Button>
                         {n.state}
                         <LeaderBoard
@@ -87,6 +89,7 @@ const Roomlist = ()=>{
                             <>
                             {room_info.roomName}
                             {room_info.roomNum}
+                            <div>
                             blackPlayer
                             <div><input type="radio" id="1" name="state" value="blackPlayer" onChange={changeRadioQ1}/></div>
                             whitePlayer
@@ -95,12 +98,12 @@ const Roomlist = ()=>{
                             <div><input type="radio" id="3" name="state" value="blackObserver" onChange={changeRadioQ1}/></div>
                             whiteObserver
                             <div><input type="radio" id="4" name="state" value="whiteObserver" onChange={changeRadioQ1}/></div>
+                            </div>
                             <div>
-
+                            
                             <Button
-                            is_border="5px solid black"
-                            is_color="black"
-                            is_width="200px"
+                            is_border="2px solid black"
+                            is_width="100px"
                             is_height="50px"
                             _onClick={()=>{
                                 joinWaiting();

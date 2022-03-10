@@ -21,8 +21,8 @@ function Waiting(props) {
     // console.log(roomNum, socket)
 
     const userId = localStorage.getItem('userId') // 로컬 스토리지에 저장되있는것
-    const get_user = useSelector((state) => state.user.userInfo);
-    // console.log(get_user)
+    const get_user = useSelector((state) => state.room.userInfo);
+    console.log(get_user)
     const me_check = get_user.id === userId ? true : false;
 
     const [content, setContent] = useState('');
