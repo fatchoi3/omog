@@ -4,7 +4,6 @@ import Input from '../elements/Input';
 import Button from '../elements/Button';
 import Text from '../elements/Text';
 
-import ScrollToBottom from 'react-scroll-to-bottom';
 
 function WaitingChatting(props) {
     const { roomNum, me_check, userId, content } = props;
@@ -13,9 +12,6 @@ function WaitingChatting(props) {
 
     const { socket, blackPlayer, whitePlayer, blackObserverList, whiteObserverList } = props;
 
-    // const [currentMessage, setCurrentMessage] = useState("");
-    // const [messageList, setMessageList] = useState([]);
-    // const [userInformation, setUserInformation] = useState([]);
 
     const [inputMessage, setInputMessage] = useState({ nickname: '', chat: '' });
     const [chatMonitor, setChatMonitor] = useState([]);
@@ -30,12 +26,12 @@ function WaitingChatting(props) {
     };
 
     const handleEnter = (e) => {
-        if (e.key === 'Enter') {
-            console.log("보내는 채팅", inputMessage.chat)
-            socket.emit('chat', inputMessage.chat);
-            setInputMessage({ ...inputMessage, chat: '' });
-            inputRef.current.value = "";
-        }
+        // if (e.key === 'Enter') {
+        console.log("보내는 채팅", inputMessage.chat)
+        socket.emit('chat', inputMessage.chat);
+        setInputMessage({ ...inputMessage, chat: '' });
+        inputRef.current.value = "";
+        // }
     };
 
     const moveScrollToReceiveMessage = useCallback(() => {
@@ -47,11 +43,12 @@ function WaitingChatting(props) {
         }
     });
 
+    console.log("왜 이러니")
     useEffect(() => {
         const receiveChat = async () => await socket.on("chat", (data) => {
             console.log("받아오는 채팅", data)
             setRecentChat(data);
-            // setChatMonitor([...chatMonitor, recentChat])
+            setChatMonitor([...chatMonitor, recentChat])
         })
 
         receiveChat();
@@ -62,7 +59,8 @@ function WaitingChatting(props) {
             (await recentChat.chat?.length) > 0 && setChatMonitor([...chatMonitor, recentChat])
         }
 
-        setChat().then(() => moveScrollToReceiveMessage())
+        setChat()
+            .then(() => moveScrollToReceiveMessage())
         setRecentChat('');
     }, [recentChat]);
 
@@ -131,16 +129,16 @@ function WaitingChatting(props) {
                     <Input
                         defaultValue={chatMonitor}
                         _onChange={handleInput}
-                        _onKeyPress={handleEnter}
+                        // _onKeyPress={handleEnter}
                         is_width="100%"
                         ref={inputRef}
                     />
-                    {/* <Button
+                    <Button
                         _onClick={handleEnter}
                         is_width="30%"
                     >
                         &#9658;
-                    </Button> */}
+                    </Button>
                 </div>
             </ChattingWindow>
             <button onClick={goodbyeChat}>나가기 버튼</button>

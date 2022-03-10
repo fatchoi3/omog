@@ -5,6 +5,7 @@ import Text from '../elements/Text';
 
 function WaitPlayerList(props) {
     const { blackPlayer, whitePlayer } = props
+
     return (
         <div className="player_container" style={{ display: "flex", justifyContent: "space-between" }}>
             <div className="white_player_box" style={{ textAlign: "center", width: "100%" }}>
