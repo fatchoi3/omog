@@ -270,20 +270,22 @@ const Omog = (props) => {
 
     socketRef.current.on("omog", (data) => {
       console.log("여긴 소켓유즈이펙이야",data.x,data.y,data.board,data.count);
+
       
-      count % 2 == 0
+
+      data.count % 2 == 0
       ? clearInterval(timeout.current)
       : clearInterval(timeout2.current);
-      count % 2 == 0
+      data.count % 2 == 0
       ?  timeOut2()
       :  timeOut();
-      // setCount(data.count);
       
       setBoard(data.board);
       setY(data.y);
       setX(data.x);
       setOrder(data.order?false:true)
       setCount(data.count);
+      
       console.log("여기도 소켓유즈이팩에서 바꾼 후count",count)
     });
     return () => socketRef.current.disconnect();

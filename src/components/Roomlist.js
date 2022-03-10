@@ -30,7 +30,7 @@ const Roomlist = ()=>{
         console.log(e.target.value);
     };
     const joinWaiting= ()=>{
-        dispatch(roomActions.joinRoomDB(state))
+        dispatch(roomActions.joinRoomDB( { roomNum : room_info.roomNum, id:userId, state:state}))
     }
 
     useEffect(()=>{
@@ -87,10 +87,14 @@ const Roomlist = ()=>{
                             <>
                             {room_info.roomName}
                             {room_info.roomNum}
-                            <div><input type="radio" id="1" name="state" value="Aplayer" onChange={changeRadioQ1}/></div>
-                            <div><input type="radio" id="2" name="state" value="Bplayer" onChange={changeRadioQ1}/></div>
-                            <div><input type="radio" id="3" name="state" value="Aobserver" onChange={changeRadioQ1}/></div>
-                            <div><input type="radio" id="4" name="state" value="Bobserver" onChange={changeRadioQ1}/></div>
+                            blackPlayer
+                            <div><input type="radio" id="1" name="state" value="blackPlayer" onChange={changeRadioQ1}/></div>
+                            whitePlayer
+                            <div><input type="radio" id="2" name="state" value="whitePlayer" onChange={changeRadioQ1}/></div>
+                            blackObserver
+                            <div><input type="radio" id="3" name="state" value="blackObserver" onChange={changeRadioQ1}/></div>
+                            whiteObserver
+                            <div><input type="radio" id="4" name="state" value="whiteObserver" onChange={changeRadioQ1}/></div>
                             <div>
 
                             <Button

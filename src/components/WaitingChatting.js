@@ -43,7 +43,7 @@ function WaitingChatting(props) {
         }
     });
 
-    console.log("왜 이러니")
+    
     useEffect(() => {
         const receiveChat = async () => await socket.on("chat", (data) => {
             console.log("받아오는 채팅", data)
@@ -52,16 +52,18 @@ function WaitingChatting(props) {
         })
 
         receiveChat();
+        return () => socket.disconnect();
     }, []);
 
     useEffect(() => {
         const setChat = async () => {
             (await recentChat.chat?.length) > 0 && setChatMonitor([...chatMonitor, recentChat])
         }
-
+console.log("너도 나오니?");
         setChat()
             .then(() => moveScrollToReceiveMessage())
         setRecentChat('');
+        
     }, [recentChat]);
 
 
