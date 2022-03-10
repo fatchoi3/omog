@@ -24,8 +24,8 @@ function App() {
         <Route
           path='/waiting'
           render={() => <Waiting socket={socket} />} />
-        <Route path="/waiting:id" exact component={Waiting} />
-        <Route path="/game" exact component={Game} />
+        <Route path="/waiting/:id" exact component={Waiting} />
+        <Route path="/game/:roomNum" exact component={Game} />
         <Route path="/test" exact component={Omog} />
       </ConnectedRouter>
     </React.Fragment>
