@@ -10,6 +10,7 @@ import Game from "../page/Game";
 import Omog from "../components/Omog";
 import Waiting from '../page/Waiting';
 import Waiting2 from '../page/Waiting2';
+import Result from '../page/Result';
 
 // const socketWait = socketio.connect("http://localhost:4001");
 
@@ -23,6 +24,7 @@ function App() {
         <Route path="/waiting/:roomNum" exact component={Waiting} />
         <Route path="/game/:roomNum" exact component={Game} />
         <Route path="/test" exact component={Omog} />
+        <Route path='/game/result/:roomNum' exact component={Result} />
       </ConnectedRouter>
     </React.Fragment>
   );
