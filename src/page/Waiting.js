@@ -7,6 +7,7 @@ import Input from '../elements/Input';
 import Text from '../elements/Text';
 import { actionCreators as roomActions } from '../redux/modules/room';
 
+import { history } from '../redux/configureStore';
 import { Button } from '@material-ui/core';
 import WaitingChatting from '../components/WaitingChatting';
 import WaitObserverList from '../components/WaitObserverList';
@@ -26,6 +27,8 @@ function Waiting(props) {
     const userId = localStorage.getItem('userId') // 로컬 스토리지에 저장되있는것
     // const get_user = useSelector((state) => state.room.waitingInfo);
     const get_user = useSelector((state) => state.room.userInfo);
+    console.log(get_user)
+
     // const me_check = get_user.id === userId ? true : false;
 
     const [content, setContent] = useState('');
@@ -58,10 +61,11 @@ function Waiting(props) {
         });
     };
 
+
     const handleEnter = (e) => {
         if (e.key === 'Enter') {
-            console.log("보내는 채팅", inputMessage.chat)
-            socket.emit('chat', inputMessage.chat);
+            console.log("보내는 채팅", inputMessage)
+            socket.emit('chat', inputMessage);
             setInputMessage({ ...inputMessage, chat: '' });
             inputRef.current.value = "";
         }
@@ -84,8 +88,13 @@ function Waiting(props) {
         socket.emit("changeToPlayer", "player")
     };
 
-    const goodbyeChat = async () => {
-        await socket.emit("bye", userId);
+    const goodbyeWait = async () => {
+        const io = socketio.connect("http://15.164.103.116/waiting");
+        await io.on("bye", userId => {
+            console.log(userId)
+        })
+        io.disconnect();
+        history.push('/main');
     }
 
     const gameStart = () => {
@@ -94,62 +103,51 @@ function Waiting(props) {
     }
 
 
+    // useEffect(() => {
+    //     const io = socketio.connect("http://15.164.103.116/waiting");
+    //     io.on("moveToObserver", (id) => {
+    //         setBlackPlayer('')
+    //         setBlackObserverList([...blackObserverList, id])
+    //         console.log(id);
+    //     });
+
+    //     io.on("moveToPlayer", (id) => {
+    //         setBlackObserverList([...blackObserverList])
+    //         setBlackPlayer()
+    //         console.log(id);
+    //     });
+
+    //     return () => {
+    //         io.off();
+    //         io.disconnect();
+    //     };
+    // }, [])
+
+
     useEffect(() => {
-        const io = socketio.connect("http://15.164.103.116/waiting");
-        io.on("moveToObserver", (id) => {
-            setBlackPlayer('')
-            setBlackObserverList([...blackObserverList, id])
-            console.log(id);
-        });
-
-        io.on("moveToPlayer", (id) => {
-            setBlackObserverList([...blackObserverList])
-            setBlackPlayer()
-            console.log(id);
-        });
-    }, [])
-
-
-    useEffect(() => {
-        // dispatch(roomActions.getWaitingInfoDB(roomNum));
+        dispatch(roomActions.getWaitingInfoDB(userId));
         const io = socketio.connect("http://15.164.103.116/waiting");
 
         // if (!socket) return;
         // 대기실 입장
         // socket.connect();
-        io.on("connect", () => {
-            // console.log("연결되었습니다.", io.connected);
-            socket.emit("nickname", userId);
-            console.log(userId, "닉네임을 보냈습니다.");
+        // io.on("connect", () => {
+        //     // console.log("연결되었습니다.", io.connected);
 
-            // 입장 정보 보내기
-            if (get_user.state === "whitePlayer" || "blackPlayer") {
-                io.emit("enterRoomPlayer", roomNum);
-                console.log(`플레이어 입장 정보를 방번호 : ${roomNum}로 보냈습니다.`);
-            } else {
-                io.emit("enterRoomObserver", roomNum);
-                console.log(`옵져버 입장 정보를 방번호 : ${roomNum}로 보냈습니다.`)
-            }
-        });
+        // });
 
-        const receiveChat = async () => await socket.on("chat", (data) => {
-            console.log("받아오는 채팅", data)
-            setRecentChat(data);
-            setChatMonitor([...chatMonitor, recentChat])
-            setRecentChat('');
-        })
+        io.emit("nickname", userId);
+        console.log(userId, "닉네임을 보냈습니다.");
 
-        receiveChat();
+        // 입장 정보 보내기
+        if (get_user.state === "whitePlayer" || "blackPlayer") {
+            io.emit("enterRoomPlayer", roomNum);
+            console.log(`플레이어 입장 정보를 방번호 : ${roomNum}로 보냈습니다.`);
+        } else {
+            io.emit("enterRoomObserver", roomNum);
+            console.log(`옵져버 입장 정보를 방번호 : ${roomNum}로 보냈습니다.`)
+        }
 
-        return () => {
-            socket.off();
-            socket.disconnect();
-        };
-    }, [recentChat])
-
-
-    useEffect(() => {
-        const io = socketio.connect("http://15.164.103.116/waiting");
         io.on("welcome", (nickname, userInfo) => {
             console.log("welcome 실행완료", nickname, userInfo)
 
@@ -168,10 +166,21 @@ function Waiting(props) {
             }
         });
 
-        return (() => {
-            socket.off();
-        })
+        // const receiveChat = async () => await socket.on("chat", (data) => {
+        //     console.log("받아오는 채팅", data)
+        //     setRecentChat(data);
+        //     setChatMonitor([...chatMonitor, recentChat])
+        //     setRecentChat('');
+        // })
+
+        // receiveChat();
+
+        return () => {
+            io.off();
+            io.disconnect();
+        };
     }, [])
+
 
     // useEffect(() => {
     //     const receiveChat = async () => await socket.on("chat", (data) => {
@@ -182,20 +191,33 @@ function Waiting(props) {
     //     })
 
     //     receiveChat();
-    // }, [chatMonitor]);
+    // }, []);
 
+
+    // useEffect(() => {
+    //     const setChat = async () => {
+    //         (await recentChat.chat?.length) > 0 && setChatMonitor([...chatMonitor, recentChat])
+    //     }
+
+    //     setChat()
+    //         .then(() => moveScrollToReceiveMessage())
+    //     setRecentChat('');
+
+    // }, [recentChat]);
+
+    // 서버에서 받은 입력값을 로컬 상태값으로 갱신하는 함수(바로 밑의 함수로 연결된다)
     useEffect(() => {
-        const setChat = async () => {
-            (await recentChat.chat?.length) > 0 && setChatMonitor([...chatMonitor, recentChat])
-        }
+        const io = socketio.connect("http://15.164.103.116/waiting");
+        io.on('chat', (chat) => {
+            setRecentChat(chat);
+        });
+    }, []);
 
-        setChat()
-            .then(() => moveScrollToReceiveMessage())
+    // 서버에서 갱신된 내용(recentChat)을 받았을 때 로컬 채팅창에 추가하는 함수
+    useEffect(() => {
+        recentChat.length > 0 && setChatMonitor([...chatMonitor, recentChat]);
         setRecentChat('');
-
-        return () => {
-            socket.disconnect();
-        };
+        // 채팅값 초기화 : 이렇게 설정하지 않으면 같은 채팅이 반복됐을 때 이 함수가 반응하지 않는다.
     }, [recentChat]);
 
 
@@ -280,11 +302,11 @@ function Waiting(props) {
                             borderTop: "none",
                             display: "flex",
                         }}>
-                        <Input
-                            defaultValue={chatMonitor}
-                            _onChange={handleInput}
-                            _onKeyPress={handleEnter}
-                            is_width="100%"
+                        <input
+                            value={chatMonitor}
+                            onChange={handleInput}
+                            onKeyPress={handleEnter}
+                            style={{ width: "100%" }}
                             ref={inputRef}
                         />
                         {/* <Button
@@ -295,7 +317,7 @@ function Waiting(props) {
                     </Button>  */}
                     </div>
                 </ChattingWindow>
-                <button onClick={goodbyeChat}>나가기 버튼</button>
+                <button onClick={goodbyeWait}>나가기 버튼</button>
                 <button onClick={gameStart}>게임 시작</button>
 
 
