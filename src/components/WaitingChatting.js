@@ -4,13 +4,16 @@ import Input from '../elements/Input';
 import Text from '../elements/Text';
 import Button from '../elements/Button';
 import TextField from "@material-ui/core/TextField";
+import io from "socket.io-client";
 
 
 function WaitingChatting(props) {
-    const { roomNum, me_check, userId, content, socket } = props;
+    const { roomNum, me_check, userId, content } = props;
     const inputRef = useRef(null);
     const scrollRef = useRef();
-
+    const socket = React.useRef();
+    socket.current = io("http://15.164.103.116/waiting");
+    // socket.current = io("http://localhost.com:4001");
 
     const [inputMessage, setInputMessage] = useState({ nickname: '', chat: '' });
     const [chatMonitor, setChatMonitor] = useState([]);
@@ -27,7 +30,7 @@ function WaitingChatting(props) {
     const handleEnter = (e) => {
         if (e.key === 'Enter') {
             console.log("보내는 채팅", inputMessage.chat)
-            socket.emit('chat', inputMessage.chat);
+            socket.current.emit('chat', inputMessage.chat);
             setInputMessage({ ...inputMessage, chat: '' });
             inputRef.current.value = "";
         }
@@ -44,7 +47,7 @@ function WaitingChatting(props) {
 
 
     useEffect(() => {
-        const receiveChat = async () => await socket.on("chat", (data) => {
+        const receiveChat = async () => await socket.current.on("chat", (data) => {
             console.log("받아오는 채팅", data)
             setRecentChat(data);
             setChatMonitor([...chatMonitor, recentChat])
@@ -52,14 +55,14 @@ function WaitingChatting(props) {
         })
 
         receiveChat();
-        return () => socket.disconnect();
+        return () => socket.current.disconnect();
     }, []);
+
 
     useEffect(() => {
         const setChat = async () => {
             (await recentChat.chat?.length) > 0 && setChatMonitor([...chatMonitor, recentChat])
         }
-console.log("너도 나오니?");
         setChat()
             .then(() => moveScrollToReceiveMessage())
         setRecentChat('');
@@ -67,9 +70,6 @@ console.log("너도 나오니?");
     }, [recentChat]);
 
 
-    const goodbyeChat = async () => {
-        await socket.emit("bye", userId);
-    }
 
     return (
         <>
@@ -143,7 +143,6 @@ console.log("너도 나오니?");
                     </Button> */}
                 </div>
             </ChattingWindow>
-            <button onClick={goodbyeChat}>나가기 버튼</button>
         </>
     );
 }
@@ -190,7 +189,6 @@ const MessageMeta = styled.div`
     marginLeft: 5px;
     marginRight: 5px;
 `
-
 
 
 export default WaitingChatting;
