@@ -41,7 +41,7 @@ const GAME_START = "GAME_START";
 const getRoomList = createAction(GET_ROOM, (roomList) => ({ roomList }));
 const getRoomInfo = createAction(GET_ROOM_INFO, (roomInfo) => ({ roomInfo }));
 const joinRoom = createAction(JOIN_ROOM, (userInfo) => ({ userInfo }));
-const getWaiting = createAction(GET_WAITING, (waitingInfo) => ({ waitingInfo }))
+const getWaiting = createAction(GET_WAITING, (user) => ({ user }))
 
 // middleware actions
 const getRoomListDB = () => {
@@ -100,23 +100,17 @@ const joinRoomDB = (room) => {
     }
 };
 
-const getWaitingInfoDB = (roomNum) => {
+const getWaitingInfoDB = (id) => {
     return async function (dispatch, getState, { history }) {
-        await api.get(`/room/waiting/${roomNum}`)
+        console.log(id)
+        await api.post("/room/userInfo", { id })
             .then(function (response) {
-                console.log(response.data);
-                dispatch(getWaiting(response.data));
+                console.log(response.data.userInfo);
+                // dispatch(getWaiting(response.user));
             })
     }
 };
 
-// {
-//     blackTeamPlayer:
-//     blackTeamObserver:  [ a, b, c, d, f ] ,
-//     whiteTeamPlayer:
-//     whiteTeamObserver:  [ a, b, c, d, f ] ,
-//     roomNum:
-//     }
 
 const gameStartDB = (blackPlayer, whitePlayer, blackObserverList, whiteObserverList, roomNum) => {
     return async function (dispatch, getState, { history }) {
@@ -156,8 +150,8 @@ export default handleActions({
         console.log("action.payload.userInfo", action.payload.userInfo)
     }),
     [GET_WAITING]: (state, action) => produce(state, (draft) => {
-        draft.waitingInfo = action.payload.waitingInfo
-        console.log("action.payload.waitingInfo", action.payload.waitingInfo)
+        draft.userInfo = action.payload.user
+        console.log("action.payload.user", action.payload.user)
     }),
 
 
