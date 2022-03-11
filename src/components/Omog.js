@@ -1,12 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import io from "socket.io-client";
-
+import { history } from "../redux/configureStore"; 
 import { Text } from "../elements";
+import { useDispatch } from "react-redux";
+import { actionCreators as gameActions } from "../redux/modules/game";
 
 const Omog = (props) => {
+  const dispatch= useDispatch();
   const userid = localStorage.getItem("userId");
-  const gameNum =3;
+  const gameNum =props.gameNum;
   const canvasRef = useRef(null);
   const socketRef = useRef();
   const [X, setX] = useState();
@@ -41,7 +44,7 @@ const Omog = (props) => {
     const dolSize = 13; // 바둑돌 크기
 
     
-    let history = new Array();
+    let histories = new Array();
     let checkDirection = [
       [1, -1],
       [1, 0],
@@ -138,7 +141,7 @@ const Omog = (props) => {
       checkWin(x, y); // 돌이 5개 연속 놓였는지 확인 함수 실행
 
       let boardCopy = Object.assign([], board);
-      history.push(boardCopy); //무르기를 위해서 판 전체 모양을 배열에 입력
+      histories.push(boardCopy); //무르기를 위해서 판 전체 모양을 배열에 입력
     };
 
     // 승패 판정 함수
@@ -188,12 +191,24 @@ const Omog = (props) => {
     }; 
     // 승리확인 함수 끝
     // 승리 화면 표시
-    function winShow(x) {
+
+    const winShow=(x) =>{
       switch (x) {
         case 1:
+          dispatch(gameActions.gameResultDB({
+            result : {win:props.winnerB},
+            userInfo : props.userInfo,
+            gameNum :gameNum
+          },))
+         
           console.log("흑 승");
           break;
         case 2:
+          dispatch(gameActions.gameResultDB({
+            result: {win:props.winnerW},
+            userInfo : props.userInfo,
+            gameNum :gameNum
+          }))
           console.log("백 승");
           break;
       }
@@ -201,6 +216,9 @@ const Omog = (props) => {
     // x,y 좌표를 배열의 index값으로 변환
     let xyToIndex = (x, y) => {
       return x + y * (row + 1);
+    };
+    const Move = ()=>{
+
     };
 
     // 배열 index값을 x,y좌표로 변환
@@ -213,8 +231,8 @@ const Omog = (props) => {
 
     // 물르기 함수
     const withdraw = () => {
-      history.pop(); // 무르면서 가장 최근 바둑판 모양은 날려버림
-      let lastBoard = history.slice(-1)[0]; // 바둑판 마지막 모양
+      histories.pop(); // 무르면서 가장 최근 바둑판 모양은 날려버림
+      let lastBoard = histories.slice(-1)[0]; // 바둑판 마지막 모양
       board = lastBoard;
       // setBoard(lastBoard);
       // setCount(count-1); // 흑,백 차례를 한 수 뒤로 물림
@@ -262,7 +280,7 @@ const Omog = (props) => {
   }, [count]);
 
   useEffect(() => {
-    socketRef.current = io.connect("http://15.164.103.116/game");
+    socketRef.current = io("http://15.164.103.116/game");
     // socketRef.current = io.connect("http://localhost:4001");
 
     socketRef.current.emit("joinGame", gameNum);
@@ -270,8 +288,6 @@ const Omog = (props) => {
 
     socketRef.current.on("omog", (data) => {
       console.log("여긴 소켓유즈이펙이야",data.x,data.y,data.board,data.count);
-
-      
 
       data.count % 2 == 0
       ? clearInterval(timeout.current)
@@ -288,7 +304,7 @@ const Omog = (props) => {
       
       console.log("여기도 소켓유즈이팩에서 바꾼 후count",count)
     });
-    return () => socketRef.current.disconnect();
+    // return () => socketRef.current.disconnect();
   },[]);
 
 const timeOut = () =>{
@@ -320,7 +336,7 @@ const timeOut2 = () =>{
   }, [sec,sec2]);
 
   useEffect(()=>{
-    if(props.userInfo.state == "playerW" || props.userInfo.state == "playerB" ){
+    if(props.userInfo.state == "whitePlayer" || props.userInfo.state == "blackPlayer" ){
  // 마우스 클릭한 위치를 정확한 눈금 위치로 보정
  document.addEventListener("mouseup", (e) => {
   // let ccount =0;

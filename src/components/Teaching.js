@@ -16,8 +16,9 @@ const Teaching = (props) => {
   
   useEffect(() => {
     console.log("훈수는 언제나옴?");
-    // socketRef.current = io.connect("http://15.164.103.116/game");
-    socketRef.current = io.connect("http://localhost:4001");
+    socketRef.current = io("http://15.164.103.116/game");
+    
+    // socketRef.current = io.connect("http://localhost:4001");
     socketRef.current.emit("joinGame", gameNum);
     socketRef.current.emit("nickname", userid);
     socketRef.current.on("teaching", (data) => {
@@ -64,7 +65,7 @@ const Teaching = (props) => {
       playerInfo={props.playerInfo}
       >
         {renderChat()}
-        {/* {viewBottom()} */}
+  
       </Chat_render_oneChat>
     </Container>
   );
@@ -79,8 +80,8 @@ const Chat_render_oneChat = styled.div`
   overflow-y: auto;
   border-radius : 7px;
   height: 200px;
-  border: 2px solid ${(props)=>props.playerInfo.state === "playerW" ? `#6071CE` : `#E296EF`};
-  background : ${(props)=>props.playerInfo.state === "playerW" ? `#6071CE` : `#E296EF`}
+  border: 2px solid ${(props)=>props.playerInfo.state === "whitePlayer" ? `#6071CE` : `#E296EF`};
+  background : ${(props)=>props.playerInfo.state === "whitePlayer" ? `#6071CE` : `#E296EF`}
 `;
 const ChatContents = styled.div`
   display: flex;
@@ -88,13 +89,13 @@ const ChatContents = styled.div`
 `;
 const ChatId = styled.div`
   margin : 5px;
-  border : 2px solid  ${(props)=>props.playerInfo.state === "playerW" ? `white` : `black`};
+  border : 2px solid  ${(props)=>props.playerInfo.state === "whitePlayer" ? `white` : `black`};
   border-radius : 5px;
   padding : 5px;
 `;
 const ChatMessage = styled.div`
  margin : 5px 5px;
- border : 2px solid  ${(props)=>props.playerInfo.state === "playerW" ? `white` : `black`};
+ border : 2px solid  ${(props)=>props.playerInfo.state === "whitePlayer" ? `white` : `black`};
  border-radius : 5px;
  padding : 5px;
 `;

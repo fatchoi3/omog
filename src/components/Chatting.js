@@ -6,17 +6,19 @@ import TextField from "@material-ui/core/TextField";
 import { history } from "../redux/configureStore";
 import "../shared/App.css";
 import { Button } from "../elements";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { actionCreators as gameActions } from "../redux/modules/game";
 
 //const socket =  io.connect('http://localhost:4001/')
 
-const Chatting = () => {
+const Chatting = (props) => {
+  const dispatch=useDispatch();
   const [state, setState] = useState({ message: "", id: "" });
   const [chat, setChat] = useState([]);
   const [teaching, setTeaching] = useState();
   const userid = localStorage.getItem("userId");
   // const testID = state.id;
-  const gameNum = 3;
+  const gameNum = props.gameNum;
   const socketRef = useRef();
   const oneChat = useRef();
 
@@ -41,6 +43,10 @@ const Chatting = () => {
     if (teaching === "Fly") {
       console.log("이이상상무무");
       socketRef.current.emit("flyingWord", { chat: message });
+    }
+    if (teaching === "Point") {
+      console.log("이상상무");
+      socketRef.current.emit("fadeOut", { chat: message });
     }
     socketRef.current.emit("chat", { chat: message });
     e.preventDefault();
@@ -69,7 +75,7 @@ const Chatting = () => {
   useEffect(() => {
     console.log("채팅은 언제나옴?   ");
 
-    socketRef.current = io.connect("http://15.164.103.116/game");
+    socketRef.current = io("http://15.164.103.116/game");
     // socketRef.current = io.connect("http://localhost:4001");
 
     socketRef.current.emit("joinGame", gameNum);
@@ -79,8 +85,9 @@ const Chatting = () => {
       console.log("안녕 난 소켓 채팅이야");
       setChat([...chat, { id: data.name, message: data.chat.chat }]);
     });
-    return () => socketRef.current.disconnect();
+    // return () => socketRef.current.disconnect();
   }, [chat]);
+ 
 
   return (
     <ChattingContainer>
@@ -89,7 +96,7 @@ const Chatting = () => {
         is_height="50px"
         _onClick={() => {
           socketRef.current.emit("bye", { id: userId });
-          history.push("/main");
+          dispatch(gameActions.gameOutDB(gameNum))
         }}
       >
         나가기
@@ -112,15 +119,7 @@ const Chatting = () => {
             <option value="Fly">Fly</option>
           </select>
         </>
-        {/* <div className="name-field">
-          <TextField
-            name="name"
-            onChange={(e) => onTextChange(e)}
-            value={state.name}
-            label="Name"
-          />
-        </div> */}
-        <div>
+         <div>
           <TextField
             name="message"
             onKeyDown={(e) => onKeyPress(e)}

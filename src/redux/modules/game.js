@@ -11,21 +11,39 @@ const initialState = {
 // actions
 const GETGAME = "GETGAME";
 const GET_GAME_RESULT = "GET_GAME_RESULT";
+const GAMEEND = "GAMEEND";
+
 
 // action creators
 const getGame = createAction(GETGAME, (gameInfo) => ({ gameInfo }));
 const getGameResult = createAction(GET_GAME_RESULT, (result) => ({ result }));
 
+
 // middleware actions
-const getGameDB = (gameNum) => {
-    return async function (dispatch, getState, { history }) {
-        await api.get(`/game/start/${gameNum}`)
-            .then(function (response) {
-                console.log(response);
-                //dispatch(getGame(response));
-            })
+
+const getGameDB = (gameNum) =>{
+    return async function ( dispatch, getState, { history }){
+        await api.get( `/game/start/${gameNum}`)
+        .then(function(response){
+            console.log("낙지전골",response.data.gameInfo);
+            dispatch(getGame(response.data.gameInfo));
+        })
     }
 };
+const gameResultDB= (result)=>{
+    return async function (dispatch, useState, { history }) {
+        // const token = localStorage.getItem('token');
+        await api.post("/gameFinish", result)
+            .then(function (response) {
+                console.log("안녕 나는 미들웨어 result야", response.data)
+                history.push(`/game/result/${result.gameNum}`)
+            }).catch(error => {
+                // window.alert("방참가 실패!");
+                console.log(error)
+            });
+    }
+};
+
 
 const getGameResultDB = (result) => {
     return async function (dispatch, getState, { history }) {
@@ -37,6 +55,18 @@ const getGameResultDB = (result) => {
             })
     }
 }
+
+
+const gameOutDB=(gameNum )=>{
+    return async function (dispatch, getState, { history }) {
+        console.log("gameNum", gameNum);
+        await api.delete(`/game/delete${gameNum}`)
+            .then(function (response) {
+                console.log(response);
+                history.push("/main");
+            })
+    }
+};
 
 
 //reducer
@@ -57,6 +87,9 @@ export default handleActions({
 const actionCreators = {
     getGameDB,
     getGameResultDB,
+    gameOutDB,
+    gameResultDB
+    
 }
 
 export { actionCreators };
