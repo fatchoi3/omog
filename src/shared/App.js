@@ -11,6 +11,7 @@ import Omog from "../components/Omog";
 import Waiting from '../page/Waiting';
 import Waiting2 from '../page/Waiting2';
 import Result from '../page/Result';
+import WaitingChatting from '../components/WaitingChatting';
 
 // const socketWait = socketio.connect("http://localhost:4001");
 
