@@ -16,7 +16,7 @@ const initialState = {
     ],
 
     roomInfo: {
-        roomNum: 2,
+        roomNum: "",
         playerCnt: 2,
         observeCnt: 4
     },
@@ -36,6 +36,7 @@ const GET_ROOM_INFO = "GET_ROOM_INFO";
 const JOIN_ROOM = "JOIN_ROOM";
 const GET_WAITING = "GET_WAITING";
 const GAME_START = "GAME_START";
+
 
 // action creators
 const getRoomList = createAction(GET_ROOM, (roomList) => ({ roomList }));
@@ -58,11 +59,13 @@ const getRoomInfoDB = (roomNum) => {
         console.log("roomNum", roomNum);
         await api.get(`/lobby/joinroom/${roomNum}`)
             .then(function (response) {
-                console.log(response.data);
+                // console.log(response.data);
                 dispatch(getRoomInfo(response.data));
             })
     }
 };
+
+
 
 const addRoomDB = () => {
     return async function (dispatch, useState, { history }) {
@@ -76,7 +79,7 @@ const addRoomDB = () => {
 
         )
             .then(function (response) {
-                console.log("안녕 나는 미들웨어 add", response.data.roomNum)
+                // console.log("안녕 나는 미들웨어 add", response.data.roomNum)
                 history.push(`/waiting/${response.data.roomNum}`)
             }).catch(error => {
                 // window.alert("방생성 실패!");
@@ -166,6 +169,7 @@ const actionCreators = {
     joinRoomDB,
     getWaitingInfoDB,
     gameStartDB,
+
 }
 
 export { actionCreators };

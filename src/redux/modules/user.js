@@ -170,7 +170,7 @@ const loginCheckDB = (id) => {
     return async function (dispatch, getState, { history }) {
         await axios.get(`http://15.164.103.116/userinfo/${id}`)
             .then((res) => {
-                // console.log("res",res.data)
+                console.log("loginCheckDB",res.data)
                 dispatch(loginCheck(res.data))
             })
     }
