@@ -5,18 +5,22 @@ import api from "../../api/api";
 
 // initialState
 const initialState = {
-   
+
 }
 
 // actions
 const GETGAME = "GETGAME";
+const GET_GAME_RESULT = "GET_GAME_RESULT";
 const GAMEEND = "GAMEEND";
 
+
 // action creators
-const getGame = createAction(GETGAME , (gameInfo) => ({gameInfo}));
+const getGame = createAction(GETGAME, (gameInfo) => ({ gameInfo }));
+const getGameResult = createAction(GET_GAME_RESULT, (result) => ({ result }));
 
 
 // middleware actions
+
 const getGameDB = (gameNum) =>{
     return async function ( dispatch, getState, { history }){
         await api.get( `/game/start/${gameNum}`)
@@ -40,6 +44,19 @@ const gameResultDB= (result)=>{
     }
 };
 
+
+const getGameResultDB = (result) => {
+    return async function (dispatch, getState, { history }) {
+        console.log(result)
+        await api.post(`/gameFinish/show`, result)
+            .then((res) => {
+                console.log(res);
+                // dispatch(getGameResult(res))
+            })
+    }
+}
+
+
 const gameOutDB=(gameNum )=>{
     return async function (dispatch, getState, { history }) {
         console.log("gameNum", gameNum);
@@ -51,21 +68,25 @@ const gameOutDB=(gameNum )=>{
     }
 };
 
+
 //reducer
 export default handleActions({
     [GETGAME]: (state, action) => produce(state, (draft) => {
         draft.gameInfo = action.payload.gameInfo
         console.log("action.payload.gameInfo", action.payload.gameInfo)
     }),
-    
-    
-    
+    [GET_GAME_RESULT]: (state, action) => produce(state, (draft) => {
+        console.log("리듀서예요.")
+    })
+
+
 },
     initialState
 );
 
 const actionCreators = {
     getGameDB,
+    getGameResultDB,
     gameOutDB,
     gameResultDB
     
