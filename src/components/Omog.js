@@ -199,7 +199,7 @@ const Omog = (props) => {
             result : {win:props.winnerB},
             userInfo : props.userInfo,
             gameNum :gameNum
-          },))
+          }))
          
           console.log("흑 승");
           break;
@@ -278,7 +278,7 @@ const Omog = (props) => {
   }
     console.log("여긴 그리기 유즈이펙",X,Y,board,count,order)
   }, [count]);
-
+ 
   useEffect(() => {
     socketRef.current = io("http://15.164.103.116/game");
     // socketRef.current = io.connect("http://localhost:4001");
@@ -336,6 +336,7 @@ const timeOut2 = () =>{
   }, [sec,sec2]);
 
   useEffect(()=>{
+   
     if(props.userInfo.state == "whitePlayer" || props.userInfo.state == "blackPlayer" ){
  // 마우스 클릭한 위치를 정확한 눈금 위치로 보정
  document.addEventListener("mouseup", (e) => {
@@ -351,29 +352,10 @@ const timeOut2 = () =>{
       e.offsetY > 10 &&
       e.offsetY < 640
     ) {
-      // 이미 돌이 놓여진 자리
       
-      // if (board[xyToIndex(x, y)] != -1) {
-      //   console.log("돌아가");
-      // } else {
-        // let tmpBoard = board;
-        // count % 2 == 0
-        // ?(board[xyToIndex(x, y)] = 1)
-        // :(board[xyToIndex(x, y)] = 2);
-       
-
-        // 비어있는 자리, 순서에 따라서 흑,백 구분해서 그리는 함수 실행
-        // count % 2 == 0
-        //   ? (board[xyToIndex(x, y)] = 1)
-        //   : (board[xyToIndex(x, y)] = 2);
-          // console.log(board);
-          // if(board){
-        // drawCircle(x, y);
-      // }
         
       const data ={x, y, board, count, order}
-        // const tmpx=x;
-        // const tmpy=y;
+       
         socketRef.current.emit("omog",  data ,props.userInfo.state);
         console.log("여긴 클릭! 들어가는데야",data);
       // }
@@ -381,7 +363,7 @@ const timeOut2 = () =>{
   }
 });
 }
-  },[])
+  },[props.userInfo.state])
 
   return (
     <div>

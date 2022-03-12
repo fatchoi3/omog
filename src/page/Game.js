@@ -18,7 +18,7 @@ const Game = (props) => {
   const userId = localStorage.getItem("userId");
   const gameNum = props.match.params.roomNum;
  
-  console.log("gameInfo",gameInfo)
+  // console.log("props",props)
   const [whitePlayer,setWhitePlayer] = useState({
     id: "초기값1",
     score: [2, 3],
@@ -33,20 +33,22 @@ const Game = (props) => {
   });
   const winnerW=gameInfo.whiteTeamPlayer;
   const winnerB=gameInfo.blackTeamPlayer;
- 
+  // console.log("gameInfo",gameInfo)
+  // console.log("winnerW",winnerW)
+
 
   const socketRef = useRef();
   const [loading, setLoading] = useState(1);
   const [loadingFade, setLoadingFade] = useState(1);
   const [flying, setFlying] = useState();
   const [fade, setFade]= useState();
-  // const gameNum = 3;
+
  const rand = (max, min)=>{
    return Math.floor(Math.random() * (max - min)) + min;
  };
  
  let randomNum;
-
+ 
   useEffect(() => {
     if(userInfo.state=== "whitePlayer"){
       setWhitePlayer(userInfo);
@@ -56,13 +58,13 @@ const Game = (props) => {
   
     dispatch(userActions.loginCheckDB(userId));
     dispatch(gameActions.getGameDB(gameNum)); 
-    console.log("Fly훈수는 언제나옴?");
+    
     socketRef.current = io.connect("http://15.164.103.116/game");
     // socketRef.current = io.connect("http://localhost:4001");
 
     socketRef.current.emit("joinGame", gameNum);
     socketRef.current.emit("nickname", userId);
-    randomNum = rand(1,10);
+    console.log("Fly훈수 받기");
     console.log("randomNum",randomNum)
    
     socketRef.current.on("fadeOut", (data) => {
@@ -76,6 +78,7 @@ const Game = (props) => {
     });
 
     socketRef.current.on("flyingWord", (data) => {
+      randomNum = rand(1,10);
       setFlying(data.chat.chat);
       setLoading(0);
       console.log("되네");
@@ -84,7 +87,7 @@ const Game = (props) => {
         setLoading(1);
       }, 1000);
     });
-    return () => socketRef.current.disconnect();
+    // return () => socketRef.current.disconnect();
   }, []);
 
   return (

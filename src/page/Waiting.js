@@ -62,9 +62,9 @@ function Waiting(props) {
 
     const gameStart = () => {
         // if (blackPlayer.length > 0 && whitePlayer.length > 0) {
-        dispatch(roomActions.gameStartDB(blackPlayer, whitePlayer, blackObserverList, whiteObserverList))
+        dispatch(roomActions.gameStartDB(blackPlayer, whitePlayer, blackObserverList, whiteObserverList,roomNum))
         // }
-    }
+    };
 
     const goodbyeWait = async () => {
         // socket.current = io("http://localhost.com:4001");
