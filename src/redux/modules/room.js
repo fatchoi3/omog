@@ -129,22 +129,18 @@ const getWaitingInfoDB = (id) => {
 const gameStartDB = (blackPlayer, whitePlayer, blackObserverList, whiteObserverList, roomNum) => {
     return async function (dispatch, getState, { history }) {
         console.log(blackPlayer, whitePlayer, blackObserverList?.map((i) => [...i.id]), whiteObserverList?.map((i) => [...i.id]))
-        // const roomNum = 2;
-        // const blackPlayer = "test6";
-        // const whitePlayer = "test5";
-        // const blackObserverList = ["a", "b", "c", "d"];
-        // const whiteObserverList = ["e", "f", "d", "w"];
-        // await api.post(`/game/create`, {
-        //     blackTeamPlayer: blackPlayer.id,
-        //     whiteTeamPlayer: whitePlayer.id,
-        //     blackTeamObserver: blackObserverList,
-        //     whiteTeamObserver: whiteObserverList,
-        //     roomNum: roomNum,
-        // })
-        //     .then((res) => {
-        //         console.log(res);
-        //         history.push(`/game/${roomNum}`)
-        //     })
+        
+        await api.post(`/game/create`, {
+            blackTeamPlayer: blackPlayer.id,
+            whiteTeamPlayer: whitePlayer.id,
+            blackTeamObserver: blackObserverList,
+            whiteTeamObserver: whiteObserverList,
+            roomNum: roomNum,
+        })
+            .then((res) => {
+                console.log(roomNum);
+                history.push(`/game/${roomNum}`)
+            })
     }
 }
 
