@@ -17,56 +17,56 @@ const Game = (props) => {
   const gameInfo = useSelector((state) => state.game.gameInfo);
   const userId = localStorage.getItem("userId");
   const gameNum = props.match.params.roomNum;
- 
+
   // console.log("props",props)
-  const [whitePlayer,setWhitePlayer] = useState({
+  const [whitePlayer, setWhitePlayer] = useState({
     id: "초기값1",
     score: [2, 3],
     point: 1000,
     state: "whitePlayer",
   });
-  const [blackPlayer,setBlackPlayer] = useState({
+  const [blackPlayer, setBlackPlayer] = useState({
     id: "초기값2",
     score: [3, 2],
     point: 1000,
     state: "blackPlayer",
   });
-  const winnerW=gameInfo.whiteTeamPlayer;
-  const winnerB=gameInfo.blackTeamPlayer;
+  const winnerW = gameInfo.whiteTeamPlayer;
+  const winnerB = gameInfo.blackTeamPlayer;
   // console.log("gameInfo",gameInfo)
   // console.log("winnerW",winnerW)
-
 
   const socketRef = useRef();
   const [loading, setLoading] = useState(1);
   const [loadingFade, setLoadingFade] = useState(1);
   const [flying, setFlying] = useState();
-  const [fade, setFade]= useState();
+  const [fade, setFade] = useState();
 
- const rand = (max, min)=>{
-   return Math.floor(Math.random() * (max - min)) + min;
- };
- 
- let randomNum;
- 
+  const rand = (max, min) => {
+    return Math.floor(Math.random() * (max - min)) + min;
+  };
+
+  let randomNum;
+  // const socket = io.connect("http://15.164.103.116/game");
   useEffect(() => {
-    if(userInfo.state=== "whitePlayer"){
+    if (userInfo.state === "whitePlayer") {
       setWhitePlayer(userInfo);
-    }else if(userInfo.state === "blackPlayer"){
+    } else if (userInfo.state === "blackPlayer") {
       setBlackPlayer(userInfo);
-    };
-  
+    }
+
     dispatch(userActions.loginCheckDB(userId));
-    dispatch(gameActions.getGameDB(gameNum)); 
-    
-    socketRef.current = io.connect("http://15.164.103.116/game");
-    // socketRef.current = io.connect("http://localhost:4001");
+    dispatch(gameActions.getGameDB(gameNum));
+
+    // socketRef.current = io.connect("http://15.164.103.116/game");
+
+    socketRef.current = io.connect("http://localhost:4001/game");
 
     socketRef.current.emit("joinGame", gameNum);
     socketRef.current.emit("nickname", userId);
     console.log("Fly훈수 받기");
-    console.log("randomNum",randomNum)
-   
+    console.log("randomNum", randomNum);
+
     socketRef.current.on("fadeOut", (data) => {
       setFade(data.chat.chat);
       setLoadingFade(0);
@@ -78,7 +78,7 @@ const Game = (props) => {
     });
 
     socketRef.current.on("flyingWord", (data) => {
-      randomNum = rand(1,10);
+      randomNum = rand(1, 10);
       setFlying(data.chat.chat);
       setLoading(0);
       console.log("되네");
@@ -96,29 +96,30 @@ const Game = (props) => {
         ""
       ) : (
         <DialogBlock RandomNum={randomNum}>
-          <Text
-          is_size="50px"
-          >{flying}</Text>
+          <Text is_size="50px">{flying}</Text>
         </DialogBlock>
       )}
       {loadingFade ? (
         ""
       ) : (
         <DarkBackground RandomNum={randomNum}>
-          <Text
-          is_size="50px"
-          >{fade}</Text>
+          <Text is_size="50px">{fade}</Text>
         </DarkBackground>
       )}
       <Wrap>
-        <Omog userInfo={userInfo} gameNum={gameNum} winnerW={winnerW} winnerB={winnerB}/>
+        <Omog
+          userInfo={userInfo}
+          gameNum={gameNum}
+          winnerW={winnerW}
+          winnerB={winnerB}
+        />
         <UnderInfo>
           {/* {userInfo.state == "playerW" || userInfo.state =="playerB" ? ( */}
           <TeachingWrap>
             <Teaching playerInfo={whitePlayer} />
             <Teaching playerInfo={blackPlayer} />
           </TeachingWrap>
-             </UnderInfo>
+        </UnderInfo>
       </Wrap>
       <Chatting gameNum={gameNum} />
     </GameContainer>
@@ -148,7 +149,7 @@ to {
 
 const DialogBlock = styled.div`
 position: absolute;
-top: ${(props=>props.randomNum*50)} px;
+top: ${(props) => props.randomNum * 50} px;
 width: 400px;
 height: 200px;
 line-height: 200px;

@@ -142,7 +142,7 @@ const gameStartDB = (blackPlayer, whitePlayer, blackObserverList, whiteObserverL
                 history.push(`/game/${roomNum}`)
             })
     }
-}
+};
 
 
 //reducer
