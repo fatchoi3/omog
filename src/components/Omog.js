@@ -1,20 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import io from "socket.io-client";
-import { history } from "../redux/configureStore"; 
+import { history } from "../redux/configureStore";
 import { Text } from "../elements";
 import { useDispatch } from "react-redux";
 import { actionCreators as gameActions } from "../redux/modules/game";
 
 const Omog = (props) => {
-  const dispatch= useDispatch();
+  const dispatch = useDispatch();
   const userid = localStorage.getItem("userId");
-  const gameNum =props.gameNum;
+  const gameNum = props.gameNum;
   const canvasRef = useRef(null);
   const socketRef = useRef();
   const [X, setX] = useState();
   const [Y, setY] = useState();
-  const [count,setCount] = useState(0);
+  const [count, setCount] = useState(0);
   const [order, setOrder] = useState();
 
   const [min, setMin] = useState(5);
@@ -26,13 +26,28 @@ const Omog = (props) => {
   const [sec2, setSec2] = useState(0);
   const time2 = useRef(300);
   const timeout2 = useRef(null);
-  
 
   const [board, setBoard] = useState();
+
+  const timeOut = () => {
+    timeout.current = setInterval(() => {
+      setMin(parseInt(time.current / 60));
+      setSec(time.current % 60);
+      time.current -= 1;
+    }, 1000);
+  };
+
+  const timeOut2 = () => {
+    timeout2.current = setInterval(() => {
+      setMin2(parseInt(time2.current / 60));
+      setSec2(time2.current % 60);
+      time2.current -= 1;
+    }, 1000);
+  };
   // let board = new Array(Math.pow(19, 2)).fill(-1); // 144개의 배열을 생성해서 -1로 채움
   useEffect(() => {
     const canvas = canvasRef.current;
-    
+
     const margin = 30;
     canvas.width = 600 + margin * 2;
     canvas.height = 600 + margin * 2;
@@ -43,9 +58,8 @@ const Omog = (props) => {
     const rowSize = 600 / row; // 바둑판 한 칸의 너비
     const dolSize = 13; // 바둑돌 크기
 
-    
-    let histories = new Array();
-    let checkDirection = [
+    // let histories = new Array();
+    const checkDirection = [
       [1, -1],
       [1, 0],
       [1, 1],
@@ -106,42 +120,42 @@ const Omog = (props) => {
       const ctx = canvas.getContext("2d");
       draw();
       drawRect(x, y);
-      for (let i = 0; i <361; i++) {
+      for (let i = 0; i < 361; i++) {
         // 모든 눈금의 돌의 유무,색깔 알아내기
         let a = indexToXy(i)[0];
         let b = indexToXy(i)[1];
-        if(board){
-        if (board[xyToIndex(a, b)] == 1) {
-          ctx.fillStyle = "black";
-          ctx.beginPath();
-          ctx.arc(
-            a * rowSize + margin,
-            b * rowSize + margin,
-            dolSize,
-            0,
-            Math.PI * 2
-          );
-          ctx.fill();
+        if (board) {
+          if (board[xyToIndex(a, b)] == 1) {
+            ctx.fillStyle = "black";
+            ctx.beginPath();
+            ctx.arc(
+              a * rowSize + margin,
+              b * rowSize + margin,
+              dolSize,
+              0,
+              Math.PI * 2
+            );
+            ctx.fill();
+          }
+          if (board[xyToIndex(a, b)] == 2) {
+            ctx.fillStyle = "white";
+            ctx.beginPath();
+            ctx.arc(
+              a * rowSize + margin,
+              b * rowSize + margin,
+              dolSize,
+              0,
+              Math.PI * 2
+            );
+            ctx.fill();
+          }
         }
-        if (board[xyToIndex(a, b)] == 2) {
-          ctx.fillStyle = "white";
-          ctx.beginPath();
-          ctx.arc(
-            a * rowSize + margin,
-            b * rowSize + margin,
-            dolSize,
-            0,
-            Math.PI * 2
-          );
-          ctx.fill();
-        }
-      }
       }
 
       checkWin(x, y); // 돌이 5개 연속 놓였는지 확인 함수 실행
 
-      let boardCopy = Object.assign([], board);
-      histories.push(boardCopy); //무르기를 위해서 판 전체 모양을 배열에 입력
+      // let boardCopy = Object.assign([], board);
+      // histories.push(boardCopy); //무르기를 위해서 판 전체 모양을 배열에 입력
     };
 
     // 승패 판정 함수
@@ -174,6 +188,9 @@ const Omog = (props) => {
                 case 2:
                   winWhite++;
                   break;
+                default:
+                  console.log("누구세...요?");
+                  break;
               }
             } else {
               break;
@@ -188,39 +205,41 @@ const Omog = (props) => {
           winShow(2);
         }
       }
-    }; 
+    }
     // 승리확인 함수 끝
     // 승리 화면 표시
 
-    const winShow=(x) =>{
+    const winShow = (x) => {
       switch (x) {
         case 1:
-          dispatch(gameActions.gameResultDB({
-            result : {win:props.winnerB},
-            userInfo : props.userInfo,
-            gameNum :gameNum
-          },))
-         
+          dispatch(
+            gameActions.gameResultDB({
+              result: { win: props.winnerB },
+              userInfo: props.userInfo,
+              gameNum: gameNum,
+            })
+          );
           console.log("흑 승");
           break;
         case 2:
-          dispatch(gameActions.gameResultDB({
-            result: {win:props.winnerW},
-            userInfo : props.userInfo,
-            gameNum :gameNum
-          }))
+          dispatch(
+            gameActions.gameResultDB({
+              result: { win: props.winnerW },
+              userInfo: props.userInfo,
+              gameNum: gameNum,
+            })
+          );
           console.log("백 승");
           break;
+        default:
+          console.log("누구세...요?");
+          break;
       }
-    }
+    };
     // x,y 좌표를 배열의 index값으로 변환
     let xyToIndex = (x, y) => {
       return x + y * (row + 1);
     };
-    const Move = ()=>{
-
-    };
-
     // 배열 index값을 x,y좌표로 변환
     let indexToXy = (i) => {
       let w = Math.sqrt(361);
@@ -229,100 +248,47 @@ const Omog = (props) => {
       return [x, y];
     };
 
-    // 물르기 함수
-    const withdraw = () => {
-      histories.pop(); // 무르면서 가장 최근 바둑판 모양은 날려버림
-      let lastBoard = histories.slice(-1)[0]; // 바둑판 마지막 모양
-      board = lastBoard;
-      // setBoard(lastBoard);
-      // setCount(count-1); // 흑,백 차례를 한 수 뒤로 물림
-      count--;
-      draw();
-
-      //직전 판의 모양으로 바둑판 다시 그리기
-
-      for (let i = 0; i < board.length; i++) {
-        let a = indexToXy(i)[0];
-        let b = indexToXy(i)[1];
-
-        if (lastBoard[xyToIndex(a, b)] == 1) {
-          ctx.fillStyle = "black";
-          ctx.beginPath();
-          ctx.arc(
-            a * rowSize + margin,
-            b * rowSize + margin,
-            dolSize,
-            0,
-            Math.PI * 2
-          );
-          ctx.fill();
-        }
-        if (lastBoard[xyToIndex(a, b)] == 2) {
-          ctx.fillStyle = "white";
-          ctx.beginPath();
-          ctx.arc(
-            a * rowSize + margin,
-            b * rowSize + margin,
-            dolSize,
-            0,
-            Math.PI * 2
-          );
-          ctx.fill();
-        }
-      }
-    };
-   
     draw();
-    if(board){
-    drawCircle(X,Y);
-  }
-    console.log("여긴 그리기 유즈이펙",X,Y,board,count,order)
+    if (board) {
+      drawCircle(X, Y);
+    }
+    console.log("여긴 그리기 유즈이펙", X, Y, board, count, order);
   }, [count]);
 
   useEffect(() => {
-    socketRef.current = io("http://15.164.103.116/game");
-    // socketRef.current = io.connect("http://localhost:4001");
+    // socketRef.current = io("http://15.164.103.116/game");
+    socketRef.current = io.connect("http://localhost:4001/game");
 
     socketRef.current.emit("joinGame", gameNum);
     socketRef.current.emit("nickname", userid);
 
     socketRef.current.on("omog", (data) => {
-      console.log("여긴 소켓유즈이펙이야",data.x,data.y,data.board,data.count);
+      console.log(
+        "여긴 소켓유즈이펙이야",
+        data.x,
+        data.y,
+        data.board,
+        data.count
+      );
 
       data.count % 2 == 0
-      ? clearInterval(timeout.current)
-      : clearInterval(timeout2.current);
-      data.count % 2 == 0
-      ?  timeOut2()
-      :  timeOut();
-      
+        ? clearInterval(timeout.current)
+        : clearInterval(timeout2.current);
+      data.count % 2 == 0 ? timeOut2() : timeOut();
+
       setBoard(data.board);
       setY(data.y);
       setX(data.x);
-      setOrder(data.order?false:true)
+      setOrder(data.order ? false : true);
       setCount(data.count);
-      
-      console.log("여기도 소켓유즈이팩에서 바꾼 후count",count)
+
+      console.log("여기도 소켓유즈이팩에서 바꾼 후count", count);
     });
     // return () => socketRef.current.disconnect();
-  },[]);
+  }, []);
 
-const timeOut = () =>{
-  timeout.current = setInterval(() => {
-    setMin(parseInt(time.current / 60));
-    setSec(time.current % 60);
-    time.current -= 1;
-  }, 1000);
-};
-
-const timeOut2 = () =>{
-  timeout2.current = setInterval(() => {
-    setMin2(parseInt(time2.current / 60));
-    setSec2(time2.current % 60);
-    time2.current -= 1;
-  }, 1000);
-};
-
+  
+//시간 작동
   useEffect(() => {
     if (time.current < 0) {
       console.log("타임 아웃");
@@ -332,60 +298,41 @@ const timeOut2 = () =>{
       console.log("타임 아웃");
       clearInterval(timeout2.current);
     }
+  }, [sec, sec2]);
 
-  }, [sec,sec2]);
-
-  useEffect(()=>{
-    if(props.userInfo.state == "whitePlayer" || props.userInfo.state == "blackPlayer" ){
- // 마우스 클릭한 위치를 정확한 눈금 위치로 보정
- document.addEventListener("mouseup", (e) => {
-  // let ccount =0;
-  if (e.target.id == "canvas") {
-    let x = Math.round(Math.abs(e.offsetX - 30) / 33.3);
-    //margin rowSize
-    let y = Math.round(Math.abs(e.offsetY - 30) / 33.3);
-    //   console.log(e.offsetX, e.offsetY, x, y);
+  useEffect(() => {
     if (
-      e.offsetX > 10 &&
-      e.offsetX < 640 &&
-      e.offsetY > 10 &&
-      e.offsetY < 640
+      props.userInfo.state == "whitePlayer" ||
+      props.userInfo.state == "blackPlayer"
     ) {
-      // 이미 돌이 놓여진 자리
-      
-      // if (board[xyToIndex(x, y)] != -1) {
-      //   console.log("돌아가");
-      // } else {
-        // let tmpBoard = board;
-        // count % 2 == 0
-        // ?(board[xyToIndex(x, y)] = 1)
-        // :(board[xyToIndex(x, y)] = 2);
-       
+      // 마우스 클릭한 위치를 정확한 눈금 위치로 보정
+      document.addEventListener("mouseup", (e) => {
+        // let ccount =0;
+        if (e.target.id == "canvas") {
+          let x = Math.round(Math.abs(e.offsetX - 30) / 33.3);
+          //margin rowSize
+          let y = Math.round(Math.abs(e.offsetY - 30) / 33.3);
+          //   console.log(e.offsetX, e.offsetY, x, y);
+          if (
+            e.offsetX > 10 &&
+            e.offsetX < 640 &&
+            e.offsetY > 10 &&
+            e.offsetY < 640
+          ) {
+            const data = { x, y, board, count, order };
 
-        // 비어있는 자리, 순서에 따라서 흑,백 구분해서 그리는 함수 실행
-        // count % 2 == 0
-        //   ? (board[xyToIndex(x, y)] = 1)
-        //   : (board[xyToIndex(x, y)] = 2);
-          // console.log(board);
-          // if(board){
-        // drawCircle(x, y);
-      // }
-        
-      const data ={x, y, board, count, order}
-        // const tmpx=x;
-        // const tmpy=y;
-        socketRef.current.emit("omog",  data ,props.userInfo.state);
-        console.log("여긴 클릭! 들어가는데야",data);
-      // }
+            socketRef.current.emit("omog", data, props.userInfo.state);
+            console.log("여긴 클릭! 들어가는데야", data);
+            // }
+          }
+        }
+      });
     }
-  }
-});
-}
-  },[])
+  }, [props.userInfo.state]);
 
   return (
     <div>
-     <button
+      <button
       // onClick={() => {
       //   withdraw();
       // }}
@@ -395,17 +342,21 @@ const timeOut2 = () =>{
       <GameWrap>
         <TimerWrapL count={count}>
           <Text
-           is_color={count % 2 == 0 ?"#F9FFBC" :"#619fcc"}
-          is_size="25px"
-          >{min}분 {sec}초</Text>
+            is_color={count % 2 == 0 ? "#F9FFBC" : "#619fcc"}
+            is_size="25px"
+          >
+            {min}분 {sec}초
+          </Text>
         </TimerWrapL>
         <canvas ref={canvasRef} id="canvas" />
-        <TimerWrapR  count={count}>
+        <TimerWrapR count={count}>
           <Text
-          is_color={count % 2 == 0 ? "#619fcc":"#F9FFBC"}
-          is_size="25px"
-          >{min2}분 {sec2}초</Text>
-          </TimerWrapR>
+            is_color={count % 2 == 0 ? "#619fcc" : "#F9FFBC"}
+            is_size="25px"
+          >
+            {min2}분 {sec2}초
+          </Text>
+        </TimerWrapR>
       </GameWrap>
     </div>
   );
@@ -415,14 +366,16 @@ const TimerWrapL = styled.div`
   width: 100px;
   margin: auto 20px;
   line-height: 660px;333333;
-  background-color : ${(props)=>props.count%2==0?"#619fcc":"#F9FFBC"};
+  background-color : ${(props) =>
+    props.count % 2 == 0 ? "#619fcc" : "#F9FFBC"};
 `;
 const TimerWrapR = styled.div`
   height: 660px;
   width: 100px;
   margin: auto 20px;
   line-height: 660px;
-  background-color : ${(props)=>props.count%2==0?"#F9FFBC":"#619fcc"};
+  background-color: ${(props) =>
+    props.count % 2 == 0 ? "#F9FFBC" : "#619fcc"};
 `;
 const GameWrap = styled.div`
   display: flex;

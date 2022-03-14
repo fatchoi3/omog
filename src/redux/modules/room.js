@@ -126,7 +126,7 @@ const joinRoomDB = (room) => {
 
 const gameStartDB = (blackPlayer, whitePlayer, blackObserverList, whiteObserverList, roomNum) => {
     return async function (dispatch, getState, { history }) {
-        console.log(blackPlayer, whitePlayer, blackObserverList?.map((i) => [...i.id]), whiteObserverList?.map((i) => [...i.id]))
+        console.log(blackPlayer, whitePlayer, blackObserverList?.map((i) => [...i.id]), whiteObserverList?.map((i) => [...i.id]))       
         await api.post(`/game/create`, {
             blackTeamPlayer: blackPlayer.id,
             whiteTeamPlayer: whitePlayer.id,
@@ -135,11 +135,15 @@ const gameStartDB = (blackPlayer, whitePlayer, blackObserverList, whiteObserverL
             roomNum: roomNum,
         })
             .then((res) => {
+
                 console.log(res);
+
+                console.log(roomNum);
+
                 history.push(`/game/${roomNum}`)
             })
     }
-}
+};
 
 
 //reducer

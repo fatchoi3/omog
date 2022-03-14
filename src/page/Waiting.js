@@ -33,9 +33,9 @@ function Waiting({ socket }) {
     const gameStart = (e) => {
         e.preventDefault();
         // if (blackPlayer.length > 0 && whitePlayer.length > 0) {
-        dispatch(roomActions.gameStartDB(blackPlayer, whitePlayer, blackObserverList, whiteObserverList))
+        dispatch(roomActions.gameStartDB(blackPlayer, whitePlayer, blackObserverList, whiteObserverList,roomNum))
         // }
-    }
+    };
 
 
     const goodbyeWait = async (e) => {

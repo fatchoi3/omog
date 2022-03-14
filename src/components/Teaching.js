@@ -16,9 +16,9 @@ const Teaching = (props) => {
   
   useEffect(() => {
     console.log("훈수는 언제나옴?");
-    socketRef.current = io("http://15.164.103.116/game");
+    // socketRef.current = io("http://15.164.103.116/game");
     
-    // socketRef.current = io.connect("http://localhost:4001");
+    socketRef.current = io.connect("http://localhost:4001/game");
     socketRef.current.emit("joinGame", gameNum);
     socketRef.current.emit("nickname", userid);
     socketRef.current.on("teaching", (data) => {
@@ -27,7 +27,7 @@ const Teaching = (props) => {
 
     });
      return () => socketRef.current.disconnect();
-  }, [teaching]);
+  }, [teaching,props.playerInfo.id]);
  
   const renderChat = () => {
     return teaching.map(({ id, message }, index) => (
@@ -65,7 +65,7 @@ const Teaching = (props) => {
       playerInfo={props.playerInfo}
       >
         {renderChat()}
-  
+        {/* {viewBottom()} */}
       </Chat_render_oneChat>
     </Container>
   );

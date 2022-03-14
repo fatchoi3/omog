@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import styled from "styled-components";
 import io from "socket.io-client";
 import TextField from "@material-ui/core/TextField";
@@ -71,21 +71,21 @@ const Chatting = (props) => {
       onTextChange(state.message);
     }
   };
-
+  
+  
   useEffect(() => {
-    console.log("채팅은 언제나옴?   ");
 
     // socketRef.current = io("http://15.164.103.116/game");
-    socketRef.current = io.connect("http://localhost:4001");
+    socketRef.current = io.connect("http://localhost:4001/game");
 
     socketRef.current.emit("joinGame", gameNum);
     socketRef.current.emit("nickname", userid);
     socketRef.current.on("chat", (data) => {
       console.log(data.chat.chat);
-      console.log("안녕 난 소켓 채팅이야");
       setChat([...chat, { id: data.name, message: data.chat.chat }]);
     });
-    // return () => socketRef.current.disconnect();
+    return () => socketRef.current.disconnect();
+     
   }, [chat]);
 
 

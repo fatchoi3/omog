@@ -42,9 +42,9 @@ function Result(props) {
 
     useEffect(() => {
         const gamessss = {
-            id: "user1",
-            gameNum: 1,
-            result: { win: "user1" }
+            id: "test2",
+            gameNum: 6,
+            result: { win: "test2" }
         }
         dispatch(gameActions.getGameResultDB(gamessss));
     }, [])
