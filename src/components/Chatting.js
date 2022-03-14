@@ -12,7 +12,7 @@ import { actionCreators as gameActions } from "../redux/modules/game";
 //const socket =  io.connect('http://localhost:4001/')
 
 const Chatting = (props) => {
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const [state, setState] = useState({ message: "", id: "" });
   const [chat, setChat] = useState([]);
   const [teaching, setTeaching] = useState();
@@ -75,8 +75,8 @@ const Chatting = (props) => {
   useEffect(() => {
     console.log("채팅은 언제나옴?   ");
 
-    socketRef.current = io("http://15.164.103.116/game");
-    // socketRef.current = io.connect("http://localhost:4001");
+    // socketRef.current = io("http://15.164.103.116/game");
+    socketRef.current = io.connect("http://localhost:4001");
 
     socketRef.current.emit("joinGame", gameNum);
     socketRef.current.emit("nickname", userid);
@@ -87,7 +87,7 @@ const Chatting = (props) => {
     });
     // return () => socketRef.current.disconnect();
   }, [chat]);
- 
+
 
   return (
     <ChattingContainer>
@@ -119,7 +119,7 @@ const Chatting = (props) => {
             <option value="Fly">Fly</option>
           </select>
         </>
-         <div>
+        <div>
           <TextField
             name="message"
             onKeyDown={(e) => onKeyPress(e)}

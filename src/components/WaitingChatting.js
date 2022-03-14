@@ -1,75 +1,19 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
 import styled from 'styled-components';
 import Input from '../elements/Input';
 import Text from '../elements/Text';
-import Button from '../elements/Button';
-import TextField from "@material-ui/core/TextField";
-import io from "socket.io-client";
+import WaitOneChat from './WaitOneChat';
+import WaitChatInput from './WaitChatInput';
 
 
 function WaitingChatting(props) {
-    const { roomNum, me_check, userId, content } = props;
-    const inputRef = useRef(null);
+    console.log("이 채팅창은 몇 번 실행될까요?")
+    const { socket } = props;
     const scrollRef = useRef();
-    const socket = React.useRef();
-    socket.current = io("http://15.164.103.116/waiting");
-    // socket.current = io("http://localhost.com:4001");
 
-    const [inputMessage, setInputMessage] = useState({ nickname: '', chat: '' });
-    const [chatMonitor, setChatMonitor] = useState([]);
-    const [recentChat, setRecentChat] = useState('');
-
-    const handleInput = (e) => {
-        setInputMessage({
-            ...inputMessage,
-            nickname: userId,
-            chat: e.target.value,
-        });
-    };
-
-    const handleEnter = (e) => {
-        if (e.key === 'Enter') {
-            console.log("보내는 채팅", inputMessage.chat)
-            socket.current.emit('chat', inputMessage.chat);
-            setInputMessage({ ...inputMessage, chat: '' });
-            inputRef.current.value = "";
-        }
-    };
-
-    const moveScrollToReceiveMessage = useCallback(() => {
-        if (scrollRef.current) {
-            scrollRef.current.scrollTo({
-                top: scrollRef.current.scrollHeight,
-                behavior: "smooth",
-            });
-        }
-    });
-
-
-    useEffect(() => {
-        const receiveChat = async () => await socket.current.on("chat", (data) => {
-            console.log("받아오는 채팅", data)
-            setRecentChat(data);
-            setChatMonitor([...chatMonitor, recentChat])
-            setRecentChat('');
-        })
-
-        receiveChat();
-        return () => socket.current.disconnect();
-    }, []);
-
-
-    useEffect(() => {
-        const setChat = async () => {
-            (await recentChat.chat?.length) > 0 && setChatMonitor([...chatMonitor, recentChat])
-        }
-        setChat()
-            .then(() => moveScrollToReceiveMessage())
-        setRecentChat('');
-
-    }, [recentChat]);
-
-
+    const userId = localStorage.getItem('userId');
 
     return (
         <>
@@ -87,40 +31,18 @@ function WaitingChatting(props) {
                 <div className="welcome-message" style={{ textAlign: "center" }}>
                     <span style={{ color: "purple", fontWeight: "800" }}>{userId}</span> 님 환영합니다!
                 </div>
-                {
+                {/* {
                     content.length > 0 ?
                         <div className="user-message" style={{ textAlign: "center" }}>
                             <span>{content}</span>
                         </div>
                         :
                         null
-                }
+                } */}
                 <div className="chat-body" style={{ width: "100%", height: "100%", overflowX: "hidden" }} ref={scrollRef}>
-                    {chatMonitor.map((messageContent, idx) => {
-                        return (
-                            <div
-                                key={idx}
-                                className="Message-box"
-                                style={{
-                                    display: "flex",
-                                    justifyContent: messageContent.nickname === userId ? "flex-end" : "flex-star",
-                                    margin: "5px 0 5px 0"
-                                }}>
-                                <div>
-                                    <MessageContent
-                                        style={{ backgroundColor: messageContent.nickname === userId ? "cornflowerblue" : "#43a047" }}>
-                                        <Text is_padding="3px" is_margin="3px" >{messageContent.chat}</Text>
-                                    </MessageContent>
-                                    <MessageMeta
-                                        style={{ justifyContent: messageContent.nickname === userId ? "flex-end" : "flex-star" }}
-                                    >
-                                        <Text is_margin="0 3px" is_bold="600">{messageContent.nickname}</Text>
-                                    </MessageMeta>
-                                </div>
-                            </div>
-                        );
-                    })}
+                    <WaitOneChat socket={socket} />
                 </div>
+
                 <div className="chat-footer"
                     style={{
                         height: "40px",
@@ -128,13 +50,9 @@ function WaitingChatting(props) {
                         borderTop: "none",
                         display: "flex",
                     }}>
-                    <Input
-                        defaultValue={chatMonitor}
-                        _onChange={handleInput}
-                        _onKeyPress={handleEnter}
-                        is_width="100%"
-                        ref={inputRef}
-                    />
+                    <WaitChatInput socket={socket} />
+
+
                     {/* <Button
                         _onClick={handleEnter}
                         is_width="30%"
@@ -165,30 +83,6 @@ const ChattingHeader = styled.div`
     margin-top: 0;
 `
 
-const MessageContent = styled.div`
-    width: auto;
-    height: auto;
-    min-height: 40px;
-    max-width: 120px;
-    border-radius: 5px;
-    color: white;
-    display: flex;
-    align-items: center;
-    margin-right: 5px;
-    margin-left: 5px;
-    padding-right: 5px;
-    padding-left: 5px;
-    overflow-wrap: break-word;
-    word-break: break-word;
-`
-
-const MessageMeta = styled.div`
-    display: flex;
-    width: auto;
-    fontSize: 12px;
-    marginLeft: 5px;
-    marginRight: 5px;
-`
 
 
 export default WaitingChatting;

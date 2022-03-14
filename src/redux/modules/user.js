@@ -10,85 +10,85 @@ const initialState = {
         id: 1,
         'nickname': '',
         score: [
-            {win : 0},
-            {lose : 0}
+            { win: 0 },
+            { lose: 0 }
         ],
-        point:10000,
+        point: 10000,
     },
-    list:[{
+    list: [{
         id: 1,
         score: [
-            {win : 0},
-            {lose : 0}
+            { win: 0 },
+            { lose: 0 }
         ],
-        point:10000,
-        state:"online"
-    },{
+        point: 10000,
+        state: "online"
+    }, {
         id: 1,
         score: [
-            {win : 0},
-            {lose : 0}
+            { win: 0 },
+            { lose: 0 }
         ],
-        point:10000,
-        state:"online"
-    },{
+        point: 10000,
+        state: "online"
+    }, {
         id: 1,
         score: [
-            {win : 0},
-            {lose : 0}
+            { win: 0 },
+            { lose: 0 }
         ],
-        point:10000,
-        state:"online"
+        point: 10000,
+        state: "online"
     }],
-    leader_list:[{
+    leader_list: [{
         id: 1,
         score: [
-            {win : 0},
-            {lose : 0}
+            { win: 0 },
+            { lose: 0 }
         ],
-        point:10000,
-        state:"online"
-    },{
+        point: 10000,
+        state: "online"
+    }, {
         id: 1,
         score: [
-            {win : 0},
-            {lose : 0}
+            { win: 0 },
+            { lose: 0 }
         ],
-        point:10000,
-        state:"online"
-    },{
+        point: 10000,
+        state: "online"
+    }, {
         id: 1,
         score: [
-            {win : 0},
-            {lose : 0}
+            { win: 0 },
+            { lose: 0 }
         ],
-        point:10000,
-        state:"online"
+        point: 10000,
+        state: "online"
     }],
-    leader_board:[{
+    leader_board: [{
         id: 1,
         score: [
-            {win : 0},
-            {lose : 0}
+            { win: 0 },
+            { lose: 0 }
         ],
-        point:10000,
-        state:"online"
-    },{
+        point: 10000,
+        state: "online"
+    }, {
         id: 1,
         score: [
-            {win : 0},
-            {lose : 0}
+            { win: 0 },
+            { lose: 0 }
         ],
-        point:10000,
-        state:"online"
-    },{
+        point: 10000,
+        state: "online"
+    }, {
         id: 1,
         score: [
-            {win : 0},
-            {lose : 0}
+            { win: 0 },
+            { lose: 0 }
         ],
-        point:10000,
-        state:"online"
+        point: 10000,
+        state: "online"
     }]
 }
 
@@ -103,9 +103,9 @@ const GET_LEADER_BOARD = "GET_LEADER_BOARD";
 // action creators
 const loginCheck = createAction(LOGIN_CHECK, (userInfo) => ({ userInfo }));
 const getUser = createAction(GET_USER, (user) => ({ user }));
-const getUserInfo = createAction((GET_USER_INFO), (user_list) => ({user_list }));
-const getLeaders = createAction((GET_LEADERS), (leader_list)=>({leader_list}))
-const getLeaderBorad = createAction((GET_LEADER_BOARD), (leader_board)=>({leader_board}))
+const getUserInfo = createAction((GET_USER_INFO), (user_list) => ({ user_list }));
+const getLeaders = createAction((GET_LEADERS), (leader_list) => ({ leader_list }))
+const getLeaderBorad = createAction((GET_LEADER_BOARD), (leader_board) => ({ leader_board }))
 const logout = createAction((LOG_OUT), (user) => ({ user }));
 
 
@@ -136,9 +136,7 @@ const signupDB = (id, nickname, password, passwordConfirm) => {
 
 const loginDB = (id, password) => {
     return async function (dispatch, getState, { history }) {
-
         await api.post("/login", { id: id, pass: password })
-
             .then(function (response) {
                 console.log(response);
                 if (response.data.token) {
@@ -155,13 +153,13 @@ const loginDB = (id, password) => {
     }
 };
 
-const getUserDB = () =>{
-    return async function ( dispatch, getState, { history }){
-        await api.get( "/lobby/userList")
-        .then(function(response){
-            // console.log(response.data);
-            dispatch(getUserInfo(response.data));
-        })
+const getUserDB = () => {
+    return async function (dispatch, getState, { history }) {
+        await api.get("/lobby/userList")
+            .then(function (response) {
+                // console.log(response.data);
+                dispatch(getUserInfo(response.data));
+            })
     }
 };
 
@@ -170,29 +168,29 @@ const loginCheckDB = (id) => {
     return async function (dispatch, getState, { history }) {
         await axios.get(`http://15.164.103.116/userinfo/${id}`)
             .then((res) => {
-                console.log("loginCheckDB",res.data)
+                console.log("loginCheckDB", res.data)
                 dispatch(loginCheck(res.data))
             })
     }
 }
 
-const getLeaderDB = () =>{
-    return async function ( dispatch, getState, { history }){
+const getLeaderDB = () => {
+    return async function (dispatch, getState, { history }) {
         await api.get("/lobby/leaderList")
-        .then(function(response){
-            // console.log(response.data);
-            dispatch(getLeaders(response.data));
-        })
+            .then(function (response) {
+                // console.log(response.data);
+                dispatch(getLeaders(response.data));
+            })
     }
 };
 
-const getLeaderBoardDB = () =>{
-    return async function ( dispatch, getState, { history }){
+const getLeaderBoardDB = () => {
+    return async function (dispatch, getState, { history }) {
         await api.get("/leaderBoard")
-        .then(function(response){
-            // console.log(response.data);
-            dispatch(getLeaderBorad(response.data));
-        })
+            .then(function (response) {
+                // console.log(response.data);
+                dispatch(getLeaderBorad(response.data));
+            })
     }
 };
 
@@ -208,7 +206,7 @@ export default handleActions({
             localStorage.removeItem("userId");
             window.location.replace("/")
             console.log("로그아웃합니다")
-    }),
+        }),
     [LOGIN_CHECK]: (state, action) => produce(state, (draft) => {
         draft.userInfo = action.payload.userInfo;
         // console.log("action.payload.userInfo",action.payload.userInfo)

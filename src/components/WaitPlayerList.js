@@ -5,84 +5,116 @@ import { useSelector, useDispatch } from 'react-redux';
 import Text from '../elements/Text';
 
 function WaitPlayerList(props) {
-    const get_user = useSelector((state) => state.room.user);
-    const blackPlayer = useSelector((state) => state.room.blackPlayer);
-    const whitePlayer = useSelector((state) => state.room.whitePlayer);
+    // const waitingPlayerState = useSelector((state) => state.room.userInfo);
+    const waitingPlayer = useSelector((state) => state.room.userInfo);
+
+
+    if (waitingPlayer.state !== "blackPlayer" && waitingPlayer.state !== "whitePlayer") {
+        return (
+            <>
+                <PlayerContainer>
+                    <div className="white-player-box" style={{ display: "flex", textAlign: "center", width: "100%" }}>
+                        <BlackPlayerCard>
+                            <Text>아이디: </Text>
+                            <Text>승률 : </Text>
+                            <Text>point : </Text>
+                        </BlackPlayerCard>
+                        <WhitePlayerCard>
+                            <Text>아이디: </Text>
+                            <Text>승률 : </Text>
+                            <Text>point : </Text>
+                        </WhitePlayerCard>
+                    </div>
+                </PlayerContainer>
+            </>
+        )
+    }
 
 
     return (
-        <div className="player_container" style={{ display: "flex", justifyContent: "space-between" }}>
-            <div className="white_player_box" style={{ textAlign: "center", width: "100%" }}>
-                {
-                    "id" in whitePlayer
-                        ?
-                        <PlayerCard>
-                            <Text>아이디: {whitePlayer.id}</Text>
-                            <Text>승률 :
-                                {whitePlayer.score[0]
-                                    ?
-                                    whitePlayer.score[0].win === 0
+        <>
+            {
+                waitingPlayer.state === "blackPlayer"
+                    ?
+                    <PlayerContainer>
+                        <div className="black-player-box" style={{ display: "flex", textAlign: "center", width: "100%" }}>
+                            <BlackPlayerCard>
+                                <Text>아이디: {waitingPlayer.id}</Text>
+                                {/* <Text>승률:
+                                    {waitingPlayer.score[0]
                                         ?
-                                        0
+                                        waitingPlayer.score[0].win === 0
+                                            ?
+                                            0
+                                            :
+                                            (waitingPlayer.score[0].win) / (waitingPlayer.score[0].win + waitingPlayer.score[1].lose)
                                         :
-                                        (whitePlayer.score[0].win) / (whitePlayer.score[0].win + whitePlayer.score[1].lose)
-                                    :
-                                    0
-                                }
-                            </Text>
-                            <Text>point : {whitePlayer.point}</Text>
-                            {/* <PlayerThumbnail /> */}
-                        </PlayerCard>
-                        :
-                        <PlayerCard>
-                            <Text>아이디: </Text>
-                            <Text>승률 : </Text>
-                            <Text>point : </Text>
-                            {/* <PlayerThumbnail /> */}
-                        </PlayerCard>
-                }
-            </div>
-            <div
-                className="black_player_box"
-                style={{
-                    textAlign: "center",
-                    width: "100%", color: "white",
-                    backgroundColor: "black"
-                }}>
-                {
-                    "id" in blackPlayer
-                        ?
-                        <PlayerCard>
-                            <Text>아이디: {blackPlayer.id}</Text>
-                            <Text>승률 :
-                                {blackPlayer.score[0]
-                                    ?
-                                    blackPlayer.score[0].win === 0
+                                        0
+                                    }
+                                </Text> */}
+                                <Text>승률: </Text>
+                                {/* <Text>
+                                    포인트 : {waitingPlayer.point}
+                                </Text> */}
+                                <Text>포인트: </Text>
+                            </BlackPlayerCard>
+                            <WhitePlayerCard>
+                                <Text>아이디: </Text>
+                                <Text>승률 : </Text>
+                                <Text>point : </Text>
+                            </WhitePlayerCard>
+                        </div>
+                    </PlayerContainer>
+
+                    :
+
+                    <PlayerContainer>
+                        <div className="white-player-box" style={{ display: "flex", textAlign: "center", width: "100%" }}>
+                            <BlackPlayerCard>
+                                <Text>아이디: </Text>
+                                <Text>승률 : </Text>
+                                <Text>point : </Text>
+                            </BlackPlayerCard>
+                            <WhitePlayerCard>
+                                <Text>아이디: {waitingPlayer.id}</Text>
+                                {/* <Text>승률:
+                                    {waitingPlayer.score[0]
                                         ?
-                                        0
+                                        waitingPlayer.score[0].win === 0
+                                            ?
+                                            0
+                                            :
+                                            (waitingPlayer.score[0].win) / (waitingPlayer.score[0].win + waitingPlayer.score[1].lose)
                                         :
-                                        (blackPlayer.score[0].win) / (blackPlayer.score[0].win + blackPlayer.score[1].lose)
-                                    :
-                                    0
-                                }
-                            </Text>
-                            <Text>point : {blackPlayer.point}</Text>
-                            {/* <PlayerThumbnail /> */}
-                        </PlayerCard>
-                        :
-                        <PlayerCard>
-                            <Text>아이디: </Text>
-                            <Text>승률 : </Text>
-                            <Text>point : </Text>
-                            {/* <PlayerThumbnail /> */}
-                        </PlayerCard>
-                }
-            </div>
-        </div>
-    );
+                                        0
+                                    }
+                                </Text> */}
+                                <Text>승률: </Text>
+                                {/* <Text>
+                                    포인트 : {waitingPlayer.point}
+                                </Text> */}
+                                <Text>포인트: </Text>
+                            </WhitePlayerCard>
+                        </div>
+                    </PlayerContainer>
+            }
+        </>
+    )
 }
 
-const PlayerCard = styled.div`
+const PlayerContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+`
+
+const BlackPlayerCard = styled.div`
+    width: 100%;
+    border: 1px solid red;
+    color: white;
+    background-color: black;
+`
+
+const WhitePlayerCard = styled.div`
     width: 100%;
     border: 1px solid red;
 `

@@ -4,17 +4,17 @@ import { createBrowserHistory } from "history";
 import { connectRouter } from "connected-react-router";
 
 import User from "./modules/user";
-import Room from "./modules/room"
+import Room from "./modules/room";
 import Game from "./modules/game";
 
 export const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
-    user: User,
-    room: Room,
-    game: Game,
-    router: connectRouter(history),
-  });
+  user: User,
+  room: Room,
+  game: Game,
+  router: connectRouter(history),
+});
 
 
 // const middlewares = [thunk];
