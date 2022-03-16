@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { actionCreators as roomActions } from '../redux/modules/room';
+import { actionCreators as roomActions } from '../../redux/modules/room';
 
 
 function StateChangeBtn({ socket }) {

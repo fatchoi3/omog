@@ -21,6 +21,7 @@ function Login(props) {
     const [password, setPassword] = React.useState("");
     const [passwordConfirm, setPasswordConfirm] = React.useState("");
     const [isOpen, setIsOpen] = React.useState(false);
+    const [explainModal, setExplainModal] = React.useState(true);
 
 
     const handleIdInput = (e) => {
@@ -50,7 +51,8 @@ function Login(props) {
         return _reg.test(password);
     }
 
-    const handleSignup = () => {
+    const handleSignup = (e) => {
+        e.preventDefault();
         // if (!emailCheck(id)) {
         //     alert('이메일이 형식에 맞지 않습니다!');
         //     return;
@@ -73,14 +75,14 @@ function Login(props) {
 
         dispatch(userActions.signupDB(id, nickname, password, passwordConfirm)).then(
             (res) => {
-                if (res === 'OK') {
-                    setIsOpen(false);
-                }
+                setIsOpen(false);
             }
         )
     }
 
-    const handleLogin = () => {
+    const handleLogin = (e) => {
+        e.preventDefault();
+
         if (id === '' || password === '') {
             alert('입력하지 않은 칸이 있습니다!');
             return;
@@ -106,6 +108,10 @@ function Login(props) {
         }
     };
 
+    const handleExplainModal = () => {
+        setExplainModal(false);
+    }
+
 
     React.useEffect(() => {
         window.addEventListener("click", handleClickOutside);
@@ -117,15 +123,43 @@ function Login(props) {
 
     return (
         <>
+            {explainModal &&
+                <GameExplainContainer>
+                    <GameExplainModal>
+                        <div style={{ display: "flex", margin: "0 auto", flexDirection: "column", alignContent: "center", alignItems: "center", justifyContent: "center", width: "100%" }}>
+                            <LoginPageSlider />
+                            <Button is_width="30%" is_margin="100px 0 0 0" is_height="30px" _onClick={handleExplainModal}>닫기</Button>
+                        </div>
+                    </GameExplainModal>
+                </GameExplainContainer>
+            }
             {isOpen &&
                 <SignupModalContainer>
                     <SignupModal ref={modalEl}>
+                        <div style={{ width: "70%", margin: "0 auto 30px auto" }}>
+                            <h2 style={{ color: "#189FFB", padding: "0", margin: "0" }}>회원가입</h2>
+                            <div style={{ width: "100%", bottom: "0px", height: "2px", background: "#189FFB" }}></div>
+                        </div>
                         <div style={{ display: "flex", margin: "0 auto", flexDirection: "column", alignContent: "center", alignItems: "center", justifyContent: "center", width: "100%" }}>
-                            <h2>회원가입</h2>
-                            <Input is_width="60%" is_padding="0 5px" is_height="30px" placeholder="아이디" _onChange={handleIdInput} />
-                            <Input is_width="60%" is_padding="0 5px" is_height="30px" placeholder="닉네임" _onChange={handleNicknameInput} />
-                            <Input is_width="60%" is_padding="0 5px" is_height="30px" placeholder="비밀번호" type="password" _onChange={handlePasswordInput} />
-                            <Input is_width="60%" is_padding="0 5px" is_height="30px" placeholder="비밀번호 확인" type="password" _onChange={handlePasswordConfirmInput} />
+
+                            <div style={{ width: "70%", margin: "0 0 10px 0" }}>
+                                <Text is_center="left" is_width="100%">아이디</Text>
+                                <Input is_width="100%" is_padding="0 5px" is_height="30px" placeholder="아이디를 입력해주세요." _onChange={handleIdInput} />
+                            </div>
+                            <div style={{ width: "70%", margin: "0 0 10px 0" }}>
+                                <Text is_center="left" is_width="100%">닉네임</Text>
+                                <Input is_width="100%" is_padding="0 5px" is_height="30px" placeholder="2자 이상 20자 이하" _onChange={handleNicknameInput} />
+                            </div>
+                            <div style={{ width: "70%", margin: "0 0 10px 0" }}>
+                                <Text is_center="left" is_width="100%">비밀번호</Text>
+                                <Input is_width="100%" is_padding="0 5px" is_height="30px" placeholder="영문 숫자 특수문자 조합 6-16자리" type="password" _onChange={handlePasswordInput} />
+                            </div>
+                            <div style={{ width: "70%", margin: "0 0 10px 0" }}>
+                                <Text is_center="left" is_width="100%">비밀번호 확인</Text>
+                                <Input is_width="100%" is_padding="0 5px" is_height="30px" placeholder="비밀번호를 다시 입력해주세요." type="password" _onChange={handlePasswordConfirmInput} />
+                            </div>
+
+
                             <Button is_width="30%" is_margin="10px 0 0 0" is_height="30px" _onClick={handleSignup}>회원가입</Button>
                         </div>
                     </SignupModal>
@@ -133,7 +167,6 @@ function Login(props) {
             }
             <LoginPageTitle>타이틀 혹은 로고가 위치합니다.</LoginPageTitle>
             <LoginPageContainer>
-                <LoginPageSlider />
                 <LoginPageLoginBox>
                     <Text is_size="26px">로그인</Text>
                     <div className="input_box"
@@ -151,6 +184,7 @@ function Login(props) {
                             _onChange={handleIdInput}
                         />
                         <Input
+                            autoComplete="on"
                             is_border="none"
                             placeholder="비밀번호"
                             is_padding="3px"
@@ -213,6 +247,30 @@ const LoginPageLoginBox = styled.div`
     box-sizing: border-box;
 `
 
+const GameExplainContainer = styled.div`
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 10;
+`
+
+const GameExplainModal = styled.div`
+    position: relative;
+    transition: 0.3s;
+    width: 100%;
+    height: 100vh;
+    box-shadow: rgb(0 0 0 / 9%) 0px 2px 12px 0px;
+    background: white;
+    display: flex;
+`
+
+
 const SignupModalContainer = styled.div`
     position: fixed;
     top: 0px;
@@ -231,19 +289,25 @@ const SignupModal = styled.div`
     transition: 0.3s;
     width: 600px;
     height: 600px;
-    animation: 400ms ease-in-out 0ms 1 normal forwards running modalIn;
     box-shadow: rgb(0 0 0 / 9%) 0px 2px 12px 0px;
     background: white;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    // 아래에서 위로
+    // animation: 400ms ease-in-out 0ms 1 normal forwards running modalIn;
+    // 사라락 나타나기
+    animation: 0.3s ease us814pn;
 
-
-    @keyframes modalIn {
+    @keyframes us814pn {
         0%{
-            transform: translateY(600px);
+            // transform: translateY(600px);
+            backdrop-filter: blur(0rem);
             opacity: 0;
         }  
         100%{
-            transform: translateY(0px);
+            // transform: translateY(0px);
+            backdrop-filter: blur(0rem);
             opacity: 1;
         }
     }
