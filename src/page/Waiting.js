@@ -20,15 +20,14 @@ function Waiting({ socket }) {
     const { roomNum } = useParams();
     const dispatch = useDispatch();
     const get_user = useSelector((state) => state.room.userInfo);
-    console.log(get_user);
+ 
     const blackPlayer = useSelector((state) => state.room.blackPlayer);
     const whitePlayer = useSelector((state) => state.room.whitePlayer);
     const blackObserverList = useSelector((state) => state.room.blackObserverList);
     const whiteObserverList = useSelector((state) => state.room.whiteObserverList);
     const userId = localStorage.getItem('userId');
-
+    console.log("blackPlayer",blackPlayer);
     const [userData, setUserData] = useState({});
-
 
     const gameStart = (e) => {
         e.preventDefault();

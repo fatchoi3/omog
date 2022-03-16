@@ -135,11 +135,8 @@ const gameStartDB = (blackPlayer, whitePlayer, blackObserverList, whiteObserverL
             roomNum: roomNum,
         })
             .then((res) => {
-
                 console.log(res);
-
                 console.log(roomNum);
-
                 history.push(`/game/${roomNum}`)
             })
     }

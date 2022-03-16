@@ -1,114 +1,146 @@
-import React, { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useRef, useEffect, useCallback, memo } from "react";
 import styled from "styled-components";
-import io from "socket.io-client";
 import TextField from "@material-ui/core/TextField";
-
-import { history } from "../redux/configureStore";
+import useInput from "../hook/useInput";
 import "../shared/App.css";
-import { Button } from "../elements";
+import { Button, Text } from "../elements";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as gameActions } from "../redux/modules/game";
 
-//const socket =  io.connect('http://localhost:4001/')
-
-const Chatting = (props) => {
+const Chatting = memo((props) => {
   const dispatch = useDispatch();
-  const [state, setState] = useState({ message: "", id: "" });
-  const [chat, setChat] = useState([]);
+  const [message, onChangeMessage, setMessage] = useInput("");
   const [teaching, setTeaching] = useState();
   const userid = localStorage.getItem("userId");
-  // const testID = state.id;
+  const chatList = useSelector((state) => state.game.chat_list);
+  const scroll = useRef(null);
   const gameNum = props.gameNum;
-  const socketRef = useRef();
-  const oneChat = useRef();
+  const socket = props.socket;
 
-  const get_user = useSelector((state) => state.user.userInfo);
-  const userId = get_user.id;
+  const onTextChange = useCallback(
+    (e) => {
+      setMessage(e.target.value);
+      e.preventDefault();
+    },
+    [message]
+  );
+  const teachingChoice = useCallback(
+    (e) => {
+      setTeaching(e.target.value);
+      e.preventDefault();
+    },
+    [teaching]
+  );
 
-  // const id = "userId";
+  const onMessageSubmit = useCallback(
+    (e) => {
+      if (teaching === "Text") {
+        console.log("이상무");
+        socket.emit("teaching", { chat: message });
+      }
+      if (teaching === "Fly") {
+        console.log("이이상상무무");
+        socket.emit("flyingWord", { chat: message });
+      }
+      if (teaching === "Point") {
+        console.log("이상상무");
+        socket.emit("fadeOut", { chat: message });
+      }
+      socket.emit("chat", { chat: message });
+      console.log("채팅보내기");
+      e.preventDefault();
+      setMessage("");
+    },
+    [message]
+  );
 
-  const onTextChange = (e) => {
-    setState({ ...state, [e.target.name]: e.target.value });
-  };
-  const teachingChoice = (e) => {
-    setTeaching(e.target.value);
-  };
-
-  const onMessageSubmit = (e) => {
-    const { id, message } = state;
-    if (teaching === "Text") {
-      console.log("이상무");
-      socketRef.current.emit("teaching", { chat: message });
-    }
-    if (teaching === "Fly") {
-      console.log("이이상상무무");
-      socketRef.current.emit("flyingWord", { chat: message });
-    }
-    if (teaching === "Point") {
-      console.log("이상상무");
-      socketRef.current.emit("fadeOut", { chat: message });
-    }
-    socketRef.current.emit("chat", { chat: message });
-    e.preventDefault();
-    setState({ message: "", id: userId });
-  };
-
-  const renderChat = () => {
-    return chat.map(({ id, message }, index) => (
+  const renderChat = useCallback(() => {
+    return chatList.map(({ id, message }, index) => (
       <div
         key={index}
-        className={userId == id ? "chat_from_me" : "chat_from_friend"}
+        className={userid == id ? "chat_from_me" : "chat_from_friend"}
       >
-        {userId != id ? <div className="chat_nick">{id}</div> : null}
+        {userid != id ? <div className="chat_nick">{id}</div> : null}
         <div className="chat_content">
           <div className="chat_message">{message}</div>
         </div>
       </div>
     ));
-  };
-  const onKeyPress = (e) => {
+  });
+
+  const bottomView = useCallback(() => {
+    scroll.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, []);
+
+  const onKeyPress = useCallback((e) => {
+  
     if (e.key == "Enter") {
-      onTextChange(state.message);
+      
+      onTextChange(message);
     }
-  };
-  
-  
+  });
+
   useEffect(() => {
+    dispatch(gameActions.addGameChat(socket));
+  }, [socket]);
 
-    // socketRef.current = io("http://15.164.103.116/game");
-    socketRef.current = io.connect("http://localhost:4001/game");
-
-    socketRef.current.emit("joinGame", gameNum);
-    socketRef.current.emit("nickname", userid);
-    socketRef.current.on("chat", (data) => {
-      console.log(data.chat.chat);
-      setChat([...chat, { id: data.name, message: data.chat.chat }]);
-    });
-    return () => socketRef.current.disconnect();
-     
-  }, [chat]);
-
+  useEffect(() => {
+    bottomView();
+  }, [bottomView, chatList]);
 
   return (
     <ChattingContainer>
-      <Button
-        is_width="400px"
-        is_height="50px"
-        _onClick={() => {
-          socketRef.current.emit("bye", { id: userId });
-          dispatch(gameActions.gameOutDB(gameNum))
-        }}
-      >
-        나가기
-      </Button>
-
-      <form onSubmit={onMessageSubmit}>
-        <Chat_render_oneChat ref={oneChat}>
-          <h1>Chatting</h1>
+      <ChatForm >
+        <Chat_render_oneChat>
+          <TopChat>
+            <Title>
+              <Text is_size="24px" is_color="#FFFFFF">
+                실시간 채팅
+              </Text>
+            </Title>
+            <ExitButtonWrap>
+              <Button
+                is_width="120px"
+                is_height="30px"
+                is_padding="7px 0px 0px 0px"
+                is_cursor
+                is_border="#94D7BB"
+                _onClick={() => {
+                  socket.emit("bye", { id: userid });
+                  dispatch(gameActions.gameOutDB(gameNum));
+                }}
+              >
+                <Text is_size="24px" is_color="#FFFFFF">
+                  나가기▷
+                </Text>
+              </Button>
+            </ExitButtonWrap>
+          </TopChat>
           {renderChat()}
+          <div ref={scroll}></div>
         </Chat_render_oneChat>
-        <>
-          <select
+
+        <BottomWrap>
+          <SendText
+            name="message"
+            onKeyDown={(e) => onKeyPress(e)}
+            onChange={(e) => onChangeMessage(e)}
+            placeholder="say something..."
+            value={message}
+            id="outlined-multiline-static"
+            variant="outlined"
+            label="Message"
+          />
+          <Button 
+          is_height="50px" 
+          is_width="150px"
+          is_border="none"
+          _onClick={onMessageSubmit}
+          >
+            <Text>Send</Text>
+          </Button>
+          {/* <Teaching> */}
+          <TeachingSelect
             onChange={(e) => {
               teachingChoice(e);
             }}
@@ -117,60 +149,79 @@ const Chatting = (props) => {
             <option value="Text">Text</option>
             <option value="Point">Point</option>
             <option value="Fly">Fly</option>
-          </select>
-        </>
-        <div>
-          <TextField
-            name="message"
-            onKeyDown={(e) => onKeyPress(e)}
-            onChange={(e) => {
-              onTextChange(e);
-            }}
-            value={state.message}
-            id="outlined-multiline-static"
-            variant="outlined"
-            label="Message"
-            width="350px"
-          ></TextField>
-
-          <Button is_height="57px" is_width="100px">
-            Send Message
-          </Button>
-        </div>
-      </form>
+          </TeachingSelect>
+          {/* </Teaching> */}
+        </BottomWrap>
+      </ChatForm>
     </ChattingContainer>
   );
-};
+});
 const ChattingContainer = styled.div`
-  height: 800px;
-  margin: 0 20px;
-  box-shadow: 0px 4px 35px 4px rgba(162, 162, 162, 0.25);
-  border-radius: 16px;
-  box-sizing: border-box;
-  width: 500px;
-  .group_chat_container {
-    padding: 18px;
-    //  height: calc(100% - 150px);
-  }
-  // .chat_textfield_container {
-  //   position: absolute;
-  //   bottom: 20px;
-  //   width: 92%;
-  //   left: 50%;
-  //   transform: translateX(-50%);
-  // }
+  // height: 800px;
+     margin: 25px 0px 25px 20px;
+  // box-shadow: 0px 4px 35px 4px rgba(162, 162, 162, 0.25);
+  // border-radius: 16px;
+  // box-sizing: border-box;
+  width: 430px;
 `;
-// const RenderChat = styled.div`
-//   max-width: 350px;
-//   height: 700px;
-//   border-radius: 5px;
-//   padding: 20px;
-//   box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
-//   overflowy: "scroll";
-// `;
+const ChatForm = styled.div`
+  max-width: 430px;
+  width: 430px;
+  height:850px;
+  border-radius: 5px;
+  box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
+`;
 const Chat_render_oneChat = styled.div`
   width: 100%;
   overflow-y: auto;
-  height: 600px;
+  height: 795px;
+  max-height: 800px;
+  border-radius: 15px;
+`;
+const Title = styled.div``;
+const ExitButtonWrap = styled.div``;
+const TopChat = styled.div`
+  width: 404px;
+  height: 45px;
+  line-height: 45px;
+  display: flex;
+  background-color: #94d7bb;
+  justify-content: space-between;
+  padding: 22px 13px;
+`;
+const BottomWrap = styled.div`
+  display: flex;
+  border-top: solid 2px #f0f0f0;
+  height: 60px;
+  width: 430px;
+  
+`;
+const Teaching = styled.div``;
+const TeachingSelect = styled.select`
+  width: 100px;
+  height: 52px;
+  border: none;
+  border-bottom-right-radius:8px;
+`;
+const SendText = styled.input`
+  width: 400px;
+  height: 50px;
+  border : none;
+  background-color: #ffffff;
+  padding-left: 25px;
+  border-bottom-left-radius:8px;
+  ::placeholder {
+    font-size: 18px;
+  }
+  :focus {
+    outline: none;
+  }
+  @media (max-width: 767px) {
+    width: 300px;
+    ::placeholder {
+      padding: 0px 20px;
+      font-size: 16px;
+    }
+  }
 `;
 export default Chatting;
