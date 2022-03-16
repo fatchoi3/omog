@@ -1,33 +1,32 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect ,memo,useCallback} from "react";
 import styled from "styled-components";
 
 import { Text } from "../elements";
 import io from "socket.io-client";
-const gameNum =3;
-const Teaching = (props) => {
+import { useParams } from "react-router-dom";
+
+const Teaching = memo((props) => {
   const [state, setState] = useState({ message: "", id: "" });
   const [teaching, setTeaching] = useState([]);
-  const testID = state.id;
-  console.log(1, props.playerInfo);
-  const socketRef = useRef();
   const oneChat = useRef();
   const userid = localStorage.getItem("userId");
+  const scroll = useRef(null);
+  const {gameNum} =useParams();
 
-  
+  const socket = props.socket;
+
+  console.log(1, props.playerInfo);
   useEffect(() => {
-    console.log("훈수는 언제나옴?");
-    // socketRef.current = io("http://15.164.103.116/game");
+    console.log("아래 훈수");
     
-    socketRef.current = io.connect("http://localhost:4001/game");
-    socketRef.current.emit("joinGame", gameNum);
-    socketRef.current.emit("nickname", userid);
-    socketRef.current.on("teaching", (data) => {
-      console.log( "data.name", data.name);
-        setTeaching([...teaching, {id : data.name, message:data.chat.chat }]);
+    socket.on("teaching", (data) => {
+      console.log( "data", data);
+        setTeaching([...teaching, {id : data.name, message: data.chat.chat }]);
 
     });
-     return () => socketRef.current.disconnect();
-  }, [teaching,props.playerInfo.id]);
+    
+    return () => socket.off();
+  }, [teaching]);
  
   const renderChat = () => {
     return teaching.map(({ id, message }, index) => (
@@ -36,8 +35,8 @@ const Teaching = (props) => {
         playerInfo={props.playerInfo}
         > 
           <Text
-          is_size="15px"
-          is_color="#BFCAAC"
+          is_size="12px"
+          is_color="black"
           >
             {id}
             </Text>
@@ -47,8 +46,8 @@ const Teaching = (props) => {
         playerInfo={props.playerInfo}
         >
           <Text
-          is_size="20px"
-          is_color=""
+          is_size="15px"
+          is_color="black "
           >
           {message}
           </Text>
@@ -56,47 +55,68 @@ const Teaching = (props) => {
       </ChatContents>
     ));
   };
+  const bottomView = useCallback(() => {
+    scroll.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, []);
+  useEffect(() => {
+    bottomView();
+  }, [bottomView, teaching]);
 
   return (
     <Container>
-      <h1> {props.playerInfo.id}</h1>
+      <Profile>
+      <Text
+
+      > {props.playerInfo.id}</Text>
+      </Profile>
       <Chat_render_oneChat 
       ref={oneChat} 
       playerInfo={props.playerInfo}
       >
         {renderChat()}
-        {/* {viewBottom()} */}
+        <div ref={scroll}></div>
       </Chat_render_oneChat>
     </Container>
   );
-};
+});
 const Container = styled.div`
-  width: 300px;
-  border : 2px solid black;
- 
+  width: 400px;
+  height : 160px;
+  display : flex;
+  box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
+  
 `;
 const Chat_render_oneChat = styled.div`
-  width: 100%;
+  width: 280px;
   overflow-y: auto;
-  border-radius : 7px;
-  height: 200px;
-  border: 2px solid ${(props)=>props.playerInfo.state === "whitePlayer" ? `#6071CE` : `#E296EF`};
-  background : ${(props)=>props.playerInfo.state === "whitePlayer" ? `#6071CE` : `#E296EF`}
-`;
+  margin: 10px 5px 10px 0px;
+  height: 135px;
+  // border: 2px solid ${(props)=>props.playerInfo.state === "whitePlayer" ? `#6071CE` : `#E296EF`};
+  // background : ${(props)=>props.playerInfo.state === "whitePlayer" ? `#6071CE` : `#E296EF`}
+  box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
+  `;
 const ChatContents = styled.div`
-  display: flex;
-  justify-content: space-between;
+ 
 `;
 const ChatId = styled.div`
   margin : 5px;
-  border : 2px solid  ${(props)=>props.playerInfo.state === "whitePlayer" ? `white` : `black`};
+  // border : 2px solid  ${(props)=>props.playerInfo.state === "whitePlayer" ? `white` : `black`};
   border-radius : 5px;
   padding : 5px;
+  width: 50px;
 `;
 const ChatMessage = styled.div`
  margin : 5px 5px;
- border : 2px solid  ${(props)=>props.playerInfo.state === "whitePlayer" ? `white` : `black`};
- border-radius : 5px;
+//  border : 2px solid  ${(props)=>props.playerInfo.state === "whitePlayer" ? `white` : `black`};
+ 
  padding : 5px;
+ background-color: #94D7BB;
+  border-top-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+`;
+const Profile = styled.div`
+width: 120px;
+margin: 5px 0px 5px 5px;
 `;
 export default Teaching;
