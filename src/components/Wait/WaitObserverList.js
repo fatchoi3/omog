@@ -1,23 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
-import Text from '../elements/Text';
-import Button from '../elements/Button';
-
-import { useSelector, useDispatch } from 'react-redux';
+import Text from '../../elements/Text';
+import Button from '../../elements/Button';
 
 
-function WaitObserverList(props) {
-    const blackObserverList = useSelector((state) => state.room.blackObserverList);
-    const whiteObserverList = useSelector((state) => state.room.whiteObserverList);
-
-
+function WaitObserverList({ blackObserverList, whiteObserverList }) {
+    console.log(blackObserverList, whiteObserverList)
+    console.log("옵져버 컴포넌트입니다 몇 번 렌더링될까요?");
     return (
         <ObserverContainer>
             <div className="black-observer-box" style={{ textAlign: "center", backgroundColor: "black" }}>
                 <ObserverCard>
                     {blackObserverList &&
                         blackObserverList.map((observer, idx) => (
-                            <Text key={idx} is_color="white">{observer.id}</Text>
+                            <Text key={idx} is_color="white">{observer}</Text>
                         ))
                     }
                 </ObserverCard>
@@ -28,7 +24,7 @@ function WaitObserverList(props) {
                 <ObserverCard>
                     {whiteObserverList &&
                         whiteObserverList.map((observer, idx) => (
-                            <Text key={idx}>{observer.id}</Text>
+                            <Text key={idx}>{observer}</Text>
                         ))
                     }
                 </ObserverCard>
@@ -49,4 +45,4 @@ const ObserverCard = styled.div`
     border: 1px solid blue;
 `
 
-export default WaitObserverList;
+export default React.memo(WaitObserverList);

@@ -33,10 +33,6 @@ const initialState = {
     whiteObserverList: [],
     blackPlayer: {},
     whitePlayer: {},
-    blackObserver: {},
-    whiteObserver: {},
-    message: {},
-    messageList: [],
 }
 
 // actions
@@ -49,20 +45,17 @@ const SET_WAIT_USER = "SET_WAIT_USER";
 const CHANGE_TO_OBSERVER = "CHANGE_TO_OBSERVER";
 const CHANGE_TO_PLAYER = "CHANGE_TO_PLAYER";
 const RESET_STATE_USER = "RESET_STATE_USER";
-const CURRENT_MESSAGE = "CURRENT_MESSAGE";
-const MESSAGE_LIST_UPDATE = "MESSAGE_LIST_UPDATE";
+
 
 
 // action creators
 const getRoomList = createAction(GET_ROOM, (roomList) => ({ roomList }));
 const getRoomInfo = createAction(GET_ROOM_INFO, (roomInfo) => ({ roomInfo }));
 const joinRoom = createAction(JOIN_ROOM, (userInfo) => ({ userInfo }));
-const setWaitUser = createAction(SET_WAIT_USER, (user) => ({ user }));
+const setWaitUser = createAction(SET_WAIT_USER, (users) => ({ users }));
 const changeToObserver = createAction(CHANGE_TO_OBSERVER, (user) => ({ user }));
 const changeToPlayer = createAction(CHANGE_TO_PLAYER, (user) => ({ user }));
 const resetStateUser = createAction(RESET_STATE_USER, (user) => ({ user }));
-const currentMessage = createAction(CURRENT_MESSAGE, (chat) => ({ chat }));
-const messageListUpdate = createAction(MESSAGE_LIST_UPDATE, (chat) => ({ chat }));
 
 // middleware actions
 const getRoomListDB = () => {
@@ -99,7 +92,8 @@ const addRoomDB = () => {
 
         )
             .then(function (response) {
-                // console.log("안녕 나는 미들웨어 add", response.data.roomNum)
+                console.log("안녕 나는 미들웨어 add", response.data)
+                dispatch(joinRoom(response.data.userInfo))
                 history.push(`/waiting/${response.data.roomNum}`)
             }).catch(error => {
                 // window.alert("방생성 실패!");
@@ -126,7 +120,7 @@ const joinRoomDB = (room) => {
 
 const gameStartDB = (blackPlayer, whitePlayer, blackObserverList, whiteObserverList, roomNum) => {
     return async function (dispatch, getState, { history }) {
-        console.log(blackPlayer, whitePlayer, blackObserverList?.map((i) => [...i.id]), whiteObserverList?.map((i) => [...i.id]))       
+        console.log(blackPlayer, whitePlayer, blackObserverList, whiteObserverList)
         await api.post(`/game/create`, {
             blackTeamPlayer: blackPlayer.id,
             whiteTeamPlayer: whitePlayer.id,
@@ -155,24 +149,20 @@ export default handleActions({
     }),
     [JOIN_ROOM]: (state, action) => produce(state, (draft) => {
         draft.userInfo = action.payload.userInfo;
-        if (action.payload.userInfo.state === "whiteObserver") {
-            draft.whiteObserverList.push(action.payload.userInfo)
-        } else if (action.payload.userInfo.state === "blackObserver") {
-            draft.blackObserverList.push(action.payload.userInfo)
-        }
         console.log("방입장 action.payload.userInfo", action.payload.userInfo)
     }),
     [SET_WAIT_USER]: (state, action) => produce(state, (draft) => {
-        // console.log("리듀서까지 왔습니다", action.payload.user)
-        if (action.payload.user.state === "blackPlayer") {
-            draft.blackPlayer = action.payload.user;
-        } else if (action.payload.user.state === "whitePlayer") {
-            draft.whitePlayer = action.payload.user
-        } else if (action.payload.user.state === "blackObserver") {
-            draft.blackObserverList.push(action.payload.user)
+        console.log("리듀서까지 왔습니다", action.payload.users)
+        if (action.payload.user?.state === "blackPlayer") {
+            draft.blackPlayer = action.payload.users[0];
+        } else if (action.payload.user?.state === "whitePlayer") {
+            draft.whitePlayer = action.payload.users[1];
+        } else if (action.payload.user?.state === "blackObserver") {
+            draft.blackObserverList = action.payload.users[2];
         } else {
-            draft.whiteObserverList.push(action.payload.user)
+            draft.whiteObserverList = action.payload.users[3];
         }
+
     }),
     [CHANGE_TO_OBSERVER]: (state, action) => produce(state, (draft) => {
         if (action.payload.user.state === "blackPlayer") {
@@ -199,14 +189,6 @@ export default handleActions({
         draft.whiteObserverList = [];
         draft.blackPlayer = {};
         draft.whitePlayer = {};
-        draft.blackObserver = {};
-        draft.whiteObserver = {};
-    }),
-    [CURRENT_MESSAGE]: (state, action) => produce(state, (draft) => {
-        draft.message = action.payload.chat;
-    }),
-    [MESSAGE_LIST_UPDATE]: (state, action) => produce(state, (draft) => {
-        draft.messageList.push(action.payload.chat);
     }),
 },
     initialState
@@ -222,8 +204,6 @@ const actionCreators = {
     changeToObserver,
     changeToPlayer,
     resetStateUser,
-    currentMessage,
-    messageListUpdate,
 }
 
 export { actionCreators };

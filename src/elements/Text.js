@@ -23,7 +23,7 @@ const Text = (props) => {
 };
 
 Text.defaultProps = {
-  _onClick: () => {},
+  _onClick: () => { },
   children: null,
   is_bold: false,
   is_size: false,
@@ -36,14 +36,14 @@ Text.defaultProps = {
 }
 
 const ElText = styled.p`
-  ${(props) => (props.is_margin? `margin: ${props.is_margin};` : 'margin: 0;')};
-  ${(props) => (props.is_padding? `padding: ${props.is_padding};` : 'padding: 0;')};
-  ${(props) => (props.is_size? `font-size: ${props.is_size};` : 'font-size: 16px;')};
-  ${(props) => (props.is_color? `color: ${props.is_color};` : '')};
-  ${(props) => (props.is_bold? `font-weight: 700;` : 'font-weight: 400')};
-  ${(props) => (props.is_width? `width: ${props.is_width};` : '')};
-  ${(props) => (props.is_height? `height: ${props.is_height};` : '')};
-  ${(props) => (props.is_center? `text-align: center;` : '')};
+  ${(props) => (props.is_margin ? `margin: ${props.is_margin};` : 'margin: 0;')};
+  ${(props) => (props.is_padding ? `padding: ${props.is_padding};` : 'padding: 0;')};
+  ${(props) => (props.is_size ? `font-size: ${props.is_size};` : 'font-size: 16px;')};
+  ${(props) => (props.is_color ? `color: ${props.is_color};` : '')};
+  ${(props) => (props.is_bold ? `font-weight: 700;` : 'font-weight: 400')};
+  ${(props) => (props.is_width ? `width: ${props.is_width};` : '')};
+  ${(props) => (props.is_height ? `height: ${props.is_height};` : '')};
+  ${(props) => (props.is_center ? `text-align: ${props.is_center};` : 'center')};
 `;
 
 export default Text;
