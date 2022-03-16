@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, memo } from "react";
 import styled from "styled-components";
 import io from "socket.io-client";
 import { history } from "../redux/configureStore";
@@ -6,12 +6,15 @@ import { Text } from "../elements";
 import { useDispatch } from "react-redux";
 import { actionCreators as gameActions } from "../redux/modules/game";
 
-const Omog = (props) => {
+const Omog = memo((props) => {
   const dispatch = useDispatch();
   const userid = localStorage.getItem("userId");
   const gameNum = props.gameNum;
   const canvasRef = useRef(null);
-  const socketRef = useRef();
+  // const count = props.count;
+  // const setCount =()=> props.setCount();
+  // const socketRef = useRef();
+  const socket= props.socket;
   const [X, setX] = useState();
   const [Y, setY] = useState();
   const [count, setCount] = useState(0);
@@ -56,7 +59,7 @@ const Omog = (props) => {
     const ch = 600 + margin * 2;
     const row = 18; // 바둑판 선 개수
     const rowSize = 600 / row; // 바둑판 한 칸의 너비
-    const dolSize = 13; // 바둑돌 크기
+    const dolSize = 15; // 바둑돌 크기
 
     // let histories = new Array();
     const checkDirection = [
@@ -252,24 +255,14 @@ const Omog = (props) => {
     if (board) {
       drawCircle(X, Y);
     }
-    console.log("여긴 그리기 유즈이펙", X, Y, board, count, order);
+    console.log("여긴 그리기 유즈이펙");
   }, [count]);
 
   useEffect(() => {
-    // socketRef.current = io("http://15.164.103.116/game");
-    socketRef.current = io.connect("http://localhost:4001/game");
-
-    socketRef.current.emit("joinGame", gameNum);
-    socketRef.current.emit("nickname", userid);
-
-    socketRef.current.on("omog", (data) => {
+    
+    socket.on("omog", (data) => {
       console.log(
-        "여긴 소켓유즈이펙이야",
-        data.x,
-        data.y,
-        data.board,
-        data.count
-      );
+        "오목 소켓 받기");
 
       data.count % 2 == 0
         ? clearInterval(timeout.current)
@@ -284,6 +277,8 @@ const Omog = (props) => {
 
       console.log("여기도 소켓유즈이팩에서 바꾼 후count", count);
     });
+    
+    return () => socket.off();
     // return () => socketRef.current.disconnect();
   }, []);
 
@@ -321,7 +316,7 @@ const Omog = (props) => {
           ) {
             const data = { x, y, board, count, order };
 
-            socketRef.current.emit("omog", data, props.userInfo.state);
+            socket.emit("omog", data, props.userInfo.state);
             console.log("여긴 클릭! 들어가는데야", data);
             // }
           }
@@ -332,21 +327,16 @@ const Omog = (props) => {
 
   return (
     <div>
-      <button
-      // onClick={() => {
-      //   withdraw();
-      // }}
-      >
-        무르기
-      </button>
       <GameWrap>
         <TimerWrapL count={count}>
+          <TimeStoneL>
           <Text
             is_color={count % 2 == 0 ? "#F9FFBC" : "#619fcc"}
             is_size="25px"
           >
             {min}분 {sec}초
           </Text>
+          </TimeStoneL>
         </TimerWrapL>
         <canvas ref={canvasRef} id="canvas" />
         <TimerWrapR count={count}>
@@ -360,7 +350,7 @@ const Omog = (props) => {
       </GameWrap>
     </div>
   );
-};
+});
 const TimerWrapL = styled.div`
   height: 660px;
   width: 100px;
@@ -379,5 +369,9 @@ const TimerWrapR = styled.div`
 `;
 const GameWrap = styled.div`
   display: flex;
+`;
+const TimeStoneL=styled.div`
+`;
+const TimeStoneR=styled.div`
 `;
 export default Omog;

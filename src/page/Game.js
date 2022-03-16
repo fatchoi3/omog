@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, memo } from "react";
 import styled, { keyframes } from "styled-components";
 
 import Omog from "../components/Omog";
@@ -7,18 +7,23 @@ import Teaching from "../components/Teaching";
 import { Text } from "../elements";
 
 import io from "socket.io-client";
+import useSocket from "../hook/useSocket";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import { actionCreators as gameActions } from "../redux/modules/game";
-
-const Game = (props) => {
+import { useParams } from "react-router-dom";
+// let socketGame = io.connect("http://localhost:4001/game");
+const Game = memo((props) => {
   const dispatch = useDispatch();
+  const [count, setCount] = useState(0);
   const userInfo = useSelector((state) => state.user.userInfo);
   const gameInfo = useSelector((state) => state.game.gameInfo);
   const userId = localStorage.getItem("userId");
-  const gameNum = props.match.params.roomNum;
+  const gameNum  = props.match.params.roomNum
 
-  // console.log("props",props)
+
+console.log("gameInfo",gameInfo);
+
   const [whitePlayer, setWhitePlayer] = useState({
     id: "초기값1",
     score: [2, 3],
@@ -33,10 +38,7 @@ const Game = (props) => {
   });
   const winnerW = gameInfo.whiteTeamPlayer;
   const winnerB = gameInfo.blackTeamPlayer;
-  // console.log("gameInfo",gameInfo)
-  // console.log("winnerW",winnerW)
 
-  const socketRef = useRef();
   const [loading, setLoading] = useState(1);
   const [loadingFade, setLoadingFade] = useState(1);
   const [flying, setFlying] = useState();
@@ -45,9 +47,21 @@ const Game = (props) => {
   const rand = (max, min) => {
     return Math.floor(Math.random() * (max - min)) + min;
   };
-
+  console.log("blackPlayer", blackPlayer);
+  console.log("userInfo", userInfo);
+  //"http://15.164.103.116/game",
   let randomNum;
-  // const socket = io.connect("http://15.164.103.116/game");
+  const [socket, disconnectSocket] = useSocket(
+    "http://localhost:4001/game",
+    gameNum,
+    userId
+  );
+  // useEffect(() => {
+   
+  //   return () => {
+  //     disconnectSocket();
+  //   };
+  // }, [disconnectSocket]);
   useEffect(() => {
     if (userInfo.state === "whitePlayer") {
       setWhitePlayer(userInfo);
@@ -58,16 +72,9 @@ const Game = (props) => {
     dispatch(userActions.loginCheckDB(userId));
     dispatch(gameActions.getGameDB(gameNum));
 
-    // socketRef.current = io.connect("http://15.164.103.116/game");
-
-    socketRef.current = io.connect("http://localhost:4001/game");
-
-    socketRef.current.emit("joinGame", gameNum);
-    socketRef.current.emit("nickname", userId);
     console.log("Fly훈수 받기");
-    console.log("randomNum", randomNum);
 
-    socketRef.current.on("fadeOut", (data) => {
+    socket.on("fadeOut", (data) => {
       setFade(data.chat.chat);
       setLoadingFade(0);
       console.log("되네");
@@ -77,7 +84,7 @@ const Game = (props) => {
       }, 1000);
     });
 
-    socketRef.current.on("flyingWord", (data) => {
+    socket.on("flyingWord", (data) => {
       randomNum = rand(1, 10);
       setFlying(data.chat.chat);
       setLoading(0);
@@ -87,6 +94,8 @@ const Game = (props) => {
         setLoading(1);
       }, 1000);
     });
+
+    return () => socket.off();
     // return () => socketRef.current.disconnect();
   }, []);
 
@@ -112,31 +121,48 @@ const Game = (props) => {
           gameNum={gameNum}
           winnerW={winnerW}
           winnerB={winnerB}
+          socket={socket}
+          count={count}
+          setCount={setCount}
         />
-        <UnderInfo>
-          {/* {userInfo.state == "playerW" || userInfo.state =="playerB" ? ( */}
+     
           <TeachingWrap>
-            <Teaching playerInfo={whitePlayer} />
-            <Teaching playerInfo={blackPlayer} />
+            <Teaching playerInfo={whitePlayer} socket={socket} />
+            <Teaching playerInfo={blackPlayer} socket={socket} />
           </TeachingWrap>
-        </UnderInfo>
+       
       </Wrap>
-      <Chatting gameNum={gameNum} />
+      <ChattingWrap>
+      <Chatting gameNum={gameNum} socket={socket} userInfo={userInfo} />
+      </ChattingWrap>
     </GameContainer>
   );
-};
+});
 const GameContainer = styled.div`
   display: flex;
-  width: 1000px;
-  margin: 0 auto;
+  width : 1456px;
+  margin : 0 auto;
+  padding : 50px auto;
+  height : 924px;
+  // background-color: pink;
+  justify-content: space-between;
 `;
-const Wrap = styled.div``;
+const Wrap = styled.div`
+width : 950px;
+padding : 30px 10px 20px 10px ;
+`;
 const TeachingWrap = styled.div`
   display: flex;
   justify-content: space-between;
+  width: 950px;
+  margin: 20px 0px 0px;
 `;
 
 const UnderInfo = styled.div``;
+const ChattingWrap = styled.div`
+width : 450px;
+margin : 0px 10px 0px 0px;
+`;
 
 const slideUp = keyframes`
 from {
