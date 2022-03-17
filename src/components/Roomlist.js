@@ -9,8 +9,8 @@ import { actionCreators as roomActions } from "../redux/modules/room";
 const Roomlist = () => {
   const dispatch = useDispatch();
   const [modalOpen, setModalOpen] = useState(false);
-  const [state, setState] = useState();
-  const [disBut, setDisBut] = useState();
+  const [state, setState] = useState("");
+
   const room_list = useSelector((state) => state.room.list);
   const room_info = useSelector((state) => state.room.roomInfo);
   const userId = localStorage.getItem("userId");
@@ -30,6 +30,10 @@ const Roomlist = () => {
     console.log(e.target.value);
   };
   const joinWaiting = () => {
+    console.log(state)
+    if(state === ""){
+      alert("선택해주세요~~!")
+    }else{
     dispatch(
       roomActions.joinRoomDB({
         roomNum: room_info.roomNum,
@@ -37,6 +41,7 @@ const Roomlist = () => {
         state: state,
       })
     );
+  }
   };
 
   useEffect(() => {
@@ -180,23 +185,34 @@ const Table = styled.table`
   width: 1000px;
   border-radius: 15px 15px 0 0;
   background-color: #f2f2f2;
+  border-bottom: 3px solid black;
+  
 `;
 const Thead = styled.thead`
   background-color: #94d7bb;
+  width : 1000px;
   height: 50px;
+ 
+  
 `;
 const Tbody = styled.tbody`
   background-color: #f2f2f2;
+ 
 `;
 const Tr = styled.tr`
   height: 50px;
+  
+ 
+ 
 `;
 const Th = styled.th`
   border-bottom: 1px solid black;
+  border-radius: 15px 0px 0 0;
 `;
 const TdR = styled.td`
   border-bottom: 1px solid black;
   text-align: center;
+  
 `;
 const TdP = styled.td`
   border-bottom: 1px solid black;
@@ -209,6 +225,7 @@ const TdO = styled.td`
 const TdS = styled.td`
   text-align: center;
   border-bottom: 1px solid black;
+  border-radius: 0px 15px 0 0;  
 `;
 
 const WaitingEnterRadio = styled.div`
@@ -227,7 +244,5 @@ const Radio = styled.div`
 const Input =styled.div`
  padding : 3px 0 0 0;
 `;
-const RoomInfo = styled.div`
 
-`;
 export default Roomlist;

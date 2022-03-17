@@ -73,14 +73,14 @@ const Main = () => {
             </ListTip>
             <Button
               is_margin="0 10px"
-              is_height="50px"
-              is_width="200px"
+              is_height="40px"
+              is_width="100px"
               is_border="#6071CE solid 2px"
               _onClick={()=>{
                 alert("죄송합니다! 빠른시일 내로 구현하겠습니다!")
               }}
             >
-              방 번호 입력
+              방 번호 찾기
             </Button>
           </ListTitle>
           <RoomDiv>
@@ -95,7 +95,7 @@ const Main = () => {
               is_height="60px"
               is_width="150px"
               is_radius="8px"
-              is_border=" solid 2px #94d7bb"
+              is_border=" solid 2px black"
               is_background="#94d7bb"
               is_cursor
               is_hover="inset -6em 0 0 0 #f0f0f0, inset 6em 0 0 0 #f0f0f0"
@@ -113,7 +113,7 @@ const Main = () => {
               is_height="60px"
               is_width="150px"
               is_radius="8px"
-              is_border=" solid 2px #94d7bb"
+              is_border=" solid 2px black"
               is_background="#94d7bb"
               is_cursor
               is_hover="inset -6em 0 0 0 #f0f0f0, inset 6em 0 0 0 #f0f0f0"
@@ -132,7 +132,7 @@ const Main = () => {
               is_height="60px"
               is_width="150px"
               is_radius="8px"
-              is_border=" solid 2px #94d7bb"
+              is_border=" solid 2px black"
               is_background="#94d7bb"
               is_cursor
               is_hover="inset -6em 0 0 0 #f0f0f0, inset 6em 0 0 0 #f0f0f0"
@@ -150,7 +150,7 @@ const Main = () => {
             is_height="60px"
             is_width="150px"
             is_radius="8px"
-            is_border=" solid 2px #94d7bb"
+            is_border=" solid 2px black"
             is_background="#94d7bb"
             is_cursor
             is_hover="inset -6em 0 0 0 #f0f0f0, inset 6em 0 0 0 #f0f0f0"
@@ -220,6 +220,11 @@ const RoomDiv = styled.div`
   border-radius:18px 18px 0 0;
   margin : 15px 0 0 0; 
   background-color : #f2f2f2;
+  border : 2px solid black;
+  ::-webkit-scrollbar {
+    display: none;
+  } 
+  box-shadow: 0px 4px 35px 4px rgba(0, 0, 0, 0.25);
 `;
 const ListTitle = styled.div`
   display: flex;

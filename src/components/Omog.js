@@ -394,24 +394,23 @@ const Omog = memo((props) => {
 });
 const TimerWrapL = styled.div`
   height: 660px;
-  width: 100px;
-  margin: auto 40px auto 20px;
-  line-height: 90px;
+  width: 150px;
+    line-height: 90px;
   display: flex;
   align-items: center;
-  // background-color : ${(props) =>props.count % 2 == 0 ? "#619fcc" : "#F9FFBC"};
+  background-color : ${(props) =>props.count % 2 == 0 ? "#F6F6F6" : "#C4C4C4"};
 `;
 const TimerWrapR = styled.div`
   height: 660px;
-  width: 100px;
-  margin: auto 10px auto 40px;
-  line-height: 90px;
+  width: 150px;
+    line-height: 90px;
   display: flex;
   align-items: center;
-  // background-color: ${(props) =>props.count % 2 == 0 ? "#F9FFBC" : "#619fcc"};
+  background-color: ${(props) =>props.count % 2 == 0 ? "#C4C4C4" : "#F6F6F6"};
 `;
 const GameWrap = styled.div`
   display: flex;
+ 
 `;
 const TimeStoneL=styled.div`
 width : 90px;
@@ -420,6 +419,7 @@ border-radius : 45px;
 background-color : black;
 display: flex;
 justify-content: center;
+margin: 0 auto;
 `;
 const TimeStoneR=styled.div`
 width : 90px;
@@ -429,6 +429,7 @@ background-color : #f0f0f0;
 display: flex;
 justify-content: center;
 border : 2px solid black;
+margin: 0 auto;
 `;
 const ObserverWPT =styled.div`
 position : absolute;
@@ -444,8 +445,10 @@ const ObserverTW = styled.div`
 
 `;
 const ObserverOmog = styled.div`
-width : 700px;
-height : 700px;
-margin : 100px 0;
+width : 680px;
+height : 680px;
+margin : 100px auto;
+padding: 25px 15px 10px 30px;
+box-shadow: 0px 4px 10px 4px rgba(0, 0, 0, 0.25);
 `;
 export default Omog;

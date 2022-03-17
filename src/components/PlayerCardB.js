@@ -5,8 +5,8 @@ import Progress from "./Progress";
 
 
 const PlayerCardB = (props) => {
-    const win =props.playerInfo.score[0];
-    const lose =props.playerInfo.score[1]
+    const win =props.playerInfo?.score[0].win;
+    const lose =props.playerInfo?.score[1].lose;
     console.log("props.playerInfo",props.playerInfo)
     return (
         <Container>
@@ -15,7 +15,7 @@ const PlayerCardB = (props) => {
             is_bold
             is_size="30px"
             is_margin="20px 0"
-            > {props.playerInfo.id}</Text>
+            > {props.playerInfo?props.playerInfo.id:"1"}</Text>
             <ProgressWrap>
             <Progress 
             win={win} 

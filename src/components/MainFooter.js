@@ -40,7 +40,11 @@ const MainFooter = () => {
             return (
               <UserContent key={idx}>
                 <Userurl />
-                <Text is_size="15px" is_color="black">{`${p.id}`}</Text>
+                <Text 
+                is_size="20px"
+                 is_color="black"
+                 is_margin="4px"
+                 >{`${p.id}`}</Text>
               </UserContent>
             );
           })}
@@ -88,7 +92,7 @@ const MainFooter = () => {
             return (
               <UserContent key={idx}>
                 <Userurl />
-                <Text is_size="15px" is_color="black">{`${p.id}`}</Text>
+                <Text is_size="20px" is_color="black"  is_margin="4px">{`${p.id}`}</Text>
               </UserContent>
             );
           })}
@@ -114,14 +118,14 @@ const MainFooter = () => {
 };
 const Container = styled.div`
 display : flex;
-margin : 0 auto;
-width : 600px;
-max-widt : 600px;  
+margin : 0 50px 0 250px;
+width : 900px;
+max-widit : 900px;  
 justify-content: space-between;
 `;
 const UserS = styled.div`
-
-  height: 100px;
+width : 400px;  
+height: 100px;
   max-height: 100px;
   display: flex;
 `;
@@ -130,7 +134,7 @@ const Ranking = styled.div`
   display: flex;
 `;
 const UserContents = styled.div`
-width : 100px;
+width : 180px;
 border : solid 1px black;
   height: 100px;
   overflow-y: auto;
@@ -138,10 +142,13 @@ overflow-x: hidden;
 ::-webkit-scrollbar {
   display: none;
 } 
+border-radius : 10px;
+box-shadow: 0px 4px 10px 4px rgba(0, 0, 0, 0.25);
 `;
 const UserContent = styled.div`
   height: 30px;
   display: flex;
+  margin : 6px;
   
 `;
 const Userurl = styled.div`
