@@ -6,14 +6,14 @@ import { socket } from "../../context/socket";
 
 // initialState
 const initialState = {
-    gameInfo :{
-        gameNum :2,
-        blackPlayer : "test6",
-        whitePlayer : "test5",
-        blackObserverList : ["a", "b", "c", "d"],
-        whiteObserverList : ["e", "f", "d", "w"]
+    gameInfo: {
+        gameNum: 2,
+        blackPlayer: "test6",
+        whitePlayer: "test5",
+        blackObserverList: ["a", "b", "c", "d"],
+        whiteObserverList: ["e", "f", "d", "w"]
     },
-    chat_list : []
+    chat_list: []
 
 }
 
@@ -21,29 +21,32 @@ const initialState = {
 const GETGAME = "GETGAME";
 const GET_GAME_RESULT = "GET_GAME_RESULT";
 const GAMEEND = "GAMEEND";
-const GAME_GET_CHAT ="GAME_GET_CHAT";
+const GAME_GET_CHAT = "GAME_GET_CHAT";
 const GAME_ADD_CHAT = "GAME_ADD_CHAT";
+const GAME_CONTINUE = "GAME_CONTINUE";
 
 // action creators
 const getGame = createAction(GETGAME, (gameInfo) => ({ gameInfo }));
 const getGameResult = createAction(GET_GAME_RESULT, (result) => ({ result }));
-const GameEnd = createAction(GAMEEND,(result)=>({result}));
-const GameGetChat =createAction(GAME_GET_CHAT,(chat)=>({chat}));
-const GameAddChat = createAction(GAME_ADD_CHAT, (chat)=>({chat}))
+const GameEnd = createAction(GAMEEND, (result) => ({ result }));
+const GameGetChat = createAction(GAME_GET_CHAT, (chat) => ({ chat }));
+const GameAddChat = createAction(GAME_ADD_CHAT, (chat) => ({ chat }));
+const gameContinue = createAction(GAME_CONTINUE, (user) => ({ user }));
 
 // middleware actions
 
-const getGameDB = (gameNum) =>{
-    return async function ( dispatch, getState, { history }){
-        await api.get( `/game/start/${gameNum}`)
-        .then(function(response){
-            console.log("gameInfo 미들웨어",response.data.gameInfo);
-            dispatch(getGame(response.data.gameInfo));
-        })
+const getGameDB = (gameNum) => {
+    return async function (dispatch, getState, { history }) {
+        await api.get(`/game/start/${gameNum}`)
+            .then(function (response) {
+                console.log("gameInfo 미들웨어", response.data.gameInfo);
+                dispatch(getGame(response.data.gameInfo));
+            })
     }
 };
-const gameResultDB= (result)=>{
-    console.log("result",result)
+
+const gameResultDB = (result) => {
+    console.log("result", result)
     return async function (dispatch, useState, { history }) {
         // const token = localStorage.getItem('token');
         await api.post("/gameFinish", result)
@@ -71,7 +74,7 @@ const getGameResultDB = (result) => {
 }
 
 
-const gameOutDB=(gameNum )=>{
+const gameOutDB = (gameNum) => {
     return async function (dispatch, getState, { history }) {
         console.log("gameNum", gameNum);
         await api.delete(`/game/delete/${gameNum}`)
@@ -83,12 +86,12 @@ const gameOutDB=(gameNum )=>{
 };
 
 
-const addGameChat = (socket)=>{
-    return async function(dispatch, getState, { history }){
-        await socket.on("chat",(data)=>{
-         
-        let array =   { id: data.name, message: data.chat.chat }
-            console.log("채팅받아오기",array)
+const addGameChat = (socket) => {
+    return async function (dispatch, getState, { history }) {
+        await socket.on("chat", (data) => {
+
+            let array = { id: data.name, message: data.chat.chat }
+            console.log("채팅받아오기", array)
             dispatch(GameAddChat(array));
         })
     }
@@ -116,8 +119,9 @@ export default handleActions({
         draft.chat_list.push(action.payload.chat);
         // /console.log("action.payload.chat",action.payload.chat)
     }),
+    [GAME_CONTINUE]: (state, action) => produce(state, (draft) => {
 
-
+    }),
 },
     initialState
 );
@@ -128,9 +132,8 @@ const actionCreators = {
     gameOutDB,
     gameResultDB,
     addGameChat,
-    GameGetChat
-    
-    
+    GameGetChat,
+    gameContinue,
 }
 
 export { actionCreators };
