@@ -45,6 +45,7 @@ const SET_WAIT_USER = "SET_WAIT_USER";
 const CHANGE_TO_OBSERVER = "CHANGE_TO_OBSERVER";
 const CHANGE_TO_PLAYER = "CHANGE_TO_PLAYER";
 const RESET_STATE_USER = "RESET_STATE_USER";
+const QUICK_START_P="QUICK_START_P";
 
 
 
@@ -56,6 +57,7 @@ const setWaitUser = createAction(SET_WAIT_USER, (users) => ({ users }));
 const changeToObserver = createAction(CHANGE_TO_OBSERVER, (user) => ({ user }));
 const changeToPlayer = createAction(CHANGE_TO_PLAYER, (user) => ({ user }));
 const resetStateUser = createAction(RESET_STATE_USER, (user) => ({ user }));
+
 
 // middleware actions
 const getRoomListDB = () => {
@@ -134,6 +136,33 @@ const gameStartDB = (blackPlayer, whitePlayer, blackObserverList, whiteObserverL
             })
     }
 };
+const quickStartPlayer = (id) => {
+    return async function (dispatch, getState, { history }) {
+        console.log("id", id);
+        await api.get(`/lobby/fastPlayer/${id}`)
+            .then(function (response) {
+               console.log("response",response.data.roomNum);
+               history.push(`/waiting/${response.data.roomNum}`)
+            }).catch(error => {
+               
+                console.log(error)
+            });
+    }
+};
+const quickStartObserver = (id) => {
+    return async function (dispatch, getState, { history }) {
+        console.log("id", id);
+        await api.get(`/lobby/fastPlayer/${id}`)
+            .then(function (response) {
+               console.log("response",response.data.roomNum);
+               history.push(`/waiting/${response.data.roomNum}`)
+            }).catch(error => {
+               
+                console.log(error)
+            });
+    }
+};
+
 
 
 //reducer
@@ -207,6 +236,8 @@ const actionCreators = {
     changeToObserver,
     changeToPlayer,
     resetStateUser,
+    quickStartPlayer,
+    quickStartObserver
 }
 
 export { actionCreators };

@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from "react";
 import styled from "styled-components";
 
-import { Text } from "../elements/index";
+import { Text , Button} from "../elements/index";
 import Logo from "../pictures/omogLogo.png";
 import LeaderBoard from "./LeaderBoard";
 import LeaderSlider from "./LeaderSlider";
@@ -93,6 +93,12 @@ const MainFooter = () => {
             );
           })}
         </UserContents>
+        <Button 
+        is_width="65px"
+        is_height="24px"
+        is_border="none"
+        is_hover="inset -3em 0 0 0 #94d7bb, inset 2em 0 0 0 #94d7bb"
+        >
         <Text
             _onClick={() => {
               openModal();
@@ -101,6 +107,7 @@ const MainFooter = () => {
           >
             더보기⇑{" "}
           </Text>
+          </Button>
       </Ranking>
     </Container>
   );
@@ -123,19 +130,26 @@ const Ranking = styled.div`
   display: flex;
 `;
 const UserContents = styled.div`
+width : 100px;
+border : solid 1px black;
   height: 100px;
   overflow-y: auto;
 overflow-x: hidden;
+::-webkit-scrollbar {
+  display: none;
+} 
 `;
 const UserContent = styled.div`
   height: 30px;
   display: flex;
+  
 `;
 const Userurl = styled.div`
   height: 20px;
   width: 20px;
   border-radius: 20px;
-  background-color: gray;
+  border : solid 2px black;
+  background: #f0f0f0;
 `;
 const RankingTitle = styled.div`
   display: flex;
