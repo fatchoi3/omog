@@ -14,6 +14,7 @@ const PlayerCardB = (props) => {
             <Text
             is_bold
             is_size="30px"
+            is_margin="20px 0"
             > {props.playerInfo.id}</Text>
             <ProgressWrap>
             <Progress 
@@ -21,7 +22,9 @@ const PlayerCardB = (props) => {
             lose={lose}
             />
             </ProgressWrap>
-            <Text>승률 {(win / (win + lose))? (win / (win + lose)) * 100 + "%" : 0 +"%"} </Text>
+            <Text
+            is_margin ="10px"
+            >승률 {(win / (win + lose))? (win / (win + lose)) * 100 + "%" : 0 +"%"} </Text>
             <Text
                 is_size="15px"
             >(전체 {win}승{lose}패 )</Text>
@@ -46,9 +49,6 @@ height: 70px;
 border-radius : 70px;
 background-color : white;
 border : 3px solid black;
-margin : 10px auto;
-`;
-const UserFaceWrap = styled.div`
-
+margin : 25px auto;
 `;
 export default PlayerCardB;

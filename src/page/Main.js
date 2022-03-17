@@ -13,13 +13,15 @@ import useInput from "../hook/useInput";
 import Logo from "../pictures/omogLogo.png";
 import { useDispatch } from "react-redux";
 import { actionCreators as roomActions } from "../redux/modules/room";
+import { actionCreators as userActions } from "../redux/modules/user";
 
 const Main = () => {
   const dispatch = useDispatch();
   const [loading, setLoading]= useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [roomaName, onChangeRoomaName, setRoomaName] = useInput("");  
-
+  const userId = localStorage.getItem("userId");
+  
 
   const openModal = () => {
     setModalOpen(true);
@@ -65,6 +67,7 @@ const Main = () => {
               </Button>
               <Text
               is_size="30px"
+              is_margin="10px 0 0 6px"
               is_bold
               >게임방</Text>
             </ListTip>
@@ -94,12 +97,15 @@ const Main = () => {
               is_radius="8px"
               is_border=" solid 2px #94d7bb"
               is_background="#94d7bb"
+              is_cursor
+              is_hover="inset -6em 0 0 0 #f0f0f0, inset 6em 0 0 0 #f0f0f0"
               _onClick={() => {
                 openModal();
               }}
             >
               <Text
-              is_color="white"
+              is_bold
+              is_color="black"
               >방 만들기</Text>
             </Button>
             <Button
@@ -109,12 +115,16 @@ const Main = () => {
               is_radius="8px"
               is_border=" solid 2px #94d7bb"
               is_background="#94d7bb"
+              is_cursor
+              is_hover="inset -6em 0 0 0 #f0f0f0, inset 6em 0 0 0 #f0f0f0"
               _onClick={()=>{
-                alert("죄송합니다! 빠른시일 내로 구현하겠습니다!")
+                dispatch(roomActions.quickStartPlayer(userId))
+               
               }}
             >
               <Text
-              is_color="white"
+              is_color="black"
+              is_bold
               >플레이어 빠른 참가</Text>
             </Button>
             <Button
@@ -124,23 +134,39 @@ const Main = () => {
               is_radius="8px"
               is_border=" solid 2px #94d7bb"
               is_background="#94d7bb"
+              is_cursor
+              is_hover="inset -6em 0 0 0 #f0f0f0, inset 6em 0 0 0 #f0f0f0"
               _onClick={()=>{
-                alert("죄송합니다! 빠른시일 내로 구현하겠습니다!")
+                dispatch(roomActions.quickStartObserver(userId))
               }}
             >
               <Text
-              is_color="white"
+              is_color="black"
+              is_bold
               >관전자 빠른 참가</Text>
             </Button>
-          </ButtonWrap>
-          </UserInfoWrap>
-        {/* <Button
+            <Button
+            is_margin="20px auto"
+            is_height="60px"
+            is_width="150px"
+            is_radius="8px"
+            is_border=" solid 2px #94d7bb"
+            is_background="#94d7bb"
+            is_cursor
+            is_hover="inset -6em 0 0 0 #f0f0f0, inset 6em 0 0 0 #f0f0f0"
           _onClick={() => {
             dispatch(userActions.logout());
           }}
         >
-          로그아웃
-        </Button> */}
+          <Text
+          is_color="black"
+          is_bold
+          >로그아웃</Text>
+          
+        </Button>
+          </ButtonWrap>
+          </UserInfoWrap>
+       
    
       <LeaderBoard
       open={modalOpen}

@@ -71,7 +71,15 @@ const Chatting = memo((props) => {
 
   useEffect(() => {
     dispatch(gameActions.addGameChat(socket));
+    
   }, [socket]);
+  useEffect(() => {
+    return () => {
+      // console.info("disconnect socket", icrId);
+      dispatch(gameActions.clearOne());
+    
+    };
+  }, []);
 
   useEffect(() => {
     bottomView();
@@ -94,6 +102,7 @@ const Chatting = memo((props) => {
                 is_padding="7px 0px 0px 0px"
                 is_cursor
                 is_border="#94D7BB"
+                is_hover="inset -5em 0 0 0 #f0f0f0, inset 5em 0 0 0 #f0f0f0"
                 _onClick={() => {
                   socket.emit("bye", { id: userid });
                   dispatch(gameActions.gameOutDB(gameNum));
@@ -126,6 +135,7 @@ const Chatting = memo((props) => {
           is_width="150px"
           is_border="none"
           _onClick={onMessageSubmit}
+          is_hover="inset -3.5em 0 0 0 #94D7BB, inset 3.5em 0 0 0 #94D7BB"
           >
             <Text>Send</Text>
           </Button>
@@ -137,7 +147,7 @@ const Chatting = memo((props) => {
           >
             <option defaultValue="훈수하기"> 훈수하기</option>
             <option value="Text">Text</option>
-            <option value="Point">Point</option>
+            {/* <option value="Point">Point</option> */}
             <option value="Fly">Fly</option>
           </TeachingSelect>
           {/* </Teaching> */}
@@ -158,7 +168,7 @@ const ChatForm = styled.div`
   max-width: 430px;
   width: 430px;
   height:850px;
-  border-radius: 5px;
+  border-radius: 15px;
   box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
 `;
 const Chat_render_oneChat = styled.div`
@@ -168,8 +178,13 @@ const Chat_render_oneChat = styled.div`
   height: 795px;
   max-height: 800px;
   border-radius: 15px;
+  ::-webkit-scrollbar {
+    display: none;
+  } 
   `;
-const Title = styled.div``;
+const Title = styled.div`
+margin : 12px 0 0 0;
+`;
 const ExitButtonWrap = styled.div``;
 const TopChat = styled.div`
   width: 404px;
