@@ -92,6 +92,9 @@ const Chat_render_oneChat = styled.div`
   // border: 2px solid ${(props)=>props.playerInfo.state === "whitePlayer" ? `#6071CE` : `#E296EF`};
   // background : ${(props)=>props.playerInfo.state === "whitePlayer" ? `#6071CE` : `#E296EF`}
   box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
+  ::-webkit-scrollbar {
+    display: none;
+  }   
   `;
 const ChatContents = styled.div`
  
