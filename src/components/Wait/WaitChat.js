@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { useDispatch } from 'react-redux';
-
+import { useHistory } from 'react-router-dom';
 import { Text, Input, Button } from '../../elements';
 
 function WaitChat({ socket }) {
     console.log("채팅창 컴포넌트입니다. 몇 번 렌더링될까요?")
+    const history = useHistory();
     const messageRef = useRef(null);
     const scrollRef = useRef();
     const [messageList, setMessageList] = useState([]);
@@ -27,6 +27,10 @@ function WaitChat({ socket }) {
             });
         }
     });
+
+    const exitWaiting = () => {
+        history.push('/main');
+    }
 
 
     useEffect(() => {
@@ -56,6 +60,18 @@ function WaitChat({ socket }) {
                 >
                     실시간 채팅
                 </Text>
+                <Button
+                    is_size="26px"
+                    is_width="30%"
+                    is_border="none"
+                    is_padding="13px 22px"
+                    is_line_height="31px"
+                    is_color="black"
+                    _onClick={exitWaiting}
+                    is_hover="inset -5em 0 0 0 red, inset 5em 0 0 0 red"
+                >
+                    나가기
+                </Button>
             </ChattingHeader>
             <div className="chatting-content" ref={scrollRef} style={{ overflow: "auto", width: "100%", height: "100%", padding: "0", margin: "0" }}>
                 {messageList.map((messageContent, idx) => {
@@ -129,10 +145,12 @@ const ChattingWindow = styled.div`
 `
 
 const ChattingHeader = styled.div`
+    display: flex;
     height: 57px;
     border-radius: 14px 14px 0 0;
     background: #94D7BB;
     color: white;
+    justify-content: space-between;
     box-sizing: border-box;
 `
 

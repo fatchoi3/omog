@@ -8,7 +8,6 @@ import { Button, Text } from '../../elements';
 
 import WaitPlayerList from './WaitPlayerList';
 import WaitObserverList from './WaitObserverList';
-import GameStartBtn from './GameStartBtn';
 
 
 function WaitingUsers({ socket, roomNum }) {
@@ -107,24 +106,41 @@ function WaitingUsers({ socket, roomNum }) {
             <div style={{ height: "76px" }}>
                 로고 위치
             </div>
-            <WaitPlayerList blackPlayer={blackPlayer} whitePlayer={whitePlayer} />
+            <WaitPlayerList socket={socket} blackPlayer={blackPlayer} whitePlayer={whitePlayer} />
 
             <div style={{ display: "flex", justifyContent: "center", boxSizing: "border-box" }}>
-                <Button
-                    is_width="30%"
-                    is_padding="18px 36px"
-                    is_radius="14px"
-                    is_background="#94D7BB"
-                    is_center="center"
-                    is_margin="20px"
-                    is_border="none"
-                    is_cursor="pointer"
-                    _onClick={gameStart}
-                >
-                    <Text is_bold="800" is_size="24px" is_line_height="28px">게임 시작</Text>
-                </Button>
+                {
+                    waitingPerson.state === "blackPlayer"
+                        ?
+                        <Button
+                            is_width="30%"
+                            is_padding="18px 36px"
+                            is_radius="14px"
+                            is_background="#94D7BB"
+                            is_center="center"
+                            is_margin="20px"
+                            is_border="none"
+                            is_cursor="pointer"
+                            _onClick={gameStart}
+                        ><Text is_bold="800" is_size="24px" is_line_height="28px">게임 시작</Text></Button>
+                        :
+                        <Button
+                            is_width="30%"
+                            is_padding="18px 36px"
+                            is_radius="14px"
+                            is_background="#94D7BB"
+                            is_center="center"
+                            is_margin="20px"
+                            is_border="none"
+                            is_cursor="pointer"
+                            _onClick={gameStart}
+                            disabled
+                        ><Text is_bold="800" is_size="24px" is_line_height="28px">
+                                게임 시작
+                            </Text>
+                        </Button>
+                }
             </div>
-
             <WaitObserverList socket={socket} blackObserverList={blackObserverList} whiteObserverList={whiteObserverList} />
             <button onClick={goodbyeWait}>나가기 버튼</button>
         </div>
