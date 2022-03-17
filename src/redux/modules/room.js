@@ -29,10 +29,12 @@ const initialState = {
         ],
         point: 0,
     },
+   
     blackObserverList: [],
     whiteObserverList: [],
     blackPlayer: {},
     whitePlayer: {},
+
 }
 
 // actions

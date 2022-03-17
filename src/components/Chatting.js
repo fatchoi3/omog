@@ -27,10 +27,17 @@ const Chatting = memo((props) => {
 
   const onMessageSubmit = useCallback(
     (e) => {
+      if(message === ""){
+      console.log("빈값입니다.")
+      }else{
       if (teaching === "Text") {
         console.log("이상무");
-        socket.emit("teaching", { chat: message });
+        socket.emit("teachingB", { chat: message });
       }
+      // if (teaching === "Text") {
+      //   console.log("이상무");
+      //   socket.emit("teachingW", { chat: message });
+      // }
       if (teaching === "Fly") {
         console.log("이이상상무무");
         socket.emit("flyingWord", { chat: message });
@@ -40,6 +47,7 @@ const Chatting = memo((props) => {
       console.log("채팅보내기");
       e.preventDefault();
       setMessage("");
+    }
     },
     [message]
   );
@@ -75,7 +83,6 @@ const Chatting = memo((props) => {
   }, [socket]);
   useEffect(() => {
     return () => {
-      // console.info("disconnect socket", icrId);
       dispatch(gameActions.clearOne());
     
     };
@@ -139,7 +146,6 @@ const Chatting = memo((props) => {
           >
             <Text>Send</Text>
           </Button>
-          {/* <Teaching> */}
           <TeachingSelect
             onChange={(e) => {
               teachingChoice(e);
@@ -150,7 +156,6 @@ const Chatting = memo((props) => {
             {/* <option value="Point">Point</option> */}
             <option value="Fly">Fly</option>
           </TeachingSelect>
-          {/* </Teaching> */}
         </BottomWrap>
       </ChatForm>
     </ChattingContainer>
@@ -160,9 +165,10 @@ const ChattingContainer = styled.div`
   // height: 800px;
      margin: 25px 0px 25px 20px;
   // box-shadow: 0px 4px 35px 4px rgba(162, 162, 162, 0.25);
-  // border-radius: 16px;
+   border-radius: 16px;
   // box-sizing: border-box;
   width: 430px;
+  border : 2px solid black;
 `;
 const ChatForm = styled.div`
   max-width: 430px;
@@ -194,15 +200,15 @@ const TopChat = styled.div`
   background-color: #94d7bb;
   justify-content: space-between;
   padding: 22px 13px;
+  border-bottom : black 2px solid;
 `;
 const BottomWrap = styled.div`
   display: flex;
-  border-top: solid 2px #f0f0f0;
+  border-top: solid 2px black;
   height: 60px;
   width: 430px;
   
 `;
-const Teaching = styled.div``;
 const TeachingSelect = styled.select`
   width: 100px;
   height: 52px;

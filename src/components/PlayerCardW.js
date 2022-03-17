@@ -4,8 +4,8 @@ import { Text } from "../elements/index";
 import Progress from "./Progress";
 
 const PlayerCardW = (props) => {
-    const win =props.playerInfo.score[0];
-    const lose =props.playerInfo.score[1]
+    const win =props.playerInfo?.score[0].win;
+    const lose =props.playerInfo?.score[1].lose
     return (
         <Container>
             <UserFace/>
@@ -13,7 +13,7 @@ const PlayerCardW = (props) => {
             is_bold
             is_size="30px"
             is_margin="20px 0"
-            > {props.playerInfo.id}</Text>
+            > {props.playerInfo?props.playerInfo.id:"2"}</Text>
             <ProgressWrap>
             <Progress 
             win={win} 
@@ -32,7 +32,7 @@ const PlayerCardW = (props) => {
 const Container = styled.div`
 width : 200px;
 height: 300px;
-border : 2px solid #E7E7E7;
+border : 2px solid black;
 border-radius : 15px;
 background-color : #E7E7E7;
 margin : 10px 0;

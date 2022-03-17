@@ -18,8 +18,8 @@ const Game = memo((props) => {
 
   const userInfo = useSelector((state) => state.user.userInfo);
   const gameInfo = useSelector((state) => state.game.gameInfo);
-  const blackPlayer = useSelector((state) => state.user.blackPlayerInfo);
-  const whitePlayer = useSelector((state) => state.user.whitePlayerInfo);
+  const blackPlayer = gameInfo.blackTeamPlayer;
+  const whitePlayer = gameInfo.whiteTeamPlayer;
   const userId = localStorage.getItem("userId");
   const gameNum = props.match.params.roomNum;
   const is_player =
@@ -30,8 +30,6 @@ const Game = memo((props) => {
  
 const [randomNum, setRandomNum]= useState();
   
-  const winnerW = gameInfo?.whiteTeamPlayer;
-  const winnerB = gameInfo?.blackTeamPlayer;
 
   const [loading, setLoading] = useState(1);
   const [loadingFade, setLoadingFade] = useState(1);
@@ -42,7 +40,38 @@ const [randomNum, setRandomNum]= useState();
     return Math.floor(Math.random() * (max - min)) + min;
   };
 
-  console.log("userInfo", userInfo);
+  const useConfirm = (message = null, onConfirm, onCancel) => {
+    if (!onConfirm || typeof onConfirm !== "function") {
+      return;
+    }
+    if (onCancel && typeof onCancel !== "function") {
+      return;
+    }
+  
+    const confirmAction = () => {
+      if (window.confirm(message)) {
+        onConfirm();
+      } else {
+        onCancel();
+      }
+    };
+  
+    return confirmAction;
+  };
+  const deleteConfirm = () => console.log("삭제했습니다.");
+  const cancelConfirm = () => console.log("취소했습니다.");
+  const confirmDelete = useConfirm(
+    "삭제하시겠습니까?",
+    deleteConfirm,
+    cancelConfirm
+  );
+    
+  console.log("gameInfo", gameInfo);
+  console.log("blackTeamObserver", gameInfo.blackTeamObserver);
+  console.log("blackTeamPlayer", gameInfo.blackTeamPlayer);
+  console.log("whiteTeamObserver", gameInfo.whiteTeamObserver);
+  console.log("whiteTeamPlayer", gameInfo.whiteTeamPlayer);
+
   //"http://15.164.103.116/game",
   
   const [socket, disconnectSocket] = useSocket(
@@ -60,7 +89,15 @@ const [randomNum, setRandomNum]= useState();
   
     dispatch(userActions.loginCheckDB(userId));
     dispatch(gameActions.getGameDB(gameNum));
-        console.log("Fly훈수 받기");
+    // window.onbeforeunload = function(e) {
+    //   console.log("[window onbeforeunload] : [start]");
+    //   console.log("");  
+    //   // e.preventDefault();
+    //   // return "어디가세요?";
+    //   confirmDelete()
+    //   return "어디가세요?";
+    // }
+    window.onbeforeunload = confirmDelete();
 
     socket.on("flyingWord", (data) => {
       setRandomNum( rand(1, 10)*50);
@@ -102,11 +139,8 @@ const [randomNum, setRandomNum]= useState();
         <Omog
           userInfo={userInfo}
           gameNum={gameNum}
-          winnerW={winnerW}
-          winnerB={winnerB}
           socket={socket}
-          
-        />
+           />
         <TeachingWrap>
           <TeachingW playerInfo={whitePlayer} socket={socket} />
           <TeachingB playerInfo={blackPlayer} socket={socket} />
@@ -128,8 +162,6 @@ const [randomNum, setRandomNum]= useState();
       <Omog
           userInfo={userInfo}
           gameNum={gameNum}
-          winnerW={winnerW}
-          winnerB={winnerB}
           socket={socket}
           
         />

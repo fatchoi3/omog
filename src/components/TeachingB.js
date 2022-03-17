@@ -1,30 +1,27 @@
 import React, { useState, useRef, useEffect ,memo,useCallback} from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 import { Text } from "../elements";
+import { actionCreators as gameActions } from "../redux/modules/game";
 
 
 const TeachingB = memo((props) => {
-
+  
+  const dispatch = useDispatch();
   const [teaching, setTeaching] = useState([]);
-  const oneChat = useRef();
+  const chatList = useSelector((state) => state.game.Teaching_listB);
   const scroll = useRef(null);
 
 
   const socket = props.socket;
 
-  console.log(1, props.playerInfo);
-  useEffect(() => {
-    console.log("아래 훈수");
-    
-    socket.on("teaching", (data) => {
-      console.log( "data", data);
-        setTeaching([...teaching, {id : data.name, message: data.chat.chat }]);
-    });
-    }, [teaching]);
- 
+  console.log("chatList",chatList);
+  
   const renderChat = () => {
-    return teaching.map(({ id, message }, index) => (
+    return (
+    <div ref={scroll}>
+      {chatList.map(({ id, message }, index) => (
       <ChatContents key={index}>
         <ChatId 
         playerInfo={props.playerInfo}
@@ -48,14 +45,23 @@ const TeachingB = memo((props) => {
           </Text>
           </ChatMessage>
       </ChatContents>
-    ));
-  };
+      )
+       )}
+  </div>
+      )
+      };
   const bottomView = useCallback(() => {
-    scroll.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    scroll.current?.scrollIntoView({  block: "end" });
   }, []);
+
   useEffect(() => {
     bottomView();
-  }, [bottomView, teaching]);
+  }, [bottomView, chatList]);
+
+  useEffect(() => {
+    dispatch(gameActions.AddTeachB(socket))
+    }, [socket]);
+ 
 
   return (
     <Container
@@ -64,14 +70,13 @@ const TeachingB = memo((props) => {
       <Profile>
       <Text
 
-      > {props.playerInfo.id}</Text>
+      > {props.playerInfo?props.playerInfo.id:"1"}</Text>
       </Profile>
-      <Chat_render_oneChat 
-      ref={oneChat} 
+      <Chat_render_oneChat  
       playerInfo={props.playerInfo}
       >
         {renderChat()}
-        <div ref={scroll}></div>
+        
       </Chat_render_oneChat>
     </Container>
   );
@@ -81,16 +86,15 @@ const Container = styled.div`
   height : 160px;
   display : flex;
   box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
-  border : 3px solid  ${(props)=>props.playerInfo.state === "whitePlayer" ? `#94d7bb` : `#9E9E9E`};
+  border : 3px solid  ${(props)=>props.playerInfo?.state === "whitePlayer" ? `#94d7bb` : `#9E9E9E`};
   border-radius : 10px;
 `;
 const Chat_render_oneChat = styled.div`
   width: 280px;
   overflow-y: auto;
+  overflow-x: hidden;
   margin: 10px 5px 10px 0px;
   height: 135px;
-  // border: 2px solid ${(props)=>props.playerInfo.state === "whitePlayer" ? `#6071CE` : `#E296EF`};
-  // background : ${(props)=>props.playerInfo.state === "whitePlayer" ? `#6071CE` : `#E296EF`}
   box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
   ::-webkit-scrollbar {
     display: none;
@@ -101,15 +105,12 @@ const ChatContents = styled.div`
 `;
 const ChatId = styled.div`
   margin : 5px;
-  // border : 2px solid  ${(props)=>props.playerInfo.state === "whitePlayer" ? `white` : `black`};
   border-radius : 5px;
   padding : 5px;
   width: 50px;
 `;
 const ChatMessage = styled.div`
  margin : 5px 5px;
-//  border : 2px solid  ${(props)=>props.playerInfo.state === "whitePlayer" ? `white` : `black`};
- 
  padding : 5px;
  background-color: #94D7BB;
   border-top-right-radius: 5px;

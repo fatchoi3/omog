@@ -67,8 +67,8 @@ function LeaderSlider(props) {
                     <Wrap key={idx}>
                         <Stone/>
                         <TextWrap>
-                  <Text is_size="20px" is_color="black">{`${p.id}`}</Text>
-                  <Text is_size="15px" is_color="black" is_margin= "4px 0 0 10px ">{`${p.point}`}</Text>
+                  <Text is_size="20px" is_color="black" is_margin= "7px 0 0 0px ">{`${p.id}`}</Text>
+                  <Text is_size="15px" is_color="black" is_margin= "9px 0 0 10px ">{`${p.point}`}p</Text>
                   </TextWrap>
                   </Wrap>
               );
@@ -130,6 +130,8 @@ border : solid 2px black;
 const TextWrap =styled.div`
  margin : 5px 0 5px 30px;
  display : flex;
+ width : 200px;
+ border-bottom : 5px solid #94d7bb;
 `;
 const Wrap = styled.div`
 display : flex;

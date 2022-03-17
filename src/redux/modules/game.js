@@ -8,31 +8,46 @@ import { socket } from "../../context/socket";
 const initialState = {
     gameInfo: {
         gameNum: 2,
-        blackPlayer: "test6",
-        whitePlayer: "test5",
-        blackObserverList: ["a", "b", "c", "d"],
-        whiteObserverList: ["e", "f", "d", "w"]
+        blackTeamPlayer: {
+        id:"testB",
+        score: [
+            { win: 0 },
+            { lose: 0 }
+        ],
+        point: 10000
     },
-    chat_list: []
-
+        whiteTeamPlayer:  {id:"testW",
+        score: [
+            { win: 0 },
+            { lose: 0 }
+        ],
+        point: 10002
+    },
+        blackTeamObserver: ["a", "b", "c", "d"],
+        whiteTeamObserver: ["e", "f", "d", "w"]
+    },
+    chat_list: [],
+    Teaching_listB:[],
+    Teaching_listW:[],
 }
 
 // actions
 const GETGAME = "GETGAME";
 const GET_GAME_RESULT = "GET_GAME_RESULT";
 const GAMEEND = "GAMEEND";
-const GAME_GET_CHAT = "GAME_GET_CHAT";
 const GAME_ADD_CHAT = "GAME_ADD_CHAT";
 const CLEAR_ONE = "CLEAR_ONE";
-
+const ADD_TEACHING_W= "ADD_TEACHING_W";
+const ADD_TEACHING_B= "ADD_TEACHING_B";
 
 
 // action creators
 const getGame = createAction(GETGAME, (gameInfo) => ({ gameInfo }));
 const getGameResult = createAction(GET_GAME_RESULT, (result) => ({ result }));
 const GameEnd = createAction(GAMEEND,(result)=>({result}));
-const GameGetChat =createAction(GAME_GET_CHAT,(chat)=>({chat}));
-const GameAddChat = createAction(GAME_ADD_CHAT, (chat)=>({chat}))
+const GameAddChat = createAction(GAME_ADD_CHAT, (chat)=>({chat}));
+const AddTeachingW = createAction(ADD_TEACHING_W, (chat)=>({chat}));
+const AddTeachingB = createAction(ADD_TEACHING_B, (chat)=>({chat}));
 const clearOne = createAction(CLEAR_ONE);
 
 
@@ -40,6 +55,7 @@ const clearOne = createAction(CLEAR_ONE);
 
 const getGameDB = (gameNum) => {
     return async function (dispatch, getState, { history }) {
+        console.log("gameNum",gameNum)
         await api.get(`/game/start/${gameNum}`)
             .then(function (response) {
                 console.log("gameInfo 미들웨어", response.data.gameInfo);
@@ -98,7 +114,27 @@ const addGameChat = (socket) => {
             dispatch(GameAddChat(array));
         })
     }
-}
+};
+const AddTeachB = (socket) => {
+    return async function (dispatch, getState, { history }) {
+        await socket.on("teachingB", (data) => {
+
+            let array = { id: data.name, message: data.chat.chat }
+            console.log("채팅받아오기", array)
+            dispatch(AddTeachingB(array));
+        })
+    }
+};
+const AddTeachW = (socket) => {
+    return async function (dispatch, getState, { history }) {
+        await socket.on("teachingW", (data) => {
+
+            let array = { id: data.name, message: data.chat.chat }
+            console.log("채팅받아오기", array)
+            dispatch(AddTeachingW(array));
+        })
+    }
+};
 
 
 //reducer
@@ -114,17 +150,23 @@ export default handleActions({
         draft.result = action.payload.result
         console.log("리듀서예요.")
     }),
-    [GAME_GET_CHAT]: (state, action) => produce(state, (draft) => {
-        if (action.payload.chat) draft.chat_list = action.payload.chat;
-        // /console.log("action.payload.chat",action.payload.chat)
-    }),
     [GAME_ADD_CHAT]: (state, action) => produce(state, (draft) => {
         draft.chat_list.push(action.payload.chat);
+        // /console.log("action.payload.chat",action.payload.chat)
+    }),
+    [ADD_TEACHING_B]: (state, action) => produce(state, (draft) => {
+        draft.Teaching_listB.push(action.payload.chat);
+        console.log("action.payload.chat",action.payload.chat)
+    }),
+    [ADD_TEACHING_W]: (state, action) => produce(state, (draft) => {
+        draft.Teaching_listW.push(action.payload.chat);
         // /console.log("action.payload.chat",action.payload.chat)
     }),
     [CLEAR_ONE]: (state, action) =>
       produce(state, (draft) => {
         draft.chat_list = [];
+        draft.Teaching_listB = [];
+        draft.Teaching_listW = [];
     }),
 },
     initialState
@@ -136,8 +178,9 @@ const actionCreators = {
     gameOutDB,
     gameResultDB,
     addGameChat,
-    GameGetChat,
     clearOne,
+    AddTeachB,
+    AddTeachW
 }
 
 export { actionCreators };
