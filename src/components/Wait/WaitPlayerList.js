@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
 import styled from 'styled-components';
 import Text from '../../elements/Text';
 

@@ -4,14 +4,12 @@ import styled from 'styled-components';
 import { history } from '../../redux/configureStore';
 
 import { actionCreators as roomActions } from '../../redux/modules/room';
+import { Button, Text } from '../../elements';
 
 import WaitPlayerList from './WaitPlayerList';
 import WaitObserverList from './WaitObserverList';
-import StateChangeBtn from './StateChangeBtn';
 import GameStartBtn from './GameStartBtn';
 
-
-// 게임방 생성해서 들어올 시 임시값 blackPlayer, 유저의 정보
 
 function WaitingUsers({ socket, roomNum }) {
     console.log("대기방 유저 컴포넌트입니다. 몇 번 렌더링될까요?")
@@ -25,14 +23,26 @@ function WaitingUsers({ socket, roomNum }) {
     const [whitePlayer, setWhitePlayer] = useState({});
     const [blackObserverList, setBlackObserverList] = useState([]);
     const [whiteObserverList, setWhiteObserverList] = useState([]);
+    const [start, setStart] = useState(false);
+
+
+    console.log(blackPlayer, whitePlayer, blackObserverList, whiteObserverList);
+
+    const gameStart = (e) => {
+        console.log("게임 실행")
+        e.preventDefault();
+        const roomNumber = roomNum;
+        socket.emit("gameStart", roomNumber);
+        setStart(true);
+    }
 
     const goodbyeWait = (e) => {
         e.preventDefault();
         socket.once("bye", userId => {
-            console.log(userId)
+            console.log(userId);
         })
         socket.disconnect();
-        dispatch(roomActions.resetStateUser(userId))
+        dispatch(roomActions.resetStateUser(userId));
         history.push('/main');
     }
 
@@ -52,20 +62,43 @@ function WaitingUsers({ socket, roomNum }) {
         }
 
         const welcome = (id, userInfos) => {
-            console.log("welcome 실행완료", id, userInfos)
-            // dispatch(roomActions.setWaitUser(userInfos))
-            setBlackPlayer(userInfos[0].blackPlayerInfo[0])
-            setWhitePlayer(userInfos[0].whitePlayerInfo[0])
-            setBlackObserverList([...userInfos[0].blackTeamObserver])
-            setWhiteObserverList([...userInfos[0].whiteTeamObserver])
+            console.log("welcome 실행완료", id, userInfos);
+            setBlackPlayer(userInfos[0].blackPlayerInfo[0]);
+            setWhitePlayer(userInfos[0].whitePlayerInfo[0]);
+            setBlackObserverList([...userInfos[0].blackTeamObserver]);
+            setWhiteObserverList([...userInfos[0].whiteTeamObserver]);
         }
 
         socket.on("welcome", welcome)
 
+        const changeState = (id, userInfos) => {
+            console.log("state 변경이 되나요?", id, userInfos);
+            setBlackPlayer(userInfos[0].blackPlayerInfo[0]);
+            setWhitePlayer(userInfos[0].whitePlayerInfo[0]);
+            setBlackObserverList([...userInfos[0].blackTeamObserver]);
+            setWhiteObserverList([...userInfos[0].whiteTeamObserver]);
+            dispatch(roomActions.changeState(id, userInfos));
+        }
+
+        socket.on("changeComplete", changeState);
+
         return () => {
+            socket.off("changeComplete", changeState);
             socket.disconnect();
         }
     }, [])
+
+    useEffect(() => {
+        const gameStartF = (roomNumber) => {
+            dispatch(roomActions.gameStartDB(blackPlayer, whitePlayer, blackObserverList, whiteObserverList, roomNumber));
+        }
+
+        socket.on("game", gameStartF);
+
+        return () => {
+            socket.off("game", gameStartF);
+        }
+    }, [start])
 
 
     return (
@@ -74,7 +107,22 @@ function WaitingUsers({ socket, roomNum }) {
                 로고 위치
             </div>
             <WaitPlayerList blackPlayer={blackPlayer} whitePlayer={whitePlayer} />
-            <GameStartBtn socket={socket} blackPlayer={blackPlayer} whitePlayer={whitePlayer} blackObserverList={blackObserverList} whiteObserverList={whiteObserverList} roomNum={roomNum} />
+
+            <div style={{ display: "flex", justifyContent: "center", boxSizing: "border-box" }}>
+                <Button
+                    is_width="30%"
+                    is_padding="18px 36px"
+                    is_radius="14px"
+                    is_background="#94D7BB"
+                    is_center="center"
+                    is_margin="20px"
+                    is_border="none"
+                    is_cursor="pointer"
+                    _onClick={gameStart}
+                >
+                    <Text is_bold="800" is_size="24px" is_line_height="28px">게임 시작</Text>
+                </Button>
+            </div>
 
             <WaitObserverList socket={socket} blackObserverList={blackObserverList} whiteObserverList={whiteObserverList} />
             <button onClick={goodbyeWait}>나가기 버튼</button>
@@ -82,4 +130,4 @@ function WaitingUsers({ socket, roomNum }) {
     );
 }
 
-export default WaitingUsers;
+export default React.memo(WaitingUsers);
