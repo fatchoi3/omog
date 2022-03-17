@@ -9,7 +9,6 @@ import WaitPlayerList from './WaitPlayerList';
 import WaitObserverList from './WaitObserverList';
 import StateChangeBtn from './StateChangeBtn';
 import GameStartBtn from './GameStartBtn';
-import WaitOneChat from './WaitOneChat';
 
 
 // 게임방 생성해서 들어올 시 임시값 blackPlayer, 유저의 정보
@@ -54,11 +53,11 @@ function WaitingUsers({ socket, roomNum }) {
 
         const welcome = (id, userInfos) => {
             console.log("welcome 실행완료", id, userInfos)
-            dispatch(roomActions.setWaitUser(userInfos))
-            setBlackPlayer(userInfos[0])
-            setWhitePlayer(userInfos[1])
-            setBlackObserverList([...userInfos[2]])
-            setWhiteObserverList([...userInfos[3]])
+            // dispatch(roomActions.setWaitUser(userInfos))
+            setBlackPlayer(userInfos[0].blackPlayerInfo[0])
+            setWhitePlayer(userInfos[0].whitePlayerInfo[0])
+            setBlackObserverList([...userInfos[0].blackTeamObserver])
+            setWhiteObserverList([...userInfos[0].whiteTeamObserver])
         }
 
         socket.on("welcome", welcome)
@@ -79,8 +78,6 @@ function WaitingUsers({ socket, roomNum }) {
 
             <WaitObserverList socket={socket} blackObserverList={blackObserverList} whiteObserverList={whiteObserverList} />
             <button onClick={goodbyeWait}>나가기 버튼</button>
-
-            <WaitOneChat />
         </div>
     );
 }
