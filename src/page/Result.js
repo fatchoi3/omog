@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { Text } from '../elements';
+import { Text, Button } from '../elements';
 import Table from '../components/Table';
 
 import { actionCreators as gameActions } from '../redux/modules/game';
@@ -12,9 +12,8 @@ import { actionCreators as gameActions } from '../redux/modules/game';
 
 function Result(props) {
     const dispatch = useDispatch();
+    const { roomNum } = useParams();
     const { gameNum } = useParams();
-    const [info, setInfo] = useState();
-
 
     const columns = useMemo(
         () => [
@@ -41,12 +40,8 @@ function Result(props) {
 
 
     useEffect(() => {
-        const gamessss = {
-            id: "test2",
-            gameNum: 6,
-            result: { win: "test2" }
-        }
-        dispatch(gameActions.getGameResultDB(gamessss));
+
+        dispatch(gameActions.getGameResultDB());
     }, [])
 
     const resultgame = {
@@ -91,20 +86,36 @@ function Result(props) {
 
     const data = useMemo(() => [...resultgame.userInfo], [resultgame.userInfo])
 
+    const continueGame = () => {
+        // dispatch(gameActions.gameContinue(id,roomNum))
+    }
+
     return (
-        <div className="result-container" style={{ margin: "100px auto", width: "600px", height: "600px", border: "1px solid red" }}>
+        <div className="result-container" style={{ margin: "100px auto", width: "40%" }}>
             <GameResult>
-                <Text>{resultgame.result.win} 님이 승리하였습니다!</Text>
+                {/* {resultgame.result.win} 님이 승리하였습니다! */}
+                <Text is_size="150px" is_weight="900" is_line_height="180px">승리</Text>
             </GameResult>
 
             <Table columns={columns} data={data} />
+            <div style={{ display: "flex", justifyContent: "center" }}>
+                <Button is_width="8rem" is_margin="0 4px 0 0" is_padding="5px 10px" is_size="25px"
+                    is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB"
+                >
+                    계속하기
+                </Button>
+                <Button is_width="8rem" is_margin="0 0 0 4px" is_padding="5px 10px" is_size="25px"
+                    is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB"
+                >
+                    나가기
+                </Button>
+            </div>
         </div>
     );
 }
 
 const GameResult = styled.div`
-    width: 300px;
-    height: 50px;
+    width: 100%;
     margin: 0 auto;
     border: 1px solid pink;
     text-align: center;
