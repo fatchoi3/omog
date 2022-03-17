@@ -168,9 +168,13 @@ export default handleActions({
         if (action.payload.user.state === "blackPlayer") {
             draft.userInfo = { ...draft.userInfo, state: "blackObserver" }
             draft.blackObserverList.push(action.payload.user);
+            const filter_list = draft.whiteObserverList.filter((l) => l.id !== action.payload.user.id);
+            draft.whiteObserverList = filter_list;
         } else if (action.payload.user.state === "whitePlayer") {
             draft.userInfo = { ...draft.userInfo, state: "whiteObserver" }
-            draft.blackObserverList.push(action.payload.user);
+            draft.whiteObserverList.push(action.payload.user);
+            const filter_list = draft.blackObserverList.filter((l) => l.id !== action.payload.user.id);
+            draft.blackObserverList = filter_list;
         }
     }),
     [CHANGE_TO_PLAYER]: (state, action) => produce(state, (draft) => {

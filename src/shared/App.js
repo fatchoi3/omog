@@ -23,7 +23,6 @@ function App() {
       <ConnectedRouter history={history}>
         <Route path="/main" exact component={Main} />
         <Route path="/" exact component={Login} />
-        {/* <Route path="/waiting/:roomNum" exact render={() => <Waiting socket={socketWait} />} /> */}
         <Route path="/waiting/:roomNum" exact component={Waiting} />
         <Route path="/game/:roomNum" exact component={Game} />
         {/* <Route path="/game/:gameNum" exact render={() => <Game socket={socketGame}  exact component={Game}/>} /> */}

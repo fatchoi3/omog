@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import io from "socket.io-client";
 
 import WaitChat from '../components/Wait/WaitChat';
 import WaitingUsers from '../components/Wait/WaitingUsers';
 
-// const socket = io.connect("http://15.164.103.116/waiting");
 
 function Waiting(props) {
     console.log("해당 페이지 최상단 페이지입니다.")

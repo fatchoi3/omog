@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { actionCreators as roomActions } from '../redux/modules/room';
 
 import styled from 'styled-components';
-import Text from '../elements/Text';
-
+import { Text } from '../../elements';
 
 function WaitOneChat(props) {
     console.log("Onechat")
