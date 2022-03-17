@@ -30,11 +30,6 @@ function WaitChat({ socket }) {
 
 
     useEffect(() => {
-        // socket.on("chat", (data) => {
-        //     console.log("받아오는 채팅", data)
-        //     setMessageList((prev) => [...prev, data]);
-        // });
-
         const setChat = async () => {
             await socket.on("chat", (data) => {
                 console.log("받아오는 채팅", data)

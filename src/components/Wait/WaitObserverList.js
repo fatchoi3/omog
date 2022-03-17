@@ -3,35 +3,22 @@ import styled from 'styled-components';
 import Text from '../../elements/Text';
 import Button from '../../elements/Button';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { actionCreators as roomActions } from '../../redux/modules/room';
 
 
 function WaitObserverList({ socket, blackObserverList, whiteObserverList }) {
-    console.log(blackObserverList, whiteObserverList)
     console.log("옵져버 컴포넌트입니다 몇 번 렌더링될까요?");
-
-    const dispatch = useDispatch();
+    console.log(blackObserverList, whiteObserverList)
     const waitingPerson = useSelector((state) => state.room.userInfo);
     const [rightClicked, setRightClicked] = useState(false);
     const [leftClicked, setLeftClicked] = useState(false);
 
 
-    // a) emit(”changeToPlayer”, previousTeam, wantTeam)
-    // b) emit(”changeToObserver”, previousTeam, wantTeam)
-
-    const ChangeToPlayer = (e) => {
-        e.preventDefault();
-        console.log("여기입니다.", waitingPerson)
-        socket.emit("changeToPlayer", waitingPerson.state, "")
-        console.log("플레이어로 변경");
-        dispatch(roomActions.changeToPlayer(waitingPerson))
-    }
-
     const ChangeToBlackObserver = (e) => {
         e.preventDefault();
         socket.emit("changeToObserver", waitingPerson.state, "blackObserver")
-        console.log("blackObserver로 변경");
+        console.log(waitingPerson.state, "blackObserver로 변경");
         if (leftClicked === false) {
             setLeftClicked(true)
             setRightClicked(false)
@@ -42,8 +29,8 @@ function WaitObserverList({ socket, blackObserverList, whiteObserverList }) {
 
     const ChangeToWhiteObserver = (e) => {
         e.preventDefault();
-        // socket.emit("changeToObserver", waitingPerson.state, "whiteObserver")
-        console.log("whiteObserver로 변경");
+        socket.emit("changeToObserver", waitingPerson.state, "whiteObserver")
+        console.log(waitingPerson.state, "whiteObserver로 변경");
         if (rightClicked === false) {
             setRightClicked(true)
             setLeftClicked(false)
@@ -58,16 +45,6 @@ function WaitObserverList({ socket, blackObserverList, whiteObserverList }) {
             setLeftClicked(true)
         } else if (waitingPerson.state === "whiteObserver") {
             setRightClicked(true)
-        }
-
-        const changeState = (id, userInfos) => {
-            console.log("됩니까?", id, userInfos)
-        }
-
-        socket.on("changeComplete", changeState)
-
-        return () => {
-            socket.off("changeComplete", changeState);
         }
     }, [])
 
