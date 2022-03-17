@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { actionCreators as roomActions } from '../../redux/modules/room';
 
 import { Button, Text } from '../../elements';

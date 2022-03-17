@@ -42,10 +42,9 @@ const JOIN_ROOM = "JOIN_ROOM";
 const GET_WAITING = "GET_WAITING";
 const GAME_START = "GAME_START";
 const SET_WAIT_USER = "SET_WAIT_USER";
-const CHANGE_TO_OBSERVER = "CHANGE_TO_OBSERVER";
-const CHANGE_TO_PLAYER = "CHANGE_TO_PLAYER";
+const CHANGE_STATE = "CHANGE_STATE";
 const RESET_STATE_USER = "RESET_STATE_USER";
-const QUICK_START_P="QUICK_START_P";
+const QUICK_START_P = "QUICK_START_P";
 
 
 
@@ -53,9 +52,8 @@ const QUICK_START_P="QUICK_START_P";
 const getRoomList = createAction(GET_ROOM, (roomList) => ({ roomList }));
 const getRoomInfo = createAction(GET_ROOM_INFO, (roomInfo) => ({ roomInfo }));
 const joinRoom = createAction(JOIN_ROOM, (userInfo) => ({ userInfo }));
-const setWaitUser = createAction(SET_WAIT_USER, (users) => ({ users }));
-const changeToObserver = createAction(CHANGE_TO_OBSERVER, (user) => ({ user }));
-const changeToPlayer = createAction(CHANGE_TO_PLAYER, (user) => ({ user }));
+const setWaitUser = createAction(SET_WAIT_USER, (id, users) => ({ id, users }));
+const changeState = createAction(CHANGE_STATE, (user, userInfo) => ({ user, userInfo }));
 const resetStateUser = createAction(RESET_STATE_USER, (user) => ({ user }));
 
 
@@ -123,8 +121,8 @@ const gameStartDB = (blackPlayer, whitePlayer, blackObserverList, whiteObserverL
     return async function (dispatch, getState, { history }) {
         console.log(blackPlayer, whitePlayer, blackObserverList, whiteObserverList)
         await api.post(`/game/create`, {
-            blackTeamPlayer: blackPlayer.id,
-            whiteTeamPlayer: whitePlayer.id,
+            blackTeamPlayer: blackPlayer?.id ? blackPlayer.id : null,
+            whiteTeamPlayer: whitePlayer?.id ? whitePlayer.id : null,
             blackTeamObserver: blackObserverList,
             whiteTeamObserver: whiteObserverList,
             roomNum: roomNum,
@@ -141,10 +139,10 @@ const quickStartPlayer = (id) => {
         console.log("id", id);
         await api.get(`/lobby/fastPlayer/${id}`)
             .then(function (response) {
-               console.log("response",response.data.roomNum);
-               history.push(`/waiting/${response.data.roomNum}`)
+                console.log("response", response.data.roomNum);
+                history.push(`/waiting/${response.data.roomNum}`)
             }).catch(error => {
-               
+
                 console.log(error)
             });
     }
@@ -154,10 +152,10 @@ const quickStartObserver = (id) => {
         console.log("id", id);
         await api.get(`/lobby/fastPlayer/${id}`)
             .then(function (response) {
-               console.log("response",response.data.roomNum);
-               history.push(`/waiting/${response.data.roomNum}`)
+                console.log("response", response.data.roomNum);
+                history.push(`/waiting/${response.data.roomNum}`)
             }).catch(error => {
-               
+
                 console.log(error)
             });
     }
@@ -182,40 +180,30 @@ export default handleActions({
     [SET_WAIT_USER]: (state, action) => produce(state, (draft) => {
         console.log("리듀서까지 왔습니다", action.payload.users)
         if (action.payload.user?.state === "blackPlayer") {
-            draft.blackPlayer = action.payload.users[0];
+            draft.blackPlayer = action.payload.users[0].blackPlayerInfo[0];
         } else if (action.payload.user?.state === "whitePlayer") {
-            draft.whitePlayer = action.payload.users[1];
+            draft.whitePlayer = action.payload.users[0].whitePlayerInfo[0];
         } else if (action.payload.user?.state === "blackObserver") {
-            draft.blackObserverList = action.payload.users[2];
+            draft.blackObserverList = [...action.payload.users[0].blackTeamObserver];
         } else {
-            draft.whiteObserverList = action.payload.users[3];
+            draft.whiteObserverList = [...action.payload.users[0].whiteTeamObserver];
         }
+    }),
+    [CHANGE_STATE]: (state, action) => produce(state, (draft) => {
+        console.log(action.payload.user)
+        console.log(action.payload.userInfo[0])
 
-    }),
-    [CHANGE_TO_OBSERVER]: (state, action) => produce(state, (draft) => {
-        if (action.payload.user.state === "blackPlayer") {
-            draft.userInfo = { ...draft.userInfo, state: "blackObserver" }
-            draft.blackObserverList.push(action.payload.user);
-            const filter_list = draft.whiteObserverList.filter((l) => l.id !== action.payload.user.id);
-            draft.whiteObserverList = filter_list;
-        } else if (action.payload.user.state === "whitePlayer") {
-            draft.userInfo = { ...draft.userInfo, state: "whiteObserver" }
-            draft.whiteObserverList.push(action.payload.user);
-            const filter_list = draft.blackObserverList.filter((l) => l.id !== action.payload.user.id);
-            draft.blackObserverList = filter_list;
-        }
-    }),
-    [CHANGE_TO_PLAYER]: (state, action) => produce(state, (draft) => {
-        if (action.payload.user.state === "blackObserver") {
-            draft.userInfo = { ...draft.userInfo, state: "blackPlayer" };
-            const filter_list = draft.blackObserverList.filter((l) => l.id !== action.payload.user.id);
-            draft.blackObserverList = filter_list;
+        if (action.payload.user === action.payload.userInfo[0].blackPlayerInfo[0]?.id) {
+            draft.userInfo.state = "blackPlayer";
+        } else if (action.payload.user === action.payload.userInfo[0].whitePlayerInfo[0]?.id) {
+            draft.userInfo.state = "whitePlayer";
+        } else if (action.payload.userInfo[0].blackTeamObserver.includes(action.payload.user)) {
+            draft.userInfo.state = "blackObserver";
         } else {
-            draft.userInfo = { ...draft.userInfo, state: "whitePlayer" }
-            const filter_list = draft.whiteObserverList.filter((l) => l.id !== action.payload.user.id);
-            draft.blackObserverList = filter_list;
+            draft.userInfo.state = "whiteObserver";
         }
     }),
+    // const filter_list = draft.whiteObserverList.filter((l) => l.id !== action.payload.user.id);
     [RESET_STATE_USER]: (state, action) => produce(state, (draft) => {
         draft.blackObserverList = [];
         draft.whiteObserverList = [];
@@ -233,8 +221,7 @@ const actionCreators = {
     joinRoomDB,
     gameStartDB,
     setWaitUser,
-    changeToObserver,
-    changeToPlayer,
+    changeState,
     resetStateUser,
     quickStartPlayer,
     quickStartObserver
