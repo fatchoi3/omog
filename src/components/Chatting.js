@@ -17,13 +17,6 @@ const Chatting = memo((props) => {
   const gameNum = props.gameNum;
   const socket = props.socket;
 
-  const onTextChange = useCallback(
-    (e) => {
-      setMessage(e.target.value);
-      e.preventDefault();
-    },
-    [message]
-  );
   const teachingChoice = useCallback(
     (e) => {
       setTeaching(e.target.value);
@@ -42,10 +35,7 @@ const Chatting = memo((props) => {
         console.log("이이상상무무");
         socket.emit("flyingWord", { chat: message });
       }
-      if (teaching === "Point") {
-        console.log("이상상무");
-        socket.emit("fadeOut", { chat: message });
-      }
+      
       socket.emit("chat", { chat: message });
       console.log("채팅보내기");
       e.preventDefault();
@@ -75,8 +65,7 @@ const Chatting = memo((props) => {
   const onKeyPress = useCallback((e) => {
   
     if (e.key == "Enter") {
-      
-      onTextChange(message);
+      onMessageSubmit(e);
     }
   });
 
@@ -94,7 +83,7 @@ const Chatting = memo((props) => {
         <Chat_render_oneChat>
           <TopChat>
             <Title>
-              <Text is_size="24px" is_color="#FFFFFF">
+              <Text is_size="24px" is_color="#FFFFFF"  is_bold>
                 실시간 채팅
               </Text>
             </Title>
@@ -110,7 +99,7 @@ const Chatting = memo((props) => {
                   dispatch(gameActions.gameOutDB(gameNum));
                 }}
               >
-                <Text is_size="24px" is_color="#FFFFFF">
+                <Text is_size="24px" is_color="#FFFFFF"  is_bold>
                   나가기▷
                 </Text>
               </Button>
@@ -126,6 +115,7 @@ const Chatting = memo((props) => {
             onKeyDown={(e) => onKeyPress(e)}
             onChange={(e) => onChangeMessage(e)}
             placeholder="say something..."
+            maxLength="19"
             value={message}
             id="outlined-multiline-static"
             variant="outlined"
@@ -174,10 +164,11 @@ const ChatForm = styled.div`
 const Chat_render_oneChat = styled.div`
   width: 100%;
   overflow-y: auto;
+  overflow-x: hidden;
   height: 795px;
   max-height: 800px;
   border-radius: 15px;
-`;
+  `;
 const Title = styled.div``;
 const ExitButtonWrap = styled.div``;
 const TopChat = styled.div`

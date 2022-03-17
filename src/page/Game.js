@@ -3,39 +3,33 @@ import styled, { keyframes } from "styled-components";
 
 import Omog from "../components/Omog";
 import Chatting from "../components/Chatting";
-import Teaching from "../components/Teaching";
+import TeachingW from "../components/TeachingW";
+import TeachingB from "../components/TeachingB";
+import PlayerCardB from "../components/PlayerCardB";
+import PlayerCardW from "../components/PlayerCardW";
 import { Text } from "../elements";
-
-import io from "socket.io-client";
+import Logo from "../pictures/omogLogo.png";
 import useSocket from "../hook/useSocket";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import { actionCreators as gameActions } from "../redux/modules/game";
-import { useParams } from "react-router-dom";
-// let socketGame = io.connect("http://localhost:4001/game");
 const Game = memo((props) => {
   const dispatch = useDispatch();
-  const [count, setCount] = useState(0);
+
   const userInfo = useSelector((state) => state.user.userInfo);
   const gameInfo = useSelector((state) => state.game.gameInfo);
+  const blackPlayer = useSelector((state) => state.user.blackPlayerInfo);
+  const whitePlayer = useSelector((state) => state.user.whitePlayerInfo);
   const userId = localStorage.getItem("userId");
-  const gameNum  = props.match.params.roomNum
+  const gameNum = props.match.params.roomNum;
+  const is_player =
+    userInfo.state === "blackPlayer" || 
+    userInfo.state === "whitePlayer"
+      ? true
+      : false;
+ 
 
-
-console.log("gameInfo",gameInfo);
-
-  const [whitePlayer, setWhitePlayer] = useState({
-    id: "초기값1",
-    score: [2, 3],
-    point: 1000,
-    state: "whitePlayer",
-  });
-  const [blackPlayer, setBlackPlayer] = useState({
-    id: "초기값2",
-    score: [3, 2],
-    point: 1000,
-    state: "blackPlayer",
-  });
+  
   const winnerW = gameInfo.whiteTeamPlayer;
   const winnerB = gameInfo.blackTeamPlayer;
 
@@ -47,7 +41,7 @@ console.log("gameInfo",gameInfo);
   const rand = (max, min) => {
     return Math.floor(Math.random() * (max - min)) + min;
   };
-  console.log("blackPlayer", blackPlayer);
+
   console.log("userInfo", userInfo);
   //"http://15.164.103.116/game",
   let randomNum;
@@ -56,49 +50,38 @@ console.log("gameInfo",gameInfo);
     gameNum,
     userId
   );
-  // useEffect(() => {
-   
-  //   return () => {
-  //     disconnectSocket();
-  //   };
-  // }, [disconnectSocket]);
   useEffect(() => {
-    if (userInfo.state === "whitePlayer") {
-      setWhitePlayer(userInfo);
-    } else if (userInfo.state === "blackPlayer") {
-      setBlackPlayer(userInfo);
-    }
 
+    return () => {
+      disconnectSocket();
+    };
+  }, [disconnectSocket]);
+  useEffect(() => {
+  
     dispatch(userActions.loginCheckDB(userId));
     dispatch(gameActions.getGameDB(gameNum));
-
-    console.log("Fly훈수 받기");
-
-    socket.on("fadeOut", (data) => {
-      setFade(data.chat.chat);
-      setLoadingFade(0);
-      console.log("되네");
-      let timer = setTimeout(() => {
-        console.log("시간은 똑딲똑딱");
-        setLoadingFade(1);
-      }, 1000);
-    });
+        console.log("Fly훈수 받기");
 
     socket.on("flyingWord", (data) => {
       randomNum = rand(1, 10);
       setFlying(data.chat.chat);
       setLoading(0);
       console.log("되네");
+      console.log("data",data);
       let timer = setTimeout(() => {
         console.log("시간은 똑딲똑딱");
         setLoading(1);
       }, 1000);
     });
-
-    return () => socket.off();
-    // return () => socketRef.current.disconnect();
   }, []);
-
+  useEffect(()=>{
+    if(blackPlayer){
+    dispatch(userActions.blackPlayerCheck(gameInfo.blackTeamPlayer));
+    dispatch(userActions.whitePlayerCheck(gameInfo.whiteTeamPlayer));
+  }
+  },[blackPlayer])
+  console.log("blackPlayer",blackPlayer);
+  console.log("whitePlayer", whitePlayer);
   return (
     <GameContainer>
       {loading ? (
@@ -115,6 +98,11 @@ console.log("gameInfo",gameInfo);
           <Text is_size="50px">{fade}</Text>
         </DarkBackground>
       )}
+      <LogoWrap>
+        <LogoImg src={Logo} />
+      </LogoWrap>
+      {is_player?
+      <>
       <Wrap>
         <Omog
           userInfo={userInfo}
@@ -122,34 +110,54 @@ console.log("gameInfo",gameInfo);
           winnerW={winnerW}
           winnerB={winnerB}
           socket={socket}
-          count={count}
-          setCount={setCount}
+          
         />
-     
-          <TeachingWrap>
-            <Teaching playerInfo={whitePlayer} socket={socket} />
-            <Teaching playerInfo={blackPlayer} socket={socket} />
-          </TeachingWrap>
-       
+        <TeachingWrap>
+          <TeachingW playerInfo={whitePlayer} socket={socket} />
+          <TeachingB playerInfo={blackPlayer} socket={socket} />
+        </TeachingWrap>
       </Wrap>
       <ChattingWrap>
-      <Chatting gameNum={gameNum} socket={socket} userInfo={userInfo} />
+        <Chatting gameNum={gameNum} socket={socket} userInfo={userInfo} />
       </ChattingWrap>
+      </>
+      :<>
+      <PlayerInfos>
+        <>
+        <PlayerCardW playerInfo={whitePlayer} />
+      </>
+      <>
+         <PlayerCardB playerInfo={blackPlayer}/>
+      </>
+      </PlayerInfos>
+      <Omog
+          userInfo={userInfo}
+          gameNum={gameNum}
+          winnerW={winnerW}
+          winnerB={winnerB}
+          socket={socket}
+          
+        />
+         <ChattingWrap>
+        <Chatting gameNum={gameNum} socket={socket} userInfo={userInfo} />
+      </ChattingWrap>
+      </>
+      }
     </GameContainer>
   );
 });
 const GameContainer = styled.div`
   display: flex;
-  width : 1456px;
-  margin : 0 auto;
-  padding : 50px auto;
-  height : 924px;
+  width: 1456px;
+  margin: 0 auto;
+  padding: 50px auto;
+  height: 924px;
   // background-color: pink;
   justify-content: space-between;
 `;
 const Wrap = styled.div`
-width : 950px;
-padding : 30px 10px 20px 10px ;
+  width: 950px;
+  padding: 30px 10px 20px 10px;
 `;
 const TeachingWrap = styled.div`
   display: flex;
@@ -158,10 +166,17 @@ const TeachingWrap = styled.div`
   margin: 20px 0px 0px;
 `;
 
-const UnderInfo = styled.div``;
+const PlayerInfos = styled.div`
+height: 680px;
+display : flex; 
+flex-direction: column;
+padding: 120px 0px;
+margin : 0 20px;
+
+`;
 const ChattingWrap = styled.div`
-width : 450px;
-margin : 0px 10px 0px 0px;
+  width: 450px;
+  margin: 0px 10px 0px 0px;
 `;
 
 const slideUp = keyframes`
@@ -212,5 +227,17 @@ animation-timing-function: ease-out;
 animation-name: ${fadeIn};
 animation-fill-mode: forwards;
 `;
-
+const LogoWrap = styled.div`
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0;
+`;
+const LogoImg = styled.img`
+  width: 200px;
+  height: 100px;
+`;
 export default Game;

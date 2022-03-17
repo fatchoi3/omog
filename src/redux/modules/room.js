@@ -80,10 +80,9 @@ const getRoomInfoDB = (roomNum) => {
 
 
 
-const addRoomDB = () => {
+const addRoomDB = (roomName) => {
     return async function (dispatch, useState, { history }) {
         const userId = localStorage.getItem('userId');
-        const roomName = "너만 오면 ㄱ"
         await api.post("/lobby/create",
             {
                 roomName: roomName,

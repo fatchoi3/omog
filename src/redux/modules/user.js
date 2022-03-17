@@ -89,7 +89,19 @@ const initialState = {
         ],
         point: 10000,
         state: "online"
-    }]
+    }],
+    blackPlayerInfo :{
+        id: "초기값2",
+        score: [3, 2],
+        point: 1000,
+        state: "blackPlayer",
+      },
+      whitePlayerInfo :{
+        id: "초기값1",
+        score: [2, 3],
+        point: 1000,
+        state: "whitePlayer",
+      }
 }
 
 // actions
@@ -99,6 +111,8 @@ const LOG_OUT = "LOG_OUT";
 const GET_USER_INFO = "GET_USER_INFO";
 const GET_LEADERS = "GET_LEADERS";
 const GET_LEADER_BOARD = "GET_LEADER_BOARD";
+const WHITE_PLAYER="WHITE_PLAYER";
+const BLACK_PLAYER="BLACK_PLAYER";
 
 // action creators
 const loginCheck = createAction(LOGIN_CHECK, (userInfo) => ({ userInfo }));
@@ -107,7 +121,8 @@ const getUserInfo = createAction((GET_USER_INFO), (user_list) => ({ user_list })
 const getLeaders = createAction((GET_LEADERS), (leader_list) => ({ leader_list }))
 const getLeaderBorad = createAction((GET_LEADER_BOARD), (leader_board) => ({ leader_board }))
 const logout = createAction((LOG_OUT), (user) => ({ user }));
-
+const whiteCheck = createAction(WHITE_PLAYER, (whitePlayerInfo) => ({ whitePlayerInfo }));
+const blackCheck = createAction(BLACK_PLAYER, (blackPlayerInfo) => ({ blackPlayerInfo }));
 
 // middleware actions
 const signupDB = (id, nickname, password, passwordConfirm) => {
@@ -172,7 +187,7 @@ const loginCheckDB = (id) => {
                 dispatch(loginCheck(res.data))
             })
     }
-}
+};
 
 const getLeaderDB = () => {
     return async function (dispatch, getState, { history }) {
@@ -193,7 +208,24 @@ const getLeaderBoardDB = () => {
             })
     }
 };
-
+const whitePlayerCheck = (id) => {
+    return async function (dispatch, getState, { history }) {
+        await axios.get(`http://15.164.103.116/userinfo/${id}`)
+            .then((res) => {
+               
+                dispatch(whiteCheck(res.data))
+            })
+    }
+};
+const blackPlayerCheck = (id) => {
+    return async function (dispatch, getState, { history }) {
+        await axios.get(`http://15.164.103.116/userinfo/${id}`)
+            .then((res) => {
+                
+                dispatch(blackCheck(res.data))
+            })
+    }
+};
 //reducer
 export default handleActions({
     [GET_USER]: (state, action) => produce(state, (draft) => {
@@ -205,23 +237,30 @@ export default handleActions({
             localStorage.removeItem("token");
             localStorage.removeItem("userId");
             window.location.replace("/")
-            console.log("로그아웃합니다")
+          
         }),
     [LOGIN_CHECK]: (state, action) => produce(state, (draft) => {
         draft.userInfo = action.payload.userInfo;
-        // console.log("action.payload.userInfo",action.payload.userInfo)
     }),
     [GET_USER_INFO]: (state, action) => produce(state, (draft) => {
         draft.list = action.payload.user_list;
-        //console.log("draft.list",draft.list)
+
     }),
     [GET_LEADERS]: (state, action) => produce(state, (draft) => {
         draft.leader_list = action.payload.leader_list;
-        //console.log("draft.list",draft.list)
+  
     }),
     [GET_LEADER_BOARD]: (state, action) => produce(state, (draft) => {
         draft.leader_board = action.payload.leader_board;
-        //console.log("draft.list",draft.list)
+    
+    }),
+    [WHITE_PLAYER]: (state, action) => produce(state, (draft) => {
+        draft.whitePlayerInfo = action.payload.whitePlayerInfo;
+   
+    }),
+    [BLACK_PLAYER]: (state, action) => produce(state, (draft) => {
+        draft.blackPlayerInfo = action.payload.blackPlayerInfo;
+  
     }),
 },
     initialState
@@ -237,6 +276,8 @@ const actionCreators = {
     getUserDB,
     getLeaderDB,
     getLeaderBoardDB,
+    whitePlayerCheck,
+    blackPlayerCheck
 }
 
 export { actionCreators };

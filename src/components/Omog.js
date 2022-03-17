@@ -11,6 +11,11 @@ const Omog = memo((props) => {
   const userid = localStorage.getItem("userId");
   const gameNum = props.gameNum;
   const canvasRef = useRef(null);
+  const is_player =
+  props.userInfo.state === "blackPlayer" || 
+  props.userInfo.state === "whitePlayer"
+      ? true
+      : false;
   // const count = props.count;
   // const setCount =()=> props.setCount();
   // const socketRef = useRef();
@@ -31,6 +36,7 @@ const Omog = memo((props) => {
   const timeout2 = useRef(null);
 
   const [board, setBoard] = useState();
+  const [power, setPower] = useState(false);
 
   const timeOut = () => {
     timeout.current = setInterval(() => {
@@ -328,25 +334,58 @@ const Omog = memo((props) => {
   return (
     <div>
       <GameWrap>
+        {is_player?
+        <>
         <TimerWrapL count={count}>
           <TimeStoneL>
           <Text
-            is_color={count % 2 == 0 ? "#F9FFBC" : "#619fcc"}
+          is_bold
+            is_color={count % 2 == 0 ? "white" : "white"}
             is_size="25px"
           >
-            {min}분 {sec}초
+            {min}: {sec}
           </Text>
           </TimeStoneL>
         </TimerWrapL>
         <canvas ref={canvasRef} id="canvas" />
         <TimerWrapR count={count}>
+          <TimeStoneR>
           <Text
-            is_color={count % 2 == 0 ? "#619fcc" : "#F9FFBC"}
+          is_bold
+            is_color={count % 2 == 0 ? "black" : "black"}
             is_size="25px"
           >
-            {min2}분 {sec2}초
+            {min2}: {sec2}
           </Text>
+          </TimeStoneR>
         </TimerWrapR>
+        </>:
+        <> 
+        <ObserverTW>
+        <ObserverWPT>
+        <Text
+          is_bold
+            is_color={count % 2 == 0 ? "white" : "white"}
+            is_size="25px"
+          >
+            {min}: {sec}
+          </Text>
+          </ObserverWPT>
+          <ObserverBPT>
+        <Text
+          is_bold
+            is_color={count % 2 == 0 ? "black" : "black"}
+            is_size="25px"
+          >
+            {min2}: {sec2}
+          </Text>
+          </ObserverBPT>
+          </ObserverTW>
+          <ObserverOmog>
+        <canvas ref={canvasRef} id="canvas" />
+        </ObserverOmog>
+        </>
+        }
       </GameWrap>
     </div>
   );
@@ -354,24 +393,57 @@ const Omog = memo((props) => {
 const TimerWrapL = styled.div`
   height: 660px;
   width: 100px;
-  margin: auto 20px;
-  line-height: 660px;333333;
-  background-color : ${(props) =>
-    props.count % 2 == 0 ? "#619fcc" : "#F9FFBC"};
+  margin: auto 40px auto 20px;
+  line-height: 90px;
+  display: flex;
+  align-items: center;
+  // background-color : ${(props) =>props.count % 2 == 0 ? "#619fcc" : "#F9FFBC"};
 `;
 const TimerWrapR = styled.div`
   height: 660px;
   width: 100px;
-  margin: auto 20px;
-  line-height: 660px;
-  background-color: ${(props) =>
-    props.count % 2 == 0 ? "#F9FFBC" : "#619fcc"};
+  margin: auto 10px auto 40px;
+  line-height: 90px;
+  display: flex;
+  align-items: center;
+  // background-color: ${(props) =>props.count % 2 == 0 ? "#F9FFBC" : "#619fcc"};
 `;
 const GameWrap = styled.div`
   display: flex;
 `;
 const TimeStoneL=styled.div`
+width : 90px;
+height : 90px;
+border-radius : 45px;
+background-color : black;
+display: flex;
+justify-content: center;
 `;
 const TimeStoneR=styled.div`
+width : 90px;
+height : 90px;
+border-radius : 45px;
+background-color : #f0f0f0;
+display: flex;
+justify-content: center;
+border : 2px solid black;
+`;
+const ObserverWPT =styled.div`
+position : absolute;
+top : 375px;
+left : 225px;
+`;
+const ObserverBPT =styled.div`
+position : absolute;
+top : 700px;
+left : 225px;
+`;
+const ObserverTW = styled.div`
+
+`;
+const ObserverOmog = styled.div`
+width : 700px;
+height : 700px;
+margin : 100px 0;
 `;
 export default Omog;

@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 const Progress = (props) => {
   return (
-    <ProgressBar>
+    <ProgressBar width={props.width} margin={props.margin}>
       <HighLight width={((props.win) /(props.win+props.lose)) * 100 + "%"} />
     </ProgressBar>
   );
@@ -12,12 +12,13 @@ const Progress = (props) => {
 
 const ProgressBar = styled.div`
   background: #eee;
-  width: 150px;
+  width: ${(props) => (props.width? props.width:`150px`)};
   height: 10px;
+  margin: ${(props) => (props.margin? props.margin:``)};
 `;
 
 const HighLight = styled.div`
-  background: orange;
+  background: #94d7bb;
   transition: 1s;
   width: ${(props) => props.width};
   height: 10px;
