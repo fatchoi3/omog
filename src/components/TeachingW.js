@@ -7,7 +7,7 @@ import { Text } from "../elements";
 const TeachingW = memo((props) => {
 
   const [teaching, setTeaching] = useState([]);
-  const oneChat = useRef();
+
 
   const scroll = useRef(null);
 
@@ -53,6 +53,7 @@ const TeachingW = memo((props) => {
   const bottomView = useCallback(() => {
     scroll.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, []);
+  
   useEffect(() => {
     bottomView();
   }, [bottomView, teaching]);
@@ -67,7 +68,7 @@ const TeachingW = memo((props) => {
       > {props.playerInfo.id}</Text>
       </Profile>
       <Chat_render_oneChat 
-      ref={oneChat} 
+    
       playerInfo={props.playerInfo}
       >
         {renderChat()}
@@ -92,6 +93,9 @@ const Chat_render_oneChat = styled.div`
   // border: 2px solid ${(props)=>props.playerInfo.state === "whitePlayer" ? `#6071CE` : `#E296EF`};
   // background : ${(props)=>props.playerInfo.state === "whitePlayer" ? `#6071CE` : `#E296EF`}
   box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
+  ::-webkit-scrollbar {
+    display: none;
+  } 
   `;
 const ChatContents = styled.div`
  
