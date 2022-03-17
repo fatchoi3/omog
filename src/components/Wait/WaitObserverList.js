@@ -15,7 +15,6 @@ function WaitObserverList({ socket, blackObserverList, whiteObserverList }) {
     const waitingPerson = useSelector((state) => state.room.userInfo);
     const [rightClicked, setRightClicked] = useState(false);
     const [leftClicked, setLeftClicked] = useState(false);
-    const [styled, setStyled] = useState({ display: 'none' });
 
 
     // a) emit(”changeToPlayer”, previousTeam, wantTeam)
@@ -53,11 +52,6 @@ function WaitObserverList({ socket, blackObserverList, whiteObserverList }) {
         }
     };
 
-    function MouseOver(e) {
-        console.log("ok?")
-        // e.target.style.display = "none";
-    }
-
 
     useEffect(() => {
         if (waitingPerson.state === "blackObserver") {
@@ -88,7 +82,7 @@ function WaitObserverList({ socket, blackObserverList, whiteObserverList }) {
                     <div style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
                         {blackObserverList &&
                             blackObserverList.map((observer, idx) => (
-                                <Text key={idx} is_color="white">{observer}</Text>
+                                <Text key={idx}>{observer}</Text>
                             ))
                         }
                     </div>
