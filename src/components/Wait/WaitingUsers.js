@@ -61,6 +61,7 @@ function WaitingUsers({ socket, roomNum }) {
             console.log(`enterRoomWhiteObserver 입장, 방번호 : ${roomNum}, ${waitingPerson.state}`)
         }
 
+        // 대기방 접속한 인원 정보 받기
         const welcome = (id, userInfos) => {
             console.log("welcome 실행완료", id, userInfos);
             setBlackPlayer(userInfos[0].blackPlayerInfo[0]);
