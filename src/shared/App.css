@@ -40,9 +40,10 @@
 
 }
 form {
-  max-width: 350px;
+  max-width: 500px;
+  width: 500px;
   border-radius: 5px;
-  padding: 20px;
+  
   box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
 }
 
@@ -87,16 +88,8 @@ span {
 .chat_textfield_container .chat_textfield:focus {
   outline: none;
 }
-.chat_textfield_container .chat_send_btn {
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  width: 1.25vw;
-  transform: translateY(-50%);
-}
-.chat_textfield_container .chat_send_btn > img {
-  width: 100%;
-}
+
+
 
 .chat_render_oneChat {
   width: 100%;
@@ -120,49 +113,42 @@ span {
   color: #a3a3a3;
   margin: 10px;
 }
-
+/* 다른 사람의 채팅 */
 .chat_from_friend {
   text-align: left;
   margin: 10px 0;
 }
 
 .chat_from_friend .chat_nick {
-  font-size: 12px;
-  margin: 0 0 10px 10px;
+  font-size: 15px;
+  margin: 0 0 10px 20px;
 }
 .chat_from_friend .chat_content {
   display: flex;
   justify-content: flex-start;
+  
 }
 .chat_from_friend .chat_content .chat_message {
-  background-color: #f4f4f4;
-  border-radius: 11px;
+  background-color: #94D7BB;
+  margin-left: 20px; 
+  border-top-right-radius: 11px;
+  border-bottom-left-radius: 11px;
+  border-bottom-right-radius: 11px;
 }
-
+/* 내가 채팅칭 때 */
 .chat_from_me {
   text-align: right;
   display: flex;
   flex-direction: row-reverse;
   align-items: flex-end;
-  margin: 20px 5px 20px 0;
+  margin: 20px 5px 20px 15px;
 }
 .chat_from_me .chat_message {
-  background-color: #889cf2;
-  color: #fff;
-  border-radius: 11px;
+  background-color: #f0f0f0;
+  color: #000;
+  border-top-left-radius: 11px;
+  border-bottom-left-radius: 11px;
+  border-bottom-right-radius: 11px;
+  margin-right: 20px;
 }
 
-.chat_disabled {
-  position: relative;
-}
-.chat_disabled::after {
-  display: block;
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: #000;
-  z-index: 999;
-  width: 210px;
-  height: 200px;
-}

@@ -1,37 +1,35 @@
-import React, { useState, useEffect } from "react";
-import socketIOClient from "socket.io-client";
-import {BrowserRouter, Route} from "react-router-dom";
+import React from "react";
+import { BrowserRouter, Route } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import { history } from "../redux/configureStore";
+import io from "socket.io-client";
 
 import Main from "../page/Main";
 import Login from "../page/Login";
+import Game from "../page/Game";
+import Omog from "../components/Omog";
+import Waiting from '../page/Waiting';
+import Result from '../page/Result';
 
-import Chatting from "../components/Chatting"
-const ENDPOINT = "http://127.0.0.1:4001";
+
+// const socketWait = io.connect("http://localhost:4001");
+// const socketGame = io.connect("http://15.164.103.116/game");
+// const socketGame = io.connect("http://localhost:4001/game");
+
+
 function App() {
- 
-  const [response, setResponse] = useState("");
-
-  useEffect(() => {
-    const socket = socketIOClient(ENDPOINT);
-    socket.on("FromAPI", data => {
-      setResponse(data);
-    });
-  }, []);
-
   return (
-    <React.Fragment>
-        <ConnectedRouter  history={history}>
-        <p>
-      It'zs <time dateTime={response}>{response}</time>
-    </p>
-          <Route path="/" exact component={Main} />
-          <Route path="/login" exact component={Login} />
-          <Route path="/test" exact component={Chatting} />
-        </ConnectedRouter>
-
-    </React.Fragment>
+    <>
+      <ConnectedRouter history={history}>
+        <Route path="/main" exact component={Main} />
+        <Route path="/" exact component={Login} />
+        <Route path="/waiting/:roomNum" exact component={Waiting} />
+        <Route path="/game/:roomNum" exact component={Game} />
+        {/* <Route path="/game/:gameNum" exact render={() => <Game socket={socketGame}  exact component={Game}/>} /> */}
+        <Route path="/test" exact component={Omog} />
+        <Route path='/game/result/:roomNum' exact component={Result} />
+      </ConnectedRouter>
+    </>
   );
 }
 export default App;
