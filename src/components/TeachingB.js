@@ -1,57 +1,43 @@
-import React, { useState, useRef, useEffect ,memo,useCallback} from "react";
+import React, { useState, useRef, useEffect, memo, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 import { Text } from "../elements";
 import { actionCreators as gameActions } from "../redux/modules/game";
 
-
 const TeachingB = memo((props) => {
-  
   const dispatch = useDispatch();
   const [teaching, setTeaching] = useState([]);
   const chatList = useSelector((state) => state.game.Teaching_listB);
   const scroll = useRef(null);
 
-
   const socket = props.socket;
 
-  console.log("chatList",chatList);
-  
+  console.log("chatList", chatList);
+
   const renderChat = () => {
     return (
-    <div ref={scroll}>
-      {chatList.map(({ id, message }, index) => (
-      <ChatContents key={index}>
-        <ChatId 
-        playerInfo={props.playerInfo}
-        > 
-          <Text
-          is_size="12px"
-          is_color="black"
-          >
-            {id}
-            </Text>
-          </ChatId>
+      <div ref={scroll}>
+        {chatList.map(({ id, message }, index) => (
+          <ChatContents key={index}>
+            <ChatId playerInfo={props.playerInfo}>
+              <Text is_size="12px" is_color="black">
+                {id}
+              </Text>
+            </ChatId>
 
-        <ChatMessage
-        playerInfo={props.playerInfo}
-        >
-          <Text
-          is_size="15px"
-          is_color="black "
-          >
-          {message}
-          </Text>
-          </ChatMessage>
-      </ChatContents>
-      )
-       )}
-  </div>
-      )
-      };
+            <ChatMessage playerInfo={props.playerInfo}>
+              <Text is_size="15px" is_color="black ">
+                {message}
+              </Text>
+            </ChatMessage>
+          </ChatContents>
+        ))}
+      </div>
+    );
+  };
   const bottomView = useCallback(() => {
-    scroll.current?.scrollIntoView({  block: "end" });
+    scroll.current?.scrollIntoView({ block: "end" });
   }, []);
 
   useEffect(() => {
@@ -59,35 +45,33 @@ const TeachingB = memo((props) => {
   }, [bottomView, chatList]);
 
   useEffect(() => {
-    dispatch(gameActions.AddTeachB(socket))
-    }, [socket]);
- 
+    dispatch(gameActions.AddTeachB(socket));
+  }, [socket]);
 
   return (
-    <Container
-    playerInfo={props.playerInfo}
-    >
+    <Container playerInfo={props.playerInfo}>
       <Profile>
-      <Text
-
-      > {props.playerInfo?props.playerInfo.id:"1"}</Text>
+        <DdongGraMe />
+        <Text is_size="24px" is_bold>
+          {" "}
+          {props.playerInfo ? props.playerInfo.id : "1"}
+        </Text>
       </Profile>
-      <Chat_render_oneChat  
-      playerInfo={props.playerInfo}
-      >
+      <Chat_render_oneChat playerInfo={props.playerInfo}>
         {renderChat()}
-        
       </Chat_render_oneChat>
     </Container>
   );
 });
 const Container = styled.div`
   width: 400px;
-  height : 160px;
-  display : flex;
+  height: 160px;
+  display: flex;
   box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
-  border : 3px solid  ${(props)=>props.playerInfo?.state === "whitePlayer" ? `#94d7bb` : `#9E9E9E`};
-  border-radius : 10px;
+  border: 3px solid
+    ${(props) =>
+      props.playerInfo?.state === "whitePlayer" ? `#94d7bb` : `#9E9E9E`};
+  border-radius: 10px;
 `;
 const Chat_render_oneChat = styled.div`
   width: 280px;
@@ -98,28 +82,32 @@ const Chat_render_oneChat = styled.div`
   box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
   ::-webkit-scrollbar {
     display: none;
-  }   
-  `;
-const ChatContents = styled.div`
- 
+  }
 `;
+const ChatContents = styled.div``;
 const ChatId = styled.div`
-  margin : 5px;
-  border-radius : 5px;
-  padding : 5px;
+  margin: 5px;
+  border-radius: 5px;
+  padding: 5px;
   width: 50px;
 `;
 const ChatMessage = styled.div`
- margin : 5px 5px;
- padding : 5px;
- background-color: #94D7BB;
+  margin: 5px 5px;
+  padding: 5px;
+  background-color: #94d7bb;
   border-top-right-radius: 5px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 `;
 const Profile = styled.div`
-width: 120px;
-margin: 5px 0px 5px 5px;
-
+  width: 120px;
+  margin: 5px 0px 5px 5px;
+`;
+const DdongGraMe = styled.div`
+  width: 70px;
+  height: 70px;
+  border-radius: 70px;
+  border: solid 2px black;
+  margin: 15px 5px 15px 17px;
 `;
 export default TeachingB;

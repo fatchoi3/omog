@@ -18,18 +18,24 @@ const Game = memo((props) => {
 
   const userInfo = useSelector((state) => state.user.userInfo);
   const gameInfo = useSelector((state) => state.game.gameInfo);
-  const blackPlayer = gameInfo.blackTeamPlayer;
-  const whitePlayer = gameInfo.whiteTeamPlayer;
+
   const userId = localStorage.getItem("userId");
   const gameNum = props.match.params.roomNum;
   const is_player =
-    userInfo.state === "blackPlayer" || 
-    userInfo.state === "whitePlayer"
+    userInfo.state === "blackPlayer" || userInfo.state === "whitePlayer"
       ? true
       : false;
- 
-const [randomNum, setRandomNum]= useState();
-  
+
+  console.log("gameInfo", gameInfo[0]);
+
+  const realGameInfo =
+    gameInfo[0].blackTeamPlayer.length === 0 ? gameInfo[1] : gameInfo[0];
+
+  const blackPlayer = realGameInfo.blackTeamPlayer[0];
+  const whitePlayer = realGameInfo.whiteTeamPlayer[0];
+  console.log("blackTeamPlayer", blackPlayer);
+  console.log("whiteTeamPlayer", whitePlayer);
+  const [randomNum, setRandomNum] = useState();
 
   const [loading, setLoading] = useState(1);
   const [loadingFade, setLoadingFade] = useState(1);
@@ -47,7 +53,7 @@ const [randomNum, setRandomNum]= useState();
     if (onCancel && typeof onCancel !== "function") {
       return;
     }
-  
+
     const confirmAction = () => {
       if (window.confirm(message)) {
         onConfirm();
@@ -55,7 +61,7 @@ const [randomNum, setRandomNum]= useState();
         onCancel();
       }
     };
-  
+
     return confirmAction;
   };
   const deleteConfirm = () => console.log("삭제했습니다.");
@@ -65,62 +71,52 @@ const [randomNum, setRandomNum]= useState();
     deleteConfirm,
     cancelConfirm
   );
-    
-  console.log("gameInfo", gameInfo);
-  console.log("blackTeamObserver", gameInfo.blackTeamObserver);
-  console.log("blackTeamPlayer", gameInfo.blackTeamPlayer);
-  console.log("whiteTeamObserver", gameInfo.whiteTeamObserver);
-  console.log("whiteTeamPlayer", gameInfo.whiteTeamPlayer);
 
-  //"http://15.164.103.116/game",
   
+  // "http://localhost:4001/game",
   const [socket, disconnectSocket] = useSocket(
-    "http://localhost:4001/game",
+    "http://15.164.103.116/game",
     gameNum,
     userId
   );
   useEffect(() => {
-
     return () => {
       disconnectSocket();
     };
   }, [disconnectSocket]);
   useEffect(() => {
-  
     dispatch(userActions.loginCheckDB(userId));
     dispatch(gameActions.getGameDB(gameNum));
     // window.onbeforeunload = function(e) {
-    //   console.log("[window onbeforeunload] : [start]");
-    //   console.log("");  
+
     //   // e.preventDefault();
     //   // return "어디가세요?";
     //   confirmDelete()
     //   return "어디가세요?";
     // }
-    window.onbeforeunload = confirmDelete();
+    // window.onbeforeunload = confirmDelete();
 
     socket.on("flyingWord", (data) => {
-      setRandomNum( rand(1, 10)*50);
+      setRandomNum(rand(1, 10) * 50);
       setFlying(data.chat.chat);
       setLoading(0);
-      console.log("randomNum",randomNum);
+      console.log("randomNum", randomNum);
       let timer = setTimeout(() => {
         console.log("시간은 똑딲똑딱");
         setLoading(1);
       }, 1000);
     });
   }, []);
-  
+
   return (
     <GameContainer>
       {loading ? (
         ""
       ) : (
         <DialogBlock RandomNum={randomNum}>
-          <Text 
-          is_size="50px"
-          is_margin= "20px 0 50px"
-           >{flying}</Text>
+          <Text is_size="50px" is_margin="20px 0 50px">
+            {flying}
+          </Text>
         </DialogBlock>
       )}
       {loadingFade ? (
@@ -133,43 +129,35 @@ const [randomNum, setRandomNum]= useState();
       <LogoWrap>
         <LogoImg src={Logo} />
       </LogoWrap>
-      {is_player?
-      <>
-      <Wrap>
-        <Omog
-          userInfo={userInfo}
-          gameNum={gameNum}
-          socket={socket}
-           />
-        <TeachingWrap>
-          <TeachingW playerInfo={whitePlayer} socket={socket} />
-          <TeachingB playerInfo={blackPlayer} socket={socket} />
-        </TeachingWrap>
-      </Wrap>
-      <ChattingWrap>
-        <Chatting gameNum={gameNum} socket={socket} userInfo={userInfo} />
-      </ChattingWrap>
-      </>
-      :<>
-      <PlayerInfos>
+      {is_player ? (
         <>
-        <PlayerCardW playerInfo={whitePlayer} />
-      </>
-      <>
-         <PlayerCardB playerInfo={blackPlayer}/>
-      </>
-      </PlayerInfos>
-      <Omog
-          userInfo={userInfo}
-          gameNum={gameNum}
-          socket={socket}
-          
-        />
-         <ChattingWrap>
-        <Chatting gameNum={gameNum} socket={socket} userInfo={userInfo} />
-      </ChattingWrap>
-      </>
-      }
+          <Wrap>
+            <Omog userInfo={userInfo} gameNum={gameNum} socket={socket} />
+            <TeachingWrap>
+              <TeachingW playerInfo={whitePlayer} socket={socket} />
+              <TeachingB playerInfo={blackPlayer} socket={socket} />
+            </TeachingWrap>
+          </Wrap>
+          <ChattingWrap>
+            <Chatting gameNum={gameNum} socket={socket} userInfo={userInfo} />
+          </ChattingWrap>
+        </>
+      ) : (
+        <>
+          <PlayerInfos>
+            <>
+              <PlayerCardW playerInfo={whitePlayer} />
+            </>
+            <>
+              <PlayerCardB playerInfo={blackPlayer} />
+            </>
+          </PlayerInfos>
+          <Omog userInfo={userInfo} gameNum={gameNum} socket={socket} />
+          <ChattingWrap>
+            <Chatting gameNum={gameNum} socket={socket} userInfo={userInfo} />
+          </ChattingWrap>
+        </>
+      )}
     </GameContainer>
   );
 });
@@ -194,12 +182,11 @@ const TeachingWrap = styled.div`
 `;
 
 const PlayerInfos = styled.div`
-height: 680px;
-display : flex; 
-flex-direction: column;
-padding: 120px 0px;
-margin : 0 20px;
-
+  height: 680px;
+  display: flex;
+  flex-direction: column;
+  padding: 120px 0px;
+  margin: 0 20px;
 `;
 const ChattingWrap = styled.div`
   width: 450px;
@@ -217,7 +204,7 @@ to {
 
 const DialogBlock = styled.div`
 position: absolute;
-top: ${(props)=>props.RandomNum}px;
+top: ${(props) => props.RandomNum}px;
 max-width: 600px;
 height : 100px;
 max-height: 400px;

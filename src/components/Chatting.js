@@ -16,7 +16,12 @@ const Chatting = memo((props) => {
   const scroll = useRef(null);
   const gameNum = props.gameNum;
   const socket = props.socket;
-
+  const isTeam =
+    props.userInfo.state === "blackPlayer" ||
+    props.userInfo.state === "blackObserver"
+      ? "black"
+      : "white";
+  console.log("isTeam", isTeam);
   const teachingChoice = useCallback(
     (e) => {
       setTeaching(e.target.value);
@@ -27,27 +32,26 @@ const Chatting = memo((props) => {
 
   const onMessageSubmit = useCallback(
     (e) => {
-      if(message === ""){
-      console.log("빈값입니다.")
-      }else{
-      if (teaching === "Text") {
-        console.log("이상무");
-        socket.emit("teachingB", { chat: message });
+      if (message === "") {
+        console.log("빈값입니다.");
+      } else {
+        if (teaching === "Text" || isTeam === "white") {
+          console.log("Text훈수W");
+          socket.emit("teachingW", { chat: message });
+        } else {
+          console.log("Text훈수B");
+          socket.emit("teachingB", { chat: message });
+        }
+        if (teaching === "Fly") {
+          console.log("이이상상무무");
+          socket.emit("flyingWord", { chat: message });
+        }
+
+        socket.emit("chat", { chat: message });
+        console.log("채팅보내기");
+        e.preventDefault();
+        setMessage("");
       }
-      // if (teaching === "Text") {
-      //   console.log("이상무");
-      //   socket.emit("teachingW", { chat: message });
-      // }
-      if (teaching === "Fly") {
-        console.log("이이상상무무");
-        socket.emit("flyingWord", { chat: message });
-      }
-      
-      socket.emit("chat", { chat: message });
-      console.log("채팅보내기");
-      e.preventDefault();
-      setMessage("");
-    }
     },
     [message]
   );
@@ -71,7 +75,6 @@ const Chatting = memo((props) => {
   }, []);
 
   const onKeyPress = useCallback((e) => {
-  
     if (e.key == "Enter") {
       onMessageSubmit(e);
     }
@@ -79,12 +82,10 @@ const Chatting = memo((props) => {
 
   useEffect(() => {
     dispatch(gameActions.addGameChat(socket));
-    
   }, [socket]);
   useEffect(() => {
     return () => {
       dispatch(gameActions.clearOne());
-    
     };
   }, []);
 
@@ -94,11 +95,11 @@ const Chatting = memo((props) => {
 
   return (
     <ChattingContainer>
-      <ChatForm >
+      <ChatForm>
         <Chat_render_oneChat>
           <TopChat>
             <Title>
-              <Text is_size="24px" is_color="#FFFFFF"  is_bold>
+              <Text is_size="24px" is_color="#FFFFFF" is_bold>
                 실시간 채팅
               </Text>
             </Title>
@@ -115,7 +116,7 @@ const Chatting = memo((props) => {
                   dispatch(gameActions.gameOutDB(gameNum));
                 }}
               >
-                <Text is_size="24px" is_color="#FFFFFF"  is_bold>
+                <Text is_size="24px" is_color="#FFFFFF" is_bold>
                   나가기▷
                 </Text>
               </Button>
@@ -137,12 +138,12 @@ const Chatting = memo((props) => {
             variant="outlined"
             label="Message"
           />
-          <Button 
-          is_height="50px" 
-          is_width="150px"
-          is_border="none"
-          _onClick={onMessageSubmit}
-          is_hover="inset -3.5em 0 0 0 #94D7BB, inset 3.5em 0 0 0 #94D7BB"
+          <Button
+            is_height="50px"
+            is_width="150px"
+            is_border="none"
+            _onClick={onMessageSubmit}
+            is_hover="inset -3.5em 0 0 0 #94D7BB, inset 3.5em 0 0 0 #94D7BB"
           >
             <Text>Send</Text>
           </Button>
@@ -163,17 +164,17 @@ const Chatting = memo((props) => {
 });
 const ChattingContainer = styled.div`
   // height: 800px;
-     margin: 25px 0px 25px 20px;
+  margin: 25px 0px 25px 20px;
   // box-shadow: 0px 4px 35px 4px rgba(162, 162, 162, 0.25);
-   border-radius: 16px;
+  border-radius: 16px;
   // box-sizing: border-box;
   width: 430px;
-  border : 2px solid black;
+  border: 2px solid black;
 `;
 const ChatForm = styled.div`
   max-width: 430px;
   width: 430px;
-  height:850px;
+  height: 850px;
   border-radius: 15px;
   box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
 `;
@@ -186,10 +187,10 @@ const Chat_render_oneChat = styled.div`
   border-radius: 15px;
   ::-webkit-scrollbar {
     display: none;
-  } 
-  `;
+  }
+`;
 const Title = styled.div`
-margin : 12px 0 0 0;
+  margin: 12px 0 0 0;
 `;
 const ExitButtonWrap = styled.div``;
 const TopChat = styled.div`
@@ -200,28 +201,27 @@ const TopChat = styled.div`
   background-color: #94d7bb;
   justify-content: space-between;
   padding: 22px 13px;
-  border-bottom : black 2px solid;
+  border-bottom: black 2px solid;
 `;
 const BottomWrap = styled.div`
   display: flex;
   border-top: solid 2px black;
   height: 60px;
   width: 430px;
-  
 `;
 const TeachingSelect = styled.select`
   width: 100px;
   height: 52px;
   border: none;
-  border-bottom-right-radius:8px;
+  border-bottom-right-radius: 8px;
 `;
 const SendText = styled.input`
   width: 400px;
   height: 50px;
-  border : none;
+  border: none;
   background-color: #ffffff;
   padding-left: 25px;
-  border-bottom-left-radius:8px;
+  border-bottom-left-radius: 8px;
   ::placeholder {
     font-size: 18px;
   }

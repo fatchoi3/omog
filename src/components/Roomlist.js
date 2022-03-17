@@ -15,9 +15,7 @@ const Roomlist = () => {
   const room_info = useSelector((state) => state.room.roomInfo);
   const userId = localStorage.getItem("userId");
 
- 
   console.log("room_info", room_info);
-
 
   const openModal = () => {
     setModalOpen(true);
@@ -30,18 +28,18 @@ const Roomlist = () => {
     console.log(e.target.value);
   };
   const joinWaiting = () => {
-    console.log(state)
-    if(state === ""){
-      alert("선택해주세요~~!")
-    }else{
-    dispatch(
-      roomActions.joinRoomDB({
-        roomNum: room_info.roomNum,
-        id: userId,
-        state: state,
-      })
-    );
-  }
+    console.log(state);
+    if (state === "") {
+      alert("선택해주세요~~!");
+    } else {
+      dispatch(
+        roomActions.joinRoomDB({
+          roomNum: room_info.roomNum,
+          id: userId,
+          state: state,
+        })
+      );
+    }
   };
 
   useEffect(() => {
@@ -95,84 +93,88 @@ const Roomlist = () => {
       >
         <WaitingEnterRadio>
           <Radio>
-          <div>
-            <Text
-            is_margin="0 0 0 4px;"
-            >blackPlayer</Text>
-            <Text
-            is_margin="5px 0 0 20px"
-            > 현재 {room_info.blackTeamPlayer?1:0} 명</Text>
+            <div>
+              <Text is_margin="0 0 0 4px;">blackPlayer</Text>
+              <Text is_margin="5px 0 0 20px">
+                {" "}
+                현재 {room_info.blackTeamPlayer ? 1 : 0} 명
+              </Text>
             </div>
             <Input>
-            <input
-              type="radio"
-              id="1"
-              name="state"
-              value="blackPlayer"
-              onChange={changeRadioQ1}
-              disabled={room_info.blackTeamPlayer?true:false}
-            />
-            </Input>
-          </Radio>
-
-          <Radio>
-          <div>
-            <Text
-            is_margin="0 0 0 10px;"
-            >whitePlayer</Text>
-               <Text
-               is_margin="5px 0 0 20px"
-               > 현재 {room_info.whiteTeamPlayer?1:0} 명</Text>
-               </div>
-            <Input>
-            <input
-              type="radio"
-              id="2"
-              name="state"
-              value="whitePlayer"
-              onChange={changeRadioQ1}
-              disabled={room_info.whiteTeamPlayer?true:false}
-            />
-            </Input>
-          </Radio>
-
-          <Radio>
-          <div>
-            <Text
-            is_margin="0 0 0 10px;"
-            >blackObserver</Text>
-            <Text
-            is_margin="5px 0 0 20px"
-            > 현재 {room_info.blackTeamObserver?room_info.blackTeamObserver.length:0} 명</Text>
-            </div>
-            <Input>
-            <input
-              type="radio"
-              id="3"
-              name="state"
-              value="blackObserver"
-              onChange={changeRadioQ1}
-            />
+              <input
+                type="radio"
+                id="1"
+                name="state"
+                value="blackPlayer"
+                onChange={changeRadioQ1}
+                disabled={room_info.blackTeamPlayer ? true : false}
+              />
             </Input>
           </Radio>
 
           <Radio>
             <div>
-            <Text
-             is_margin="0 0 0 10px;"
-            >whiteObserver</Text>
-             <Text
-             is_margin="5px 0 0 20px"
-             > 현재 {room_info.whiteTeamObserver ? room_info.whiteTeamObserver.length:0} 명</Text>
-             </div>
+              <Text is_margin="0 0 0 10px;">whitePlayer</Text>
+              <Text is_margin="5px 0 0 20px">
+                {" "}
+                현재 {room_info.whiteTeamPlayer ? 1 : 0} 명
+              </Text>
+            </div>
             <Input>
-            <input
-              type="radio"
-              id="4"
-              name="state"
-              value="whiteObserver"
-              onChange={changeRadioQ1}
-            />
+              <input
+                type="radio"
+                id="2"
+                name="state"
+                value="whitePlayer"
+                onChange={changeRadioQ1}
+                disabled={room_info.whiteTeamPlayer ? true : false}
+              />
+            </Input>
+          </Radio>
+
+          <Radio>
+            <div>
+              <Text is_margin="0 0 0 10px;">blackObserver</Text>
+              <Text is_margin="5px 0 0 20px">
+                {" "}
+                현재{" "}
+                {room_info.blackTeamObserver
+                  ? room_info.blackTeamObserver.length
+                  : 0}{" "}
+                명
+              </Text>
+            </div>
+            <Input>
+              <input
+                type="radio"
+                id="3"
+                name="state"
+                value="blackObserver"
+                onChange={changeRadioQ1}
+              />
+            </Input>
+          </Radio>
+
+          <Radio>
+            <div>
+              <Text is_margin="0 0 0 10px;">whiteObserver</Text>
+              <Text is_margin="5px 0 0 20px">
+                {" "}
+                현재{" "}
+                {room_info.whiteTeamObserver
+                  ? room_info.whiteTeamObserver.length
+                  : 0}{" "}
+                명
+              </Text>
+            </div>
+            <Input>
+              <input
+                type="radio"
+                id="4"
+                name="state"
+                value="whiteObserver"
+                onChange={changeRadioQ1}
+              />
             </Input>
           </Radio>
         </WaitingEnterRadio>
@@ -186,24 +188,17 @@ const Table = styled.table`
   border-radius: 15px 15px 0 0;
   background-color: #f2f2f2;
   border-bottom: 3px solid black;
-  
 `;
 const Thead = styled.thead`
   background-color: #94d7bb;
-  width : 1000px;
+  width: 1000px;
   height: 50px;
- 
-  
 `;
 const Tbody = styled.tbody`
   background-color: #f2f2f2;
- 
 `;
 const Tr = styled.tr`
   height: 50px;
-  
- 
- 
 `;
 const Th = styled.th`
   border-bottom: 1px solid black;
@@ -212,7 +207,6 @@ const Th = styled.th`
 const TdR = styled.td`
   border-bottom: 1px solid black;
   text-align: center;
-  
 `;
 const TdP = styled.td`
   border-bottom: 1px solid black;
@@ -225,7 +219,7 @@ const TdO = styled.td`
 const TdS = styled.td`
   text-align: center;
   border-bottom: 1px solid black;
-  border-radius: 0px 15px 0 0;  
+  border-radius: 0px 15px 0 0;
 `;
 
 const WaitingEnterRadio = styled.div`
@@ -241,8 +235,8 @@ const Radio = styled.div`
   display: flex;
   height: 40px;
 `;
-const Input =styled.div`
- padding : 3px 0 0 0;
+const Input = styled.div`
+  padding: 3px 0 0 0;
 `;
 
 export default Roomlist;

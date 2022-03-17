@@ -1,23 +1,19 @@
 import React from "react";
 import styled from "styled-components";
-import "./Leader.css"
+import "./Leader.css";
 
-const LeaderBoard = (props) =>{
-    const { open, close, header,enter,enterName } = props;
+const LeaderBoard = (props) => {
+  const { open, close, header, enter, enterName } = props;
 
   return (
     // 모달이 열릴때 openModal 클래스가 생성된다.
-    <div className={open ? 'openModal modal' : 'modal'} >
+    <div className={open ? "openModal modal" : "modal"}>
       {open ? (
-        <section  >
-          <header>
-            {header}
-          </header>
+        <section>
+          <header>{header}</header>
           <main>{props.children}</main>
           <footer>
-          {enter?<button onClick={enter}>
-              {enterName}
-            </button>:""}
+            {enter ? <button onClick={enter}>{enterName}</button> : ""}
             <button className="close" onClick={close}>
               닫기
             </button>
@@ -25,6 +21,6 @@ const LeaderBoard = (props) =>{
         </section>
       ) : null}
     </div>
-  )
+  );
 };
 export default LeaderBoard;
