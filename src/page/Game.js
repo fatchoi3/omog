@@ -28,10 +28,10 @@ const Game = memo((props) => {
       ? true
       : false;
  
-
+const [randomNum, setRandomNum]= useState();
   
-  const winnerW = gameInfo.whiteTeamPlayer;
-  const winnerB = gameInfo.blackTeamPlayer;
+  const winnerW = gameInfo?.whiteTeamPlayer;
+  const winnerB = gameInfo?.blackTeamPlayer;
 
   const [loading, setLoading] = useState(1);
   const [loadingFade, setLoadingFade] = useState(1);
@@ -44,7 +44,7 @@ const Game = memo((props) => {
 
   console.log("userInfo", userInfo);
   //"http://15.164.103.116/game",
-  let randomNum;
+  
   const [socket, disconnectSocket] = useSocket(
     "http://localhost:4001/game",
     gameNum,
@@ -63,32 +63,27 @@ const Game = memo((props) => {
         console.log("Fly훈수 받기");
 
     socket.on("flyingWord", (data) => {
-      randomNum = rand(1, 10);
+      setRandomNum( rand(1, 10)*50);
       setFlying(data.chat.chat);
       setLoading(0);
-      console.log("되네");
-      console.log("data",data);
+      console.log("randomNum",randomNum);
       let timer = setTimeout(() => {
         console.log("시간은 똑딲똑딱");
         setLoading(1);
       }, 1000);
     });
   }, []);
-  useEffect(()=>{
-    if(blackPlayer){
-    dispatch(userActions.blackPlayerCheck(gameInfo.blackTeamPlayer));
-    dispatch(userActions.whitePlayerCheck(gameInfo.whiteTeamPlayer));
-  }
-  },[blackPlayer])
-  console.log("blackPlayer",blackPlayer);
-  console.log("whitePlayer", whitePlayer);
+  
   return (
     <GameContainer>
       {loading ? (
         ""
       ) : (
         <DialogBlock RandomNum={randomNum}>
-          <Text is_size="50px">{flying}</Text>
+          <Text 
+          is_size="50px"
+          is_margin= "20px 0 50px"
+           >{flying}</Text>
         </DialogBlock>
       )}
       {loadingFade ? (
@@ -190,12 +185,13 @@ to {
 
 const DialogBlock = styled.div`
 position: absolute;
-top: ${(props) => props.randomNum * 50} px;
-width: 400px;
-height: 200px;
-line-height: 200px;
+top: ${(props)=>props.RandomNum}px;
+max-width: 600px;
+height : 100px;
+max-height: 400px;
+margin : auto;
   border-radius: 20px;
-  background-color: pink;
+  background-color: #94d7bb;
   border: 2px solid black 
   text-align: center;
   animation-duration: 1s;

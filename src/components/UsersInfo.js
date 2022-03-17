@@ -30,8 +30,11 @@ const UsersInfo = () => {
         <Text
          is_bold
          is_size="30px"
+         is_margin="10px"
         >{get_user.id}</Text>
-        <Text> Point {get_user.point} P</Text>
+        <Text
+        is_margin ="15px 0 0 0"
+        > Point {get_user.point} P</Text>
 
         </UserName>
       </User>

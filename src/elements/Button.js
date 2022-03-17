@@ -57,7 +57,7 @@ const ElButton = styled.button`
   ${(props) => (props.is_weight ? `font-weight: ${props.is_weight};` : '')};
   ${(props) => (props.is_disabled ? `disabled: ${props.is_disabled};` : '')};
   ${(props) => (props.is_cursor ? `cursor: pointer;` : '')};
-  transition: 0.25s;
+  transition: 0.5s;
 
   &:hover {
     ${(props) => (props.is_hover ? `box-shadow: ${props.is_hover};` : '')};

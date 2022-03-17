@@ -68,6 +68,7 @@ const Roomlist = () => {
                   is_width="120px"
                   is_height="50px"
                   disabled={n.state == "wait" ? false : true}
+                  is_hover="inset -4.5em 0 0 0 #94d7bb, inset 4.5em 0 0 0 #94d7bb"
                   _onClick={() => {
                     openModal();
                     dispatch(roomActions.getRoomInfoDB(n.roomNum));
@@ -104,6 +105,7 @@ const Roomlist = () => {
               name="state"
               value="blackPlayer"
               onChange={changeRadioQ1}
+              disabled={room_info.blackTeamPlayer?true:false}
             />
             </Input>
           </Radio>
@@ -124,6 +126,7 @@ const Roomlist = () => {
               name="state"
               value="whitePlayer"
               onChange={changeRadioQ1}
+              disabled={room_info.whiteTeamPlayer?true:false}
             />
             </Input>
           </Radio>

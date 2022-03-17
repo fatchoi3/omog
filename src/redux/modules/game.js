@@ -23,15 +23,18 @@ const GET_GAME_RESULT = "GET_GAME_RESULT";
 const GAMEEND = "GAMEEND";
 const GAME_GET_CHAT = "GAME_GET_CHAT";
 const GAME_ADD_CHAT = "GAME_ADD_CHAT";
-const GAME_CONTINUE = "GAME_CONTINUE";
+const CLEAR_ONE = "CLEAR_ONE";
+
+
 
 // action creators
 const getGame = createAction(GETGAME, (gameInfo) => ({ gameInfo }));
 const getGameResult = createAction(GET_GAME_RESULT, (result) => ({ result }));
-const GameEnd = createAction(GAMEEND, (result) => ({ result }));
-const GameGetChat = createAction(GAME_GET_CHAT, (chat) => ({ chat }));
-const GameAddChat = createAction(GAME_ADD_CHAT, (chat) => ({ chat }));
-const gameContinue = createAction(GAME_CONTINUE, (user) => ({ user }));
+const GameEnd = createAction(GAMEEND,(result)=>({result}));
+const GameGetChat =createAction(GAME_GET_CHAT,(chat)=>({chat}));
+const GameAddChat = createAction(GAME_ADD_CHAT, (chat)=>({chat}))
+const clearOne = createAction(CLEAR_ONE);
+
 
 // middleware actions
 
@@ -119,8 +122,9 @@ export default handleActions({
         draft.chat_list.push(action.payload.chat);
         // /console.log("action.payload.chat",action.payload.chat)
     }),
-    [GAME_CONTINUE]: (state, action) => produce(state, (draft) => {
-
+    [CLEAR_ONE]: (state, action) =>
+      produce(state, (draft) => {
+        draft.chat_list = [];
     }),
 },
     initialState
@@ -133,7 +137,7 @@ const actionCreators = {
     gameResultDB,
     addGameChat,
     GameGetChat,
-    gameContinue,
+    clearOne,
 }
 
 export { actionCreators };
