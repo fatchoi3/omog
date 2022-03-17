@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { Text, Button } from '../elements';
 import Table from '../components/Table';
 
@@ -12,6 +12,7 @@ import { actionCreators as gameActions } from '../redux/modules/game';
 
 function Result(props) {
     const dispatch = useDispatch();
+    const history = useHistory();
     const { roomNum } = useParams();
     const { gameNum } = useParams();
 
@@ -37,10 +38,11 @@ function Result(props) {
         []
     );
 
-
+    const exitResult = () => {
+        history.push(`/main`);
+    }
 
     useEffect(() => {
-
         dispatch(gameActions.getGameResultDB());
     }, [])
 
@@ -86,9 +88,6 @@ function Result(props) {
 
     const data = useMemo(() => [...resultgame.userInfo], [resultgame.userInfo])
 
-    const continueGame = () => {
-        // dispatch(gameActions.gameContinue(id,roomNum))
-    }
 
     return (
         <div className="result-container" style={{ margin: "100px auto", width: "40%" }}>
@@ -106,6 +105,7 @@ function Result(props) {
                 </Button>
                 <Button is_width="8rem" is_margin="0 0 0 4px" is_padding="5px 10px" is_size="25px"
                     is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB"
+                    _onClick={exitResult}
                 >
                     나가기
                 </Button>

@@ -223,8 +223,8 @@ function Login(props) {
                     </Button>
 
                     <div className="signup_to_box" style={{ width: "14rem", textAlign: "center", display: "flex", justifyContent: "space-between" }}>
-                        <Button is_width="6.5rem" is_cursor="pointer" is_size="13px" is_padding="14px 16px" _onClick={handleSignupModal}>회원가입</Button>
-                        <Button is_width="7.5rem" is_cursor="pointer" is_size="13px" is_padding="14px 16px"  _onClick={()=>{alert("다시 가입하세요~!")}}>비밀번호 찾기</Button>
+                        <Button is_width="60%" is_cursor="pointer" is_size="13px" is_padding="14px 16px" _onClick={handleSignupModal}>회원가입</Button>
+                        <Button is_width="60%" is_cursor="pointer" is_size="13px" is_padding="14px 16px" _onClick={() => { alert("다시 가입하세요~!") }}>비밀번호 찾기</Button>
                     </div>
                 </LoginPageLoginBox>
             </LoginPageContainer>

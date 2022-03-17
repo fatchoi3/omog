@@ -1,123 +1,259 @@
 import React from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Text from '../../elements/Text';
 
-function WaitPlayerList({ blackPlayer, whitePlayer }) {
+function WaitPlayerList({ socket, blackPlayer, whitePlayer }) {
     console.log(blackPlayer, whitePlayer)
+    console.log(blackPlayer?.hasOwnProperty('id'), whitePlayer?.hasOwnProperty('id'))
+    const waitingPerson = useSelector((state) => state.room.userInfo);
+
+
+    const ChangeToBlackPlayer = (e) => {
+        e.preventDefault();
+        socket.emit("changeToPlayer", waitingPerson.state, "blackPlayer");
+        console.log(waitingPerson.state, "blackPlayer로 변경");
+    };
+
+    const ChangeToWhitePlayer = (e) => {
+        e.preventDefault();
+        socket.emit("changeToPlayer", waitingPerson.state, "whitePlayer");
+        console.log(waitingPerson.state, "whitePlayer로 변경");
+    };
+
 
     return (
         <PlayerContainer>
-            <BlackPlayerCard>
-                <div style={{ padding: "18px 24px 23px 23px", display: "flex", justifyContent: "space-between" }}>
-                    <div style={{ marginRight: "31px", boxSizing: "border-box" }}>
-                        <div style={{ width: "70px", height: "70px", borderRadius: "50%", backgroundColor: "#D3D3D3", margin: "0 0 6px 0" }}>
+            {blackPlayer?.hasOwnProperty('id')
+                ?
+                <BlackPlayerCard>
+                    <div style={{ padding: "18px 24px 23px 23px", display: "flex", justifyContent: "space-between" }}>
+                        <div style={{ marginRight: "31px", boxSizing: "border-box" }}>
+                            <div style={{ width: "70px", height: "70px", borderRadius: "50%", backgroundColor: "#D3D3D3", margin: "0 0 6px 0" }}>
+                            </div>
+                            <div>
+                                <Text>{blackPlayer?.id}</Text>
+                            </div>
                         </div>
-                        <div>
-                            <Text>{blackPlayer?.id}</Text>
+                        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                            <Text is_bold="800" is_size="17px" is_line_height="19px" is_margin="0 0 16px 0">
+                                Point {blackPlayer?.point}p
+                            </Text>
+                            <div style={{ display: "flex", justifyContent: "space-between", width: "219px" }}>
+                                <Text is_bold="600">
+                                    승률:
+                                    {blackPlayer?.score
+                                        ?
+                                        blackPlayer?.score[0].win === 0
+                                            ?
+                                            0
+                                            :
+                                            (blackPlayer?.score[0].win) / (blackPlayer.score[0].win + blackPlayer.score[1].lose)
+                                        :
+                                        null
+                                    }%
+                                </Text>
+                                <Text is_size="14px">
+                                    (전체 &nbsp;
+                                    {blackPlayer?.score
+                                        ?
+                                        blackPlayer?.score[0].win === 0
+                                            ?
+                                            0
+                                            :
+                                            (blackPlayer?.score[0].win) / (blackPlayer.score[0].win + blackPlayer.score[1].lose)
+                                        :
+                                        null
+                                    }승 &nbsp;
+                                    {blackPlayer?.score
+                                        ?
+                                        blackPlayer?.score[0].win === 0
+                                            ?
+                                            0
+                                            :
+                                            (blackPlayer?.score[0].win) / (blackPlayer.score[0].win + blackPlayer.score[1].lose)
+                                        :
+                                        null
+                                    }패
+                                    )
+                                </Text>
+                            </div>
                         </div>
                     </div>
-                    <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                        <Text is_bold="800" is_size="17px" is_line_height="19px" is_margin="0 0 16px 0">
-                            Point {blackPlayer?.point}p
-                        </Text>
-                        <div style={{ display: "flex", justifyContent: "space-between", width: "219px" }}>
-                            <Text is_bold="600">
-                                승률:
-                                {blackPlayer?.score
-                                    ?
-                                    blackPlayer?.score[0].win === 0
-                                        ?
-                                        0
-                                        :
-                                        (blackPlayer?.score[0].win) / (blackPlayer.score[0].win + blackPlayer.score[1].lose)
-                                    :
-                                    null
-                                }%
+                </BlackPlayerCard>
+                :
+                <BlackPlayerCard onClick={ChangeToBlackPlayer}>
+                    <div style={{ padding: "18px 24px 23px 23px", display: "flex", justifyContent: "space-between" }}>
+                        <div style={{ marginRight: "31px", boxSizing: "border-box" }}>
+                            <div style={{ width: "70px", height: "70px", borderRadius: "50%", backgroundColor: "#D3D3D3", margin: "0 0 6px 0" }}>
+                            </div>
+                            <div>
+                                <Text>{blackPlayer?.id}</Text>
+                            </div>
+                        </div>
+                        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                            <Text is_bold="800" is_size="17px" is_line_height="19px" is_margin="0 0 16px 0">
+                                Point {blackPlayer?.point}p
                             </Text>
-                            <Text is_size="14px">
-                                (전체 &nbsp;
-                                {blackPlayer?.score
-                                    ?
-                                    blackPlayer?.score[0].win === 0
+                            <div style={{ display: "flex", justifyContent: "space-between", width: "219px" }}>
+                                <Text is_bold="600">
+                                    승률:
+                                    {blackPlayer?.score
                                         ?
-                                        0
+                                        blackPlayer?.score[0].win === 0
+                                            ?
+                                            0
+                                            :
+                                            (blackPlayer?.score[0].win) / (blackPlayer.score[0].win + blackPlayer.score[1].lose)
                                         :
-                                        (blackPlayer?.score[0].win) / (blackPlayer.score[0].win + blackPlayer.score[1].lose)
-                                    :
-                                    null
-                                }승 &nbsp;
-                                {blackPlayer?.score
-                                    ?
-                                    blackPlayer?.score[0].win === 0
+                                        null
+                                    }%
+                                </Text>
+                                <Text is_size="14px">
+                                    (전체 &nbsp;
+                                    {blackPlayer?.score
                                         ?
-                                        0
+                                        blackPlayer?.score[0].win === 0
+                                            ?
+                                            0
+                                            :
+                                            (blackPlayer?.score[0].win) / (blackPlayer.score[0].win + blackPlayer.score[1].lose)
                                         :
-                                        (blackPlayer?.score[0].win) / (blackPlayer.score[0].win + blackPlayer.score[1].lose)
-                                    :
-                                    null
-                                }패
-                                )
-                            </Text>
+                                        null
+                                    }승 &nbsp;
+                                    {blackPlayer?.score
+                                        ?
+                                        blackPlayer?.score[0].win === 0
+                                            ?
+                                            0
+                                            :
+                                            (blackPlayer?.score[0].win) / (blackPlayer.score[0].win + blackPlayer.score[1].lose)
+                                        :
+                                        null
+                                    }패
+                                    )
+                                </Text>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </BlackPlayerCard>
-            <WhitePlayerCard>
-                <div style={{ padding: "18px 24px 23px 23px", display: "flex", justifyContent: "space-between" }}>
-                    <div style={{ marginRight: "31px", boxSizing: "border-box" }}>
-                        <div style={{ width: "70px", height: "70px", borderRadius: "50%", backgroundColor: "#D3D3D3", margin: "0 0 6px 0" }}>
+                </BlackPlayerCard>
+            }
+
+            {
+                whitePlayer?.hasOwnProperty('id')
+                    ?
+                    <WhitePlayerCard>
+                        <div style={{ padding: "18px 24px 23px 23px", display: "flex", justifyContent: "space-between" }}>
+                            <div style={{ marginRight: "31px", boxSizing: "border-box" }}>
+                                <div style={{ width: "70px", height: "70px", borderRadius: "50%", backgroundColor: "#D3D3D3", margin: "0 0 6px 0" }}>
+                                </div>
+                                <div>
+                                    <Text>{whitePlayer?.id}</Text>
+                                </div>
+                            </div>
+                            <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                                <Text is_bold="800" is_size="17px" is_line_height="19px" is_margin="0 0 16px 0">
+                                    Point {whitePlayer?.point}p
+                                </Text>
+                                <div style={{ display: "flex", justifyContent: "space-between", width: "219px" }}>
+                                    <Text is_bold="600">
+                                        승률:
+                                        {whitePlayer?.score
+                                            ?
+                                            whitePlayer?.score[0].win === 0
+                                                ?
+                                                0
+                                                :
+                                                (whitePlayer?.score[0].win) / (whitePlayer.score[0].win + whitePlayer.score[1].lose)
+                                            :
+                                            null
+                                        }%
+                                    </Text>
+                                    <Text is_size="14px">
+                                        (전체 &nbsp;
+                                        {whitePlayer?.score
+                                            ?
+                                            whitePlayer?.score[0].win === 0
+                                                ?
+                                                0
+                                                :
+                                                (whitePlayer?.score[0].win) / (whitePlayer.score[0].win + whitePlayer.score[1].lose)
+                                            :
+                                            null
+                                        }승 &nbsp;
+                                        {whitePlayer?.score
+                                            ?
+                                            whitePlayer?.score[0].win === 0
+                                                ?
+                                                0
+                                                :
+                                                (whitePlayer?.score[0].win) / (whitePlayer.score[0].win + whitePlayer.score[1].lose)
+                                            :
+                                            null
+                                        }패
+                                        )
+                                    </Text>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <Text>{whitePlayer?.id}</Text>
+                    </WhitePlayerCard>
+                    :
+                    <WhitePlayerCard onClick={ChangeToWhitePlayer}>
+                        <div style={{ padding: "18px 24px 23px 23px", display: "flex", justifyContent: "space-between" }}>
+                            <div style={{ marginRight: "31px", boxSizing: "border-box" }}>
+                                <div style={{ width: "70px", height: "70px", borderRadius: "50%", backgroundColor: "#D3D3D3", margin: "0 0 6px 0" }}>
+                                </div>
+                                <div>
+                                    <Text>{whitePlayer?.id}</Text>
+                                </div>
+                            </div>
+                            <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                                <Text is_bold="800" is_size="17px" is_line_height="19px" is_margin="0 0 16px 0">
+                                    Point {whitePlayer?.point}p
+                                </Text>
+                                <div style={{ display: "flex", justifyContent: "space-between", width: "219px" }}>
+                                    <Text is_bold="600">
+                                        승률:
+                                        {whitePlayer?.score
+                                            ?
+                                            whitePlayer?.score[0].win === 0
+                                                ?
+                                                0
+                                                :
+                                                (whitePlayer?.score[0].win) / (whitePlayer.score[0].win + whitePlayer.score[1].lose)
+                                            :
+                                            null
+                                        }%
+                                    </Text>
+                                    <Text is_size="14px">
+                                        (전체 &nbsp;
+                                        {whitePlayer?.score
+                                            ?
+                                            whitePlayer?.score[0].win === 0
+                                                ?
+                                                0
+                                                :
+                                                (whitePlayer?.score[0].win) / (whitePlayer.score[0].win + whitePlayer.score[1].lose)
+                                            :
+                                            null
+                                        }승 &nbsp;
+                                        {whitePlayer?.score
+                                            ?
+                                            whitePlayer?.score[0].win === 0
+                                                ?
+                                                0
+                                                :
+                                                (whitePlayer?.score[0].win) / (whitePlayer.score[0].win + whitePlayer.score[1].lose)
+                                            :
+                                            null
+                                        }패
+                                        )
+                                    </Text>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                        <Text is_bold="800" is_size="17px" is_line_height="19px" is_margin="0 0 16px 0">
-                            Point {whitePlayer?.point}p
-                        </Text>
-                        <div style={{ display: "flex", justifyContent: "space-between", width: "219px" }}>
-                            <Text is_bold="600">
-                                승률:
-                                {whitePlayer?.score
-                                    ?
-                                    whitePlayer?.score[0].win === 0
-                                        ?
-                                        0
-                                        :
-                                        (whitePlayer?.score[0].win) / (whitePlayer.score[0].win + whitePlayer.score[1].lose)
-                                    :
-                                    null
-                                }%
-                            </Text>
-                            <Text is_size="14px">
-                                (전체 &nbsp;
-                                {whitePlayer?.score
-                                    ?
-                                    whitePlayer?.score[0].win === 0
-                                        ?
-                                        0
-                                        :
-                                        (whitePlayer?.score[0].win) / (whitePlayer.score[0].win + whitePlayer.score[1].lose)
-                                    :
-                                    null
-                                }승 &nbsp;
-                                {whitePlayer?.score
-                                    ?
-                                    whitePlayer?.score[0].win === 0
-                                        ?
-                                        0
-                                        :
-                                        (whitePlayer?.score[0].win) / (whitePlayer.score[0].win + whitePlayer.score[1].lose)
-                                    :
-                                    null
-                                }패
-                                )
-                            </Text>
-                        </div>
-                    </div>
-                </div>
-            </WhitePlayerCard>
+                    </WhitePlayerCard>
+            }
         </PlayerContainer>
     )
 }
@@ -135,6 +271,11 @@ const BlackPlayerCard = styled.div`
     box-shadow: -3px 3px 6px 3px #A8937340;
     border-radius: 14px;
     margin-right: 18px;
+    box-sizing: border-box;
+
+    &:hover {
+        outline: 4px solid #94D7BB;
+    }
 `
 
 const WhitePlayerCard = styled.div`
@@ -143,6 +284,11 @@ const WhitePlayerCard = styled.div`
     box-shadow: -3px 3px 6px 3px #A8937340;
     border-radius: 14px;
     margin-left: 18px;
+    box-sizing: border-box;
+
+    &:hover {
+        outline: 4px solid #94D7BB;
+    }
 `
 
 // const PlayerThumbnail = styled.img`
