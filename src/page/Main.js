@@ -13,6 +13,7 @@ import useInput from "../hook/useInput";
 import Logo from "../pictures/omogLogo.png";
 import { useDispatch } from "react-redux";
 import { actionCreators as roomActions } from "../redux/modules/room";
+import { actionCreators as userActions } from "../redux/modules/user";
 
 const Main = () => {
   const dispatch = useDispatch();
@@ -132,15 +133,25 @@ const Main = () => {
               is_color="white"
               >관전자 빠른 참가</Text>
             </Button>
-          </ButtonWrap>
-          </UserInfoWrap>
-        {/* <Button
+            <Button
+            is_margin="20px auto"
+            is_height="60px"
+            is_width="150px"
+            is_radius="8px"
+            is_border=" solid 2px #94d7bb"
+            is_background="#94d7bb"
           _onClick={() => {
             dispatch(userActions.logout());
           }}
         >
-          로그아웃
-        </Button> */}
+          <Text
+          is_color="white"
+          >로그아웃</Text>
+          
+        </Button>
+          </ButtonWrap>
+          </UserInfoWrap>
+       
    
       <LeaderBoard
       open={modalOpen}

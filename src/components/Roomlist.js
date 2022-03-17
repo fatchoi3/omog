@@ -104,6 +104,7 @@ const Roomlist = () => {
               name="state"
               value="blackPlayer"
               onChange={changeRadioQ1}
+              disabled={room_info.blackTeamPlayer?true:false}
             />
             </Input>
           </Radio>
@@ -124,6 +125,7 @@ const Roomlist = () => {
               name="state"
               value="whitePlayer"
               onChange={changeRadioQ1}
+              disabled={room_info.whiteTeamPlayer?true:false}
             />
             </Input>
           </Radio>

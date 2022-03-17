@@ -71,7 +71,15 @@ const Chatting = memo((props) => {
 
   useEffect(() => {
     dispatch(gameActions.addGameChat(socket));
+    
   }, [socket]);
+  useEffect(() => {
+    return () => {
+      // console.info("disconnect socket", icrId);
+      dispatch(gameActions.clearOne());
+    
+    };
+  }, []);
 
   useEffect(() => {
     bottomView();

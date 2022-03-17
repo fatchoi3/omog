@@ -30,8 +30,8 @@ const Game = memo((props) => {
  
 
   
-  const winnerW = gameInfo.whiteTeamPlayer;
-  const winnerB = gameInfo.blackTeamPlayer;
+  const winnerW = gameInfo?.whiteTeamPlayer;
+  const winnerB = gameInfo?.blackTeamPlayer;
 
   const [loading, setLoading] = useState(1);
   const [loadingFade, setLoadingFade] = useState(1);
@@ -63,25 +63,18 @@ const Game = memo((props) => {
         console.log("Fly훈수 받기");
 
     socket.on("flyingWord", (data) => {
-      randomNum = rand(1, 10);
+      randomNum = rand(1, 10)*50;
       setFlying(data.chat.chat);
       setLoading(0);
       console.log("되네");
-      console.log("data",data);
+      console.log("randomNum",randomNum);
       let timer = setTimeout(() => {
         console.log("시간은 똑딲똑딱");
         setLoading(1);
       }, 1000);
     });
   }, []);
-  useEffect(()=>{
-    if(blackPlayer){
-    dispatch(userActions.blackPlayerCheck(gameInfo.blackTeamPlayer));
-    dispatch(userActions.whitePlayerCheck(gameInfo.whiteTeamPlayer));
-  }
-  },[blackPlayer])
-  console.log("blackPlayer",blackPlayer);
-  console.log("whitePlayer", whitePlayer);
+  
   return (
     <GameContainer>
       {loading ? (
@@ -190,7 +183,8 @@ to {
 
 const DialogBlock = styled.div`
 position: absolute;
-top: ${(props) => props.randomNum * 50} px;
+// top: ${(props) => props.RandomNum}px;
+top: 20px;
 width: 400px;
 height: 200px;
 line-height: 200px;

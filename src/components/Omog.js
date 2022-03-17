@@ -340,6 +340,7 @@ const Omog = memo((props) => {
           <TimeStoneL>
           <Text
           is_bold
+          is_margin="auto 0"
             is_color={count % 2 == 0 ? "white" : "white"}
             is_size="25px"
           >
@@ -352,6 +353,7 @@ const Omog = memo((props) => {
           <TimeStoneR>
           <Text
           is_bold
+          is_margin="auto 0"
             is_color={count % 2 == 0 ? "black" : "black"}
             is_size="25px"
           >
