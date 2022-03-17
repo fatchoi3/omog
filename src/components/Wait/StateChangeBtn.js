@@ -30,7 +30,6 @@ function StateChangeBtn({ socket }) {
         }
 
         socket.once("moveToObserver", changeState)
-
         socket.once("moveToPlayer", changeState)
 
         return () => {

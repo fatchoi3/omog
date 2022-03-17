@@ -9,6 +9,7 @@ import WaitPlayerList from './WaitPlayerList';
 import WaitObserverList from './WaitObserverList';
 import StateChangeBtn from './StateChangeBtn';
 import GameStartBtn from './GameStartBtn';
+import WaitOneChat from './WaitOneChat';
 
 
 // 게임방 생성해서 들어올 시 임시값 blackPlayer, 유저의 정보
@@ -18,8 +19,8 @@ function WaitingUsers({ socket, roomNum }) {
     const dispatch = useDispatch();
 
     const userId = localStorage.getItem("userId");
-    const get_user = useSelector((state) => state.room.userInfo);
-    console.log(get_user);
+    const waitingPerson = useSelector((state) => state.room.userInfo);
+    console.log(waitingPerson);
 
     const [blackPlayer, setBlackPlayer] = useState({});
     const [whitePlayer, setWhitePlayer] = useState({});
@@ -43,12 +44,12 @@ function WaitingUsers({ socket, roomNum }) {
         console.log(userId, ": 닉네임을 보냈습니다.");
 
         // socket에 입장 정보 보내기
-        if (get_user.state === "blackPlayer" || get_user.state === "whitePlayer") {
-            socket.emit("enterRoomPlayer", roomNum, get_user.state);
-            console.log(`enterRoomBlackPlayer 입장, 방번호 : ${roomNum}, ${get_user.state}`);
+        if (waitingPerson.state === "blackPlayer" || waitingPerson.state === "whitePlayer") {
+            socket.emit("enterRoomPlayer", roomNum, waitingPerson.state);
+            console.log(`enterRoomBlackPlayer 입장, 방번호 : ${roomNum}, ${waitingPerson.state}`);
         } else {
-            socket.emit("enterRoomObserver", roomNum, get_user.state);
-            console.log(`enterRoomWhiteObserver 입장, 방번호 : ${roomNum}, ${get_user.state}`)
+            socket.emit("enterRoomObserver", roomNum, waitingPerson.state);
+            console.log(`enterRoomWhiteObserver 입장, 방번호 : ${roomNum}, ${waitingPerson.state}`)
         }
 
         const welcome = (id, userInfos) => {
@@ -70,13 +71,16 @@ function WaitingUsers({ socket, roomNum }) {
 
     return (
         <div>
+            <div style={{ height: "76px" }}>
+                로고 위치
+            </div>
             <WaitPlayerList blackPlayer={blackPlayer} whitePlayer={whitePlayer} />
             <GameStartBtn socket={socket} blackPlayer={blackPlayer} whitePlayer={whitePlayer} blackObserverList={blackObserverList} whiteObserverList={whiteObserverList} roomNum={roomNum} />
 
-            <WaitObserverList blackObserverList={blackObserverList} whiteObserverList={whiteObserverList} />
-
-            <StateChangeBtn socket={socket} />
+            <WaitObserverList socket={socket} blackObserverList={blackObserverList} whiteObserverList={whiteObserverList} />
             <button onClick={goodbyeWait}>나가기 버튼</button>
+
+            <WaitOneChat />
         </div>
     );
 }

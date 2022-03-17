@@ -140,7 +140,7 @@ const signupDB = (id, nickname, password, passwordConfirm) => {
                 console.log(response)
             })
             .catch((err) => {
-                console.log(err.ok);
+                console.log(err);
                 if (err.ok === false) {
                     window.alert(`${err.errorMessage}`);
                 }

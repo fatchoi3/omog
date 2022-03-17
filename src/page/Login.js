@@ -128,7 +128,21 @@ function Login(props) {
                     <GameExplainModal>
                         <div style={{ display: "flex", margin: "0 auto", flexDirection: "column", alignContent: "center", alignItems: "center", justifyContent: "center", width: "100%" }}>
                             <LoginPageSlider />
-                            <Button is_width="30%" is_margin="100px 0 0 0" is_height="30px" _onClick={handleExplainModal}>닫기</Button>
+                            <Button
+                                is_width="10rem"
+                                is_height="3rem"
+                                is_background="#C4C4C4"
+                                is_size="18px"
+                                is_color="white"
+                                is_weight="800"
+                                is_border="none"
+                                is_radius="10px"
+                                is_margin="100px 0 0 0"
+                                is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB"
+                                _onClick={handleExplainModal}
+                            >
+                                SKIP
+                            </Button>
                         </div>
                     </GameExplainModal>
                 </GameExplainContainer>
@@ -136,31 +150,25 @@ function Login(props) {
             {isOpen &&
                 <SignupModalContainer>
                     <SignupModal ref={modalEl}>
-                        <div style={{ width: "70%", margin: "0 auto 30px auto" }}>
-                            <h2 style={{ color: "#189FFB", padding: "0", margin: "0" }}>회원가입</h2>
-                            <div style={{ width: "100%", bottom: "0px", height: "2px", background: "#189FFB" }}></div>
+                        <div style={{ width: "70%", margin: "0 auto 30px auto", textAlign: "center" }}>
+                            <h2 style={{ color: "#189FFB", padding: "0", margin: "0", fontWeight: "800" }}>회원가입</h2>
                         </div>
                         <div style={{ display: "flex", margin: "0 auto", flexDirection: "column", alignContent: "center", alignItems: "center", justifyContent: "center", width: "100%" }}>
-
-                            <div style={{ width: "70%", margin: "0 0 10px 0" }}>
-                                <Text is_center="left" is_width="100%">아이디</Text>
-                                <Input is_width="100%" is_padding="0 5px" is_height="30px" placeholder="아이디를 입력해주세요." _onChange={handleIdInput} />
-                            </div>
-                            <div style={{ width: "70%", margin: "0 0 10px 0" }}>
-                                <Text is_center="left" is_width="100%">닉네임</Text>
-                                <Input is_width="100%" is_padding="0 5px" is_height="30px" placeholder="2자 이상 20자 이하" _onChange={handleNicknameInput} />
-                            </div>
-                            <div style={{ width: "70%", margin: "0 0 10px 0" }}>
-                                <Text is_center="left" is_width="100%">비밀번호</Text>
-                                <Input is_width="100%" is_padding="0 5px" is_height="30px" placeholder="영문 숫자 특수문자 조합 6-16자리" type="password" _onChange={handlePasswordInput} />
-                            </div>
-                            <div style={{ width: "70%", margin: "0 0 10px 0" }}>
-                                <Text is_center="left" is_width="100%">비밀번호 확인</Text>
-                                <Input is_width="100%" is_padding="0 5px" is_height="30px" placeholder="비밀번호를 다시 입력해주세요." type="password" _onChange={handlePasswordConfirmInput} />
-                            </div>
-
-
-                            <Button is_width="30%" is_margin="10px 0 0 0" is_height="30px" _onClick={handleSignup}>회원가입</Button>
+                            <Input is_width="20rem" is_margin="0 0 20px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="아이디" is_outline="none" _onChange={handleIdInput} />
+                            <Input is_width="20rem" is_margin="20px 0 20px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="비밀번호" type="password" is_outline="none" _onChange={handlePasswordInput} />
+                            <Input is_width="20rem" is_margin="20px 0 20px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="비밀번호 확인" type="password" is_outline="none" _onChange={handlePasswordConfirmInput} />
+                            <Input is_width="20rem" is_margin="20px 0 60px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="닉네임" _onChange={handleNicknameInput} />
+                            <Button
+                                is_width="13rem"
+                                is_margin="10px 0 0 0"
+                                is_size="18px"
+                                is_height="50px"
+                                is_radius="10px"
+                                is_background="#94D7BB"
+                                _onClick={handleSignup}
+                            >
+                                회원가입
+                            </Button>
                         </div>
                     </SignupModal>
                 </SignupModalContainer>
@@ -168,19 +176,22 @@ function Login(props) {
             <LoginPageTitle>타이틀 혹은 로고가 위치합니다.</LoginPageTitle>
             <LoginPageContainer>
                 <LoginPageLoginBox>
-                    <Text is_size="26px">로그인</Text>
                     <div className="input_box"
                         style={{
                             width: "70%",
-                            margin: "30px 0",
+                            margin: "30px auto",
+                            textAlign: "center",
+                            boxSizing: "border-box",
                         }}
                     >
                         <Input
                             is_border="none"
                             placeholder="아이디"
                             is_padding="3px"
-                            is_margin="10px"
-                            is_border_bottom="1px solid black"
+                            is_margin="20px 0 15px 0"
+                            is_size="17px"
+                            is_outline="none"
+                            is_border_bottom="2px solid black"
                             _onChange={handleIdInput}
                         />
                         <Input
@@ -188,34 +199,33 @@ function Login(props) {
                             is_border="none"
                             placeholder="비밀번호"
                             is_padding="3px"
-                            is_margin="10px"
-                            is_border_bottom="1px solid black"
+                            is_margin="15px 0 10px 0"
+                            is_outline="none"
+                            is_border_bottom="2px solid black"
                             type="password"
                             _onChange={handlePasswordInput}
                         />
                     </div>
 
                     <Button
-                        _onClick={handleLogin}
-                        is_margin="5px 0 30px 0"
-                        is_padding="5px"
-                        is_cursor
+                        is_width="14rem"
+                        is_height="3rem"
+                        is_size="23px"
                         is_weight="600"
+                        is_padding="5px"
+                        is_margin="10px 0 30px 0"
+                        is_cursor="pointer"
+                        is_radius="10px"
+                        is_background="#94D7BB"
+                        _onClick={handleLogin}
                     >
                         로그인
                     </Button>
 
-                    <div className="signup_to_box" style={{ textAlign: "center" }}>
-                        새로 가입하시겠습니까?
-                        &nbsp;
-                        <span
-                            onClick={handleSignupModal}
-                            style={{ cursor: "pointer", fontWeight: "600" }}
-                        >
-                            회원가입
-                        </span>
+                    <div className="signup_to_box" style={{ width: "14rem", textAlign: "center", display: "flex", justifyContent: "space-between" }}>
+                        <Button is_width="6.5rem" is_cursor="pointer" is_size="13px" is_padding="14px 16px" _onClick={handleSignupModal}>회원가입</Button>
+                        <Button is_width="6.7rem" is_cursor="pointer" is_size="13px" is_padding="14px 16px">비밀번호 찾기</Button>
                     </div>
-                    <div className="password_search_box" style={{ textAlign: "center" }}>비밀번호 찾기</div>
                 </LoginPageLoginBox>
             </LoginPageContainer>
         </>
@@ -235,15 +245,16 @@ const LoginPageContainer = styled.div`
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
-    border: 1px solid red;
     box-sizing: border-box;
 `
 
 const LoginPageLoginBox = styled.div`
+    display:flex;
+    flex-direction: column;
+    justify-contents: center;
+    align-items: center;
     width: 340px;
-    // height: 100%;
     padding: 20px;
-    border: 1px solid blue;
     box-sizing: border-box;
 `
 
@@ -287,13 +298,14 @@ const SignupModalContainer = styled.div`
 const SignupModal = styled.div`
     position: relative;
     transition: 0.3s;
-    width: 600px;
-    height: 600px;
+    width: 28%;
+    height: 561px;
     box-shadow: rgb(0 0 0 / 9%) 0px 2px 12px 0px;
     background: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    border-radius: 14px;
     // 아래에서 위로
     // animation: 400ms ease-in-out 0ms 1 normal forwards running modalIn;
     // 사라락 나타나기
