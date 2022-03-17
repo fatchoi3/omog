@@ -120,16 +120,20 @@ span {
 }
 
 .chat_from_friend .chat_nick {
-  font-size: 12px;
-  margin: 0 0 10px 10px;
+  font-size: 15px;
+  margin: 0 0 10px 20px;
 }
 .chat_from_friend .chat_content {
   display: flex;
   justify-content: flex-start;
+  
 }
 .chat_from_friend .chat_content .chat_message {
   background-color: #94D7BB;
-  border-radius: 11px;
+  margin-left: 20px; 
+  border-top-right-radius: 11px;
+  border-bottom-left-radius: 11px;
+  border-bottom-right-radius: 11px;
 }
 /* 내가 채팅칭 때 */
 .chat_from_me {
@@ -137,11 +141,14 @@ span {
   display: flex;
   flex-direction: row-reverse;
   align-items: flex-end;
-  margin: 20px 5px 20px 0;
+  margin: 20px 5px 20px 15px;
 }
 .chat_from_me .chat_message {
   background-color: #f0f0f0;
   color: #000;
-  border-radius: 11px;
+  border-top-left-radius: 11px;
+  border-bottom-left-radius: 11px;
+  border-bottom-right-radius: 11px;
+  margin-right: 20px;
 }
 

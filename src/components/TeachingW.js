@@ -2,16 +2,14 @@ import React, { useState, useRef, useEffect ,memo,useCallback} from "react";
 import styled from "styled-components";
 
 import { Text } from "../elements";
-import io from "socket.io-client";
-import { useParams } from "react-router-dom";
 
-const Teaching = memo((props) => {
-  const [state, setState] = useState({ message: "", id: "" });
+
+const TeachingW = memo((props) => {
+
   const [teaching, setTeaching] = useState([]);
   const oneChat = useRef();
-  const userid = localStorage.getItem("userId");
+
   const scroll = useRef(null);
-  const {gameNum} =useParams();
 
   const socket = props.socket;
 
@@ -22,11 +20,8 @@ const Teaching = memo((props) => {
     socket.on("teaching", (data) => {
       console.log( "data", data);
         setTeaching([...teaching, {id : data.name, message: data.chat.chat }]);
-
     });
-    
-    return () => socket.off();
-  }, [teaching]);
+    }, [teaching]);
  
   const renderChat = () => {
     return teaching.map(({ id, message }, index) => (
@@ -63,7 +58,9 @@ const Teaching = memo((props) => {
   }, [bottomView, teaching]);
 
   return (
-    <Container>
+    <Container
+    playerInfo={props.playerInfo}
+    >
       <Profile>
       <Text
 
@@ -84,7 +81,8 @@ const Container = styled.div`
   height : 160px;
   display : flex;
   box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
-  
+  border : 3px solid  ${(props)=>props.playerInfo.state === "whitePlayer" ? `#94d7bb` : `#9E9E9E`};
+  border-radius : 10px;
 `;
 const Chat_render_oneChat = styled.div`
   width: 280px;
@@ -118,5 +116,6 @@ const ChatMessage = styled.div`
 const Profile = styled.div`
 width: 120px;
 margin: 5px 0px 5px 5px;
+
 `;
-export default Teaching;
+export default TeachingW;
