@@ -10,34 +10,67 @@ function Table({ columns, data }) {
 
     return (
         <TableSheet {...getTableProps()}>
-            <thead>
+            <TableThead>
                 {headerGroups.map((headerGroup) => (
-                    <tr {...headerGroup.getHeaderGroupProps()}>
+                    <HeadTr {...headerGroup.getHeaderGroupProps()}>
                         {headerGroup.headers.map((column) => (
-                            <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+                            <Th {...column.getHeaderProps()}>{column.render("Header")}</Th>
                         ))}
-                    </tr>
+                    </HeadTr>
                 ))}
-            </thead>
-            <tbody {...getTableBodyProps()}>
+            </TableThead>
+            <TableTbody {...getTableBodyProps()}>
                 {rows.map((row) => {
                     prepareRow(row);
                     return (
-                        <tr {...row.getRowProps()}>
+                        <BodyTr {...row.getRowProps()}>
                             {row.cells.map((cell) => (
-                                <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                                <Td {...cell.getCellProps()}>{cell.render("Cell")}</Td>
                             ))}
-                        </tr>
+                        </BodyTr>
                     );
                 })}
-            </tbody>
+            </TableTbody>
         </TableSheet>
     );
 }
 
 const TableSheet = styled.table`
-    border: 1px solid red;
+    width: 40rem;
     margin: 50px auto;
+    border-radius: 14px;
+    border-collapse: collapse;
+    overflow: hidden;
+`
+
+const TableThead = styled.thead`
+    background: #94D7BB;
+    height: 2rem;
+    border-radius: 14px 14px 0 0;
+`
+
+const HeadTr = styled.tr`
+    color: white;
+`
+
+const Th = styled.th`
+    padding: 15px;
+    font-size: 22px;
+`
+
+const TableTbody = styled.tbody`
+
+`
+
+const BodyTr = styled.tr`
+    text-align: center;
+    background: #E5E5E5;
+`
+
+const Td = styled.td`
+    font-size: 18px;
+    color: #979797;
+    padding: 15px;
 `
 
 export default Table;
