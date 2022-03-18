@@ -2,25 +2,29 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { actionCreators as roomActions } from '../../redux/modules/room';
 
+import { useHistory } from 'react-router-dom';
+
 import { Button, Text } from '../../elements';
 
 
 function GameStartBtn({ socket, blackPlayer, whitePlayer, blackObserverList, whiteObserverList, roomNum }) {
+    const history =useHistory()
     const dispatch = useDispatch();
     const [start, setStart] = useState(false);
 
     const gameStart = (e) => {
         e.preventDefault();
         const roomNumber = roomNum
+        dispatch(roomActions.gameStartDB(blackPlayer, whitePlayer, blackObserverList, whiteObserverList, roomNumber));
         socket.emit("gameStart", roomNumber);
         setStart(true);
     }
 
     useEffect(() => {
         socket.on("game", (roomNumber) => {
-            dispatch(roomActions.gameStartDB(blackPlayer, whitePlayer, blackObserverList, whiteObserverList, roomNumber));
+            history.push(`/game/${roomNumber}`)
         })
-    }, [start])
+    }, [socket])
 
 
     return (

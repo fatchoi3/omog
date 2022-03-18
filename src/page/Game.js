@@ -27,12 +27,12 @@ const Game = memo((props) => {
       : false;
 
   console.log("gameInfo", gameInfo[0]);
-
+  
   const realGameInfo =
-    gameInfo[0].blackTeamPlayer.length === 0 ? gameInfo[1] : gameInfo[0];
+    gameInfo[0]?.blackTeamPlayer.length === 0 ? gameInfo[1] : gameInfo[0];
 
-  const blackPlayer = realGameInfo.blackTeamPlayer[0];
-  const whitePlayer = realGameInfo.whiteTeamPlayer[0];
+  const blackPlayer = realGameInfo?.blackTeamPlayer[0];
+  const whitePlayer = realGameInfo?.whiteTeamPlayer[0]; 
   console.log("blackTeamPlayer", blackPlayer);
   console.log("whiteTeamPlayer", whitePlayer);
   const [randomNum, setRandomNum] = useState();
@@ -46,31 +46,31 @@ const Game = memo((props) => {
     return Math.floor(Math.random() * (max - min)) + min;
   };
 
-  const useConfirm = (message = null, onConfirm, onCancel) => {
-    if (!onConfirm || typeof onConfirm !== "function") {
-      return;
-    }
-    if (onCancel && typeof onCancel !== "function") {
-      return;
-    }
+  // const useConfirm = (message = null, onConfirm, onCancel) => {
+  //   if (!onConfirm || typeof onConfirm !== "function") {
+  //     return;
+  //   }
+  //   if (onCancel && typeof onCancel !== "function") {
+  //     return;
+  //   }
 
-    const confirmAction = () => {
-      if (window.confirm(message)) {
-        onConfirm();
-      } else {
-        onCancel();
-      }
-    };
+  //   const confirmAction = () => {
+  //     if (window.confirm(message)) {
+  //       onConfirm();
+  //     } else {
+  //       onCancel();
+  //     }
+  //   };
 
-    return confirmAction;
-  };
-  const deleteConfirm = () => console.log("삭제했습니다.");
-  const cancelConfirm = () => console.log("취소했습니다.");
-  const confirmDelete = useConfirm(
-    "삭제하시겠습니까?",
-    deleteConfirm,
-    cancelConfirm
-  );
+  //   return confirmAction;
+  // };
+  // const deleteConfirm = () => console.log("삭제했습니다.");
+  // const cancelConfirm = () => console.log("취소했습니다.");
+  // const confirmDelete = useConfirm(
+  //   "삭제하시겠습니까?",
+  //   deleteConfirm,
+  //   cancelConfirm
+  // );
 
   //////수정사항
   // "http://localhost:4001/game",
@@ -119,14 +119,7 @@ const Game = memo((props) => {
           </Text>
         </DialogBlock>
       )}
-      {loadingFade ? (
-        ""
-      ) : (
-        <DarkBackground RandomNum={randomNum}>
-          <Text is_size="50px">{fade}</Text>
-        </DarkBackground>
-      )}
-      <LogoWrap>
+       <LogoWrap>
         <LogoImg src={Logo} />
       </LogoWrap>
       {is_player ? (
