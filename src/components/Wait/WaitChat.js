@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 
 import { actionCreators as roomActions } from '../../redux/modules/room';
 
-function WaitChat({ socket }) {
+function WaitChat({ socket, roomNum }) {
     console.log("채팅창 컴포넌트입니다. 몇 번 렌더링될까요?")
     const dispatch = useDispatch();
     const history = useHistory();
@@ -19,7 +19,7 @@ function WaitChat({ socket }) {
     const sendMessages = useCallback(async (e) => {
         e.preventDefault();
         console.log("보내는 채팅입니다", messageRef.current.value);
-        await socket.emit("chat", messageRef.current.value);
+        await socket.emit("chat", roomNum, messageRef.current.value);
         messageRef.current.value = '';
     }, [])
 
@@ -34,11 +34,17 @@ function WaitChat({ socket }) {
 
     const exitWaiting = (e) => {
         e.preventDefault();
-        socket.once("bye", userId => {
-            console.log(userId);
-        })
-        socket.disconnect();
+        const byeChangeState = (nickname, userInfos) => {
+            // setBlackPlayer(userInfos[0].blackPlayerInfo[0]);
+            // setWhitePlayer(userInfos[0].whitePlayerInfo[0]);
+            // setBlackObserverList([...userInfos[0].blackTeamObserver]);
+            // setWhiteObserverList([...userInfos[0].whiteTeamObserver]);
+            dispatch(roomActions.changeState(nickname, userInfos));
+        }
+
+        socket.on("bye", byeChangeState)
         dispatch(roomActions.resetStateUser(userId));
+        socket.disconnect();
         history.push('/main');
     }
 
