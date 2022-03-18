@@ -243,6 +243,7 @@ const Omog = memo((props) => {
         default:
           console.log("누구세...요?");
           break;
+        ////
       }
     };
     // x,y 좌표를 배열의 index값으로 변환

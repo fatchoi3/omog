@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { Text } from "../elements/index";
@@ -18,6 +18,32 @@ const UsersInfo = () => {
   // console.log("get_user",get_user.score[0].win);
   const win = get_user.score[0].win;
   const lose = get_user.score[1].lose;
+  const point = get_user.point;
+ 
+
+
+  const UserFaceColor =useCallback((point)=>{
+    let color= "black"
+    if(point >= 1300 && point < 1500){
+      color = "#D3AB6F";
+      return color;
+    }
+    if(point >= 1500 && point < 2000){
+      color ="#B2B2B2";
+      return color;
+    }
+    if(point >= 2000 && point < 3000){
+      color ="#FFF27E";
+      return color;
+    }
+    if(point >= 3000){
+      color = "#22E1E4";
+      return color;
+    }
+    return color;
+  },[]);
+  
+  const color = UserFaceColor(point);
 
   useEffect(() => {
     dispatch(userActions.loginCheckDB(userId));
@@ -25,7 +51,7 @@ const UsersInfo = () => {
   return (
     <UserInfoContainer>
       <User>
-        <UserFace />
+        <UserFace color={color}/>
         <UserName>
           <Text is_bold is_size="30px" is_margin="10px">
             {get_user.id}
@@ -65,7 +91,7 @@ const UserFace = styled.div`
   height: 70px;
   border-radius: 70px;
   background-color: white;
-  border: 3px solid black;
+  border: 3px solid ${(props) => props.color};
   margin: 10px 20px 10px 20px;
 `;
 const UserName = styled.div`

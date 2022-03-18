@@ -16,6 +16,7 @@ function Waiting(props) {
     useEffect(() => {
         console.log("최상단 페이지 useEffec는 몇 번 될까요?")
         setCurrentSocket(io("http://15.165.158.25/waiting"));
+
     }, []);
 
     return (

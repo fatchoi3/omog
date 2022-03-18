@@ -3,6 +3,10 @@ import styled from "styled-components";
 
 import { Text, Button } from "../elements/index";
 import Logo from "../pictures/omogLogo.png";
+import First from "../pictures/First1.png";
+import Second from "../pictures/Second2.png";
+import Third from "../pictures/Third3.png";
+
 import LeaderBoard from "./LeaderBoard";
 import LeaderSlider from "./LeaderSlider";
 import { useDispatch, useSelector } from "react-redux";
@@ -65,17 +69,18 @@ const MainFooter = () => {
             </LogoWrap>
             <SuperLeaders>
               <Leader>
-                <DdongGraMe />
+              
+                <FirstImg src={First}/>
                 <Text>{leader_board[0].id}</Text>
                 <Text>{leader_board[0].point}</Text>
               </Leader>
               <Leader>
-                <DdongGraMe />
+              <SecondImg src={Second}/>
                 <Text>{leader_board[1].id}</Text>
                 <Text>{leader_board[1].point}</Text>
               </Leader>
               <Leader>
-                <DdongGraMe />
+                <ThirdImg src={Third}/>
                 <Text>{leader_board[2].id}</Text>
                 <Text>{leader_board[2].point}</Text>
               </Leader>
@@ -175,7 +180,7 @@ const LogoWrap = styled.div`
   justify-content: center;
   padding: 20px 0;
   right: 600px;
-  bottom: 180px;
+  bottom: 200px;
 `;
 const LogoImg = styled.img`
   width: 200px;
@@ -196,4 +201,16 @@ const SuperLeaders = styled.div`
 const Leader = styled.div`
   text-align: center;
 `;
+const FirstImg=styled.img`
+width: 50px;
+  height: 50px;
+  `;
+const SecondImg=styled.img`
+width: 50px;
+  height: 50px;
+  `;
+const ThirdImg=styled.img`
+width: 50px;
+  height: 50px;
+  `;
 export default MainFooter;

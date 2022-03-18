@@ -31,6 +31,10 @@ const Main = () => {
   };
   const enterWaiting= () =>{
     // alert("안녕",roomaName);
+    if(roomaName===""){
+      alert("빈칸을 채워주세요")
+      return;
+    }
     dispatch(roomActions.addRoomDB(roomaName))
   };
   
