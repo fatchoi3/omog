@@ -83,10 +83,11 @@ const gameResultDB = (result) => {
     console.log("result", result)
     return async function (dispatch, useState, { history }) {
         // const token = localStorage.getItem('token');
+        history.push(`/game/result/${result.gameNum}`);
         console.log(result)
         await api.post("/gameFinish", result)
             .then(function (response) {
-                history.push(`/game/result/${result.gameNum}`);
+              
                 dispatch(GameEnd(result));
                
             }).catch(error => {
