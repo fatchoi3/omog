@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useTable } from 'react-table';
 
 
-function Table({ columns, data }) {
+function ResultPointTable({ columns, data }) {
 
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
         useTable({ columns, data });
@@ -36,10 +36,10 @@ function Table({ columns, data }) {
 }
 
 const TableSheet = styled.table`
-    width: 40rem;
+    width: 30%;
     margin: 50px auto;
     border-radius: 14px;
-    border-collapse: collapse;
+    // border-collapse: collapse;
     overflow: hidden;
 `
 
@@ -73,4 +73,4 @@ const Td = styled.td`
     padding: 15px;
 `
 
-export default Table;
+export default ResultPointTable;

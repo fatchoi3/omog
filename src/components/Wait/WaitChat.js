@@ -71,9 +71,11 @@ function WaitChat({ socket }) {
                     실시간 채팅
                 </Text>
                 <Button
-                    is_size="1.5rem"
+                    is_background="#6DB6DF"
+                    is_size="1.4rem"
                     is_width="40%"
                     is_border="none"
+                    is_radius="0 14px 0 0"
                     is_padding="13px 22px"
                     is_line_height="31px"
                     is_color="black"

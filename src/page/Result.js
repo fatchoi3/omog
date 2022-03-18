@@ -3,11 +3,10 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { Text, Button } from '../elements';
-import Table from '../components/Table';
+import ResultMainTable from '../components/ResultMainTable';
+import ResultPointTable from '../components/ResultPointTable';
 
 import { actionCreators as gameActions } from '../redux/modules/game';
-
-
 
 
 function Result(props) {
@@ -16,7 +15,7 @@ function Result(props) {
     const { roomNum } = useParams();
     const { gameNum } = useParams();
 
-    const columns = useMemo(
+    const main_columns = useMemo(
         () => [
             {
                 accessor: "id",
@@ -24,19 +23,24 @@ function Result(props) {
             },
             {
                 accessor: "usePoint",
-                Header: "사용한 포인트",
+                Header: "승리팀",
             },
             {
                 accessor: "getPoint",
-                Header: "획득한 포인트",
-            },
-            {
-                accessor: "score",
-                Header: "총 포인트",
+                Header: "훈수 포인트",
             },
         ],
         []
     );
+
+    const point_columns = useMemo(
+        () => [
+            {
+                accessor: "score",
+                Header: "총 포인트"
+            }
+        ], []
+    )
 
     const exitResult = () => {
         history.push(`/main`);
@@ -90,13 +94,15 @@ function Result(props) {
 
 
     return (
-        <div className="result-container" style={{ margin: "100px auto", width: "40%" }}>
+        <div className="result-container" style={{ margin: "100px auto", width: "60%" }}>
             <GameResult>
                 {/* {resultgame.result.win} 님이 승리하였습니다! */}
                 <Text is_size="150px" is_weight="900" is_line_height="180px">승리</Text>
             </GameResult>
-
-            <Table columns={columns} data={data} />
+            <div style={{ display: "flex", width: "100%" }}>
+                <ResultMainTable columns={main_columns} data={data} />
+                <ResultPointTable columns={point_columns} data={data} />
+            </div>
             <div style={{ display: "flex", justifyContent: "center" }}>
                 <Button is_width="8rem" is_margin="0 4px 0 0" is_padding="5px 10px" is_size="25px"
                     is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB"
@@ -117,7 +123,7 @@ function Result(props) {
 const GameResult = styled.div`
     width: 100%;
     margin: 0 auto;
-    border: 1px solid pink;
+    // border: 1px solid pink;
     text-align: center;
 `
 
