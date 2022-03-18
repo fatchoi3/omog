@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, memo } from "react";
+import React, { useState, useRef, useEffect, memo, useCallback } from "react";
 import styled, { keyframes } from "styled-components";
 
 import Omog from "../components/Omog";
@@ -26,10 +26,18 @@ const Game = memo((props) => {
       ? true
       : false;
 
-  console.log("gameInfo", gameInfo[0]);
-  
-  const realGameInfo =
-    gameInfo[0]?.blackTeamPlayer.length === 0 ? gameInfo[1] : gameInfo[0];
+  console.log("gameInfo", gameInfo);
+  const pickGameInfo =useCallback((gameInfo)=>{
+    for(let i=0; i< gameInfo?.length;i++){
+      if(gameInfo[i]?.blackTeamPlayer[0]){
+        return gameInfo[i];
+      }
+    }
+
+  },[])
+  console.log("과연",pickGameInfo(gameInfo))
+  const realGameInfo =pickGameInfo(gameInfo);
+    // gameInfo[0]?.blackTeamPlayer.length === 0 ? gameInfo[1] : gameInfo[0];
 
   const blackPlayer = realGameInfo?.blackTeamPlayer[0];
   const whitePlayer = realGameInfo?.whiteTeamPlayer[0]; 
@@ -38,44 +46,20 @@ const Game = memo((props) => {
   const [randomNum, setRandomNum] = useState();
 
   const [loading, setLoading] = useState(1);
-  const [loadingFade, setLoadingFade] = useState(1);
   const [flying, setFlying] = useState();
-  const [fade, setFade] = useState();
+ 
 
   const rand = (max, min) => {
     return Math.floor(Math.random() * (max - min)) + min;
   };
 
-  // const useConfirm = (message = null, onConfirm, onCancel) => {
-  //   if (!onConfirm || typeof onConfirm !== "function") {
-  //     return;
-  //   }
-  //   if (onCancel && typeof onCancel !== "function") {
-  //     return;
-  //   }
-
-  //   const confirmAction = () => {
-  //     if (window.confirm(message)) {
-  //       onConfirm();
-  //     } else {
-  //       onCancel();
-  //     }
-  //   };
-
-  //   return confirmAction;
-  // };
-  // const deleteConfirm = () => console.log("삭제했습니다.");
-  // const cancelConfirm = () => console.log("취소했습니다.");
-  // const confirmDelete = useConfirm(
-  //   "삭제하시겠습니까?",
-  //   deleteConfirm,
-  //   cancelConfirm
-  // );
+ 
 
   //////수정사항
-  // "http://localhost:4001/game",
+  //"http://localhost:4001/game",
   const [socket, disconnectSocket] = useSocket(
     "http://15.164.103.116/game",
+    
     gameNum,
     userId
   );
@@ -84,17 +68,11 @@ const Game = memo((props) => {
       disconnectSocket();
     };
   }, [disconnectSocket]);
-  useEffect(() => {
+  useEffect(()=>{
     dispatch(userActions.loginCheckDB(userId));
     dispatch(gameActions.getGameDB(gameNum));
-    // window.onbeforeunload = function(e) {
-
-    //   // e.preventDefault();
-    //   // return "어디가세요?";
-    //   confirmDelete()
-    //   return "어디가세요?";
-    // }
-    // window.onbeforeunload = confirmDelete();
+  },[]);
+  useEffect(() => {
 
     socket.on("flyingWord", (data) => {
       setRandomNum(rand(1, 10) * 50);
@@ -106,11 +84,16 @@ const Game = memo((props) => {
         setLoading(1);
       }, 1000);
     });
-  }, []);
+  }, [socket]);
 
   return (
     <GameContainer>
-      {loading ? (
+       <LogoWrap>
+        <LogoImg src={Logo} />
+      </LogoWrap>
+      {is_player ? (
+        <>
+        {loading ? (
         ""
       ) : (
         <DialogBlock RandomNum={randomNum}>
@@ -119,13 +102,9 @@ const Game = memo((props) => {
           </Text>
         </DialogBlock>
       )}
-       <LogoWrap>
-        <LogoImg src={Logo} />
-      </LogoWrap>
-      {is_player ? (
-        <>
           <Wrap>
-            <Omog userInfo={userInfo} gameNum={gameNum} socket={socket} />
+            
+            <Omog userInfo={userInfo} gameNum={gameNum} socket={socket} blackPlayer={blackPlayer} whitePlayer={whitePlayer} />
             <TeachingWrap>
               <TeachingW playerInfo={whitePlayer} socket={socket} />
               <TeachingB playerInfo={blackPlayer} socket={socket} />
@@ -137,6 +116,15 @@ const Game = memo((props) => {
         </>
       ) : (
         <>
+        {loading ? (
+        ""
+      ) : (
+        <DialogBlock RandomNum={randomNum}>
+          <Text is_size="50px" is_margin="20px 0 50px">
+            {flying}
+          </Text>
+        </DialogBlock>
+      )}
           <PlayerInfos>
             <>
               <PlayerCardW playerInfo={whitePlayer} />
@@ -145,7 +133,7 @@ const Game = memo((props) => {
               <PlayerCardB playerInfo={blackPlayer} />
             </>
           </PlayerInfos>
-          <Omog userInfo={userInfo} gameNum={gameNum} socket={socket} />
+          <Omog userInfo={userInfo} gameNum={gameNum} socket={socket} blackPlayer={blackPlayer} whitePlayer={whitePlayer} />
           <ChattingWrap>
             <Chatting gameNum={gameNum} socket={socket} userInfo={userInfo} />
           </ChattingWrap>
