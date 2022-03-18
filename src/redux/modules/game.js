@@ -47,7 +47,7 @@ const ADD_TEACHING_B = "ADD_TEACHING_B";
 
 // action creators
 const getGame = createAction(GETGAME, (gameInfo) => ({ gameInfo }));
-const getGameResult = createAction(GET_GAME_RESULT, (result) => ({ result }));
+const getGameResult = createAction(GET_GAME_RESULT, (gameInfo) => ({ gameInfo }));
 const GameEnd = createAction(GAMEEND, (result) => ({ result }));
 const GameAddChat = createAction(GAME_ADD_CHAT, (chat) => ({ chat }));
 const AddTeachingW = createAction(ADD_TEACHING_W, (chat) => ({ chat }));
@@ -91,7 +91,7 @@ const getGameResultDB = (result) => {
         await api.post(`/gameFinish/show`, result)
             .then((res) => {
                 console.log(res);
-                dispatch(getGameResult(res))
+                dispatch(getGameResult(res.data.gameInfo))
             })
     }
 }
@@ -148,7 +148,7 @@ export default handleActions({
         console.log("action.payload.gameInfo", action.payload.gameInfo)
     }),
     [GET_GAME_RESULT]: (state, action) => produce(state, (draft) => {
-        console.log("리듀서")
+        draft.gameInfo = action.payload.gameInfo
     }),
     [GAMEEND]: (state, action) => produce(state, (draft) => {
         draft.result = action.payload.result

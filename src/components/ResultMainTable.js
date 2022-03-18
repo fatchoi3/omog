@@ -40,6 +40,7 @@ const TableSheet = styled.table`
     margin: 50px auto;
     border-radius: 14px;
     // border-collapse: collapse;
+    border-color: black;
     overflow: hidden;
 `
 

@@ -12,6 +12,8 @@ import { actionCreators as gameActions } from '../redux/modules/game';
 function Result(props) {
     const dispatch = useDispatch();
     const history = useHistory();
+
+    const gameInfo = useSelector(state => state.game.gameInfo);
     const { roomNum } = useParams();
     const { gameNum } = useParams();
 
@@ -96,7 +98,6 @@ function Result(props) {
     return (
         <div className="result-container" style={{ margin: "100px auto", width: "60%" }}>
             <GameResult>
-                {/* {resultgame.result.win} 님이 승리하였습니다! */}
                 <Text is_size="150px" is_weight="900" is_line_height="180px">승리</Text>
             </GameResult>
             <div style={{ display: "flex", width: "100%" }}>
@@ -104,12 +105,12 @@ function Result(props) {
                 <ResultPointTable columns={point_columns} data={data} />
             </div>
             <div style={{ display: "flex", justifyContent: "center" }}>
-                <Button is_width="8rem" is_margin="0 4px 0 0" is_padding="5px 10px" is_size="25px"
+                <Button is_width="15%" is_margin="0 4px 0 0" is_padding="5px 10px" is_size="25px"
                     is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB"
                 >
                     계속하기
                 </Button>
-                <Button is_width="8rem" is_margin="0 0 0 4px" is_padding="5px 10px" is_size="25px"
+                <Button is_width="15%" is_margin="0 0 0 4px" is_padding="5px 10px" is_size="25px"
                     is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB"
                     _onClick={exitResult}
                 >

@@ -44,13 +44,13 @@ const TableSheet = styled.table`
 `
 
 const TableThead = styled.thead`
-    background: #94D7BB;
+    background: #E5E5E5;
     height: 2rem;
     border-radius: 14px 14px 0 0;
 `
 
 const HeadTr = styled.tr`
-    color: white;
+    color: #94D7BB;
 `
 
 const Th = styled.th`
