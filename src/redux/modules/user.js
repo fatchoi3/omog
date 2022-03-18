@@ -90,18 +90,18 @@ const initialState = {
         point: 10000,
         state: "online"
     }],
-    blackPlayerInfo :{
+    blackPlayerInfo: {
         id: "초기값2",
         score: [3, 2],
         point: 1000,
         state: "blackPlayer",
-      },
-      whitePlayerInfo :{
+    },
+    whitePlayerInfo: {
         id: "초기값1",
         score: [2, 3],
         point: 1000,
         state: "whitePlayer",
-      }
+    }
 }
 
 // actions
@@ -111,8 +111,8 @@ const LOG_OUT = "LOG_OUT";
 const GET_USER_INFO = "GET_USER_INFO";
 const GET_LEADERS = "GET_LEADERS";
 const GET_LEADER_BOARD = "GET_LEADER_BOARD";
-const WHITE_PLAYER="WHITE_PLAYER";
-const BLACK_PLAYER="BLACK_PLAYER";
+const WHITE_PLAYER = "WHITE_PLAYER";
+const BLACK_PLAYER = "BLACK_PLAYER";
 
 // action creators
 const loginCheck = createAction(LOGIN_CHECK, (userInfo) => ({ userInfo }));
@@ -181,7 +181,7 @@ const getUserDB = () => {
 
 const loginCheckDB = (id) => {
     return async function (dispatch, getState, { history }) {
-        await axios.get(`http://15.164.103.116/userinfo/${id}`)
+        await axios.get(`http://15.165.158.25/userinfo/${id}`)
             .then((res) => {
                 // console.log("loginCheckDB", res.data)
                 dispatch(loginCheck(res.data))
@@ -210,18 +210,18 @@ const getLeaderBoardDB = () => {
 };
 const whitePlayerCheck = (id) => {
     return async function (dispatch, getState, { history }) {
-        await axios.get(`http://15.164.103.116/userinfo/${id}`)
+        await axios.get(`http://15.165.158.25/userinfo/${id}`)
             .then((res) => {
-               
+
                 dispatch(whiteCheck(res.data))
             })
     }
 };
 const blackPlayerCheck = (id) => {
     return async function (dispatch, getState, { history }) {
-        await axios.get(`http://15.164.103.116/userinfo/${id}`)
+        await axios.get(`http://15.165.158.25/userinfo/${id}`)
             .then((res) => {
-                
+
                 dispatch(blackCheck(res.data))
             })
     }
@@ -237,7 +237,7 @@ export default handleActions({
             localStorage.removeItem("token");
             localStorage.removeItem("userId");
             window.location.replace("/")
-          
+
         }),
     [LOGIN_CHECK]: (state, action) => produce(state, (draft) => {
         draft.userInfo = action.payload.userInfo;
@@ -248,19 +248,19 @@ export default handleActions({
     }),
     [GET_LEADERS]: (state, action) => produce(state, (draft) => {
         draft.leader_list = action.payload.leader_list;
-  
+
     }),
     [GET_LEADER_BOARD]: (state, action) => produce(state, (draft) => {
         draft.leader_board = action.payload.leader_board;
-    
+
     }),
     [WHITE_PLAYER]: (state, action) => produce(state, (draft) => {
         draft.whitePlayerInfo = action.payload.whitePlayerInfo;
-   
+
     }),
     [BLACK_PLAYER]: (state, action) => produce(state, (draft) => {
         draft.blackPlayerInfo = action.payload.blackPlayerInfo;
-  
+
     }),
 },
     initialState

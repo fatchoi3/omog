@@ -3,15 +3,23 @@ import styled from 'styled-components';
 import Text from '../elements/Text';
 
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import OmokEx1 from '../pictures/omok_explain1.png'
+import OmokEx2 from '../pictures/omok_explain2.png'
+import OmokEx3 from '../pictures/omok_explain3.png'
+import OmokEx4 from '../pictures/omok_explain4.png'
+import OmokEx5 from '../pictures/omok_explain5.png'
+
+
 
 function LoginPageSlider(props) {
-    const images = ["https://mblogthumb-phinf.pstatic.net/20141204_276/firstgjp_14176838057819gNtv_JPEG/___.jpg?type=w2",
-        "http://newsimg.hankookilbo.com/2017/11/06/201711060912547465_2.jpg",
-        "https://t1.daumcdn.net/cfile/tistory/216C553953FC27C335",
-        "http://image.kmib.co.kr/online_image/2019/1015/611718110013817661_1.jpg"
+    const images = [OmokEx1, OmokEx2, OmokEx3, OmokEx4, OmokEx5
+        // "https://mblogthumb-phinf.pstatic.net/20141204_276/firstgjp_14176838057819gNtv_JPEG/___.jpg?type=w2",
+        // "http://newsimg.hankookilbo.com/2017/11/06/201711060912547465_2.jpg",
+        // "https://t1.daumcdn.net/cfile/tistory/216C553953FC27C335",
+        // "http://image.kmib.co.kr/online_image/2019/1015/611718110013817661_1.jpg"
     ]
 
-    const contents = ["이것은 1번 이미지", "이것은 2번 이미지", "이것은 3번 이미지", "이것은 4번 이미지"];
+    // const contents = ["이것은 1번 이미지", "이것은 2번 이미지", "이것은 3번 이미지", "이것은 4번 이미지"];
 
     const [pickers, setPickers] = React.useState([]);
     const [content, setContent] = React.useState(["이것은 1번 이미지", "이것은 2번 이미지", "이것은 3번 이미지", "이것은 4번 이미지"]);
@@ -70,9 +78,9 @@ function LoginPageSlider(props) {
                         <IoIosArrowBack />
                     </Arrow>
                 </div>
-
-                <FillImage src={images[pickIndex]} ref={slideRef} />
-
+                <div style={{ width: "100%" }}>
+                    <FillImage src={images[pickIndex]} ref={slideRef} />
+                </div>
                 <div className="arrow_box" style={{ display: "flex", alignItems: "center" }}>
                     <Arrow isLeft={false} onClick={handleNextClick}>
                         <IoIosArrowForward />
@@ -84,9 +92,9 @@ function LoginPageSlider(props) {
                 {pickers}
             </PickerWrapper>
 
-            <Text is_center="center">
+            {/* <Text is_center="center">
                 {contents[pickIndex]}
-            </Text>
+            </Text> */}
         </div>
     );
 }
@@ -99,9 +107,9 @@ const Container = styled.div`
 `;
 
 const FillImage = styled.img`
-    width: 384px;
-    height: 384px;
-    object-fit: cover;
+    width: 700px;
+    height: 600px;
+    object-fit: fill;
     box-shadow: 3px 3px 3px #999;
 `;
 
@@ -109,7 +117,7 @@ const PickerWrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 20px auto;
+    margin: 20px auto 10px auto;
 `;
 
 const Arrow = styled.div`

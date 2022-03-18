@@ -147,6 +147,7 @@ function Login(props) {
                                 is_margin="100px 0 0 0"
                                 is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB"
                                 _onClick={handleExplainModal}
+                                is_cursor="pointer"
                             >
                                 SKIP
                             </Button>
@@ -248,7 +249,7 @@ const LoginPageTitle = styled.div`
 
 const LoginPageContainer = styled.div`
     display: flex;
-    width: 1280px;
+    width: 100%;
     padding: 30px;
     margin: 0 auto;
     flex-wrap: wrap;

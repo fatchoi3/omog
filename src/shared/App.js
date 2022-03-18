@@ -12,7 +12,7 @@ import Result from '../page/Result';
 
 
 // const socketWait = io.connect("http://localhost:4001");
-// const socketGame = io.connect("http://15.164.103.116/game");
+// const socketGame = io.connect("http://15.165.158.25/game");
 // const socketGame = io.connect("http://localhost:4001/game");
 
 
