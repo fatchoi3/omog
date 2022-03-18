@@ -73,7 +73,7 @@ const CHANGE_USERINFO = "CHANGE_USERINFO";
 // action creators
 const getRoomList = createAction(GET_ROOM, (roomList) => ({ roomList }));
 const getRoomInfo = createAction(GET_ROOM_INFO, (roomInfo) => ({ roomInfo }));
-const joinRoom = createAction(JOIN_ROOM, (userInfo) => ({ userInfo }));
+const joinRoom = createAction(JOIN_ROOM, (userInfo, localId) => ({ userInfo, localId }));
 const setWaitUser = createAction(SET_WAIT_USER, (id, users) => ({ id, users }));
 const changeState = createAction(CHANGE_STATE, (id, users) => ({ id, users }));
 const resetStateUser = createAction(RESET_STATE_USER, (user) => ({ user }));
@@ -130,7 +130,7 @@ const joinRoomDB = (room) => {
         await api.post("/lobby/joinroom", room)
             .then(function (response) {
                 console.log("안녕 나는 미들웨어 join", response)
-                dispatch(joinRoom(response.data));
+                dispatch(joinRoom(response.data, room.id));
                 history.push(`/waiting/${room.roomNum}`)
             }).catch(error => {
                 // window.alert("방참가 실패!");
@@ -197,7 +197,9 @@ export default handleActions({
         console.log("action.payload.roomInfo", action.payload.roomInfo)
     }),
     [JOIN_ROOM]: (state, action) => produce(state, (draft) => {
+        // if (action.payload.localId === action.payload.userInfo.id) {
         draft.userInfo = action.payload.userInfo;
+        // }
         console.log("방입장 action.payload.userInfo", action.payload.userInfo)
     }),
     [SET_WAIT_USER]: (state, action) => produce(state, (draft) => {
@@ -242,7 +244,9 @@ export default handleActions({
         draft.whitePlayer = {};
     }),
     [CHANGE_USERINFO]: (state, action) => produce(state, (draft) => {
+        console.log(action.payload.id, action.payload.someone)
         if (action.payload.id === action.payload.someone) {
+            console.log("같으니까 변경!")
             draft.userInfo = { ...draft.userInfo, state: action.payload.state }
         }
     }),
