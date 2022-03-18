@@ -28,31 +28,12 @@ const initialState = {
             { lose: 0 }
         ],
         point: 0,
-        state: '',
     },
 
     blackObserverList: [],
     whiteObserverList: [],
-    blackPlayer: {
-        id: 1,
-        'nickname': '',
-        score: [
-            { win: 0 },
-            { lose: 0 }
-        ],
-        point: 0,
-        state: '',
-    },
-    whitePlayer: {
-        id: 1,
-        'nickname': '',
-        score: [
-            { win: 0 },
-            { lose: 0 }
-        ],
-        point: 0,
-        state: '',
-    },
+    blackPlayer: {},
+    whitePlayer: {},
 
 }
 
@@ -66,7 +47,6 @@ const SET_WAIT_USER = "SET_WAIT_USER";
 const CHANGE_STATE = "CHANGE_STATE";
 const RESET_STATE_USER = "RESET_STATE_USER";
 const QUICK_START_P = "QUICK_START_P";
-const CHANGE_USERINFO = "CHANGE_USERINFO";
 
 
 
@@ -75,9 +55,8 @@ const getRoomList = createAction(GET_ROOM, (roomList) => ({ roomList }));
 const getRoomInfo = createAction(GET_ROOM_INFO, (roomInfo) => ({ roomInfo }));
 const joinRoom = createAction(JOIN_ROOM, (userInfo) => ({ userInfo }));
 const setWaitUser = createAction(SET_WAIT_USER, (id, users) => ({ id, users }));
-const changeState = createAction(CHANGE_STATE, (id, users) => ({ id, users }));
+const changeState = createAction(CHANGE_STATE, (user, userInfo) => ({ user, userInfo }));
 const resetStateUser = createAction(RESET_STATE_USER, (user) => ({ user }));
-const changeUserInfo = createAction(CHANGE_USERINFO, (state) => ({ state }));
 
 
 // middleware actions
@@ -201,13 +180,7 @@ export default handleActions({
         console.log("방입장 action.payload.userInfo", action.payload.userInfo)
     }),
     [SET_WAIT_USER]: (state, action) => produce(state, (draft) => {
-        console.log("리듀서까지 왔습니다", action.payload.users[0]);
-        // draft.blackPlayer = action.payload.users[0].blackPlayerInfo[0];
-        // draft.userInfo = action.payload.users[0].blackPlayerInfo[0];
-        // draft.whitePlayer = action.payload.users[0].whitePlayerInfo[0];
-        // draft.blackObserverList = [...action.payload.users[0].blackTeamObserver];
-        // draft.whiteObserverList = [...action.payload.users[0].whiteTeamObserver];
-
+        console.log("리듀서까지 왔습니다", action.payload.users)
         if (action.payload.user?.state === "blackPlayer") {
             draft.blackPlayer = action.payload.users[0].blackPlayerInfo[0];
         } else if (action.payload.user?.state === "whitePlayer") {
@@ -219,12 +192,9 @@ export default handleActions({
         }
     }),
     [CHANGE_STATE]: (state, action) => produce(state, (draft) => {
-        console.log(action.payload.id);
-        console.log(action.payload.users);
-        // draft.blackPlayer = action.payload.users[0].blackPlayerInfo[0];
-        // draft.whitePlayer = action.payload.users[0].whitePlayerInfo[0];
-        // draft.blackObserverList = [...action.payload.users[0].blackTeamObserver];
-        // draft.whiteObserverList = [...action.payload.users[0].whiteTeamObserver];
+        console.log(action.payload.user)
+        console.log(action.payload.userInfo[0])
+
         if (action.payload.user === action.payload.userInfo[0].blackPlayerInfo[0]?.id) {
             draft.userInfo.state = "blackPlayer";
         } else if (action.payload.user === action.payload.userInfo[0].whitePlayerInfo[0]?.id) {
@@ -242,9 +212,6 @@ export default handleActions({
         draft.blackPlayer = {};
         draft.whitePlayer = {};
     }),
-    [CHANGE_USERINFO]: (state, action) => produce(state, (draft) => {
-        draft.userInfo = { ...draft.userInfo, state: action.payload.state }
-    }),
 },
     initialState
 );
@@ -259,8 +226,7 @@ const actionCreators = {
     changeState,
     resetStateUser,
     quickStartPlayer,
-    quickStartObserver,
-    changeUserInfo,
+    quickStartObserver
 }
 
 export { actionCreators };
