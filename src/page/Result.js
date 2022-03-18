@@ -13,8 +13,11 @@ function Result(props) {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const gameInfo = useSelector(state => state.game.gameInfo);
-    const { roomNum } = useParams();
+    const result = useSelector(state => state.game.result);
+    console.log(result);
+    const gameresult = useSelector(state => state.game.gameresult);
+    console.log(gameresult);
+    const userId = localStorage.getItem('userId');
     const { gameNum } = useParams();
 
     const main_columns = useMemo(
@@ -24,7 +27,7 @@ function Result(props) {
                 Header: "아이디",
             },
             {
-                accessor: "usePoint",
+                accessor: "gamePoint",
                 Header: "승리팀",
             },
             {
@@ -49,36 +52,39 @@ function Result(props) {
     }
 
     useEffect(() => {
-        dispatch(gameActions.getGameResultDB());
-    }, [])
+        // 현재 result 갑을 못 받아오는중
+        if (result) {
+            dispatch(gameActions.getGameResultDB(userId, gameNum, result));
+        }
+    }, [result])
 
     const resultgame = {
         userInfo: [
             {
                 id: "아이디1",
                 score: 1234,
-                usePoint: 300,
+                gamePoint: 300,
                 getPoint: 400,
                 state: "player",
             },
             {
                 id: "아이디2",
                 score: 1234,
-                usePoint: 300,
+                gamePoint: 300,
                 getPoint: 400,
                 state: "player",
             },
             {
                 id: "아이디3",
                 score: 1234,
-                usePoint: 300,
+                gamePoint: 300,
                 getPoint: 400,
                 state: "observer",
             },
             {
                 id: "아이디4",
                 score: 1234,
-                usePoint: 300,
+                gamePoint: 300,
                 getPoint: 400,
                 state: "observer",
             },
@@ -126,10 +132,6 @@ const GameResult = styled.div`
     margin: 0 auto;
     // border: 1px solid pink;
     text-align: center;
-`
-
-const ObserverResult = styled.div`
-
 `
 
 export default Result;

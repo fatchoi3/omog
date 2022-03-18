@@ -28,11 +28,22 @@ const initialState = {
         whiteTeamObserver: ["e", "f", "d", "w"]
     },
     userInfo: {
-
+        id: "",
+        score: [
+            { win: 0 },
+            { lose: 0 }
+        ],
+        point: 0
     },
     chat_list: [],
     Teaching_listB: [],
     Teaching_listW: [],
+    result: { win: '' },
+    gameresult: {
+        gameInfo: {},
+        userInfo: {},
+        result: {}
+    },
 }
 
 // actions
@@ -47,7 +58,7 @@ const ADD_TEACHING_B = "ADD_TEACHING_B";
 
 // action creators
 const getGame = createAction(GETGAME, (gameInfo) => ({ gameInfo }));
-const getGameResult = createAction(GET_GAME_RESULT, (gameInfo) => ({ gameInfo }));
+const getGameResult = createAction(GET_GAME_RESULT, (result) => ({ result }));
 const GameEnd = createAction(GAMEEND, (result) => ({ result }));
 const GameAddChat = createAction(GAME_ADD_CHAT, (chat) => ({ chat }));
 const AddTeachingW = createAction(ADD_TEACHING_W, (chat) => ({ chat }));
@@ -72,11 +83,12 @@ const gameResultDB = (result) => {
     console.log("result", result)
     return async function (dispatch, useState, { history }) {
         // const token = localStorage.getItem('token');
+        console.log(result)
         await api.post("/gameFinish", result)
             .then(function (response) {
                 // console.log("안녕 나는 미들웨어 result야", response.data);
-                history.push(`/game/result/${result.gameNum}`);
                 dispatch(GameEnd(result));
+                history.push(`/game/result/${result.gameNum}`);
             }).catch(error => {
                 // window.alert("방참가 실패!");
                 console.log(error)
@@ -85,13 +97,13 @@ const gameResultDB = (result) => {
 };
 
 
-const getGameResultDB = (result) => {
+const getGameResultDB = (userId, gameNum, result) => {
     return async function (dispatch, getState, { history }) {
-        console.log(result)
-        await api.post(`/gameFinish/show`, result)
+        console.log(userId, gameNum, result)
+        await api.post(`/gameFinish/show`, { id: userId, gameNum: gameNum, result })
             .then((res) => {
                 console.log(res);
-                dispatch(getGameResult(res.data.gameInfo))
+                dispatch(getGameResult(res.data))
             })
     }
 }
@@ -148,9 +160,11 @@ export default handleActions({
         console.log("action.payload.gameInfo", action.payload.gameInfo)
     }),
     [GET_GAME_RESULT]: (state, action) => produce(state, (draft) => {
-        draft.gameInfo = action.payload.gameInfo
+        console.log(action.payload.result)
+        draft.gameresult = action.payload.result;
     }),
     [GAMEEND]: (state, action) => produce(state, (draft) => {
+        console.log(action.payload.result)
         draft.result = action.payload.result
         console.log("game end 리듀서예요.", action.payload.result)
     }),

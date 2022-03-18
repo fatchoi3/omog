@@ -4,7 +4,6 @@ import { useTable } from 'react-table';
 
 
 function ResultMainTable({ columns, data }) {
-
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
         useTable({ columns, data });
 
