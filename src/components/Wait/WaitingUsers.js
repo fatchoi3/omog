@@ -19,21 +19,27 @@ function WaitingUsers({ socket, roomNum }) {
     const waitingPerson = useSelector((state) => state.room.userInfo);
     console.log(waitingPerson);
 
-    const [blackPlayer, setBlackPlayer] = useState({});
-    const [whitePlayer, setWhitePlayer] = useState({});
-    const [blackObserverList, setBlackObserverList] = useState([]);
-    const [whiteObserverList, setWhiteObserverList] = useState([]);
+    const blackPlayer = useSelector(state => state.room.blackPlayer);
+    const whitePlayer = useSelector(state => state.room.whitePlayer);
+    const blackObserverList = useSelector(state => state.room.blackObserverList);
+    const whiteObserverList = useSelector(state => state.room.whiteObserverList);
+    // const [blackPlayer, setBlackPlayer] = useState({});
+    // const [whitePlayer, setWhitePlayer] = useState({});
+    // const [blackObserverList, setBlackObserverList] = useState([]);
+    // const [whiteObserverList, setWhiteObserverList] = useState([]);
     const [start, setStart] = useState(false);
 
 
     console.log(blackPlayer, whitePlayer, blackObserverList, whiteObserverList);
 
     const gameStart = (e) => {
-        console.log("게임 실행")
-        e.preventDefault();
-        const roomNumber = roomNum;
-        socket.emit("gameStart", roomNumber);
-        setStart(true);
+        if (blackPlayer?.hasOwnProperty('id') && whitePlayer?.hasOwnProperty('id')) {
+            console.log("게임 실행")
+            e.preventDefault();
+            const roomNumber = roomNum;
+            socket.emit("gameStart", roomNumber);
+            setStart(true);
+        }
     }
 
 
@@ -54,20 +60,21 @@ function WaitingUsers({ socket, roomNum }) {
         // 대기방 접속한 인원 정보 받기
         const welcome = (id, userInfos) => {
             console.log("welcome 실행완료", id, userInfos);
-            setBlackPlayer(userInfos[0].blackPlayerInfo[0]);
-            setWhitePlayer(userInfos[0].whitePlayerInfo[0]);
-            setBlackObserverList([...userInfos[0].blackTeamObserver]);
-            setWhiteObserverList([...userInfos[0].whiteTeamObserver]);
+            dispatch(roomActions.setWaitUser(id, userInfos));
+            // setBlackPlayer(userInfos[0].blackPlayerInfo[0]);
+            // setWhitePlayer(userInfos[0].whitePlayerInfo[0]);
+            // setBlackObserverList([...userInfos[0].blackTeamObserver]);
+            // setWhiteObserverList([...userInfos[0].whiteTeamObserver]);
         }
 
         socket.on("welcome", welcome)
 
         const changeState = (id, userInfos) => {
             console.log("state 변경이 되나요?", id, userInfos);
-            setBlackPlayer(userInfos[0].blackPlayerInfo[0]);
-            setWhitePlayer(userInfos[0].whitePlayerInfo[0]);
-            setBlackObserverList([...userInfos[0].blackTeamObserver]);
-            setWhiteObserverList([...userInfos[0].whiteTeamObserver]);
+            // setBlackPlayer(userInfos[0].blackPlayerInfo[0]);
+            // setWhitePlayer(userInfos[0].whitePlayerInfo[0]);
+            // setBlackObserverList([...userInfos[0].blackTeamObserver]);
+            // setWhiteObserverList([...userInfos[0].whiteTeamObserver]);
             dispatch(roomActions.changeState(id, userInfos));
         }
 
@@ -100,37 +107,37 @@ function WaitingUsers({ socket, roomNum }) {
             <WaitPlayerList roomNum={roomNum} socket={socket} blackPlayer={blackPlayer} whitePlayer={whitePlayer} />
 
             <div style={{ display: "flex", justifyContent: "center", boxSizing: "border-box" }}>
-                {
-                    waitingPerson.state === "blackPlayer"
-                        ?
-                        <Button
-                            is_width="30%"
-                            is_padding="18px 36px"
-                            is_radius="14px"
-                            is_background="#94D7BB"
-                            is_center="center"
-                            is_margin="20px"
-                            is_border="2px solid black"
-                            is_cursor="pointer"
-                            is_hover="inset 0 -5em 0 0 #6DB6DF, inset 0 5em 0 0 #6DB6DF"
-                            _onClick={gameStart}
-                        ><Text is_bold="800" is_size="24px" is_line_height="28px">게임 시작</Text></Button>
-                        :
-                        <Button
-                            is_width="30%"
-                            is_padding="18px 36px"
-                            is_radius="14px"
-                            is_background="#94D7BB"
-                            is_center="center"
-                            is_margin="20px"
-                            is_border="2px solid black"
-                            is_cursor="pointer"
-                            _onClick={gameStart}
-                            disabled
-                        ><Text is_bold="800" is_size="24px" is_line_height="28px">
-                                게임 시작
-                            </Text>
-                        </Button>
+                {waitingPerson &&
+                    waitingPerson.id === userId && waitingPerson.state === "blackPlayer"
+                    ?
+                    <Button
+                        is_width="30%"
+                        is_padding="18px 36px"
+                        is_radius="14px"
+                        is_background="#94D7BB"
+                        is_center="center"
+                        is_margin="20px"
+                        is_border="2px solid black"
+                        is_cursor="pointer"
+                        is_hover="inset 0 -5em 0 0 #6DB6DF, inset 0 5em 0 0 #6DB6DF"
+                        _onClick={gameStart}
+                    ><Text is_bold="800" is_size="24px" is_line_height="28px">게임 시작</Text></Button>
+                    :
+                    <Button
+                        is_width="30%"
+                        is_padding="18px 36px"
+                        is_radius="14px"
+                        is_background="#94D7BB"
+                        is_center="center"
+                        is_margin="20px"
+                        is_border="2px solid black"
+                        is_cursor="pointer"
+                        _onClick={gameStart}
+                        disabled
+                    ><Text is_bold="800" is_size="24px" is_line_height="28px">
+                            게임 시작
+                        </Text>
+                    </Button>
                 }
             </div>
             <WaitObserverList roomNum={roomNum} socket={socket} blackObserverList={blackObserverList} whiteObserverList={whiteObserverList} />
