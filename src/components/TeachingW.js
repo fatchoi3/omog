@@ -90,12 +90,14 @@ const ChatId = styled.div`
 `;
 const ChatMessage = styled.div`
   margin: 5px 5px;
-
+  max-width : 200px;  
   padding: 5px;
   background-color: #94d7bb;
   border-top-right-radius: 5px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+  overflow-wrap: break-word;
+    word-break: break-word;
 `;
 const Profile = styled.div`
   width: 120px;

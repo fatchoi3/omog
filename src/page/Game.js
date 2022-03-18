@@ -106,8 +106,9 @@ const Game = memo((props) => {
             
             <Omog userInfo={userInfo} gameNum={gameNum} socket={socket} blackPlayer={blackPlayer} whitePlayer={whitePlayer} />
             <TeachingWrap>
+            <TeachingB playerInfo={blackPlayer} socket={socket} />
               <TeachingW playerInfo={whitePlayer} socket={socket} />
-              <TeachingB playerInfo={blackPlayer} socket={socket} />
+             
             </TeachingWrap>
           </Wrap>
           <ChattingWrap>
