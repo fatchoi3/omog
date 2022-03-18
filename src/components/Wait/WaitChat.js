@@ -43,6 +43,7 @@ function WaitChat({ socket, roomNum }) {
         }
 
         socket.on("bye", byeChangeState)
+        dispatch(roomActions.resetStateUser(userId));
         socket.disconnect();
         history.push('/main');
     }
