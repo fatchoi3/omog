@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
 import io from "socket.io-client";
 
 import WaitChat from '../components/Wait/WaitChat';
@@ -20,21 +21,31 @@ function Waiting(props) {
     return (
         <>
             {currentSocket ?
-                <div className="main_container" style={{ display: "flex", justifyContent: "center", boxSizing: "border-box" }}>
+                <WaitingContainer>
                     <div className="container_left" style={{ padding: "20px" }}>
                         <WaitingUsers socket={currentSocket} roomNum={roomNum} />
                     </div>
 
-                    <div className="container_right" style={{ padding: "20px" }}>
+                    <div className="container_right" style={{ width: "25%", padding: "20px" }}>
                         <WaitChat socket={currentSocket} roomNum={roomNum} />
                     </div>
-                </div >
+                </WaitingContainer>
                 :
                 <div>로딩중</div>
             }
         </>
     );
 }
+
+const WaitingContainer = styled.div`
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    background: #C4C4C4;
+    padding: 5%;
+`
 
 
 export default Waiting;

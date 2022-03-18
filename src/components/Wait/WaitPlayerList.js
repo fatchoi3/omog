@@ -266,12 +266,12 @@ const PlayerContainer = styled.div`
 const BlackPlayerCard = styled.div`
     width: 367px;
     height: 130px;
-    // color: white;
-    // background-color: black;
+    border: 2px solid black;
     box-shadow: -3px 3px 6px 3px #A8937340;
     border-radius: 14px;
     margin-right: 18px;
     box-sizing: border-box;
+    background: white;
 
     &:hover {
         outline: 4px solid #94D7BB;
@@ -281,10 +281,12 @@ const BlackPlayerCard = styled.div`
 const WhitePlayerCard = styled.div`
     width: 367px;
     height: 130px;
+    border: 2px solid black;
     box-shadow: -3px 3px 6px 3px #A8937340;
     border-radius: 14px;
     margin-left: 18px;
     box-sizing: border-box;
+    background: white;
 
     &:hover {
         outline: 4px solid #94D7BB;

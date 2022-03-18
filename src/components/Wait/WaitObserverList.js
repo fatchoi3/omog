@@ -105,11 +105,13 @@ const ObserverContainer = styled.div`
 `
 const ObserverCard = styled.div`
     width: 367px;
-    height: 100%;
+    height: 24vh;
     box-shadow: -3px 3px 6px 3px #A8937340;
     border-radius: 14px;
     display: flex;
     box-sizing: border-box;
+    border: 2px solid black;
+    background: white;
 
     &:hover {
         outline: 4px solid #94D7BB;

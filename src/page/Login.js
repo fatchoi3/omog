@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { actionCreators as userActions } from '../redux/modules/user';
 
+import Logo from '../pictures/omokjomok.svg'
 import Button from '../elements/Button';
 import Text from '../elements/Text';
 import Input from '../elements/Input';
@@ -154,10 +155,10 @@ function Login(props) {
                             <h2 style={{ color: "#189FFB", padding: "0", margin: "0", fontWeight: "800" }}>회원가입</h2>
                         </div>
                         <div style={{ display: "flex", margin: "0 auto", flexDirection: "column", alignContent: "center", alignItems: "center", justifyContent: "center", width: "100%" }}>
-                            <Input is_width="20rem" is_margin="0 0 20px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="아이디" is_outline="none" _onChange={handleIdInput} />
-                            <Input is_width="20rem" is_margin="20px 0 20px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="비밀번호" type="password" is_outline="none" _onChange={handlePasswordInput} />
-                            <Input is_width="20rem" is_margin="20px 0 20px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="비밀번호 확인" type="password" is_outline="none" _onChange={handlePasswordConfirmInput} />
-                            <Input is_width="20rem" is_margin="20px 0 60px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="닉네임" _onChange={handleNicknameInput} />
+                            <Input is_width="80%" is_max_width="20rem" is_margin="0 0 20px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="아이디" is_outline="none" _onChange={handleIdInput} />
+                            <Input is_width="80%" is_max_width="20rem" is_margin="20px 0 20px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="비밀번호" type="password" is_outline="none" _onChange={handlePasswordInput} />
+                            <Input is_width="80%" is_max_width="20rem" is_margin="20px 0 20px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="비밀번호 확인" type="password" is_outline="none" _onChange={handlePasswordConfirmInput} />
+                            <Input is_width="80%" is_max_width="20rem" is_margin="20px 0 60px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="닉네임" _onChange={handleNicknameInput} />
                             <Button
                                 is_width="13rem"
                                 is_margin="10px 0 0 0"
@@ -173,7 +174,9 @@ function Login(props) {
                     </SignupModal>
                 </SignupModalContainer>
             }
-            <LoginPageTitle>타이틀 혹은 로고가 위치합니다.</LoginPageTitle>
+            <LoginPageTitle>
+                <img src={Logo} alt="로고" style={{ height: "100%", width: "25%" }} />
+            </LoginPageTitle>
             <LoginPageContainer>
                 <LoginPageLoginBox>
                     <div className="input_box"
@@ -208,7 +211,7 @@ function Login(props) {
                     </div>
 
                     <Button
-                        is_width="14rem"
+                        is_width="80%"
                         is_height="3rem"
                         is_size="23px"
                         is_weight="600"
@@ -232,9 +235,9 @@ function Login(props) {
     );
 }
 
-const LoginPageTitle = styled.h1`
+const LoginPageTitle = styled.div`
+    width: 100%;
     text-align: center;
-    border: 1px solid blue;
 `
 
 const LoginPageContainer = styled.div`
@@ -299,6 +302,7 @@ const SignupModal = styled.div`
     position: relative;
     transition: 0.3s;
     width: 28%;
+    max-width: 25rem;
     height: 561px;
     box-shadow: rgb(0 0 0 / 9%) 0px 2px 12px 0px;
     background: white;
