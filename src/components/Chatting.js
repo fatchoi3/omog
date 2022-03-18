@@ -35,10 +35,11 @@ const Chatting = memo((props) => {
       if (message === "") {
         console.log("빈값입니다.");
       } else {
-        if (teaching === "Text" || isTeam === "white") {
+        if (teaching === "Text" && isTeam === "white") {
           console.log("Text훈수W");
           socket.emit("teachingW", { chat: message });
-        } else {
+        } 
+        if (teaching === "Text" && isTeam === "black") {
           console.log("Text훈수B");
           socket.emit("teachingB", { chat: message });
         }

@@ -108,7 +108,6 @@ const gameOutDB = (gameNum) => {
 const addGameChat = (socket) => {
     return async function (dispatch, getState, { history }) {
         await socket.on("chat", (data) => {
-
             let array = { id: data.name, message: data.chat.chat }
             console.log("채팅받아오기", array)
             dispatch(GameAddChat(array));
@@ -118,9 +117,8 @@ const addGameChat = (socket) => {
 const AddTeachB = (socket) => {
     return async function (dispatch, getState, { history }) {
         await socket.on("teachingB", (data) => {
-
             let array = { id: data.name, message: data.chat.chat }
-            console.log("채팅받아오기", array)
+            console.log("채팅받아오기B", array)
             dispatch(AddTeachingB(array));
         })
     }
@@ -128,9 +126,8 @@ const AddTeachB = (socket) => {
 const AddTeachW = (socket) => {
     return async function (dispatch, getState, { history }) {
         await socket.on("teachingW", (data) => {
-
             let array = { id: data.name, message: data.chat.chat }
-            console.log("채팅받아오기", array)
+            console.log("채팅받아오기W", array)
             dispatch(AddTeachingW(array));
         })
     }
@@ -160,7 +157,7 @@ export default handleActions({
     }),
     [ADD_TEACHING_W]: (state, action) => produce(state, (draft) => {
         draft.Teaching_listW.push(action.payload.chat);
-        // /console.log("action.payload.chat",action.payload.chat)
+        console.log("action.payload.chat",action.payload.chat)
     }),
     [CLEAR_ONE]: (state, action) =>
       produce(state, (draft) => {

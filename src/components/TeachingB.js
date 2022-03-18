@@ -7,13 +7,12 @@ import { actionCreators as gameActions } from "../redux/modules/game";
 
 const TeachingB = memo((props) => {
   const dispatch = useDispatch();
-  const [teaching, setTeaching] = useState([]);
   const chatList = useSelector((state) => state.game.Teaching_listB);
   const scroll = useRef(null);
 
   const socket = props.socket;
 
-  console.log("chatList", chatList);
+  
 
   const renderChat = () => {
     return (
@@ -46,6 +45,7 @@ const TeachingB = memo((props) => {
 
   useEffect(() => {
     dispatch(gameActions.AddTeachB(socket));
+    console.log("chatList", chatList);
   }, [socket]);
 
   return (

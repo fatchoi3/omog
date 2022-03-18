@@ -223,7 +223,7 @@ const Omog = memo((props) => {
         case 1:
           dispatch(
             gameActions.gameResultDB({
-              result: { win: props.winnerB },
+              result: { win: props.blackPlayer.id },
               userInfo: props.userInfo,
               gameNum: gameNum,
             })
@@ -233,7 +233,7 @@ const Omog = memo((props) => {
         case 2:
           dispatch(
             gameActions.gameResultDB({
-              result: { win: props.winnerW },
+              result: { win: props.whitePlayer.id },
               userInfo: props.userInfo,
               gameNum: gameNum,
             })
