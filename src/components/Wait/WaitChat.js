@@ -2,9 +2,13 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useHistory } from 'react-router-dom';
 import { Text, Input, Button } from '../../elements';
+import { useDispatch } from 'react-redux';
+
+import { actionCreators as roomActions } from '../../redux/modules/room';
 
 function WaitChat({ socket }) {
     console.log("채팅창 컴포넌트입니다. 몇 번 렌더링될까요?")
+    const dispatch = useDispatch();
     const history = useHistory();
     const messageRef = useRef(null);
     const scrollRef = useRef();
@@ -28,7 +32,13 @@ function WaitChat({ socket }) {
         }
     });
 
-    const exitWaiting = () => {
+    const exitWaiting = (e) => {
+        e.preventDefault();
+        socket.once("bye", userId => {
+            console.log(userId);
+        })
+        socket.disconnect();
+        dispatch(roomActions.resetStateUser(userId));
         history.push('/main');
     }
 
@@ -53,7 +63,7 @@ function WaitChat({ socket }) {
         <ChattingWindow>
             <ChattingHeader>
                 <Text
-                    is_size="26px"
+                    is_size="1.6rem"
                     is_center="left"
                     is_margin="13px 22px"
                     is_line_height="31px"
@@ -61,8 +71,8 @@ function WaitChat({ socket }) {
                     실시간 채팅
                 </Text>
                 <Button
-                    is_size="26px"
-                    is_width="30%"
+                    is_size="1.5rem"
+                    is_width="40%"
                     is_border="none"
                     is_padding="13px 22px"
                     is_line_height="31px"
@@ -70,7 +80,7 @@ function WaitChat({ socket }) {
                     _onClick={exitWaiting}
                     is_hover="inset -5em 0 0 0 red, inset 5em 0 0 0 red"
                 >
-                    나가기
+                    방 나가기
                 </Button>
             </ChattingHeader>
             <div className="chatting-content" ref={scrollRef} style={{ overflow: "auto", width: "100%", height: "100%", padding: "0", margin: "0" }}>
@@ -134,8 +144,11 @@ function WaitChat({ socket }) {
 
 
 const ChattingWindow = styled.div`
-    width: 384px;
-    height: 640px;
+    width: 100%;
+    max-width: 384px;
+    height: 50vh;
+    background: white;
+    border: 2px solid black;
     border-radius: 14px;
     box-sizing: border-box;
     display: flex;
@@ -160,14 +173,13 @@ const ChattingInputContainer = styled.div`
     display: flex;
     border-top: 1px solid #D1D1D1;
     height: 50px;
-    // border-radius: 0 0 14px 14px;
 `
 
 const MessageContent = styled.div`
     width: auto;
     height: auto;
     min-height: 40px;
-    max-width: 120px;
+    max-width: 250px;
     border-radius: 5px;
     color: white;
     display: flex;
