@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Button = (props) => {
-  const { children, is_margin, is_padding, is_width, is_background, is_color, is_border, is_radius, is_height, _onClick, is_size, is_weight, disabled, is_cursor, is_hover } = props;
+  const { children, is_margin, is_padding, is_width, is_background, is_color, is_border, is_radius, is_height, _onClick, is_size, is_weight, disabled, is_cursor, is_hover, is_max_width, is_min_width } = props;
 
   const styles = {
     is_margin: is_margin,
@@ -18,6 +18,8 @@ const Button = (props) => {
     disabled: disabled,
     is_cursor: is_cursor,
     is_hover: is_hover,
+    is_max_width: is_max_width,
+    is_min_width: is_min_width,
   }
 
   return (
@@ -57,6 +59,9 @@ const ElButton = styled.button`
   ${(props) => (props.is_weight ? `font-weight: ${props.is_weight};` : '')};
   ${(props) => (props.is_disabled ? `disabled: ${props.is_disabled};` : '')};
   ${(props) => (props.is_cursor ? `cursor: pointer;` : '')};
+  ${(props) => (props.is_max_width ? `max-width: ${props.is_max_width};` : '')};
+  ${(props) => (props.is_min_width ? `min-width: ${props.is_min_width};` : '')};
+  
   transition: 0.5s;
 
   &:hover {

@@ -41,20 +41,20 @@ function WaitPlayerList({ socket, blackPlayer, whitePlayer }) {
                             </Text>
                             <div style={{ display: "flex", justifyContent: "space-between", width: "219px" }}>
                                 <Text is_bold="600">
-                                    승률:
+                                    {/* 승률:
                                     {blackPlayer?.score
                                         ?
-                                        blackPlayer?.score[0].win === 0
+                                        blackPlayer?.score[0]?.win === 0
                                             ?
                                             0
                                             :
                                             (blackPlayer?.score[0].win) / (blackPlayer.score[0].win + blackPlayer.score[1].lose)
                                         :
                                         null
-                                    }%
+                                    }% */}
                                 </Text>
                                 <Text is_size="14px">
-                                    (전체 &nbsp;
+                                    {/* (전체 &nbsp;
                                     {blackPlayer?.score
                                         ?
                                         blackPlayer?.score[0].win === 0
@@ -75,7 +75,7 @@ function WaitPlayerList({ socket, blackPlayer, whitePlayer }) {
                                         :
                                         null
                                     }패
-                                    )
+                                    ) */}
                                 </Text>
                             </div>
                         </div>

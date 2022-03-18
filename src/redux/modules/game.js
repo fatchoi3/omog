@@ -176,7 +176,7 @@ export default handleActions({
     }),
     [ADD_TEACHING_W]: (state, action) => produce(state, (draft) => {
         draft.Teaching_listW.push(action.payload.chat);
-        console.log("action.payload.chat",action.payload.chat)
+        console.log("action.payload.chat", action.payload.chat)
     }),
     [CLEAR_ONE]: (state, action) =>
         produce(state, (draft) => {

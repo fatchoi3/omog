@@ -27,39 +27,38 @@ const Game = memo((props) => {
       : false;
 
   console.log("gameInfo", gameInfo);
-  const pickGameInfo =useCallback((gameInfo)=>{
-    for(let i=0; i< gameInfo?.length;i++){
-      if(gameInfo[i]?.blackTeamPlayer[0]){
+  const pickGameInfo = useCallback((gameInfo) => {
+    for (let i = 0; i < gameInfo?.length; i++) {
+      if (gameInfo[i]?.blackTeamPlayer[0]) {
         return gameInfo[i];
       }
     }
 
-  },[])
-  console.log("과연",pickGameInfo(gameInfo))
-  const realGameInfo =pickGameInfo(gameInfo);
-    // gameInfo[0]?.blackTeamPlayer.length === 0 ? gameInfo[1] : gameInfo[0];
+  }, [])
+  console.log("과연", pickGameInfo(gameInfo))
+  const realGameInfo = pickGameInfo(gameInfo);
+  // gameInfo[0]?.blackTeamPlayer.length === 0 ? gameInfo[1] : gameInfo[0];
 
   const blackPlayer = realGameInfo?.blackTeamPlayer[0];
-  const whitePlayer = realGameInfo?.whiteTeamPlayer[0]; 
+  const whitePlayer = realGameInfo?.whiteTeamPlayer[0];
   console.log("blackTeamPlayer", blackPlayer);
   console.log("whiteTeamPlayer", whitePlayer);
   const [randomNum, setRandomNum] = useState();
 
   const [loading, setLoading] = useState(1);
   const [flying, setFlying] = useState();
- 
+
 
   const rand = (max, min) => {
     return Math.floor(Math.random() * (max - min)) + min;
   };
 
- 
+
 
   //////수정사항
   //"http://localhost:4001/game",
   const [socket, disconnectSocket] = useSocket(
     "http://15.165.158.25/game",
-    
     gameNum,
     userId
   );
@@ -68,10 +67,10 @@ const Game = memo((props) => {
       disconnectSocket();
     };
   }, [disconnectSocket]);
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(userActions.loginCheckDB(userId));
     dispatch(gameActions.getGameDB(gameNum));
-  },[]);
+  }, []);
   useEffect(() => {
 
     socket.on("flyingWord", (data) => {
@@ -88,22 +87,22 @@ const Game = memo((props) => {
 
   return (
     <GameContainer>
-       <LogoWrap>
+      <LogoWrap>
         <LogoImg src={Logo} />
       </LogoWrap>
       {is_player ? (
         <>
-        {loading ? (
-        ""
-      ) : (
-        <DialogBlock RandomNum={randomNum}>
-          <Text is_size="50px" is_margin="20px 0 50px">
-            {flying}
-          </Text>
-        </DialogBlock>
-      )}
+          {loading ? (
+            ""
+          ) : (
+            <DialogBlock RandomNum={randomNum}>
+              <Text is_size="50px" is_margin="20px 0 50px">
+                {flying}
+              </Text>
+            </DialogBlock>
+          )}
           <Wrap>
-            
+
             <Omog userInfo={userInfo} gameNum={gameNum} socket={socket} blackPlayer={blackPlayer} whitePlayer={whitePlayer} />
             <TeachingWrap>
             <TeachingB playerInfo={blackPlayer} socket={socket} />
@@ -117,15 +116,15 @@ const Game = memo((props) => {
         </>
       ) : (
         <>
-        {loading ? (
-        ""
-      ) : (
-        <DialogBlock RandomNum={randomNum}>
-          <Text is_size="50px" is_margin="20px 0 50px">
-            {flying}
-          </Text>
-        </DialogBlock>
-      )}
+          {loading ? (
+            ""
+          ) : (
+            <DialogBlock RandomNum={randomNum}>
+              <Text is_size="50px" is_margin="20px 0 50px">
+                {flying}
+              </Text>
+            </DialogBlock>
+          )}
           <PlayerInfos>
             <>
               <PlayerCardW playerInfo={whitePlayer} />
