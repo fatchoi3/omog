@@ -12,14 +12,14 @@ const Omog = memo((props) => {
   const gameNum = props.gameNum;
   const canvasRef = useRef(null);
   const is_player =
-  props.userInfo.state === "blackPlayer" || 
-  props.userInfo.state === "whitePlayer"
+    props.userInfo.state === "blackPlayer" ||
+    props.userInfo.state === "whitePlayer"
       ? true
       : false;
   // const count = props.count;
   // const setCount =()=> props.setCount();
   // const socketRef = useRef();
-  const socket= props.socket;
+  const socket = props.socket;
   const [X, setX] = useState();
   const [Y, setY] = useState();
   const [count, setCount] = useState(0);
@@ -265,10 +265,8 @@ const Omog = memo((props) => {
   }, [count]);
 
   useEffect(() => {
-    
     socket.on("omog", (data) => {
-      console.log(
-        "오목 소켓 받기");
+      console.log("오목 소켓 받기");
 
       data.count % 2 == 0
         ? clearInterval(timeout.current)
@@ -283,13 +281,12 @@ const Omog = memo((props) => {
 
       console.log("여기도 소켓유즈이팩에서 바꾼 후count", count);
     });
-    
+
     return () => socket.off();
     // return () => socketRef.current.disconnect();
   }, []);
 
-  
-//시간 작동
+  //시간 작동
   useEffect(() => {
     if (time.current < 0) {
       console.log("타임 아웃");
@@ -334,60 +331,61 @@ const Omog = memo((props) => {
   return (
     <div>
       <GameWrap>
-        {is_player?
-        <>
-        <TimerWrapL count={count}>
-          <TimeStoneL>
-          <Text
-          is_bold
-          is_margin="auto 0"
-            is_color={count % 2 == 0 ? "white" : "white"}
-            is_size="25px"
-          >
-            {min}: {sec}
-          </Text>
-          </TimeStoneL>
-        </TimerWrapL>
-        <canvas ref={canvasRef} id="canvas" />
-        <TimerWrapR count={count}>
-          <TimeStoneR>
-          <Text
-          is_bold
-          is_margin="auto 0"
-            is_color={count % 2 == 0 ? "black" : "black"}
-            is_size="25px"
-          >
-            {min2}: {sec2}
-          </Text>
-          </TimeStoneR>
-        </TimerWrapR>
-        </>:
-        <> 
-        <ObserverTW>
-        <ObserverWPT>
-        <Text
-          is_bold
-            is_color={count % 2 == 0 ? "white" : "white"}
-            is_size="25px"
-          >
-            {min}: {sec}
-          </Text>
-          </ObserverWPT>
-          <ObserverBPT>
-        <Text
-          is_bold
-            is_color={count % 2 == 0 ? "black" : "black"}
-            is_size="25px"
-          >
-            {min2}: {sec2}
-          </Text>
-          </ObserverBPT>
-          </ObserverTW>
-          <ObserverOmog>
-        <canvas ref={canvasRef} id="canvas" />
-        </ObserverOmog>
-        </>
-        }
+        {is_player ? (
+          <>
+            <TimerWrapL count={count}>
+              <TimeStoneL>
+                <Text
+                  is_bold
+                  is_margin="auto 0"
+                  is_color={count % 2 == 0 ? "white" : "white"}
+                  is_size="25px"
+                >
+                  {min}: {sec}
+                </Text>
+              </TimeStoneL>
+            </TimerWrapL>
+            <canvas ref={canvasRef} id="canvas" />
+            <TimerWrapR count={count}>
+              <TimeStoneR>
+                <Text
+                  is_bold
+                  is_margin="auto 0"
+                  is_color={count % 2 == 0 ? "black" : "black"}
+                  is_size="25px"
+                >
+                  {min2}: {sec2}
+                </Text>
+              </TimeStoneR>
+            </TimerWrapR>
+          </>
+        ) : (
+          <>
+            <ObserverTW>
+              <ObserverWPT>
+                <Text
+                  is_bold
+                  is_color={count % 2 == 0 ? "white" : "white"}
+                  is_size="25px"
+                >
+                  {min}: {sec}
+                </Text>
+              </ObserverWPT>
+              <ObserverBPT>
+                <Text
+                  is_bold
+                  is_color={count % 2 == 0 ? "black" : "black"}
+                  is_size="25px"
+                >
+                  {min2}: {sec2}
+                </Text>
+              </ObserverBPT>
+            </ObserverTW>
+            <ObserverOmog>
+              <canvas ref={canvasRef} id="canvas" />
+            </ObserverOmog>
+          </>
+        )}
       </GameWrap>
     </div>
   );
@@ -395,60 +393,59 @@ const Omog = memo((props) => {
 const TimerWrapL = styled.div`
   height: 660px;
   width: 150px;
-    line-height: 90px;
+  line-height: 90px;
   display: flex;
   align-items: center;
-  background-color : ${(props) =>props.count % 2 == 0 ? "#F6F6F6" : "#C4C4C4"};
+  background-color: ${(props) =>
+    props.count % 2 == 0 ? "#F6F6F6" : "#C4C4C4"};
 `;
 const TimerWrapR = styled.div`
   height: 660px;
   width: 150px;
-    line-height: 90px;
+  line-height: 90px;
   display: flex;
   align-items: center;
-  background-color: ${(props) =>props.count % 2 == 0 ? "#C4C4C4" : "#F6F6F6"};
+  background-color: ${(props) =>
+    props.count % 2 == 0 ? "#C4C4C4" : "#F6F6F6"};
 `;
 const GameWrap = styled.div`
   display: flex;
- 
 `;
-const TimeStoneL=styled.div`
-width : 90px;
-height : 90px;
-border-radius : 45px;
-background-color : black;
-display: flex;
-justify-content: center;
-margin: 0 auto;
+const TimeStoneL = styled.div`
+  width: 90px;
+  height: 90px;
+  border-radius: 45px;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
 `;
-const TimeStoneR=styled.div`
-width : 90px;
-height : 90px;
-border-radius : 45px;
-background-color : #f0f0f0;
-display: flex;
-justify-content: center;
-border : 2px solid black;
-margin: 0 auto;
+const TimeStoneR = styled.div`
+  width: 90px;
+  height: 90px;
+  border-radius: 45px;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  border: 2px solid black;
+  margin: 0 auto;
 `;
-const ObserverWPT =styled.div`
-position : absolute;
-top : 375px;
-left : 225px;
+const ObserverWPT = styled.div`
+  position: absolute;
+  top: 375px;
+  left: 225px;
 `;
-const ObserverBPT =styled.div`
-position : absolute;
-top : 700px;
-left : 225px;
+const ObserverBPT = styled.div`
+  position: absolute;
+  top: 700px;
+  left: 225px;
 `;
-const ObserverTW = styled.div`
-
-`;
+const ObserverTW = styled.div``;
 const ObserverOmog = styled.div`
-width : 680px;
-height : 680px;
-margin : 100px auto;
-padding: 25px 15px 10px 30px;
-box-shadow: 0px 4px 10px 4px rgba(0, 0, 0, 0.25);
+  width: 680px;
+  height: 680px;
+  margin: 100px auto;
+  padding: 25px 15px 10px 30px;
+  box-shadow: 0px 4px 10px 4px rgba(0, 0, 0, 0.25);
 `;
 export default Omog;

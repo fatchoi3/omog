@@ -25,68 +25,52 @@ const UsersInfo = () => {
   return (
     <UserInfoContainer>
       <User>
-         <UserFace/>
+        <UserFace />
         <UserName>
-        <Text
-         is_bold
-         is_size="30px"
-         is_margin="10px"
-        >{get_user.id}</Text>
-        <Text
-        is_margin ="15px 0 0 0"
-        > Point {get_user.point} P</Text>
-
+          <Text is_bold is_size="30px" is_margin="10px">
+            {get_user.id}
+          </Text>
+          <Text is_margin="15px 0 0 0"> Point {get_user.point} P</Text>
         </UserName>
       </User>
-      <Progress 
-      win={win} 
-      lose={lose}
-      width="250px"
-      margin=" 0 auto"
-      />
+      <Progress win={win} lose={lose} width="250px" margin=" 0 auto" />
       <UserScore>
-          <Text
-          is_size="14px"
-          is_bold
-          >
-            승률{" "}
-            {win / (win + lose) ? (win / (win + lose)) * 100 + "%" : 0 + "%"}
-          </Text>
-          <Text
-          is_size="14px"
-          >
-            (전체 {win}승 {lose}패)
-          </Text>
-        </UserScore>
+        <Text is_size="14px" is_bold>
+          승률 {win / (win + lose) ? (win / (win + lose)) * 100 + "%" : 0 + "%"}
+        </Text>
+        <Text is_size="14px">
+          (전체 {win}승 {lose}패)
+        </Text>
+      </UserScore>
     </UserInfoContainer>
   );
 };
 const UserInfoContainer = styled.div`
   height: 150px;
   width: 300px;
-  background-color :white;
+  background-color: white;
 `;
 const User = styled.div`
-display: flex;
+  display: flex;
 `;
 
 const UserScore = styled.div`
   display: flex;
   justify-content: space-between;
-  padding : 5px 20px 0 20px;
-  text-align : center;
+  padding: 5px 20px 0 20px;
+  text-align: center;
 `;
 const UserFace = styled.div`
-width: 70px;
-height: 70px;
-border-radius : 70px;
-background-color : white;
-border : 3px solid black;
-margin : 10px 20px 10px 20px;
+  width: 70px;
+  height: 70px;
+  border-radius: 70px;
+  background-color: white;
+  border: 3px solid black;
+  margin: 10px 20px 10px 20px;
 `;
 const UserName = styled.div`
-height : 90px;
-width : 135px;
-padding : 13px 0 0 0;
+  height: 90px;
+  width: 135px;
+  padding: 13px 0 0 0;
 `;
 export default UsersInfo;

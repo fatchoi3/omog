@@ -2,7 +2,7 @@ import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import axios from 'axios';
 import api from "../../api/api";
-import { socket } from "../../context/socket";
+
 
 // initialState
 const initialState = {
