@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { history } from '../../redux/configureStore';
+import Logo from '../../pictures/omokjomok.svg'
 
 import { actionCreators as roomActions } from '../../redux/modules/room';
 import { Button, Text } from '../../elements';
 
 import WaitPlayerList from './WaitPlayerList';
 import WaitObserverList from './WaitObserverList';
-import GameStartBtn from './GameStartBtn';
 
 
 function WaitingUsers({ socket, roomNum }) {
@@ -34,16 +34,6 @@ function WaitingUsers({ socket, roomNum }) {
         const roomNumber = roomNum;
         socket.emit("gameStart", roomNumber);
         setStart(true);
-    }
-
-    const goodbyeWait = (e) => {
-        e.preventDefault();
-        socket.once("bye", userId => {
-            console.log(userId);
-        })
-        socket.disconnect();
-        dispatch(roomActions.resetStateUser(userId));
-        history.push('/main');
     }
 
 
@@ -103,31 +93,47 @@ function WaitingUsers({ socket, roomNum }) {
 
 
     return (
-        <div>
-            <div style={{ height: "76px" }}>
-                로고 위치
+        <>
+            <div style={{ width: "7rem", height: "76px" }}>
+                <img src={Logo} alt="로고" style={{ width: "100%", height: "100%", background: "#C4C4C4" }} />
             </div>
-            <WaitPlayerList blackPlayer={blackPlayer} whitePlayer={whitePlayer} />
+            <WaitPlayerList socket={socket} blackPlayer={blackPlayer} whitePlayer={whitePlayer} />
 
             <div style={{ display: "flex", justifyContent: "center", boxSizing: "border-box" }}>
-                <Button
-                    is_width="30%"
-                    is_padding="18px 36px"
-                    is_radius="14px"
-                    is_background="#94D7BB"
-                    is_center="center"
-                    is_margin="20px"
-                    is_border="none"
-                    is_cursor="pointer"
-                    _onClick={gameStart}
-                >
-                    <Text is_bold="800" is_size="24px" is_line_height="28px">게임 시작</Text>
-                </Button>
+                {
+                    waitingPerson.state === "blackPlayer"
+                        ?
+                        <Button
+                            is_width="30%"
+                            is_padding="18px 36px"
+                            is_radius="14px"
+                            is_background="#94D7BB"
+                            is_center="center"
+                            is_margin="20px"
+                            is_border="2px solid black"
+                            is_cursor="pointer"
+                            _onClick={gameStart}
+                        ><Text is_bold="800" is_size="24px" is_line_height="28px">게임 시작</Text></Button>
+                        :
+                        <Button
+                            is_width="30%"
+                            is_padding="18px 36px"
+                            is_radius="14px"
+                            is_background="#94D7BB"
+                            is_center="center"
+                            is_margin="20px"
+                            is_border="2px solid black"
+                            is_cursor="pointer"
+                            _onClick={gameStart}
+                            disabled
+                        ><Text is_bold="800" is_size="24px" is_line_height="28px">
+                                게임 시작
+                            </Text>
+                        </Button>
+                }
             </div>
-
             <WaitObserverList socket={socket} blackObserverList={blackObserverList} whiteObserverList={whiteObserverList} />
-            <button onClick={goodbyeWait}>나가기 버튼</button>
-        </div>
+        </>
     );
 }
 

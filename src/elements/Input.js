@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 
 
-const Input = forwardRef(({ _onKeyPress, _onChange, is_margin, is_padding, is_width, is_height, is_color, is_border, is_radius, value, type, placeholder, is_border_bottom, is_border_top, is_box_sizing, is_font_size, is_outline }, ref) => {
+const Input = forwardRef(({ _onKeyPress, _onChange, is_margin, is_padding, is_width, is_height, is_color, is_border, is_radius, value, type, placeholder, is_border_bottom, is_border_top, is_box_sizing, is_font_size, is_outline, is_max_width }, ref) => {
 
   const styles = {
     is_margin: is_margin,
@@ -17,6 +17,7 @@ const Input = forwardRef(({ _onKeyPress, _onChange, is_margin, is_padding, is_wi
     is_box_sizing: is_box_sizing,
     is_font_size: is_font_size,
     is_outline: is_outline,
+    is_max_width: is_max_width,
   }
 
   return (
@@ -61,6 +62,7 @@ const ElInput = styled.input`
   ${(props) => (props.is_box_sizing ? `box-sizing: ${props.is_box_sizing};` : 'border-box')};
   ${(props) => (props.is_font_size ? `font-size: ${props.is_font_size};` : '14px')};
   ${(props) => (props.is_outline ? `outline: ${props.is_outline};` : '')};
+  ${(props) => (props.is_max_width ? `max-width: ${props.is_max_width};` : '')};
 `
 
 export default Input;
