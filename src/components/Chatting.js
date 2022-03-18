@@ -29,23 +29,27 @@ const Chatting = memo((props) => {
     },
     [teaching]
   );
-
+const [teachingCnt, setTeachingCnt]=useState(1)
   const onMessageSubmit = useCallback(
     (e) => {
       if (message === "") {
         console.log("빈값입니다.");
       } else {
         if (teaching === "Text" && isTeam === "white") {
-          console.log("Text훈수W");
-          socket.emit("teachingW", { chat: message });
+          console.log("Text훈수W",teachingCnt);
+         
+          socket.emit("teachingW", {chat: message });
+          setTeachingCnt(teachingCnt+1);
         } 
         if (teaching === "Text" && isTeam === "black") {
-          console.log("Text훈수B");
+          console.log("Text훈수B",teachingCnt);
           socket.emit("teachingB", { chat: message });
+          setTeachingCnt(teachingCnt+1);
         }
         if (teaching === "Fly") {
-          console.log("이이상상무무");
-          socket.emit("flyingWord", { chat: message });
+          console.log("이이상상무무",teachingCnt);
+          socket.emit("flyingWord", {chat: message });
+          setTeachingCnt(teachingCnt+1);
         }
 
         socket.emit("chat", { chat: message });

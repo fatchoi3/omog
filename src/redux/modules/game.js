@@ -86,11 +86,11 @@ const gameResultDB = (result) => {
         console.log(result)
         await api.post("/gameFinish", result)
             .then(function (response) {
-                // console.log("안녕 나는 미들웨어 result야", response.data);
-                dispatch(GameEnd(result));
                 history.push(`/game/result/${result.gameNum}`);
+                dispatch(GameEnd(result));
+               
             }).catch(error => {
-                // window.alert("방참가 실패!");
+                
                 console.log(error)
             });
     }
