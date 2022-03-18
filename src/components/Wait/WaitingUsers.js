@@ -108,7 +108,7 @@ function WaitingUsers({ socket, roomNum }) {
 
             <div style={{ display: "flex", justifyContent: "center", boxSizing: "border-box" }}>
                 {waitingPerson &&
-                    waitingPerson.state === "blackPlayer"
+                    waitingPerson.id === userId && waitingPerson.state === "blackPlayer"
                     ?
                     <Button
                         is_width="30%"

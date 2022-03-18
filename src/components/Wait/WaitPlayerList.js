@@ -8,6 +8,7 @@ import { actionCreators as roomActions } from '../../redux/modules/room';
 
 function WaitPlayerList({ roomNum, socket, blackPlayer, whitePlayer }) {
     const dispatch = useDispatch();
+    const userId = localStorage.getItem("userId")
     const waitingPerson = useSelector((state) => state.room.userInfo);
 
     // const blackPlayer = useSelector(state => state.room.blackPlayer);
@@ -18,14 +19,14 @@ function WaitPlayerList({ roomNum, socket, blackPlayer, whitePlayer }) {
 
     const ChangeToBlackPlayer = (e) => {
         e.preventDefault();
-        dispatch(roomActions.changeUserInfo("blackPlayer"))
+        dispatch(roomActions.changeUserInfo(userId, waitingPerson.id, "blackPlayer"))
         socket.emit("changeToPlayer", roomNum, waitingPerson.state, "blackPlayer");
         console.log(waitingPerson.state, "blackPlayer로 변경");
     };
 
     const ChangeToWhitePlayer = (e) => {
         e.preventDefault();
-        dispatch(roomActions.changeUserInfo("whitePlayer"))
+        dispatch(roomActions.changeUserInfo(userId, waitingPerson.id, "whitePlayer"))
         socket.emit("changeToPlayer", roomNum, waitingPerson.state, "whitePlayer");
         console.log(waitingPerson.state, "whitePlayer로 변경");
     };

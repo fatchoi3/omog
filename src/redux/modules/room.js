@@ -77,7 +77,7 @@ const joinRoom = createAction(JOIN_ROOM, (userInfo) => ({ userInfo }));
 const setWaitUser = createAction(SET_WAIT_USER, (id, users) => ({ id, users }));
 const changeState = createAction(CHANGE_STATE, (id, users) => ({ id, users }));
 const resetStateUser = createAction(RESET_STATE_USER, (user) => ({ user }));
-const changeUserInfo = createAction(CHANGE_USERINFO, (state) => ({ state }));
+const changeUserInfo = createAction(CHANGE_USERINFO, (id, someone, state) => ({ id, someone, state }));
 
 
 // middleware actions
@@ -219,7 +219,7 @@ export default handleActions({
     }),
     [CHANGE_STATE]: (state, action) => produce(state, (draft) => {
         console.log(action.payload.id);
-        console.log(action.payload.users[0]);
+        console.log(action.payload.users);
         draft.blackPlayer = action.payload.users[0].blackPlayerInfo[0];
         draft.whitePlayer = action.payload.users[0].whitePlayerInfo[0];
         draft.blackObserverList = [...action.payload.users[0].blackTeamObserver];
@@ -242,7 +242,9 @@ export default handleActions({
         draft.whitePlayer = {};
     }),
     [CHANGE_USERINFO]: (state, action) => produce(state, (draft) => {
-        draft.userInfo = { ...draft.userInfo, state: action.payload.state }
+        if (action.payload.id === action.payload.someone) {
+            draft.userInfo = { ...draft.userInfo, state: action.payload.state }
+        }
     }),
 },
     initialState
