@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 import { useHistory } from 'react-router-dom';
@@ -15,14 +15,14 @@ import LoginPageSlider from '../components/LoginPageSlider';
 function Login(props) {
     const history = useHistory();
     const dispatch = useDispatch();
-    const modalEl = React.useRef();
+    const modalEl = useRef();
 
-    const [id, setId] = React.useState("");
-    const [nickname, setNickname] = React.useState("");
-    const [password, setPassword] = React.useState("");
-    const [passwordConfirm, setPasswordConfirm] = React.useState("");
-    const [isOpen, setIsOpen] = React.useState(false);
-    const [explainModal, setExplainModal] = React.useState(true);
+    const [id, setId] = useState("");
+    const [nickname, setNickname] = useState("");
+    const [password, setPassword] = useState("");
+    const [passwordConfirm, setPasswordConfirm] = useState("");
+    const [isOpen, setIsOpen] = useState(false);
+    const [explainModal, setExplainModal] = useState(true);
 
 
     const handleIdInput = (e) => {
@@ -113,8 +113,14 @@ function Login(props) {
         setExplainModal(false);
     }
 
+    useEffect(() => {
+        if (localStorage.getItem("token")) {
+            alert("로그인 하셨습니다. 로비 페이지로 이동합니다.")
+            history.push('/main')
+        }
+    }, [])
 
-    React.useEffect(() => {
+    useEffect(() => {
         window.addEventListener("click", handleClickOutside);
         return () => {
             window.removeEventListener("click", handleClickOutside);

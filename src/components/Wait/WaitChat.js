@@ -66,16 +66,17 @@ function WaitChat({ socket }) {
                     is_size="1.6rem"
                     is_center="left"
                     is_margin="13px 22px"
-                    is_line_height="31px"
+                    is_line_height="30px"
                 >
                     실시간 채팅
                 </Text>
                 <Button
-                    is_size="1.5rem"
+                    is_size="1.4rem"
                     is_width="40%"
                     is_border="none"
-                    is_padding="13px 22px"
-                    is_line_height="31px"
+                    is_radius="0 14px 0 0"
+                    is_padding="13px 20px"
+                    is_line_height="30px"
                     is_color="black"
                     _onClick={exitWaiting}
                     is_hover="inset -5em 0 0 0 red, inset 5em 0 0 0 red"
@@ -145,8 +146,9 @@ function WaitChat({ socket }) {
 
 const ChattingWindow = styled.div`
     width: 100%;
+    min-width: 320px;
     max-width: 384px;
-    height: 50vh;
+    height: 41rem;
     background: white;
     border: 2px solid black;
     border-radius: 14px;

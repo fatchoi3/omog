@@ -112,6 +112,7 @@ function WaitingUsers({ socket, roomNum }) {
                             is_margin="20px"
                             is_border="2px solid black"
                             is_cursor="pointer"
+                            is_hover="inset 0 -5em 0 0 #6DB6DF, inset 0 5em 0 0 #6DB6DF"
                             _onClick={gameStart}
                         ><Text is_bold="800" is_size="24px" is_line_height="28px">게임 시작</Text></Button>
                         :

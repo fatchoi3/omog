@@ -3,76 +3,88 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { Text, Button } from '../elements';
-import Table from '../components/Table';
+import ResultMainTable from '../components/ResultMainTable';
+import ResultPointTable from '../components/ResultPointTable';
 
 import { actionCreators as gameActions } from '../redux/modules/game';
-
-
 
 
 function Result(props) {
     const dispatch = useDispatch();
     const history = useHistory();
-    const { roomNum } = useParams();
+
+    const result = useSelector(state => state.game.result);
+    console.log(result);
+    const gameresult = useSelector(state => state.game.gameresult);
+    console.log(gameresult);
+    const userId = localStorage.getItem('userId');
     const { gameNum } = useParams();
 
-    const columns = useMemo(
+    const main_columns = useMemo(
         () => [
             {
                 accessor: "id",
                 Header: "아이디",
             },
             {
-                accessor: "usePoint",
-                Header: "사용한 포인트",
+                accessor: "gamePoint",
+                Header: "승리팀",
             },
             {
                 accessor: "getPoint",
-                Header: "획득한 포인트",
-            },
-            {
-                accessor: "score",
-                Header: "총 포인트",
+                Header: "훈수 포인트",
             },
         ],
         []
     );
+
+    const point_columns = useMemo(
+        () => [
+            {
+                accessor: "score",
+                Header: "총 포인트"
+            }
+        ], []
+    )
 
     const exitResult = () => {
         history.push(`/main`);
     }
 
     useEffect(() => {
-        dispatch(gameActions.getGameResultDB());
-    }, [])
+        // 현재 result 갑을 못 받아오는중
+        if (result) {
+            dispatch(gameActions.getGameResultDB(userId, gameNum, result));
+        }
+    }, [result])
 
     const resultgame = {
         userInfo: [
             {
                 id: "아이디1",
                 score: 1234,
-                usePoint: 300,
+                gamePoint: 300,
                 getPoint: 400,
                 state: "player",
             },
             {
                 id: "아이디2",
                 score: 1234,
-                usePoint: 300,
+                gamePoint: 300,
                 getPoint: 400,
                 state: "player",
             },
             {
                 id: "아이디3",
                 score: 1234,
-                usePoint: 300,
+                gamePoint: 300,
                 getPoint: 400,
                 state: "observer",
             },
             {
                 id: "아이디4",
                 score: 1234,
-                usePoint: 300,
+                gamePoint: 300,
                 getPoint: 400,
                 state: "observer",
             },
@@ -90,20 +102,21 @@ function Result(props) {
 
 
     return (
-        <div className="result-container" style={{ margin: "100px auto", width: "40%" }}>
+        <div className="result-container" style={{ margin: "100px auto", width: "60%" }}>
             <GameResult>
-                {/* {resultgame.result.win} 님이 승리하였습니다! */}
                 <Text is_size="150px" is_weight="900" is_line_height="180px">승리</Text>
             </GameResult>
-
-            <Table columns={columns} data={data} />
+            <div style={{ display: "flex", width: "100%" }}>
+                <ResultMainTable columns={main_columns} data={data} />
+                <ResultPointTable columns={point_columns} data={data} />
+            </div>
             <div style={{ display: "flex", justifyContent: "center" }}>
-                <Button is_width="8rem" is_margin="0 4px 0 0" is_padding="5px 10px" is_size="25px"
+                <Button is_width="15%" is_margin="0 4px 0 0" is_padding="5px 10px" is_size="25px"
                     is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB"
                 >
                     계속하기
                 </Button>
-                <Button is_width="8rem" is_margin="0 0 0 4px" is_padding="5px 10px" is_size="25px"
+                <Button is_width="15%" is_margin="0 0 0 4px" is_padding="5px 10px" is_size="25px"
                     is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB"
                     _onClick={exitResult}
                 >
@@ -117,12 +130,8 @@ function Result(props) {
 const GameResult = styled.div`
     width: 100%;
     margin: 0 auto;
-    border: 1px solid pink;
+    // border: 1px solid pink;
     text-align: center;
-`
-
-const ObserverResult = styled.div`
-
 `
 
 export default Result;
