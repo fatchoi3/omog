@@ -29,7 +29,7 @@ function Result(props) {
             },
             {
                 accessor: "usePoint",
-                Header: "승리팀",
+                Header: "사용 포인트",
             },
             {
                 accessor: "getPoint",
@@ -92,30 +92,30 @@ function Result(props) {
             {
                 id: "test1",
                 score: 1234,
-                gamePoint: 300,
+                usePoint: 300,
                 getPoint: 400,
-                state: "player",
+                totalPoint: 1000,
             },
             {
                 id: "test2",
                 score: 1234,
-                gamePoint: 300,
+                usePoint: 300,
                 getPoint: 400,
-                state: "player",
+                totalPoint: 3000,
             },
             {
                 id: "test3",
                 score: 1234,
-                gamePoint: 300,
+                usePoint: 300,
                 getPoint: 400,
-                state: "observer",
+                totalPoint: 2000,
             },
             {
                 id: "test4",
                 score: 1234,
-                gamePoint: 300,
+                usePoint: 300,
                 getPoint: 400,
-                state: "observer",
+                totalPoint: 1500,
             },
         ],
         gameInfo: {
