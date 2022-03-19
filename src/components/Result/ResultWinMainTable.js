@@ -64,7 +64,7 @@ const TableTbody = styled.tbody`
 
 const BodyTr = styled.tr`
     text-align: center;
-    background: #E5E5E5;
+    background: white;
 `
 
 const Td = styled.td`
