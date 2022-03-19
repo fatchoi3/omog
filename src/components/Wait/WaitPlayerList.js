@@ -35,7 +35,6 @@ function WaitPlayerList({ roomNum, socket, blackPlayer, whitePlayer }) {
         }
     };
 
-
     return (
         <PlayerContainer>
             {blackPlayer &&
@@ -56,70 +55,14 @@ function WaitPlayerList({ roomNum, socket, blackPlayer, whitePlayer }) {
                             </Text>
                             <div style={{ display: "flex", justifyContent: "space-between", width: "219px" }}>
                                 <Text is_bold="600">
-                                    {/* 승률:
+                                    승률:
                                     {blackPlayer?.score
                                         ?
                                         blackPlayer?.score[0]?.win === 0
                                             ?
                                             0
                                             :
-                                            (blackPlayer?.score[0].win) / (blackPlayer.score[0].win + blackPlayer.score[1].lose)
-                                        :
-                                        null
-                                    }% */}
-                                </Text>
-                                <Text is_size="14px">
-                                    {/* (전체 &nbsp;
-                                    {blackPlayer?.score
-                                        ?
-                                        blackPlayer?.score[0].win === 0
-                                            ?
-                                            0
-                                            :
-                                            (blackPlayer?.score[0].win) / (blackPlayer.score[0].win + blackPlayer.score[1].lose)
-                                        :
-                                        null
-                                    }승 &nbsp;
-                                    {blackPlayer?.score
-                                        ?
-                                        blackPlayer?.score[0].win === 0
-                                            ?
-                                            0
-                                            :
-                                            (blackPlayer?.score[0].win) / (blackPlayer.score[0].win + blackPlayer.score[1].lose)
-                                        :
-                                        null
-                                    }패
-                                    ) */}
-                                </Text>
-                            </div>
-                        </div>
-                    </div>
-                </BlackPlayerCard>
-                :
-                <BlackPlayerCard onClick={ChangeToBlackPlayer}>
-                    <div style={{ padding: "18px 24px 23px 23px", display: "flex", justifyContent: "space-between" }}>
-                        <div style={{ marginRight: "31px", boxSizing: "border-box" }}>
-                            <div style={{ width: "70px", height: "70px", borderRadius: "50%", backgroundColor: "#D3D3D3", margin: "0 0 6px 0" }}>
-                            </div>
-                            <div>
-                                <Text>{blackPlayer?.id}</Text>
-                            </div>
-                        </div>
-                        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                            <Text is_bold="800" is_size="17px" is_line_height="19px" is_margin="0 0 16px 0">
-                                Point {blackPlayer?.point}p
-                            </Text>
-                            <div style={{ display: "flex", justifyContent: "space-between", width: "219px" }}>
-                                <Text is_bold="600">
-                                    승률:
-                                    {blackPlayer?.score
-                                        ?
-                                        blackPlayer?.score[0].win === 0
-                                            ?
-                                            0
-                                            :
-                                            (blackPlayer?.score[0].win) / (blackPlayer.score[0].win + blackPlayer.score[1].lose)
+                                            ((blackPlayer?.score[0].win) / (blackPlayer.score[0].win + blackPlayer.score[1].lose)) * 100
                                         :
                                         null
                                     }%
@@ -132,7 +75,7 @@ function WaitPlayerList({ roomNum, socket, blackPlayer, whitePlayer }) {
                                             ?
                                             0
                                             :
-                                            (blackPlayer?.score[0].win) / (blackPlayer.score[0].win + blackPlayer.score[1].lose)
+                                            (blackPlayer?.score[0].win)
                                         :
                                         null
                                     }승 &nbsp;
@@ -142,12 +85,23 @@ function WaitPlayerList({ roomNum, socket, blackPlayer, whitePlayer }) {
                                             ?
                                             0
                                             :
-                                            (blackPlayer?.score[0].win) / (blackPlayer.score[0].win + blackPlayer.score[1].lose)
+                                            blackPlayer.score[1].lose
                                         :
                                         null
                                     }패
                                     )
                                 </Text>
+                            </div>
+                        </div>
+                    </div>
+                </BlackPlayerCard>
+                :
+                <BlackPlayerCard onClick={ChangeToBlackPlayer}>
+                    <div style={{ padding: "18px 24px 23px 23px", display: "flex", justifyContent: "space-between" }}>
+                        <div style={{ marginRight: "31px", boxSizing: "border-box" }}>
+                        </div>
+                        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                            <div style={{ display: "flex", justifyContent: "space-between", width: "219px" }}>
                             </div>
                         </div>
                     </div>
@@ -179,7 +133,7 @@ function WaitPlayerList({ roomNum, socket, blackPlayer, whitePlayer }) {
                                             ?
                                             0
                                             :
-                                            (whitePlayer?.score[0].win) / (whitePlayer.score[0].win + whitePlayer.score[1].lose)
+                                            ((whitePlayer?.score[0].win) / (whitePlayer.score[0].win + whitePlayer.score[1].lose)) * 100
                                         :
                                         null
                                     }%
@@ -192,7 +146,7 @@ function WaitPlayerList({ roomNum, socket, blackPlayer, whitePlayer }) {
                                             ?
                                             0
                                             :
-                                            (whitePlayer?.score[0].win) / (whitePlayer.score[0].win + whitePlayer.score[1].lose)
+                                            (whitePlayer?.score[0].win)
                                         :
                                         null
                                     }승 &nbsp;
@@ -202,7 +156,7 @@ function WaitPlayerList({ roomNum, socket, blackPlayer, whitePlayer }) {
                                             ?
                                             0
                                             :
-                                            (whitePlayer?.score[0].win) / (whitePlayer.score[0].win + whitePlayer.score[1].lose)
+                                            whitePlayer.score[1].lose
                                         :
                                         null
                                     }패
@@ -216,54 +170,9 @@ function WaitPlayerList({ roomNum, socket, blackPlayer, whitePlayer }) {
                 <WhitePlayerCard onClick={ChangeToWhitePlayer}>
                     <div style={{ padding: "18px 24px 23px 23px", display: "flex", justifyContent: "space-between" }}>
                         <div style={{ marginRight: "31px", boxSizing: "border-box" }}>
-                            <div style={{ width: "70px", height: "70px", borderRadius: "50%", backgroundColor: "#D3D3D3", margin: "0 0 6px 0" }}>
-                            </div>
-                            <div>
-                                <Text>{whitePlayer?.id}</Text>
-                            </div>
                         </div>
                         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                            <Text is_bold="800" is_size="17px" is_line_height="19px" is_margin="0 0 16px 0">
-                                Point {whitePlayer?.point}p
-                            </Text>
                             <div style={{ display: "flex", justifyContent: "space-between", width: "219px" }}>
-                                <Text is_bold="600">
-                                    승률:
-                                    {whitePlayer?.score
-                                        ?
-                                        whitePlayer?.score[0].win === 0
-                                            ?
-                                            0
-                                            :
-                                            (whitePlayer?.score[0].win) / (whitePlayer.score[0].win + whitePlayer.score[1].lose)
-                                        :
-                                        null
-                                    }%
-                                </Text>
-                                <Text is_size="14px">
-                                    (전체 &nbsp;
-                                    {whitePlayer?.score
-                                        ?
-                                        whitePlayer?.score[0].win === 0
-                                            ?
-                                            0
-                                            :
-                                            (whitePlayer?.score[0].win) / (whitePlayer.score[0].win + whitePlayer.score[1].lose)
-                                        :
-                                        null
-                                    }승 &nbsp;
-                                    {whitePlayer?.score
-                                        ?
-                                        whitePlayer?.score[0].win === 0
-                                            ?
-                                            0
-                                            :
-                                            (whitePlayer?.score[0].win) / (whitePlayer.score[0].win + whitePlayer.score[1].lose)
-                                        :
-                                        null
-                                    }패
-                                    )
-                                </Text>
                             </div>
                         </div>
                     </div>

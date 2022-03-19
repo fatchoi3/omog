@@ -141,28 +141,30 @@ function Result(props) {
         <>
             {boo
                 ?
-                <div className="result-container" style={{ margin: "100px auto", width: "60%" }}>
-                    <GameResult>
-                        <Text is_size="150px" is_bold="1500" is_line_height="180px" is_stroke="3px #94D7BB" is_color="white" >승리</Text>
-                    </GameResult>
-                    <div style={{ display: "flex", width: "100%" }}>
-                        <ResultWinMainTable columns={main_columns} data={data} />
-                        <ResultWinPointTable columns={point_columns} data={data} />
+                <ResultContainer>
+                    <div className="result-container" style={{ margin: "100px auto", width: "60%", position: "relative" }}>
+                        <GameResult>
+                            <Text is_size="150px" is_bold="1500" is_line_height="180px" is_stroke="3px #94D7BB" is_color="white" >승리</Text>
+                        </GameResult>
+                        <div style={{ display: "flex", width: "100%" }}>
+                            <ResultWinMainTable columns={main_columns} data={data} />
+                            <ResultWinPointTable columns={point_columns} data={data} />
+                        </div>
+                        <div style={{ display: "flex", justifyContent: "center" }}>
+                            <Button is_width="15%" is_max_width="8rem" is_min_width="8rem" is_margin="0 4px 0 0" is_padding="5px 10px" is_size="25px"
+                                is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB"
+                            >
+                                계속하기
+                            </Button>
+                            <Button is_width="15%" is_max_width="8rem" is_min_width="7rem" is_margin="0 0 0 4px" is_padding="5px 10px" is_size="25px"
+                                is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB"
+                                _onClick={exitResult}
+                            >
+                                나가기
+                            </Button>
+                        </div>
                     </div>
-                    <div style={{ display: "flex", justifyContent: "center" }}>
-                        <Button is_width="15%" is_max_width="8rem" is_min_width="8rem" is_margin="0 4px 0 0" is_padding="5px 10px" is_size="25px"
-                            is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB"
-                        >
-                            계속하기
-                        </Button>
-                        <Button is_width="15%" is_max_width="8rem" is_min_width="7rem" is_margin="0 0 0 4px" is_padding="5px 10px" is_size="25px"
-                            is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB"
-                            _onClick={exitResult}
-                        >
-                            나가기
-                        </Button>
-                    </div>
-                </div>
+                </ResultContainer>
                 :
                 <div className="result-container" style={{ margin: "100px auto", width: "60%" }}>
                     <GameResult>
@@ -174,7 +176,7 @@ function Result(props) {
                     </div>
                     <div style={{ display: "flex", justifyContent: "center" }}>
                         <Button is_width="15%" is_max_width="8rem" is_min_width="8rem" is_margin="0 4px 0 0" is_padding="5px 10px" is_size="25px"
-                            is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB"
+                            is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB" is_background="white" is_position="relative"
                         >
                             계속하기
                         </Button>
@@ -191,11 +193,17 @@ function Result(props) {
     );
 }
 
+const ResultContainer = styled.div`
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    position: fixed;
+    z-index: 10;
+`
 
 const GameResult = styled.div`
     width: 100%;
     margin: 0 auto;
-    // border: 1px solid pink;
     text-align: center;
 `
 

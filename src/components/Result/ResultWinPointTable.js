@@ -44,7 +44,7 @@ const TableSheet = styled.table`
 `
 
 const TableThead = styled.thead`
-    background: #E5E5E5;
+    background: white;
     height: 2rem;
     border-radius: 14px 14px 0 0;
 `
@@ -64,7 +64,7 @@ const TableTbody = styled.tbody`
 
 const BodyTr = styled.tr`
     text-align: center;
-    background: #E5E5E5;
+    background: white;
 `
 
 const Td = styled.td`
