@@ -80,6 +80,17 @@ function WaitingUsers({ socket, roomNum }) {
 
         socket.on("changeComplete", changeState);
 
+        const byeChangeState = (nickname, userInfos) => {
+            // setBlackPlayer(userInfos[0].blackPlayerInfo[0]);
+            // setWhitePlayer(userInfos[0].whitePlayerInfo[0]);
+            // setBlackObserverList([...userInfos[0].blackTeamObserver]);
+            // setWhiteObserverList([...userInfos[0].whiteTeamObserver]);
+            dispatch(roomActions.changeState(nickname, userInfos));
+        }
+
+        socket.on("bye", byeChangeState)
+        dispatch(roomActions.resetStateUser(userId));
+
         return () => {
             socket.off("changeComplete", changeState);
             socket.disconnect();

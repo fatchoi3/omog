@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { useTable } from 'react-table';
 
 
-function ResultMainTable({ columns, data }) {
+function ResultLosePointTable({ columns, data }) {
+
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
         useTable({ columns, data });
 
@@ -35,22 +36,21 @@ function ResultMainTable({ columns, data }) {
 }
 
 const TableSheet = styled.table`
-    width: 100%;
+    width: 30%;
     margin: 50px auto;
     border-radius: 14px;
     // border-collapse: collapse;
-    border-color: black;
     overflow: hidden;
 `
 
 const TableThead = styled.thead`
-    background: #94D7BB;
+    background: #565656;
     height: 2rem;
     border-radius: 14px 14px 0 0;
 `
 
 const HeadTr = styled.tr`
-    color: white;
+    color: #94D7BB;
 `
 
 const Th = styled.th`
@@ -64,7 +64,7 @@ const TableTbody = styled.tbody`
 
 const BodyTr = styled.tr`
     text-align: center;
-    background: #E5E5E5;
+    background: #565656;
 `
 
 const Td = styled.td`
@@ -73,4 +73,4 @@ const Td = styled.td`
     padding: 15px;
 `
 
-export default ResultMainTable;
+export default ResultLosePointTable;

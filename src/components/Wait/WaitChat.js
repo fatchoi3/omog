@@ -34,17 +34,6 @@ function WaitChat({ socket, roomNum }) {
 
     const exitWaiting = (e) => {
         e.preventDefault();
-        const byeChangeState = (nickname, userInfos) => {
-            // setBlackPlayer(userInfos[0].blackPlayerInfo[0]);
-            // setWhitePlayer(userInfos[0].whitePlayerInfo[0]);
-            // setBlackObserverList([...userInfos[0].blackTeamObserver]);
-            // setWhiteObserverList([...userInfos[0].whiteTeamObserver]);
-            dispatch(roomActions.changeState(nickname, userInfos));
-        }
-
-        socket.on("bye", byeChangeState)
-        dispatch(roomActions.resetStateUser(userId));
-        socket.disconnect();
         history.push('/main');
     }
 

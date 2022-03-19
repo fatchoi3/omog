@@ -17,15 +17,21 @@ function WaitObserverList({ roomNum, socket, blackObserverList, whiteObserverLis
     console.log(blackObserverList, whiteObserverList)
     const ChangeToBlackObserver = (e) => {
         e.preventDefault();
-        dispatch(roomActions.changeUserInfo(userId, waitingPerson.id, "blackObserver"))
-        socket.emit("changeToObserver", roomNum, waitingPerson.state, "blackObserver")
+        if (userId === waitingPerson.id) {
+            console.log(userId, waitingPerson.id)
+            dispatch(roomActions.changeUserInfo(userId, waitingPerson.id, "blackObserver"))
+            socket.emit("changeToObserver", roomNum, waitingPerson.state, "blackObserver")
+        }
         console.log(waitingPerson.state, "blackObserver로 변경");
     };
 
     const ChangeToWhiteObserver = (e) => {
         e.preventDefault();
-        dispatch(roomActions.changeUserInfo(userId, waitingPerson.id, "whiteObserver"))
-        socket.emit("changeToObserver", roomNum, waitingPerson.state, "whiteObserver")
+        if (userId === waitingPerson.id) {
+            console.log(userId, waitingPerson.id)
+            dispatch(roomActions.changeUserInfo(userId, waitingPerson.id, "whiteObserver"))
+            socket.emit("changeToObserver", roomNum, waitingPerson.state, "whiteObserver")
+        }
         console.log(waitingPerson.state, "whiteObserver로 변경");
     };
 
