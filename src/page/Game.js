@@ -69,6 +69,8 @@ const Game = memo((props) => {
     };
   }, [disconnectSocket]);
 
+  ///
+
   useEffect(() => {
     dispatch(userActions.loginCheckDB(userId));
     dispatch(gameActions.getGameDB(gameNum));
