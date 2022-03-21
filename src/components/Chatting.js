@@ -29,29 +29,29 @@ const Chatting = memo((props) => {
     },
     [teaching]
   );
-const [teachingCnt, setTeachingCnt]=useState(1)
+
   const onMessageSubmit = useCallback(
     (e) => {
       if (message === "") {
         console.log("빈값입니다.");
       } else {
         if (teaching === "Text" && isTeam === "white") {
-          console.log("Text훈수W",teachingCnt);
-         
+          console.log("Text훈수W")
           socket.emit("teachingW", {chat: message });
-          setTeachingCnt(teachingCnt+1);
         } 
         if (teaching === "Text" && isTeam === "black") {
-          console.log("Text훈수B",teachingCnt);
+          console.log("Text훈수B")
           socket.emit("teachingB", { chat: message });
-          setTeachingCnt(teachingCnt+1);
         }
         if (teaching === "Fly") {
-          console.log("이이상상무무",teachingCnt);
+          console.log("이이상상무무")
           socket.emit("flyingWord", {chat: message });
-          setTeachingCnt(teachingCnt+1);
         }
-
+        if(teaching === "Pointer" && message === "신의한수"){
+          console.log("마우스로 찍자");
+          socket.emit("Pointer", userid);
+         
+        }
         socket.emit("chat", { chat: message });
         console.log("채팅보내기");
         e.preventDefault();
@@ -82,6 +82,7 @@ const [teachingCnt, setTeachingCnt]=useState(1)
   const onKeyPress = useCallback((e) => {
     if (e.key == "Enter") {
       onMessageSubmit(e);
+      
     }
   });
 
@@ -159,8 +160,8 @@ const [teachingCnt, setTeachingCnt]=useState(1)
           >
             <option defaultValue="훈수하기"> 훈수하기</option>
             <option value="Text">Text</option>
-            {/* <option value="Point">Point</option> */}
             <option value="Fly">Fly</option>
+            <option value="Pointer">Pointer</option>
           </TeachingSelect>
         </BottomWrap>
       </ChatForm>

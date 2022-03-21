@@ -7,12 +7,15 @@ import TeachingW from "../components/TeachingW";
 import TeachingB from "../components/TeachingB";
 import PlayerCardB from "../components/PlayerCardB";
 import PlayerCardW from "../components/PlayerCardW";
+
 import { Text } from "../elements";
 import Logo from "../pictures/omogLogo.png";
 import useSocket from "../hook/useSocket";
+
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import { actionCreators as gameActions } from "../redux/modules/game";
+
 const Game = memo((props) => {
   const dispatch = useDispatch();
 
@@ -33,9 +36,8 @@ const Game = memo((props) => {
         return gameInfo[i];
       }
     }
-
-  }, [])
-  console.log("과연", pickGameInfo(gameInfo))
+  }, []);
+  console.log("과연", pickGameInfo(gameInfo));
   const realGameInfo = pickGameInfo(gameInfo);
   // gameInfo[0]?.blackTeamPlayer.length === 0 ? gameInfo[1] : gameInfo[0];
 
@@ -48,33 +50,33 @@ const Game = memo((props) => {
   const [loading, setLoading] = useState(1);
   const [flying, setFlying] = useState();
 
-
   const rand = (max, min) => {
     return Math.floor(Math.random() * (max - min)) + min;
   };
 
-
-
   //////수정사항
+  //"http://15.165.158.25/game"
   //"http://localhost:4001/game",
   const [socket, disconnectSocket] = useSocket(
-    "http://15.165.158.25/game",
+    "http://localhost:4001/game",
     gameNum,
     userId
   );
+
   useEffect(() => {
     return () => {
       disconnectSocket();
     };
   }, [disconnectSocket]);
+
   useEffect(() => {
     dispatch(userActions.loginCheckDB(userId));
     dispatch(gameActions.getGameDB(gameNum));
   }, []);
-  useEffect(() => {
 
+  useEffect(() => {
     socket.on("flyingWord", (data) => {
-      setRandomNum(rand(1, 10) * 50);
+      setRandomNum(rand(10, 1) * 50);
       setFlying(data.chat.chat);
       setLoading(0);
       console.log("randomNum", randomNum);
@@ -102,12 +104,16 @@ const Game = memo((props) => {
             </DialogBlock>
           )}
           <Wrap>
-
-            <Omog userInfo={userInfo} gameNum={gameNum} socket={socket} blackPlayer={blackPlayer} whitePlayer={whitePlayer} />
+            <Omog
+              userInfo={userInfo}
+              gameNum={gameNum}
+              socket={socket}
+              blackPlayer={blackPlayer}
+              whitePlayer={whitePlayer}
+            />
             <TeachingWrap>
-            <TeachingB playerInfo={blackPlayer} socket={socket} />
+              <TeachingB playerInfo={blackPlayer} socket={socket} />
               <TeachingW playerInfo={whitePlayer} socket={socket} />
-             
             </TeachingWrap>
           </Wrap>
           <ChattingWrap>
@@ -133,7 +139,13 @@ const Game = memo((props) => {
               <PlayerCardB playerInfo={blackPlayer} />
             </>
           </PlayerInfos>
-          <Omog userInfo={userInfo} gameNum={gameNum} socket={socket} blackPlayer={blackPlayer} whitePlayer={whitePlayer} />
+          <Omog
+            userInfo={userInfo}
+            gameNum={gameNum}
+            socket={socket}
+            blackPlayer={blackPlayer}
+            whitePlayer={whitePlayer}
+          />
           <ChattingWrap>
             <Chatting gameNum={gameNum} socket={socket} userInfo={userInfo} />
           </ChattingWrap>
@@ -200,29 +212,7 @@ margin : auto;
   animation-fill-mode: forwards;
   zIndex: 9999;
 `;
-const fadeIn = keyframes`
-from{
-  opacity: 0
-}
-to{
-  opacity: 1
-}
-`;
-const DarkBackground = styled.div`
-position: fixed;
-left : 100px:
-top : 100px;
-width : 400px;
-height: 200px;
-display: flex;
-align-items: center;
-background : rgba(0, 0, 0, 0.8);
 
-animation-duration : 1s;
-animation-timing-function: ease-out;
-animation-name: ${fadeIn};
-animation-fill-mode: forwards;
-`;
 const LogoWrap = styled.div`
   position: absolute;
   width: 100px;
