@@ -54,8 +54,8 @@ const Roomlist = () => {
   };
 
   useEffect(() => {
-    setInterval((aaa),10000);
-    
+    // setInterval((aaa),10000);
+    dispatch(roomActions.getRoomListDB());
   }, []);
 
   return (
