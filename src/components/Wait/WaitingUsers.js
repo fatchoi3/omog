@@ -85,6 +85,8 @@ function WaitingUsers({ socket, roomNum }) {
             // setWhitePlayer(userInfos[0].whitePlayerInfo[0]);
             // setBlackObserverList([...userInfos[0].blackTeamObserver]);
             // setWhiteObserverList([...userInfos[0].whiteTeamObserver]);
+            console.log("bye 정보", nickname, userInfos)
+            console.log("bye bye bye");
             dispatch(roomActions.changeState(nickname, userInfos));
         }
 
