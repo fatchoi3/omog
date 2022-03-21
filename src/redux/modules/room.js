@@ -143,18 +143,20 @@ const joinRoomDB = (room) => {
 const gameStartDB = (blackPlayer, whitePlayer, blackObserverList, whiteObserverList, roomNum) => {
     return async function (dispatch, getState, { history }) {
         console.log(blackPlayer, whitePlayer, blackObserverList, whiteObserverList)
-        await api.post(`/game/create`, {
-            blackTeamPlayer: blackPlayer?.id ? blackPlayer.id : null,
-            whiteTeamPlayer: whitePlayer?.id ? whitePlayer.id : null,
-            blackTeamObserver: blackObserverList,
-            whiteTeamObserver: whiteObserverList,
-            roomNum: roomNum,
-        })
-            .then((res) => {
-                console.log(res);
-                console.log(roomNum);
-                history.push(`/game/${roomNum}`)
+        try {
+            const res = await api.post(`/game/create`, {
+                blackTeamPlayer: blackPlayer?.id ? blackPlayer.id : null,
+                whiteTeamPlayer: whitePlayer?.id ? whitePlayer.id : null,
+                blackTeamObserver: blackObserverList,
+                whiteTeamObserver: whiteObserverList,
+                roomNum: roomNum,
             })
+            console.log(res);
+            console.log(roomNum);
+            history.push(`/game/${roomNum}`)
+        } catch (error) {
+            console.log(error)
+        }
     }
 };
 const quickStartPlayer = (id) => {

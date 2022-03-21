@@ -4,10 +4,8 @@ import { useHistory } from 'react-router-dom';
 import { Text, Input, Button } from '../../elements';
 import { useDispatch } from 'react-redux';
 
-import { actionCreators as roomActions } from '../../redux/modules/room';
 
 function WaitChat({ socket, roomNum }) {
-    console.log("채팅창 컴포넌트입니다. 몇 번 렌더링될까요?")
     const dispatch = useDispatch();
     const history = useHistory();
     const messageRef = useRef(null);
@@ -18,7 +16,6 @@ function WaitChat({ socket, roomNum }) {
 
     const sendMessages = useCallback(async (e) => {
         e.preventDefault();
-        console.log("보내는 채팅입니다", messageRef.current.value);
         await socket.emit("chat", roomNum, messageRef.current.value);
         messageRef.current.value = '';
     }, [])
@@ -41,7 +38,6 @@ function WaitChat({ socket, roomNum }) {
     useEffect(() => {
         const setChat = async () => {
             await socket.on("chat", (data) => {
-                console.log("받아오는 채팅", data)
                 setMessageList((prev) => [...prev, data]);
             })
         }
@@ -81,30 +77,19 @@ function WaitChat({ socket, roomNum }) {
             </ChattingHeader>
             <div className="chatting-content" ref={scrollRef} style={{ overflow: "auto", width: "100%", height: "100%", padding: "0", margin: "0" }}>
                 {messageList.map((messageContent, idx) => {
+                    let isMyMessage = messageContent.nickname === userId
+
                     return (
-                        <div
-                            key={idx}
-                            className="Message-box"
-                            style={{
-                                display: "flex",
-                                justifyContent: messageContent.nickname === userId ? "flex-end" : "flex-start",
-                                margin: messageContent.nickname === userId ? "5px 27px 5px 0" : "5px 0 5px 27px",
-                            }}>
+                        <MessageBox key={idx} isMyMessage={isMyMessage}>
                             <div>
-                                <MessageMeta
-                                    style={{ justifyContent: messageContent.nickname === userId ? "flex-end" : "flex-start" }}
-                                >
+                                <MessageMeta isMyMessage={isMyMessage}>
                                     <Text is_margin="5px 5px" is_size="14px" is_bold="600" is_line_height="16.8px">{messageContent.nickname}</Text>
                                 </MessageMeta>
-                                <MessageContent
-                                    style={{
-                                        borderRadius: messageContent.nickname === userId ? "10px 0px 10px 10px" : "00px 10px 10px 10px",
-                                        backgroundColor: messageContent.nickname === userId ? "cornflowerblue" : "#94D7BB"
-                                    }}>
+                                <MessageContent isMyMessage={isMyMessage}>
                                     <Text is_padding="3px" is_margin="3px" >{messageContent.chat}</Text>
                                 </MessageContent>
                             </div>
-                        </div>
+                        </MessageBox>
                     );
                 })}
             </div>
@@ -172,14 +157,21 @@ const ChattingInputContainer = styled.div`
     height: 50px;
 `
 
+const MessageBox = styled.div`
+    display: flex;
+    justify-content: ${props => props.isMyMessage === true ? "flex-end" : "flex-start"};
+    margin: ${props => props.isMyMessage === true ? "5px 27px 5px 0" : "5px 0 5px 27px"};
+`
+
 const MessageContent = styled.div`
+    display: flex;
     width: auto;
     height: auto;
     min-height: 40px;
     max-width: 250px;
-    border-radius: 5px;
+    border-radius: ${props => props.isMyMessage === true ? "10px 0px 10px 10px" : "00px 10px 10px 10px"};
+    background-color: ${props => props.isMyMessage === true ? "cornflowerblue" : "#94D7BB"};
     color: white;
-    display: flex;
     align-items: center;
     margin-right: 5px;
     margin-left: 5px;
@@ -195,6 +187,7 @@ const MessageMeta = styled.div`
     fontSize: 12px;
     marginLeft: 5px;
     marginRight: 5px;
+    justify-content: ${props => props.isMyMessage === true ? "flex-end" : "flex-sart"}
 `
 
 export default React.memo(WaitChat);

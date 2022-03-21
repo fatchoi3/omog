@@ -23,10 +23,6 @@ function WaitingUsers({ socket, roomNum }) {
     const whitePlayer = useSelector(state => state.room.whitePlayer);
     const blackObserverList = useSelector(state => state.room.blackObserverList);
     const whiteObserverList = useSelector(state => state.room.whiteObserverList);
-    // const [blackPlayer, setBlackPlayer] = useState({});
-    // const [whitePlayer, setWhitePlayer] = useState({});
-    // const [blackObserverList, setBlackObserverList] = useState([]);
-    // const [whiteObserverList, setWhiteObserverList] = useState([]);
     const [start, setStart] = useState(false);
 
 
@@ -38,6 +34,7 @@ function WaitingUsers({ socket, roomNum }) {
             e.preventDefault();
             const roomNumber = roomNum;
             socket.emit("gameStart", roomNumber);
+            dispatch(roomActions.gameStartDB(blackPlayer, whitePlayer, blackObserverList, whiteObserverList, roomNumber));
             setStart(true);
         }
     }
@@ -61,30 +58,18 @@ function WaitingUsers({ socket, roomNum }) {
         const welcome = (id, userInfos) => {
             console.log("welcome 실행완료", id, userInfos);
             dispatch(roomActions.setWaitUser(id, userInfos));
-            // setBlackPlayer(userInfos[0].blackPlayerInfo[0]);
-            // setWhitePlayer(userInfos[0].whitePlayerInfo[0]);
-            // setBlackObserverList([...userInfos[0].blackTeamObserver]);
-            // setWhiteObserverList([...userInfos[0].whiteTeamObserver]);
         }
 
         socket.on("welcome", welcome)
 
         const changeState = (id, userInfos) => {
             console.log("state 변경이 되나요?", id, userInfos);
-            // setBlackPlayer(userInfos[0].blackPlayerInfo[0]);
-            // setWhitePlayer(userInfos[0].whitePlayerInfo[0]);
-            // setBlackObserverList([...userInfos[0].blackTeamObserver]);
-            // setWhiteObserverList([...userInfos[0].whiteTeamObserver]);
             dispatch(roomActions.changeState(id, userInfos));
         }
 
         socket.on("changeComplete", changeState);
 
         const byeChangeState = (nickname, userInfos) => {
-            // setBlackPlayer(userInfos[0].blackPlayerInfo[0]);
-            // setWhitePlayer(userInfos[0].whitePlayerInfo[0]);
-            // setBlackObserverList([...userInfos[0].blackTeamObserver]);
-            // setWhiteObserverList([...userInfos[0].whiteTeamObserver]);
             console.log("bye 정보", nickname, userInfos)
             console.log("bye bye bye");
             dispatch(roomActions.changeState(nickname, userInfos));
@@ -100,8 +85,8 @@ function WaitingUsers({ socket, roomNum }) {
     }, [])
 
     useEffect(() => {
-        const gameStartF = (roomNumber) => {
-            dispatch(roomActions.gameStartDB(blackPlayer, whitePlayer, blackObserverList, whiteObserverList, roomNumber));
+        const gameStartF = (roomNum) => {
+            history.push(`/game/${roomNum}`)
         }
 
         socket.on("game", gameStartF);

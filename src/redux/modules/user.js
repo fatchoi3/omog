@@ -127,44 +127,39 @@ const blackCheck = createAction(BLACK_PLAYER, (blackPlayerInfo) => ({ blackPlaye
 // middleware actions
 const signupDB = (id, nickname, password, passwordConfirm) => {
     return async function (dispatch, getState, { history }) {
-        await api
-            .post("/signup",
+        try {
+            const res = await api.post("/signup",
                 {
                     id: id,
                     pass: password,
                     nickname: nickname,
                     confirmPass: passwordConfirm
                 }
-            )
-            .then(function (response) {
-                console.log(response)
-            })
-            .catch((err) => {
-                console.log(err);
-                if (err.ok === false) {
-                    window.alert(`${err.errorMessage}`);
-                }
-            });
+            );
+            console.log(res);
+        } catch (error) {
+            console.log(error);
+        }
     };
 };
 
 
 const loginDB = (id, password) => {
     return async function (dispatch, getState, { history }) {
-        await api.post("/login", { id: id, pass: password })
-            .then(function (response) {
-                console.log(response);
-                if (response.data.token) {
-                    localStorage.setItem('token', response.data.token);
-                    localStorage.setItem('userId', response.data.id);
-                    history.push('/main')
-                    console.log("로그인이 되었어요")
-                    dispatch(loginCheckDB(id))
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+        try {
+            const res = await api.post("/login", { id: id, pass: password });
+            console.log(res);
+            if (res.data.token) {
+                localStorage.setItem('token', res.data.token);
+                localStorage.setItem('userId', res.data.id);
+                history.push('/main');
+                console.log("로그인이 되었어요");
+                dispatch(loginCheckDB(id));
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
     }
 };
 
@@ -181,12 +176,12 @@ const getUserDB = () => {
 
 const loginCheckDB = (id) => {
     return async function (dispatch, getState, { history }) {
-
-        await api.get(`/userinfo/${id}`)
-            .then((res) => {
-                // console.log("loginCheckDB", res.data)
-                dispatch(loginCheck(res.data))
-            })
+        try {
+            const res = await api.get(`/userinfo/${id}`);
+            dispatch(loginCheck(res.data));
+        } catch (error) {
+            console.log(error);
+        }
     }
 };
 
