@@ -101,7 +101,7 @@ const gameResultDB = (result) => {
 
 
 const getGameResultDB = (userId, gameNum, result) => {
-    return  function (dispatch, getState, { history }) {
+    return async function (dispatch, getState, { history }) {
         console.log(userId, gameNum, result)
 
         try {
