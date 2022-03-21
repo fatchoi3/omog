@@ -8,15 +8,11 @@ import WaitingUsers from '../components/Wait/WaitingUsers';
 
 
 function Waiting(props) {
-    console.log("해당 페이지 최상단 페이지입니다.")
     const { roomNum } = useParams();
-
     const [currentSocket, setCurrentSocket] = useState();
 
     useEffect(() => {
-        console.log("최상단 페이지 useEffec는 몇 번 될까요?")
         setCurrentSocket(io("http://15.165.158.25/waiting"));
-
     }, []);
 
     return (

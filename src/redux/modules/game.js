@@ -89,9 +89,11 @@ const gameResultDB = (result) => {
         console.log(result)
          api.post("/gameFinish", result)
             .then(function (response) {
+
                 dispatch(GameEnd(result));
+
             }).catch(error => {
-                
+
                 console.log(error)
             });
     }
@@ -101,11 +103,15 @@ const gameResultDB = (result) => {
 const getGameResultDB = (userId, gameNum, result) => {
     return  function (dispatch, getState, { history }) {
         console.log(userId, gameNum, result)
-        api.post(`/gameFinish/show`, { id: userId, gameNum: gameNum, result })
-            .then((res) => {
-                console.log(res);
-                dispatch(getGameResult(res.data))
-            })
+
+        try {
+            const res = await api.post(`/gameFinish/show`, { id: userId, gameNum: gameNum, result })
+            console.log(res);
+            dispatch(getGameResult(res.data))
+        } catch (error) {
+            console.log(error)
+        }
+
     }
 }
 

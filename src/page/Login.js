@@ -131,8 +131,8 @@ function Login(props) {
     return (
         <>
             {explainModal &&
-                <GameExplainContainer>
-                    <GameExplainModal>
+                <LoginPageModalContainer>
+                    <LoginPageModal>
                         <div style={{ display: "flex", margin: "0 auto", flexDirection: "column", alignContent: "center", alignItems: "center", justifyContent: "center", width: "100%" }}>
                             <LoginPageSlider />
                             <Button
@@ -152,12 +152,12 @@ function Login(props) {
                                 SKIP
                             </Button>
                         </div>
-                    </GameExplainModal>
-                </GameExplainContainer>
+                    </LoginPageModal>
+                </LoginPageModalContainer>
             }
             {isOpen &&
-                <SignupModalContainer>
-                    <SignupModal ref={modalEl}>
+                <LoginPageModalContainer>
+                    <LoginPageModal signup ref={modalEl}>
                         <div style={{ width: "70%", margin: "0 auto 30px auto", textAlign: "center" }}>
                             <h2 style={{ color: "#189FFB", padding: "0", margin: "0", fontWeight: "800" }}>회원가입</h2>
                         </div>
@@ -178,12 +178,12 @@ function Login(props) {
                                 회원가입
                             </Button>
                         </div>
-                    </SignupModal>
-                </SignupModalContainer>
+                    </LoginPageModal>
+                </LoginPageModalContainer>
             }
-            <LoginPageTitle>
+            <div style={{ width: "100%", textAlign: "center" }}>
                 <img src={Logo} alt="로고" style={{ height: "100%", width: "25%" }} />
-            </LoginPageTitle>
+            </div>
             <LoginPageContainer>
                 <LoginPageLoginBox>
                     <div className="input_box"
@@ -242,10 +242,6 @@ function Login(props) {
     );
 }
 
-const LoginPageTitle = styled.div`
-    width: 100%;
-    text-align: center;
-`
 
 const LoginPageContainer = styled.div`
     display: flex;
@@ -260,18 +256,18 @@ const LoginPageContainer = styled.div`
 
 const LoginPageLoginBox = styled.div`
     display:flex;
+    width: 340px;
+    padding: 20px;
     flex-direction: column;
     justify-contents: center;
     align-items: center;
-    width: 340px;
-    padding: 20px;
     box-sizing: border-box;
 `
 
-const GameExplainContainer = styled.div`
+const LoginPageModalContainer = styled.div`
     position: fixed;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     display: flex;
@@ -281,46 +277,23 @@ const GameExplainContainer = styled.div`
     z-index: 10;
 `
 
-const GameExplainModal = styled.div`
+const LoginPageModal = styled.div`
     position: relative;
     transition: 0.3s;
-    width: 100%;
-    height: 100vh;
     box-shadow: rgb(0 0 0 / 9%) 0px 2px 12px 0px;
     background: white;
     display: flex;
-`
+    width: ${props => props.signup ? "28%" : "100%"};
+    height: ${props => props.signup ? "561px" : "100vh"};
+    flex-direction: ${props => props.signup ? "column" : ""};
+    justify-content: ${props => props.signup ? "center" : ""};
+    border-radius: ${props => props.signup ? "14px" : ""};
+    max-width: ${props => props.signup ? "25rem" : ""};
 
-
-const SignupModalContainer = styled.div`
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.3);
-    z-index: 10;
-`
-
-const SignupModal = styled.div`
-    position: relative;
-    transition: 0.3s;
-    width: 28%;
-    max-width: 25rem;
-    height: 561px;
-    box-shadow: rgb(0 0 0 / 9%) 0px 2px 12px 0px;
-    background: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border-radius: 14px;
     // 아래에서 위로
     // animation: 400ms ease-in-out 0ms 1 normal forwards running modalIn;
     // 사라락 나타나기
-    animation: 0.3s ease us814pn;
+    animation: ${props => props.signup ? "0.3s ease us814pn" : ""};
 
     @keyframes us814pn {
         0%{

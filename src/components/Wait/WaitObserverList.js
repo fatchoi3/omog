@@ -11,7 +11,7 @@ function WaitObserverList({ roomNum, socket, blackObserverList, whiteObserverLis
     const userId = localStorage.getItem("userId")
     const waitingPerson = useSelector((state) => state.room.userInfo);
 
-    // const blackObserverList = useSelector(state => state.room.balckObserverList);
+    // const blackObserverList = useSelector(state => state.room.blackObserverList);
     // const whiteObserverList = useSelector(state => state.room.whiteObserverList);
 
     console.log(blackObserverList, whiteObserverList)
