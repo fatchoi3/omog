@@ -91,9 +91,9 @@ const getRoomListDB = () => {
     }
 };
 const getRoomInfoDB = (roomNum) => {
-    return async function (dispatch, getState, { history }) {
+    return  function (dispatch, getState, { history }) {
         console.log("roomNum", roomNum);
-        await api.get(`/lobby/joinroom/${roomNum}`)
+         api.get(`/lobby/joinroom/${roomNum}`)
             .then(function (response) {
                 // console.log(response.data);
                 dispatch(getRoomInfo(response.data));
@@ -104,9 +104,9 @@ const getRoomInfoDB = (roomNum) => {
 
 
 const addRoomDB = (roomName) => {
-    return async function (dispatch, useState, { history }) {
+    return  function (dispatch, useState, { history }) {
         const userId = localStorage.getItem('userId');
-        await api.post("/lobby/create",
+         api.post("/lobby/create",
             {
                 roomName: roomName,
                 id: userId
@@ -125,9 +125,9 @@ const addRoomDB = (roomName) => {
 };
 
 const joinRoomDB = (room) => {
-    return async function (dispatch, useState, { history }) {
+    return  function (dispatch, useState, { history }) {
         // const token = localStorage.getItem('token');
-        await api.post("/lobby/joinroom", room)
+        api.post("/lobby/joinroom", room)
             .then(function (response) {
                 console.log("안녕 나는 미들웨어 join", response)
                 dispatch(joinRoom(response.data, room.id));
@@ -141,9 +141,9 @@ const joinRoomDB = (room) => {
 
 
 const gameStartDB = (blackPlayer, whitePlayer, blackObserverList, whiteObserverList, roomNum) => {
-    return async function (dispatch, getState, { history }) {
+    return function (dispatch, getState, { history }) {
         console.log(blackPlayer, whitePlayer, blackObserverList, whiteObserverList)
-        await api.post(`/game/create`, {
+         api.post(`/game/create`, {
             blackTeamPlayer: blackPlayer?.id ? blackPlayer.id : null,
             whiteTeamPlayer: whitePlayer?.id ? whitePlayer.id : null,
             blackTeamObserver: blackObserverList,
@@ -158,9 +158,9 @@ const gameStartDB = (blackPlayer, whitePlayer, blackObserverList, whiteObserverL
     }
 };
 const quickStartPlayer = (id) => {
-    return async function (dispatch, getState, { history }) {
+    return function (dispatch, getState, { history }) {
         console.log("id", id);
-        await api.get(`/lobby/fastPlayer/${id}`)
+        api.get(`/lobby/fastPlayer/${id}`)
             .then(function (response) {
                 console.log("response", response.data.roomNum);
                 history.push(`/waiting/${response.data.roomNum}`)
@@ -171,9 +171,9 @@ const quickStartPlayer = (id) => {
     }
 };
 const quickStartObserver = (id) => {
-    return async function (dispatch, getState, { history }) {
+    return function (dispatch, getState, { history }) {
         console.log("id", id);
-        await api.get(`/lobby/fastPlayer/${id}`)
+         api.get(`/lobby/fastPlayer/${id}`)
             .then(function (response) {
                 console.log("response", response.data.roomNum);
                 history.push(`/waiting/${response.data.roomNum}`)

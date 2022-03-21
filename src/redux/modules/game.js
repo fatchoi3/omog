@@ -44,6 +44,7 @@ const initialState = {
         userInfo: {},
         result: {}
     },
+    PP : {pointer : false, power: false}
 }
 
 // actions
@@ -54,7 +55,7 @@ const GAME_ADD_CHAT = "GAME_ADD_CHAT";
 const CLEAR_ONE = "CLEAR_ONE";
 const ADD_TEACHING_W = "ADD_TEACHING_W";
 const ADD_TEACHING_B = "ADD_TEACHING_B";
-
+// const POINTER_TEACHING="POINTER_TEACHING";
 
 // action creators
 const getGame = createAction(GETGAME, (gameInfo) => ({ gameInfo }));
@@ -63,33 +64,32 @@ const GameEnd = createAction(GAMEEND, (result) => ({ result }));
 const GameAddChat = createAction(GAME_ADD_CHAT, (chat) => ({ chat }));
 const AddTeachingW = createAction(ADD_TEACHING_W, (chat) => ({ chat }));
 const AddTeachingB = createAction(ADD_TEACHING_B, (chat) => ({ chat }));
+// const pointerTeaching =createAction(POINTER_TEACHING,(PP)=>({PP}))
 const clearOne = createAction(CLEAR_ONE);
 
 
 // middleware actions
 
 const getGameDB = (gameNum) => {
-    return async function (dispatch, getState, { history }) {
-        console.log("gameNum", gameNum)
-        await api.get(`/game/start/${gameNum}`)
+    return function (dispatch, getState, { history }) {
+         api.get(`/game/start/${gameNum}`)
             .then(function (response) {
                 console.log("gameInfo 미들웨어", response.data.gameInfo);
                 dispatch(getGame(response.data.gameInfo));
-            })
+            }).catch(error => {
+                
+                console.log(error)
+            });
     }
 };
 
 const gameResultDB = (result) => {
-    console.log("result", result)
-    return async function (dispatch, useState, { history }) {
-        // const token = localStorage.getItem('token');
+    return  function (dispatch, useState, { history }) {
         history.push(`/game/result/${result.gameNum}`);
         console.log(result)
-        await api.post("/gameFinish", result)
+         api.post("/gameFinish", result)
             .then(function (response) {
-              
                 dispatch(GameEnd(result));
-               
             }).catch(error => {
                 
                 console.log(error)
@@ -99,9 +99,9 @@ const gameResultDB = (result) => {
 
 
 const getGameResultDB = (userId, gameNum, result) => {
-    return async function (dispatch, getState, { history }) {
+    return  function (dispatch, getState, { history }) {
         console.log(userId, gameNum, result)
-        await api.post(`/gameFinish/show`, { id: userId, gameNum: gameNum, result })
+        api.post(`/gameFinish/show`, { id: userId, gameNum: gameNum, result })
             .then((res) => {
                 console.log(res);
                 dispatch(getGameResult(res.data))
@@ -111,9 +111,9 @@ const getGameResultDB = (userId, gameNum, result) => {
 
 
 const gameOutDB = (gameNum) => {
-    return async function (dispatch, getState, { history }) {
+    return  function (dispatch, getState, { history }) {
         console.log("gameNum", gameNum);
-        await api.delete(`/game/delete/${gameNum}`)
+         api.delete(`/game/delete/${gameNum}`)
             .then(function (response) {
                 console.log(response);
                 history.push("/main");
@@ -150,6 +150,24 @@ const AddTeachW = (socket) => {
     }
 };
 
+// const pointerTeachingS = (socket) => {
+//     const userid = localStorage.getItem("userId");
+//     return async function (dispatch, getState, { history }) {
+//         await socket.on("Pointer", (id) => {
+//             let PP= {power : false, pointer : false}
+//             if(userid === id) {
+//                 console.log("맞아 나야"); 
+//                 PP={power : true, pointer: true}
+//                 dispatch(pointerTeaching(PP));
+//                 return;
+//               }
+//               console.log("내가아니야")
+//               PP={power : false, pointer:true}
+//               dispatch(pointerTeaching(PP));
+//         })
+//     }
+// };
+
 
 //reducer
 export default handleActions({
@@ -172,12 +190,16 @@ export default handleActions({
     }),
     [ADD_TEACHING_B]: (state, action) => produce(state, (draft) => {
         draft.Teaching_listB.push(action.payload.chat);
-        console.log("action.payload.chat", action.payload.chat)
+
     }),
     [ADD_TEACHING_W]: (state, action) => produce(state, (draft) => {
         draft.Teaching_listW.push(action.payload.chat);
-        console.log("action.payload.chat", action.payload.chat)
+       
     }),
+    // [POINTER_TEACHING]: (state, action) => produce(state, (draft) => {
+    //     draft.PP=(action.payload.PP);
+    //     console.log("액션PP", action.payload.PP)
+    // }),
     [CLEAR_ONE]: (state, action) =>
         produce(state, (draft) => {
             draft.chat_list = [];
@@ -196,7 +218,8 @@ const actionCreators = {
     addGameChat,
     clearOne,
     AddTeachB,
-    AddTeachW
+    AddTeachW,
+    // pointerTeachingS
 }
 
 export { actionCreators };
