@@ -111,8 +111,6 @@ const LOG_OUT = "LOG_OUT";
 const GET_USER_INFO = "GET_USER_INFO";
 const GET_LEADERS = "GET_LEADERS";
 const GET_LEADER_BOARD = "GET_LEADER_BOARD";
-const WHITE_PLAYER = "WHITE_PLAYER";
-const BLACK_PLAYER = "BLACK_PLAYER";
 
 // action creators
 const loginCheck = createAction(LOGIN_CHECK, (userInfo) => ({ userInfo }));
@@ -121,14 +119,14 @@ const getUserInfo = createAction((GET_USER_INFO), (user_list) => ({ user_list })
 const getLeaders = createAction((GET_LEADERS), (leader_list) => ({ leader_list }))
 const getLeaderBorad = createAction((GET_LEADER_BOARD), (leader_board) => ({ leader_board }))
 const logout = createAction((LOG_OUT), (user) => ({ user }));
-const whiteCheck = createAction(WHITE_PLAYER, (whitePlayerInfo) => ({ whitePlayerInfo }));
-const blackCheck = createAction(BLACK_PLAYER, (blackPlayerInfo) => ({ blackPlayerInfo }));
 
 // middleware actions
 const signupDB = (id, nickname, password, passwordConfirm) => {
+
     return async function (dispatch, getState, { history }) {
         try {
             const res = await api.post("/signup",
+
                 {
                     id: id,
                     pass: password,
@@ -145,6 +143,7 @@ const signupDB = (id, nickname, password, passwordConfirm) => {
 
 
 const loginDB = (id, password) => {
+
     return async function (dispatch, getState, { history }) {
         try {
             const res = await api.post("/login", { id: id, pass: password });
@@ -160,12 +159,13 @@ const loginDB = (id, password) => {
             console.log(error);
         }
 
+
     }
 };
 
 const getUserDB = () => {
-    return async function (dispatch, getState, { history }) {
-        await api.get("/lobby/userList")
+    return  function (dispatch, getState, { history }) {
+         api.get("/lobby/userList")
             .then(function (response) {
                 // console.log(response.data);
                 dispatch(getUserInfo(response.data));
@@ -175,6 +175,7 @@ const getUserDB = () => {
 
 
 const loginCheckDB = (id) => {
+
     return async function (dispatch, getState, { history }) {
         try {
             const res = await api.get(`/userinfo/${id}`);
@@ -182,12 +183,13 @@ const loginCheckDB = (id) => {
         } catch (error) {
             console.log(error);
         }
+
     }
 };
 
 const getLeaderDB = () => {
-    return async function (dispatch, getState, { history }) {
-        await api.get("/lobby/leaderList")
+    return  function (dispatch, getState, { history }) {
+         api.get("/lobby/leaderList")
             .then(function (response) {
                 // console.log(response.data);
                 dispatch(getLeaders(response.data));
@@ -196,32 +198,16 @@ const getLeaderDB = () => {
 };
 
 const getLeaderBoardDB = () => {
-    return async function (dispatch, getState, { history }) {
-        await api.get("/leaderBoard")
+    return  function (dispatch, getState, { history }) {
+         api.get("/leaderBoard")
             .then(function (response) {
                 // console.log(response.data);
                 dispatch(getLeaderBorad(response.data));
             })
     }
 };
-const whitePlayerCheck = (id) => {
-    return async function (dispatch, getState, { history }) {
-        await axios.get(`http://15.165.158.25/userinfo/${id}`)
-            .then((res) => {
 
-                dispatch(whiteCheck(res.data))
-            })
-    }
-};
-const blackPlayerCheck = (id) => {
-    return async function (dispatch, getState, { history }) {
-        await axios.get(`http://15.165.158.25/userinfo/${id}`)
-            .then((res) => {
 
-                dispatch(blackCheck(res.data))
-            })
-    }
-};
 //reducer
 export default handleActions({
     [GET_USER]: (state, action) => produce(state, (draft) => {
@@ -250,14 +236,6 @@ export default handleActions({
         draft.leader_board = action.payload.leader_board;
 
     }),
-    [WHITE_PLAYER]: (state, action) => produce(state, (draft) => {
-        draft.whitePlayerInfo = action.payload.whitePlayerInfo;
-
-    }),
-    [BLACK_PLAYER]: (state, action) => produce(state, (draft) => {
-        draft.blackPlayerInfo = action.payload.blackPlayerInfo;
-
-    }),
 },
     initialState
 );
@@ -272,8 +250,7 @@ const actionCreators = {
     getUserDB,
     getLeaderDB,
     getLeaderBoardDB,
-    whitePlayerCheck,
-    blackPlayerCheck
+    
 }
 
 export { actionCreators };
