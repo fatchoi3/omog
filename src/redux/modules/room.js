@@ -176,7 +176,7 @@ const quickStartPlayer = (id) => {
 const quickStartObserver = (id) => {
     return function (dispatch, getState, { history }) {
         console.log("id", id);
-         api.get(`/lobby/fastPlayer/${id}`)
+         api.get(`/lobby/fastObserver/${id}`)
             .then(function (response) {
                 console.log("response", response.data.roomNum);
                 history.push(`/waiting/${response.data.roomNum}`)
