@@ -11,7 +11,9 @@ const Chatting = memo((props) => {
   const dispatch = useDispatch();
   const [message, onChangeMessage, setMessage] = useInput("");
   const [teaching, setTeaching] = useState();
+
   const userid = localStorage.getItem("userId");
+  
   const chatList = useSelector((state) => state.game.chat_list);
   const scroll = useRef(null);
   const gameNum = props.gameNum;

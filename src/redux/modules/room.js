@@ -60,12 +60,9 @@ const initialState = {
 const GET_ROOM = "GET_ROOM";
 const GET_ROOM_INFO = "GET_ROOM_INFO";
 const JOIN_ROOM = "JOIN_ROOM";
-const GET_WAITING = "GET_WAITING";
-const GAME_START = "GAME_START";
 const SET_WAIT_USER = "SET_WAIT_USER";
 const CHANGE_STATE = "CHANGE_STATE";
 const RESET_STATE_USER = "RESET_STATE_USER";
-const QUICK_START_P = "QUICK_START_P";
 const CHANGE_USERINFO = "CHANGE_USERINFO";
 
 
@@ -187,7 +184,18 @@ const quickStartObserver = (id) => {
     }
 };
 
-
+const numJoinDB = (data) => {
+    return  function (dispatch, useState, { history }) {
+        api.post("/lobby/roomNumJoin", data)
+            .then(function (response) {
+                console.log("안녕 나는 Numjoin", response.data.roomNum);
+                history.push(`/waiting/${response.data.roomNum}`)
+            }).catch(error => {
+                // window.alert("방참가 실패!");
+                console.log(error)
+            });
+    }
+};
 
 //reducer
 export default handleActions({
@@ -269,6 +277,7 @@ const actionCreators = {
     quickStartPlayer,
     quickStartObserver,
     changeUserInfo,
+    numJoinDB
 }
 
 export { actionCreators };

@@ -51,6 +51,7 @@ const Omog = memo((props) => {
         ) {
           const data = { x, y, board, count };
           socket.emit("omog", data, props.userInfo.state);
+          console.log("난플레이어야")
         }
       }
     });
