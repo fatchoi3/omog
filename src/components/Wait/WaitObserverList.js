@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import Text from '../../elements/Text';
 
@@ -6,8 +6,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { actionCreators as roomActions } from '../../redux/modules/room';
 
 function WaitObserverList({ roomNum, socket }) {
-    const dispatch = useDispatch();
     console.log("옵져버 컴포넌트입니다 몇 번 렌더링될까요?");
+    const dispatch = useDispatch();
     const userId = localStorage.getItem("userId")
     const waitingPerson = useSelector((state) => state.room.userInfo);
 
@@ -15,7 +15,8 @@ function WaitObserverList({ roomNum, socket }) {
     const whiteObserverList = useSelector(state => state.room.whiteObserverList);
 
     console.log(blackObserverList, whiteObserverList)
-    const ChangeToBlackObserver = (e) => {
+
+    const ChangeToBlackObserver = useCallback((e) => {
         e.preventDefault();
         if (userId === waitingPerson.id) {
             console.log(userId, waitingPerson.id)
@@ -23,9 +24,9 @@ function WaitObserverList({ roomNum, socket }) {
             socket.emit("changeToObserver", roomNum, waitingPerson.state, "blackObserver")
         }
         console.log(waitingPerson.state, "blackObserver로 변경");
-    };
+    }, [waitingPerson.state])
 
-    const ChangeToWhiteObserver = (e) => {
+    const ChangeToWhiteObserver = useCallback((e) => {
         e.preventDefault();
         if (userId === waitingPerson.id) {
             console.log(userId, waitingPerson.id)
@@ -33,7 +34,27 @@ function WaitObserverList({ roomNum, socket }) {
             socket.emit("changeToObserver", roomNum, waitingPerson.state, "whiteObserver")
         }
         console.log(waitingPerson.state, "whiteObserver로 변경");
-    };
+    }, [waitingPerson.state])
+
+    // const ChangeToBlackObserver = (e) => {
+    //     e.preventDefault();
+    //     if (userId === waitingPerson.id) {
+    //         console.log(userId, waitingPerson.id)
+    //         dispatch(roomActions.changeUserInfo(userId, waitingPerson.id, "blackObserver"))
+    //         socket.emit("changeToObserver", roomNum, waitingPerson.state, "blackObserver")
+    //     }
+    //     console.log(waitingPerson.state, "blackObserver로 변경");
+    // };
+
+    // const ChangeToWhiteObserver = (e) => {
+    //     e.preventDefault();
+    //     if (userId === waitingPerson.id) {
+    //         console.log(userId, waitingPerson.id)
+    //         dispatch(roomActions.changeUserInfo(userId, waitingPerson.id, "whiteObserver"))
+    //         socket.emit("changeToObserver", roomNum, waitingPerson.state, "whiteObserver")
+    //     }
+    //     console.log(waitingPerson.state, "whiteObserver로 변경");
+    // };
 
 
     return (

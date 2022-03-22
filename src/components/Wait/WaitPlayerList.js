@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Text from '../../elements/Text';
@@ -7,6 +7,7 @@ import { actionCreators as roomActions } from '../../redux/modules/room';
 
 
 function WaitPlayerList({ roomNum, socket }) {
+    console.log("플레이어 컴포넌트입니다.");
     const dispatch = useDispatch();
     const userId = localStorage.getItem("userId")
     const waitingPerson = useSelector((state) => state.room.userInfo);
@@ -17,23 +18,42 @@ function WaitPlayerList({ roomNum, socket }) {
     console.log(blackPlayer, whitePlayer)
     console.log(blackPlayer?.hasOwnProperty('id'), whitePlayer?.hasOwnProperty('id'))
 
-    const ChangeToBlackPlayer = (e) => {
+
+    const ChangeToBlackPlayer = useCallback((e) => {
         e.preventDefault();
         if (userId === waitingPerson.id) {
             dispatch(roomActions.changeUserInfo(userId, waitingPerson.id, "blackPlayer"))
             socket.emit("changeToPlayer", roomNum, waitingPerson.state, "blackPlayer");
             console.log(waitingPerson.state, "blackPlayer로 변경");
         }
-    };
+    }, [waitingPerson.state])
 
-    const ChangeToWhitePlayer = (e) => {
+    const ChangeToWhitePlayer = useCallback((e) => {
         e.preventDefault();
         if (userId === waitingPerson.id) {
             dispatch(roomActions.changeUserInfo(userId, waitingPerson.id, "whitePlayer"))
             socket.emit("changeToPlayer", roomNum, waitingPerson.state, "whitePlayer");
             console.log(waitingPerson.state, "whitePlayer로 변경");
         }
-    };
+    }, [waitingPerson.state])
+
+    // const ChangeToBlackPlayer = (e) => {
+    //     e.preventDefault();
+    //     if (userId === waitingPerson.id) {
+    //         dispatch(roomActions.changeUserInfo(userId, waitingPerson.id, "blackPlayer"))
+    //         socket.emit("changeToPlayer", roomNum, waitingPerson.state, "blackPlayer");
+    //         console.log(waitingPerson.state, "blackPlayer로 변경");
+    //     }
+    // };
+
+    // const ChangeToWhitePlayer = (e) => {
+    //     e.preventDefault();
+    //     if (userId === waitingPerson.id) {
+    //         dispatch(roomActions.changeUserInfo(userId, waitingPerson.id, "whitePlayer"))
+    //         socket.emit("changeToPlayer", roomNum, waitingPerson.state, "whitePlayer");
+    //         console.log(waitingPerson.state, "whitePlayer로 변경");
+    //     }
+    // };
 
     return (
         <PlayerContainer>
@@ -62,7 +82,7 @@ function WaitPlayerList({ roomNum, socket }) {
                                             ?
                                             0
                                             :
-                                            ((blackPlayer?.score[0].win) / (blackPlayer.score[0].win + blackPlayer.score[1].lose)) * 100
+                                            Math.ceil(((blackPlayer?.score[0].win) / (blackPlayer.score[0].win + blackPlayer.score[1].lose)) * 100)
                                         :
                                         null
                                     }%
@@ -133,7 +153,7 @@ function WaitPlayerList({ roomNum, socket }) {
                                             ?
                                             0
                                             :
-                                            ((whitePlayer?.score[0].win) / (whitePlayer.score[0].win + whitePlayer.score[1].lose)) * 100
+                                            Math.ceil(((whitePlayer?.score[0].win) / (whitePlayer.score[0].win + whitePlayer.score[1].lose)) * 100)
                                         :
                                         null
                                     }%

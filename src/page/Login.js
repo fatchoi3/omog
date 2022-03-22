@@ -78,16 +78,12 @@ function Login(props) {
             return;
         }
 
-        if (id === '' || password === '' || nickname === '' || passwordConfirm === '') {
+        if (id === '' || password === '' || passwordConfirm === '') {
             alert('입력하지 않은 칸이 있습니다!');
             return;
         }
 
-        dispatch(userActions.signupDB(id, nickname, password, passwordConfirm)).then(
-            (res) => {
-                setIsOpen(false);
-            }
-        )
+        dispatch(userActions.signupDB(id, nickname, password, passwordConfirm))
     }
 
     const handleLogin = (e) => {
@@ -173,8 +169,8 @@ function Login(props) {
                         <div style={{ display: "flex", margin: "0 auto", flexDirection: "column", alignContent: "center", alignItems: "center", justifyContent: "center", width: "100%" }}>
                             <Input is_width="80%" is_max_width="20rem" is_margin="0 0 20px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="아이디" is_outline="none" _onChange={handleIdInput} />
                             <Input is_width="80%" is_max_width="20rem" is_margin="20px 0 20px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="비밀번호" type="password" is_outline="none" _onChange={handlePasswordInput} />
-                            <Input is_width="80%" is_max_width="20rem" is_margin="20px 0 20px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="비밀번호 확인" type="password" is_outline="none" _onChange={handlePasswordConfirmInput} />
-                            <Input is_width="80%" is_max_width="20rem" is_margin="20px 0 60px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="닉네임" _onChange={handleNicknameInput} />
+                            <Input is_width="80%" is_max_width="20rem" is_margin="20px 0 60px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="비밀번호 확인" type="password" is_outline="none" _onChange={handlePasswordConfirmInput} />
+                            {/* <Input is_width="80%" is_max_width="20rem" is_margin="20px 0 60px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="닉네임" _onChange={handleNicknameInput} /> */}
 
                             <Button
                                 is_width="13rem"
