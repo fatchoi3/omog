@@ -44,7 +44,7 @@ const initialState = {
         userInfo: {},
         result: {}
     },
-    PP : {pointer : false, power: false}
+    PP: { pointer: false, power: false }
 }
 
 // actions
@@ -72,22 +72,22 @@ const clearOne = createAction(CLEAR_ONE);
 
 const getGameDB = (gameNum) => {
     return function (dispatch, getState, { history }) {
-         api.get(`/game/start/${gameNum}`)
+        api.get(`/game/start/${gameNum}`)
             .then(function (response) {
                 console.log("gameInfo 미들웨어", response.data.gameInfo);
                 dispatch(getGame(response.data.gameInfo));
             }).catch(error => {
-                
+
                 console.log(error)
             });
     }
 };
 
 const gameResultDB = (result) => {
-    return  function (dispatch, useState, { history }) {
+    return function (dispatch, useState, { history }) {
         history.push(`/game/result/${result.gameNum}`);
         console.log(result)
-         api.post("/gameFinish", result)
+        api.post("/gameFinish", result)
             .then(function (response) {
 
                 dispatch(GameEnd(result));
@@ -101,9 +101,8 @@ const gameResultDB = (result) => {
 
 
 const getGameResultDB = (userId, gameNum, result) => {
-    return  function (dispatch, getState, { history }) {
+    return async function (dispatch, getState, { history }) {
         console.log(userId, gameNum, result)
-
         try {
             const res = await api.post(`/gameFinish/show`, { id: userId, gameNum: gameNum, result })
             console.log(res);
@@ -117,9 +116,9 @@ const getGameResultDB = (userId, gameNum, result) => {
 
 
 const gameOutDB = (gameNum) => {
-    return  function (dispatch, getState, { history }) {
+    return function (dispatch, getState, { history }) {
         console.log("gameNum", gameNum);
-         api.delete(`/game/delete/${gameNum}`)
+        api.delete(`/game/delete/${gameNum}`)
             .then(function (response) {
                 console.log(response);
                 history.push("/main");
@@ -200,7 +199,7 @@ export default handleActions({
     }),
     [ADD_TEACHING_W]: (state, action) => produce(state, (draft) => {
         draft.Teaching_listW.push(action.payload.chat);
-       
+
     }),
     // [POINTER_TEACHING]: (state, action) => produce(state, (draft) => {
     //     draft.PP=(action.payload.PP);

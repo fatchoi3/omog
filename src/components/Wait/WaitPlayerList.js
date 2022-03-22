@@ -6,13 +6,13 @@ import Text from '../../elements/Text';
 import { actionCreators as roomActions } from '../../redux/modules/room';
 
 
-function WaitPlayerList({ roomNum, socket, blackPlayer, whitePlayer }) {
+function WaitPlayerList({ roomNum, socket }) {
     const dispatch = useDispatch();
     const userId = localStorage.getItem("userId")
     const waitingPerson = useSelector((state) => state.room.userInfo);
 
-    // const blackPlayer = useSelector(state => state.room.blackPlayer);
-    // const whitePlayer = useSelector(state => state.room.whitePlayer);
+    const blackPlayer = useSelector(state => state.room.blackPlayer);
+    const whitePlayer = useSelector(state => state.room.whitePlayer);
 
     console.log(blackPlayer, whitePlayer)
     console.log(blackPlayer?.hasOwnProperty('id'), whitePlayer?.hasOwnProperty('id'))
@@ -40,7 +40,7 @@ function WaitPlayerList({ roomNum, socket, blackPlayer, whitePlayer }) {
             {blackPlayer &&
                 blackPlayer?.hasOwnProperty('id')
                 ?
-                <BlackPlayerCard>
+                <PlayerCard leftPlayer>
                     <div style={{ padding: "18px 24px 23px 23px", display: "flex", justifyContent: "space-between" }}>
                         <div style={{ marginRight: "31px", boxSizing: "border-box" }}>
                             <div style={{ width: "70px", height: "70px", borderRadius: "50%", backgroundColor: "#D3D3D3", margin: "0 0 6px 0" }}>
@@ -94,9 +94,9 @@ function WaitPlayerList({ roomNum, socket, blackPlayer, whitePlayer }) {
                             </div>
                         </div>
                     </div>
-                </BlackPlayerCard>
+                </PlayerCard>
                 :
-                <BlackPlayerCard onClick={ChangeToBlackPlayer}>
+                <PlayerCard leftPlayer onClick={ChangeToBlackPlayer}>
                     <div style={{ padding: "18px 24px 23px 23px", display: "flex", justifyContent: "space-between" }}>
                         <div style={{ marginRight: "31px", boxSizing: "border-box" }}>
                         </div>
@@ -105,13 +105,13 @@ function WaitPlayerList({ roomNum, socket, blackPlayer, whitePlayer }) {
                             </div>
                         </div>
                     </div>
-                </BlackPlayerCard>
+                </PlayerCard>
             }
 
             {whitePlayer &&
                 whitePlayer?.hasOwnProperty('id')
                 ?
-                <WhitePlayerCard>
+                <PlayerCard>
                     <div style={{ padding: "18px 24px 23px 23px", display: "flex", justifyContent: "space-between" }}>
                         <div style={{ marginRight: "31px", boxSizing: "border-box" }}>
                             <div style={{ width: "70px", height: "70px", borderRadius: "50%", backgroundColor: "#D3D3D3", margin: "0 0 6px 0" }}>
@@ -165,9 +165,9 @@ function WaitPlayerList({ roomNum, socket, blackPlayer, whitePlayer }) {
                             </div>
                         </div>
                     </div>
-                </WhitePlayerCard>
+                </PlayerCard>
                 :
-                <WhitePlayerCard onClick={ChangeToWhitePlayer}>
+                <PlayerCard onClick={ChangeToWhitePlayer}>
                     <div style={{ padding: "18px 24px 23px 23px", display: "flex", justifyContent: "space-between" }}>
                         <div style={{ marginRight: "31px", boxSizing: "border-box" }}>
                         </div>
@@ -176,7 +176,7 @@ function WaitPlayerList({ roomNum, socket, blackPlayer, whitePlayer }) {
                             </div>
                         </div>
                     </div>
-                </WhitePlayerCard>
+                </PlayerCard>
             }
         </PlayerContainer>
     )
@@ -187,28 +187,13 @@ const PlayerContainer = styled.div`
     justify-content: space-between;
 `
 
-const BlackPlayerCard = styled.div`
+const PlayerCard = styled.div`
     width: 367px;
     height: 130px;
+    margin: ${props => props.leftPlayer ? "0 9px 0 0" : "0 0 0 9px"};
     border: 2px solid black;
     box-shadow: -3px 3px 6px 3px #A8937340;
     border-radius: 14px;
-    margin-right: 18px;
-    box-sizing: border-box;
-    background: white;
-
-    &:hover {
-        outline: 4px solid #94D7BB;
-    }
-`
-
-const WhitePlayerCard = styled.div`
-    width: 367px;
-    height: 130px;
-    border: 2px solid black;
-    box-shadow: -3px 3px 6px 3px #A8937340;
-    border-radius: 14px;
-    margin-left: 18px;
     box-sizing: border-box;
     background: white;
 

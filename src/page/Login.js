@@ -7,7 +7,6 @@ import { actionCreators as userActions } from '../redux/modules/user';
 
 import Logo from '../pictures/omokjomok.svg'
 import Button from '../elements/Button';
-import Text from '../elements/Text';
 import Input from '../elements/Input';
 import LoginPageSlider from '../components/LoginPageSlider';
 
@@ -24,6 +23,16 @@ function Login(props) {
     const [isOpen, setIsOpen] = useState(false);
     const [explainModal, setExplainModal] = useState(true);
 
+    const loginInputStyles = {
+        is_width: "80%",
+        is_max_width: "20rem",
+        is_margin: "0 0 20px 0",
+        is_padding: "0 5px",
+        is_height: "30px",
+        is_border: "none",
+        is_border_bottom: "1px solid black",
+        is_outline: "none"
+    }
 
     const handleIdInput = (e) => {
         setId(e.target.value);
@@ -166,6 +175,7 @@ function Login(props) {
                             <Input is_width="80%" is_max_width="20rem" is_margin="20px 0 20px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="비밀번호" type="password" is_outline="none" _onChange={handlePasswordInput} />
                             <Input is_width="80%" is_max_width="20rem" is_margin="20px 0 20px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="비밀번호 확인" type="password" is_outline="none" _onChange={handlePasswordConfirmInput} />
                             <Input is_width="80%" is_max_width="20rem" is_margin="20px 0 60px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="닉네임" _onChange={handleNicknameInput} />
+
                             <Button
                                 is_width="13rem"
                                 is_margin="10px 0 0 0"

@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styled from 'styled-components';
-import Text from '../elements/Text';
 
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import OmokEx1 from '../pictures/omok_explain1.png'
@@ -12,21 +11,16 @@ import OmokEx5 from '../pictures/omok_explain5.png'
 
 
 function LoginPageSlider(props) {
-    const images = [OmokEx1, OmokEx2, OmokEx3, OmokEx4, OmokEx5
-        // "https://mblogthumb-phinf.pstatic.net/20141204_276/firstgjp_14176838057819gNtv_JPEG/___.jpg?type=w2",
-        // "http://newsimg.hankookilbo.com/2017/11/06/201711060912547465_2.jpg",
-        // "https://t1.daumcdn.net/cfile/tistory/216C553953FC27C335",
-        // "http://image.kmib.co.kr/online_image/2019/1015/611718110013817661_1.jpg"
-    ]
+    const images = [OmokEx1, OmokEx2, OmokEx3, OmokEx4, OmokEx5]
 
     // const contents = ["이것은 1번 이미지", "이것은 2번 이미지", "이것은 3번 이미지", "이것은 4번 이미지"];
 
-    const [pickers, setPickers] = React.useState([]);
-    const [content, setContent] = React.useState(["이것은 1번 이미지", "이것은 2번 이미지", "이것은 3번 이미지", "이것은 4번 이미지"]);
-    const [pickIndex, setPickIndex] = React.useState(0);
-    const slideRef = React.useRef(null);
+    const [pickers, setPickers] = useState([]);
+    const [content, setContent] = useState(["이것은 1번 이미지", "이것은 2번 이미지", "이것은 3번 이미지", "이것은 4번 이미지"]);
+    const [pickIndex, setPickIndex] = useState(0);
+    const slideRef = useRef(null);
 
-    const handlePrevClick = React.useCallback(() => {
+    const handlePrevClick = useCallback(() => {
         if (pickIndex <= 0) {
             setPickIndex(images.length - 1);
             return;
@@ -35,7 +29,7 @@ function LoginPageSlider(props) {
         setPickIndex(pickIndex - 1);
     }, [pickIndex]);
 
-    const handleNextClick = React.useCallback(() => {
+    const handleNextClick = useCallback(() => {
         if (pickIndex + 1 === images.length) {
             setPickIndex(0);
             return;
@@ -44,7 +38,7 @@ function LoginPageSlider(props) {
         setPickIndex(pickIndex + 1);
     }, [pickIndex]);
 
-    const onPickIndex = React.useCallback((idx) => {
+    const onPickIndex = useCallback((idx) => {
         if (pickIndex === idx) {
             return;
         }
@@ -53,7 +47,7 @@ function LoginPageSlider(props) {
     }, [pickIndex]);
 
 
-    React.useEffect(() => {
+    useEffect(() => {
         setPickers(images.map((p, idx) => {
             return (
                 <Picker
@@ -71,14 +65,14 @@ function LoginPageSlider(props) {
 
 
     return (
-        <div className="SliderContainer" >
+        <div className="SliderContainer">
             <Container>
                 <div className="arrow_box" style={{ display: "flex", alignItems: "center" }}>
                     <Arrow isLeft={true} onClick={handlePrevClick}>
                         <IoIosArrowBack />
                     </Arrow>
                 </div>
-                <div style={{ width: "100%" }}>
+                <div style={{ width: "40rem", height: "30rem", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <FillImage src={images[pickIndex]} ref={slideRef} />
                 </div>
                 <div className="arrow_box" style={{ display: "flex", alignItems: "center" }}>
@@ -107,9 +101,9 @@ const Container = styled.div`
 `;
 
 const FillImage = styled.img`
-    width: 700px;
-    height: 600px;
-    object-fit: fill;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
     box-shadow: 3px 3px 3px #999;
 `;
 

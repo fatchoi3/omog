@@ -91,9 +91,9 @@ const getRoomListDB = () => {
     }
 };
 const getRoomInfoDB = (roomNum) => {
-    return  function (dispatch, getState, { history }) {
+    return function (dispatch, getState, { history }) {
         console.log("roomNum", roomNum);
-         api.get(`/lobby/joinroom/${roomNum}`)
+        api.get(`/lobby/joinroom/${roomNum}`)
             .then(function (response) {
                 // console.log(response.data);
                 dispatch(getRoomInfo(response.data));
@@ -104,9 +104,9 @@ const getRoomInfoDB = (roomNum) => {
 
 
 const addRoomDB = (roomName) => {
-    return  function (dispatch, useState, { history }) {
+    return function (dispatch, useState, { history }) {
         const userId = localStorage.getItem('userId');
-         api.post("/lobby/create",
+        api.post("/lobby/create",
             {
                 roomName: roomName,
                 id: userId
@@ -125,7 +125,7 @@ const addRoomDB = (roomName) => {
 };
 
 const joinRoomDB = (room) => {
-    return  function (dispatch, useState, { history }) {
+    return function (dispatch, useState, { history }) {
         // const token = localStorage.getItem('token');
         api.post("/lobby/joinroom", room)
             .then(function (response) {
@@ -141,7 +141,7 @@ const joinRoomDB = (room) => {
 
 
 const gameStartDB = (blackPlayer, whitePlayer, blackObserverList, whiteObserverList, roomNum) => {
-    return function (dispatch, getState, { history }) {
+    return async function (dispatch, getState, { history }) {
         console.log(blackPlayer, whitePlayer, blackObserverList, whiteObserverList)
         try {
             const res = await api.post(`/game/create`, {
@@ -176,7 +176,7 @@ const quickStartPlayer = (id) => {
 const quickStartObserver = (id) => {
     return function (dispatch, getState, { history }) {
         console.log("id", id);
-         api.get(`/lobby/fastPlayer/${id}`)
+        api.get(`/lobby/fastPlayer/${id}`)
             .then(function (response) {
                 console.log("response", response.data.roomNum);
                 history.push(`/waiting/${response.data.roomNum}`)

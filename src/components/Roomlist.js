@@ -15,10 +15,10 @@ const Roomlist = () => {
   const room_info = useSelector((state) => state.room.roomInfo);
   const userId = localStorage.getItem("userId");
 
-  
+
 
   const openModal = () => {
-  
+
     setModalOpen(true);
   };
   const closeModal = () => {
@@ -26,10 +26,10 @@ const Roomlist = () => {
   };
   const changeRadioQ1 = (e) => {
     setState(e.target.value);
-   
+
   };
   const joinWaiting = () => {
-    if(!room_info.roomNum){
+    if (!room_info.roomNum) {
       alert("없는 방입니다~!")
       window.location.reload()
       return;
@@ -37,25 +37,25 @@ const Roomlist = () => {
     if (state === "") {
       alert("선택해주세요~~!");
       return;
-    } 
-    
-      dispatch(
-        roomActions.joinRoomDB({
-          roomNum: room_info.roomNum,
-          id: userId,
-          state: state,
-        })
-      );
-    
+    }
+
+    dispatch(
+      roomActions.joinRoomDB({
+        roomNum: room_info.roomNum,
+        id: userId,
+        state: state,
+      })
+    );
+
   };
 
-  const aaa= ()=>{
+  const aaa = () => {
     dispatch(roomActions.getRoomListDB());
   };
 
   useEffect(() => {
-    setInterval((aaa),10000);
-    
+    // setInterval((aaa),10000);
+    dispatch(roomActions.getRoomListDB());
   }, []);
 
   return (
@@ -87,7 +87,7 @@ const Roomlist = () => {
                   _onClick={() => {
                     dispatch(roomActions.getRoomInfoDB(n.roomNum));
                     openModal();
-                    
+
                   }}
                 >
                   <Text>대기실 입장</Text>
