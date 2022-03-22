@@ -19,6 +19,28 @@ function LeaderSlider(props) {
   const [pickIndex, setPickIndex] = React.useState(0);
   const slideRef = React.useRef(null);
 
+  const UserFaceColor =(point)=>{
+    let color= "black 2px"
+    if(point >= 1300 && point < 1500){
+      color = "#D3AB6F 3px";
+      return color;
+    }
+    if(point >= 1500 && point < 2000){
+      color ="#B2B2B2 3px";
+      return color;
+    }
+    if(point >= 2000 && point < 3000){
+      color ="#FFF27E 3px";
+      return color;
+    }
+    if(point >= 3000){
+      color = "#22E1E4 3px";
+      return color;
+    }
+    return color;
+  };
+  
+
   const handlePrevClick = React.useCallback(() => {
     if (pickIndex <= 0) {
       setPickIndex(0);
@@ -62,7 +84,7 @@ function LeaderSlider(props) {
           {currentPosts(list).map((p, idx) => {
             return (
               <Wrap key={idx}>
-                <Stone />
+                <Stone color={UserFaceColor(p.point)}/>
                 <TextWrap>
                   <Text
                     is_size="20px"
@@ -132,7 +154,7 @@ const Stone = styled.div`
   width: 40px;
   height: 40px;
   border-radius: 40px;
-  border: solid 2px black;
+  border: solid  ${(props)=>props.color};
 `;
 const TextWrap = styled.div`
   margin: 5px 0 5px 30px;

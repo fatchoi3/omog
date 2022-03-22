@@ -356,11 +356,25 @@ const Omog = memo((props) => {
   //시간 작동
   useEffect(() => {
     if (time.current < 0) {
-      console.log("타임 아웃");
+      console.log("타임 아웃1");
+      dispatch(
+        gameActions.gameResultDB({
+          result: { win: props.blackPlayer.id },
+          userInfo: props.userInfo,
+          gameNum: gameNum,
+        })
+      );
       clearInterval(timeout.current);
     }
     if (time2.current < 0) {
-      console.log("타임 아웃");
+      console.log("타임 아웃2");
+      dispatch(
+        gameActions.gameResultDB({
+          result: { win: props.whitePlayer.id },
+          userInfo: props.userInfo,
+          gameNum: gameNum,
+        })
+      );
       clearInterval(timeout2.current);
     }
   }, [sec, sec2]);

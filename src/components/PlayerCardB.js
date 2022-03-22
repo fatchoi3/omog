@@ -7,9 +7,33 @@ const PlayerCardB = (props) => {
   const win = props.playerInfo?.score[0].win;
   const lose = props.playerInfo?.score[1].lose;
   console.log("props.playerInfo", props.playerInfo);
+
+  const UserFaceColor =(point)=>{
+    let color= "black 2px"
+    if(point >= 1300 && point < 1500){
+      color = "#D3AB6F 3px";
+      return color;
+    }
+    if(point >= 1500 && point < 2000){
+      color ="#B2B2B2 3px";
+      return color;
+    }
+    if(point >= 2000 && point < 3000){
+      color ="#FFF27E 3px";
+      return color;
+    }
+    if(point >= 3000){
+      color = "#22E1E4 3px";
+      return color;
+    }
+    return color;
+  };
+  
+
+
   return (
     <Container>
-      <UserFace />
+      <UserFace color={UserFaceColor(props.playerInfo?.point)}/>
       <Text is_bold is_size="30px" is_margin="20px 0">
         {" "}
         {props.playerInfo ? props.playerInfo.id : "1"}
@@ -43,7 +67,7 @@ const UserFace = styled.div`
   height: 70px;
   border-radius: 70px;
   background-color: white;
-  border: 3px solid black;
+  border:  solid ${(props) => props.color};
   margin: 25px auto;
 `;
 export default PlayerCardB;
