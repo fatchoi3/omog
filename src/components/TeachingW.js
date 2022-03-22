@@ -13,13 +13,37 @@ const TeachingW = memo((props) => {
 
   const socket = props.socket;
 
+  const UserFaceColor =(point)=>{
+    let color= "black 2px"
+    if(point >= 1300 && point < 1500){
+      color = "#D3AB6F 3px";
+      return color;
+    }
+    if(point >= 1500 && point < 2000){
+      color ="#B2B2B2 3px";
+      return color;
+    }
+    if(point >= 2000 && point < 3000){
+      color ="#FFF27E 3px";
+      return color;
+    }
+    if(point >= 3000){
+      color = "#22E1E4 3px";
+      return color;
+    }
+    return color;
+  };
+  
+  
+
   const renderChat = () => {
     return (
       <div ref={scroll}>
         {chatList.map(({ id, message }, index) => (
           <ChatContents key={index}>
             <ChatId playerInfo={props.playerInfo}>
-              <Text is_size="12px" is_color="black">
+            <Userurl color={UserFaceColor(id)}/>
+              <Text is_size="12px" is_color="black" is_margin="2px 0 0 5px">
                 {id}
               </Text>
             </ChatId>
@@ -50,7 +74,7 @@ const TeachingW = memo((props) => {
   return (
     <Container playerInfo={props.playerInfo}>
       <Profile>
-        <DdongGraMe />
+        <DdongGraMe color={UserFaceColor(props.playerInfo?.point)}  />
         <Text is_size="24px" is_bold>
           {" "}
           {props.playerInfo ? props.playerInfo.id : "2"}
@@ -86,7 +110,8 @@ const ChatId = styled.div`
   margin: 5px;
   border-radius: 5px;
   padding: 5px;
-  width: 50px;
+  width: 90px;
+  display : flex;
 `;
 const ChatMessage = styled.div`
   margin: 5px 5px;
@@ -109,5 +134,12 @@ const DdongGraMe = styled.div`
   border-radius: 70px;
   border: solid 2px black;
   margin: 15px 5px 15px 17px;
+`;
+const Userurl = styled.div`
+  height: 20px;
+  width: 20px;
+  border-radius: 20px;
+  border: solid ${(props) => props.color};
+  background: #f0f0f0;
 `;
 export default TeachingW;

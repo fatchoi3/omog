@@ -21,28 +21,29 @@ const UsersInfo = () => {
   const point = get_user.point;
  
 
-
-  const UserFaceColor =useCallback((point)=>{
-    let color= "black"
+  const UserFaceColor =(point)=>{
+    let color= "black 2px"
     if(point >= 1300 && point < 1500){
-      color = "#D3AB6F";
+      color = "#D3AB6F 3px";
       return color;
     }
     if(point >= 1500 && point < 2000){
-      color ="#B2B2B2";
+      color ="#B2B2B2 3px";
       return color;
     }
     if(point >= 2000 && point < 3000){
-      color ="#FFF27E";
+      color ="#FFF27E 3px";
       return color;
     }
     if(point >= 3000){
-      color = "#22E1E4";
+      color = "#22E1E4 3px";
       return color;
     }
     return color;
-  },[]);
+  };
   
+ 
+
   const color = UserFaceColor(point);
 
   useEffect(() => {
@@ -91,7 +92,7 @@ const UserFace = styled.div`
   height: 70px;
   border-radius: 70px;
   background-color: white;
-  border: 3px solid ${(props) => props.color};
+  border: solid ${(props) => props.color};
   margin: 10px 20px 10px 20px;
 `;
 const UserName = styled.div`

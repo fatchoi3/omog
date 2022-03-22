@@ -8,6 +8,7 @@ import UsersInfo from "../components/UsersInfo";
 import MainFooter from "../components/MainFooter";
 import Spinner from "../elements/Spinner"
 import LeaderBoard from "../components/LeaderBoard";
+import Banner from "../components/Banner";
 import useInput from "../hook/useInput";
 
 import Logo from "../pictures/omogLogo.png";
@@ -54,8 +55,8 @@ const Main = () => {
   return (
     <>
       <Container>
-      {loading?(<Spinner type={'page'} is_dim={true}/>):""}
-    
+      {loading?(<Spinner type={'page'} is_dim={true} width="200px"/>):""}
+    <Banner/>
         <ListDiv>
           <ListTitle>
             <ListTip>
@@ -211,7 +212,7 @@ const Main = () => {
 const Container = styled.div`
   display: flex;
   width: 1200px;
-  margin: 70px auto;
+  margin: 90px 120px ;
 `;
 const UserInfoWrap = styled.div`
   width: 300px;
