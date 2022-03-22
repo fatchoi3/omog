@@ -30,15 +30,15 @@ const Game = memo((props) => {
       : false;
 
   console.log("gameInfo", gameInfo);
-  const pickGameInfo = useCallback((gameInfo) => {
-    for (let i = 0; i < gameInfo?.length; i++) {
-      if (gameInfo[i]?.blackTeamPlayer[0]) {
-        return gameInfo[i];
-      }
-    }
-  }, []);
-  console.log("과연", pickGameInfo(gameInfo));
-  const realGameInfo = pickGameInfo(gameInfo);
+  // const pickGameInfo = useCallback((gameInfo) => {
+  //   for (let i = 0; i < gameInfo?.length; i++) {
+  //     if (gameInfo[i]?.blackTeamPlayer[0]) {
+  //       return gameInfo[i];
+  //     }
+  //   }
+  // }, []);
+  
+  const realGameInfo = gameInfo[0];
   // gameInfo[0]?.blackTeamPlayer.length === 0 ? gameInfo[1] : gameInfo[0];
 
   const blackPlayer = realGameInfo?.blackTeamPlayer[0];
@@ -68,6 +68,8 @@ const Game = memo((props) => {
       disconnectSocket();
     };
   }, [disconnectSocket]);
+
+  ///
 
   useEffect(() => {
     dispatch(userActions.loginCheckDB(userId));

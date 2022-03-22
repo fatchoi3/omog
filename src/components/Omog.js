@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, memo ,useCallback} from "react";
+import React, { useState, useRef, useEffect, memo, useCallback } from "react";
 import styled from "styled-components";
 
 import { Text } from "../elements";
@@ -16,7 +16,7 @@ const Omog = memo((props) => {
     props.userInfo.state === "whitePlayer"
       ? true
       : false;
-  
+
   const socket = props.socket;
   const [X, setX] = useState();
   const [Y, setY] = useState();
@@ -34,10 +34,8 @@ const Omog = memo((props) => {
   const timeout2 = useRef(null);
 
   const [pointer, setPointer] = useState();
-  const [power, setPower] = useState();
- 
 
-  const omoging = useCallback (()=>{
+  const omoging = useCallback(() => {
     document.addEventListener("mouseup", (e) => {
       // let ccount =0;
       if (e.target.id == "canvas") {
@@ -56,9 +54,9 @@ const Omog = memo((props) => {
         }
       }
     });
-  },[])
+  }, []);
 
-  const pointerTeaching = useCallback(()=>{
+  const pointerTeaching = useCallback(() => {
     document.addEventListener("mouseup", (e) => {
       // let ccount =0;
       if (e.target.id == "canvas") {
@@ -72,30 +70,15 @@ const Omog = memo((props) => {
           e.offsetY > 10 &&
           e.offsetY < 640
         ) {
-          const data = { x, y, board};
-          console.log("pointer",pointer)
+          const data = { x, y, board };
+          console.log("pointer", pointer);
           socket.emit("pointerOmog", data);
-          console.log("안녕난 훈수야")
+          console.log("안녕난 훈수야");
           // }
         }
       }
     });
-  },[])
-  // const colorSelectorW = useCallback((e)=>{
-  //   let color
-  //   switch(e){
-  //     case e <1500:
-  //       color = "white"
-  //   }
-  // },[]);
-
-  // const colorSelectorB = useCallback((e)=>{
-  //   let color
-  //   switch(e){
-  //     case e <1500:
-  //       color = "black"
-  //   }
-  // },[]);
+  }, []);
 
   const timeOut = () => {
     timeout.current = setInterval(() => {
@@ -113,8 +96,6 @@ const Omog = memo((props) => {
     }, 1000);
   };
 
-  
-  
   useEffect(() => {
     const canvas = canvasRef.current;
 
@@ -179,18 +160,17 @@ const Omog = memo((props) => {
       ctx.strokeStyle = "red";
       ctx.lineWidth = 3;
       ctx.strokeRect(
-        x * rowSize + margin-w/4,
-        y * rowSize + margin-w/4,
-        w/2 ,
-        w/2 
+        x * rowSize + margin - w / 4,
+        y * rowSize + margin - w / 4,
+        w / 2,
+        w / 2
       );
-      
     };
     //바둑알 그리기. 실제로는 바둑판까지 매번 통째로 그려줌
     const drawCircle = (x, y) => {
       const ctx = canvas.getContext("2d");
       draw();
-     
+
       for (let i = 0; i < 361; i++) {
         // 모든 눈금의 돌의 유무,색깔 알아내기
         let a = indexToXy(i)[0];
@@ -336,10 +316,7 @@ const Omog = memo((props) => {
     if (board) {
       drawCircle(X, Y);
     }
-  
-
-   
-  }, [count,pointer]);
+  }, [count, pointer]);
 
   useEffect(() => {
     socket.on("omog", (data) => {
@@ -353,27 +330,29 @@ const Omog = memo((props) => {
       setBoard(data.board);
       setY(data.y);
       setX(data.x);
-      setPointer(false);
+      // setPointer(false);
       setCount(data.count);
 
       console.log("여기도 소켓유즈이팩에서 바꾼 후count", data.count);
     });
-    socket.on("pointerOmog",(data,count)=>{
-      console.log("pointer 훈수 소켓 받기");
-      
-      setBoard(data.board);
-      setX(data.x);
-      setY(data.y);
-      setPointer(false);
-      setCount(count);
-      
-      console.log("pointer 훈수 후");
-    })
 
     return () => socket.off();
     // return () => socketRef.current.disconnect();
-  }, []);
+  }, [socket]);
 
+  useEffect(() => {
+    socket.on("pointerOmog", (data, count, pointer) => {
+      console.log("pointer 훈수 소켓 받기");
+
+      setBoard(data.board);
+      setX(data.x);
+      setY(data.y);
+      setPointer(pointer);
+      setCount(count);
+
+      console.log("pointer 훈수 후");
+    });
+  }, [socket]);
   //시간 작동
   useEffect(() => {
     if (time.current < 0) {
@@ -386,85 +365,40 @@ const Omog = memo((props) => {
     }
   }, [sec, sec2]);
 
+  useEffect(
+    () => {
+      if (
+        props.userInfo.state == "whitePlayer" ||
+        props.userInfo.state == "blackPlayer"
+      ) {
+        omoging();
+      }
+    },
+    [props.userInfo.state],
+    pointer
+  );
+
   useEffect(() => {
- 
-
-    if (
-      (props.userInfo.state == "whitePlayer" ||
-      props.userInfo.state == "blackPlayer")
-     
-    ) {
-
-      omoging();
-      // 마우스 클릭한 위치를 정확한 눈금 위치로 보정
-      // document.addEventListener("mouseup", (e) => {
-      //   // let ccount =0;
-      //   if (e.target.id == "canvas") {
-      //     let x = Math.round(Math.abs(e.offsetX - 30) / 33.3);
-      //     //margin rowSize
-      //     let y = Math.round(Math.abs(e.offsetY - 30) / 33.3);
-      //     //   console.log(e.offsetX, e.offsetY, x, y);
-      //     if (
-      //       e.offsetX > 10 &&
-      //       e.offsetX < 640 &&
-      //       e.offsetY > 10 &&
-      //       e.offsetY < 640
-      //     ) {
-      //       const data = { x, y, board, count };
-      //       socket.emit("omog", data, props.userInfo.state);
-     
-           
-      //     }
-      //   }
-      // });
-    }
-  }, [props.userInfo.state],pointer);
-
-  
-
-  useEffect(()=>{
     socket.on("Pointer", (data) => {
-      console.log("data.name",data.name)
-      if(userid === data.name) {
-        console.log("맞아 나야"); 
+      console.log("data.name", data.name);
+      if (userid === data.name && data.pointer) {
+        console.log("맞아 나야");
         // setPower(data.power);
-        setPointer(data.pointer);
+        pointerTeaching();
+        // setPointer(data.pointer);
         return;
       }
       // setPower(data.power);
-      console.log("내가 아냐")
+      console.log("내가 아냐", data.pointer);
     });
-    
-  },[]);
+  }, [socket]);
 
-  useEffect(() => {
- console.log("pointer",pointer)
-    if (pointer) {
-      pointerTeaching();
-      // 마우스 클릭한 위치를 정확한 눈금 위치로 보정
-      // document.addEventListener("mouseup", (e) => {
-      //   // let ccount =0;
-      //   if (e.target.id == "canvas") {
-      //     let x = Math.round(Math.abs(e.offsetX - 30) / 33.3);
-      //     //margin rowSize
-      //     let y = Math.round(Math.abs(e.offsetY - 30) / 33.3);
-      //     //   console.log(e.offsetX, e.offsetY, x, y);
-      //     if (
-      //       e.offsetX > 10 &&
-      //       e.offsetX < 640 &&
-      //       e.offsetY > 10 &&
-      //       e.offsetY < 640
-      //     ) {
-      //       const data = { x, y, board};
-      //       console.log("pointer",pointer)
-      //       socket.emit("pointerOmog", data);
-      //       console.log("안녕난 훈수야")
-      //       // }
-      //     }
-      //   }
-      // });
-    }
-  }, [pointer]);
+  //   useEffect(() => {
+  //  console.log("pointer",pointer)
+  //     if (pointer) {
+  //       pointerTeaching();
+  //     }
+  //   }, [pointer]);
 
   return (
     <div>
