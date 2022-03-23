@@ -55,7 +55,6 @@ const GAME_ADD_CHAT = "GAME_ADD_CHAT";
 const CLEAR_ONE = "CLEAR_ONE";
 const ADD_TEACHING_W = "ADD_TEACHING_W";
 const ADD_TEACHING_B = "ADD_TEACHING_B";
-// const POINTER_TEACHING="POINTER_TEACHING";
 
 // action creators
 const getGame = createAction(GETGAME, (gameInfo) => ({ gameInfo }));
@@ -64,7 +63,6 @@ const GameEnd = createAction(GAMEEND, (result) => ({ result }));
 const GameAddChat = createAction(GAME_ADD_CHAT, (chat) => ({ chat }));
 const AddTeachingW = createAction(ADD_TEACHING_W, (chat) => ({ chat }));
 const AddTeachingB = createAction(ADD_TEACHING_B, (chat) => ({ chat }));
-// const pointerTeaching =createAction(POINTER_TEACHING,(PP)=>({PP}))
 const clearOne = createAction(CLEAR_ONE);
 
 
@@ -154,25 +152,15 @@ const AddTeachW = (socket) => {
         })
     }
 };
-
-// const pointerTeachingS = (socket) => {
-//     const userid = localStorage.getItem("userId");
-//     return async function (dispatch, getState, { history }) {
-//         await socket.on("Pointer", (id) => {
-//             let PP= {power : false, pointer : false}
-//             if(userid === id) {
-//                 console.log("맞아 나야"); 
-//                 PP={power : true, pointer: true}
-//                 dispatch(pointerTeaching(PP));
-//                 return;
-//               }
-//               console.log("내가아니야")
-//               PP={power : false, pointer:true}
-//               dispatch(pointerTeaching(PP));
-//         })
-//     }
-// };
-
+const PointerSocket = (socket) =>{
+    return async function (dispatch, getState, { history }) {
+        await socket.on("Pointer", (data,chat) => {
+            let array = { id: "신의한수", message: chat.chat }
+            console.log("신의한수", chat)
+            dispatch(GameAddChat(array));  
+        })
+    }
+};
 
 //reducer
 export default handleActions({
@@ -191,7 +179,7 @@ export default handleActions({
     }),
     [GAME_ADD_CHAT]: (state, action) => produce(state, (draft) => {
         draft.chat_list.push(action.payload.chat);
-        // /console.log("action.payload.chat",action.payload.chat)
+        console.log("메세지.", action.payload.chat)
     }),
     [ADD_TEACHING_B]: (state, action) => produce(state, (draft) => {
         draft.Teaching_listB.push(action.payload.chat);
@@ -201,10 +189,6 @@ export default handleActions({
         draft.Teaching_listW.push(action.payload.chat);
 
     }),
-    // [POINTER_TEACHING]: (state, action) => produce(state, (draft) => {
-    //     draft.PP=(action.payload.PP);
-    //     console.log("액션PP", action.payload.PP)
-    // }),
     [CLEAR_ONE]: (state, action) =>
         produce(state, (draft) => {
             draft.chat_list = [];
@@ -224,7 +208,8 @@ const actionCreators = {
     clearOne,
     AddTeachB,
     AddTeachW,
-    // pointerTeachingS
+    PointerSocket
+    
 }
 
 export { actionCreators };

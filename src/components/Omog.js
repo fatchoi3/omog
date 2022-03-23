@@ -34,7 +34,7 @@ const Omog = memo((props) => {
   const timeout2 = useRef(null);
 
   const [pointer, setPointer] = useState();
-  const [power, setPower] = useState();
+  const [loading, setLoading] = useState(1);
 
   const omoging = useCallback(() => {
     document.addEventListener("mouseup", (e) => {
@@ -351,6 +351,7 @@ const Omog = memo((props) => {
 
   useEffect(() => {
     socket.on("pointerOmog", (data, count, pointer) => {
+  
       console.log("pointer 훈수 소켓 받기");
 
       setBoard(data.board);
@@ -402,26 +403,19 @@ const Omog = memo((props) => {
   );
 
   useEffect(() => {
-    socket.on("Pointer", (data) => {
+    socket.on("Pointer", (data,chat) => {
       console.log("data.name", data.name);
       if (userid === data.name && data.pointer) {
         console.log("맞아 나야");
-        // setPower(data.power);
         pointerTeaching();
-        // setPointer(data.pointer);
         return;
       }
-      // setPower(data.power);
+     
       console.log("내가 아냐", data.pointer);
     });
   }, [socket]);
 
-  //   useEffect(() => {
-  //  console.log("pointer",pointer)
-  //     if (pointer) {
-  //       pointerTeaching();
-  //     }
-  //   }, [pointer]);
+ 
 
   return (
     <div>

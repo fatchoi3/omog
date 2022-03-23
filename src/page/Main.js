@@ -255,6 +255,8 @@ const Main = () => {
         <Nemo/>
         <Text>시간</Text>
         </ModalFlex>
+        
+
         <WaitingEnterRadio>
           <Radio>
            
