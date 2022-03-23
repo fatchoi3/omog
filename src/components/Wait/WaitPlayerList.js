@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Text from '../../elements/Text';
 import Progress from '../Progress';
 
+import { useSelector, useDispatch } from 'react-redux';
 import { actionCreators as roomActions } from '../../redux/modules/room';
 
 
@@ -38,23 +38,6 @@ function WaitPlayerList({ roomNum, socket }) {
         }
     }, [waitingPerson.state])
 
-    // const ChangeToBlackPlayer = (e) => {
-    //     e.preventDefault();
-    //     if (userId === waitingPerson.id) {
-    //         dispatch(roomActions.changeUserInfo(userId, waitingPerson.id, "blackPlayer"))
-    //         socket.emit("changeToPlayer", roomNum, waitingPerson.state, "blackPlayer");
-    //         console.log(waitingPerson.state, "blackPlayer로 변경");
-    //     }
-    // };
-
-    // const ChangeToWhitePlayer = (e) => {
-    //     e.preventDefault();
-    //     if (userId === waitingPerson.id) {
-    //         dispatch(roomActions.changeUserInfo(userId, waitingPerson.id, "whitePlayer"))
-    //         socket.emit("changeToPlayer", roomNum, waitingPerson.state, "whitePlayer");
-    //         console.log(waitingPerson.state, "whitePlayer로 변경");
-    //     }
-    // };
 
     return (
         <PlayerContainer>
@@ -217,4 +200,4 @@ const PlayerCard = styled.div`
 //     }
 // `
 
-export default React.memo(WaitPlayerList);
+export default WaitPlayerList;

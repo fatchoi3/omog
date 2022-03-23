@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { useHistory } from 'react-router-dom';
+
 import { Text, Input, Button } from '../../elements';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 
 function WaitChat({ socket, roomNum }) {
@@ -192,10 +193,10 @@ const MessageContent = styled.div`
 const MessageMeta = styled.div`
     display: flex;
     width: auto;
-    fontSize: 12px;
-    marginLeft: 5px;
-    marginRight: 5px;
+    font-size: 12px;
+    margin-left: 5px;
+    margin-right: 5px;
     justify-content: ${props => props.isMyMessage === true ? "flex-end" : "flex-sart"}
 `
 
-export default React.memo(WaitChat);
+export default WaitChat;

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { history } from '../../redux/configureStore';
+import React, { useEffect } from 'react';
 import Logo from '../../pictures/omokjomok.svg'
 
+import { useSelector, useDispatch } from 'react-redux';
 import { actionCreators as roomActions } from '../../redux/modules/room';
 
 import WaitPlayerList from './WaitPlayerList';
@@ -74,4 +73,4 @@ function WaitingUsers({ socket, roomNum }) {
     );
 }
 
-export default React.memo(WaitingUsers);
+export default WaitingUsers;

@@ -70,7 +70,7 @@ const CHANGE_USERINFO = "CHANGE_USERINFO";
 // action creators
 const getRoomList = createAction(GET_ROOM, (roomList) => ({ roomList }));
 const getRoomInfo = createAction(GET_ROOM_INFO, (roomInfo) => ({ roomInfo }));
-const joinRoom = createAction(JOIN_ROOM, (userInfo, localId) => ({ userInfo, localId }));
+const joinRoom = createAction(JOIN_ROOM, (userInfo) => ({ userInfo }));
 const setWaitUser = createAction(SET_WAIT_USER, (id, users) => ({ id, users }));
 const changeState = createAction(CHANGE_STATE, (id, users) => ({ id, users }));
 const resetStateUser = createAction(RESET_STATE_USER, (user) => ({ user }));
@@ -127,7 +127,7 @@ const joinRoomDB = (room) => {
         api.post("/lobby/joinroom", room)
             .then(function (response) {
                 console.log("안녕 나는 미들웨어 join", response)
-                dispatch(joinRoom(response.data, room.id));
+                dispatch(joinRoom(response.data));
                 history.push(`/waiting/${room.roomNum}`)
             }).catch(error => {
                 // window.alert("방참가 실패!");
@@ -163,7 +163,7 @@ const quickStartPlayer = (id) => {
         api.get(`/lobby/fastPlayer/${id}`)
             .then(function (response) {
                 console.log("response", response.data);
-                dispatch(joinRoom(response.data.userInfo, id));
+                dispatch(joinRoom(response.data.userInfo));
                 history.push(`/waiting/${response.data.roomNum}`)
             }).catch(error => {
                 alert("방이 없습니다!")
@@ -177,6 +177,7 @@ const quickStartObserver = (id) => {
         api.get(`/lobby/fastObserver/${id}`)
             .then(function (response) {
                 console.log("response", response.data.roomNum);
+                dispatch(joinRoom(response.data.userInfo));
                 history.push(`/waiting/${response.data.roomNum}`)
             }).catch(error => {
                 alert("방이 없습니다!")
@@ -187,11 +188,12 @@ const quickStartObserver = (id) => {
 
 const numJoinDB = (data) => {
     console.log(data)
-    return  function (dispatch, useState, { history }) {
+    return function (dispatch, useState, { history }) {
         api.post("/lobby/roomNumJoin", data)
             .then(function (response) {
                 console.log("안녕 나는 Numjoin", response.data.roomNum);
-                history.push(`/waiting/${response.data.roomNum}`)
+                dispatch(joinRoom(response.data.userInfo));
+                history.push(`/waiting/${response.data.roomNum}`);
             }).catch(error => {
                 // window.alert("방참가 실패!");
                 console.log(error.message)
