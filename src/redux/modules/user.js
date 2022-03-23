@@ -122,7 +122,6 @@ const logout = createAction((LOG_OUT), (user) => ({ user }));
 
 // middleware actions
 const signupDB = (id, nickname, password, passwordConfirm) => {
-
     return async function (dispatch, getState, { history }) {
         try {
             const res = await api.post("/signup",
@@ -136,14 +135,13 @@ const signupDB = (id, nickname, password, passwordConfirm) => {
             );
             console.log(res);
         } catch (error) {
-            console.log(error);
+            alert(`${error.response.data.errorMessage}`);
         }
     };
 };
 
 
 const loginDB = (id, password) => {
-
     return async function (dispatch, getState, { history }) {
         try {
             const res = await api.post("/login", { id: id, pass: password });
@@ -156,7 +154,7 @@ const loginDB = (id, password) => {
                 dispatch(loginCheckDB(id));
             }
         } catch (error) {
-            console.log(error);
+            alert(`${error.response.data.errorMessage}`);
         }
 
 
@@ -164,8 +162,8 @@ const loginDB = (id, password) => {
 };
 
 const getUserDB = () => {
-    return  function (dispatch, getState, { history }) {
-         api.get("/lobby/userList")
+    return function (dispatch, getState, { history }) {
+        api.get("/lobby/userList")
             .then(function (response) {
                 // console.log(response.data);
                 dispatch(getUserInfo(response.data));
@@ -188,8 +186,8 @@ const loginCheckDB = (id) => {
 };
 
 const getLeaderDB = () => {
-    return  function (dispatch, getState, { history }) {
-         api.get("/lobby/leaderList")
+    return function (dispatch, getState, { history }) {
+        api.get("/lobby/leaderList")
             .then(function (response) {
                 // console.log(response.data);
                 dispatch(getLeaders(response.data));
@@ -198,8 +196,8 @@ const getLeaderDB = () => {
 };
 
 const getLeaderBoardDB = () => {
-    return  function (dispatch, getState, { history }) {
-         api.get("/leaderBoard")
+    return function (dispatch, getState, { history }) {
+        api.get("/leaderBoard")
             .then(function (response) {
                 // console.log(response.data);
                 dispatch(getLeaderBorad(response.data));
@@ -250,7 +248,7 @@ const actionCreators = {
     getUserDB,
     getLeaderDB,
     getLeaderBoardDB,
-    
+
 }
 
 export { actionCreators };

@@ -18,7 +18,7 @@ function ResultWinMainTable({ columns, data }) {
                     </HeadTr>
                 ))}
             </TableThead>
-            <TableTbody {...getTableBodyProps()}>
+            <tbody {...getTableBodyProps()}>
                 {rows.map((row) => {
                     prepareRow(row);
                     return (
@@ -29,7 +29,7 @@ function ResultWinMainTable({ columns, data }) {
                         </BodyTr>
                     );
                 })}
-            </TableTbody>
+            </tbody>
         </TableSheet>
     );
 }
@@ -56,10 +56,6 @@ const HeadTr = styled.tr`
 const Th = styled.th`
     padding: 15px;
     font-size: 22px;
-`
-
-const TableTbody = styled.tbody`
-
 `
 
 const BodyTr = styled.tr`

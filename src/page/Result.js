@@ -139,13 +139,14 @@ function Result(props) {
             return true;
         }
     }
-    const test_list = [{ id: 'test1' }, { id: "test2" }, { id: "test3" }]
-    let boo = test_list.some(checkWinner)
+    const test_list = [{ id: 'test1' }, { id: "test2" }, { id: "test3" }, { id: "test4" }]
+    let isWinner = test_list.some(checkWinner)
 
     return (
         <>
+
         {loading?(<Spinner type={'page'} is_dim={true} width="200px"/>):""}
-            {boo
+            {isWinner
                 ?
                 <ResultContainer>
                     <div className="result-container" style={{ margin: "100px auto", width: "60%", position: "relative" }}>
@@ -158,12 +159,12 @@ function Result(props) {
                         </div>
                         <div style={{ display: "flex", justifyContent: "center" }}>
                             <Button is_width="15%" is_max_width="8rem" is_min_width="8rem" is_margin="0 4px 0 0" is_padding="5px 10px" is_size="25px"
-                                is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB"
+                                is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB" is_background="white"
                             >
                                 계속하기
                             </Button>
                             <Button is_width="15%" is_max_width="8rem" is_min_width="7rem" is_margin="0 0 0 4px" is_padding="5px 10px" is_size="25px"
-                                is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB"
+                                is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB" is_background="white"
                                 _onClick={exitResult}
                             >
                                 나가기
@@ -172,28 +173,30 @@ function Result(props) {
                     </div>
                 </ResultContainer>
                 :
-                <div className="result-container" style={{ margin: "100px auto", width: "60%" }}>
-                    <GameResult>
-                        <Text is_size="150px" is_bold="900" is_line_height="180px" is_stroke="3px #94D7BB" is_color="#565656" >패배</Text>
-                    </GameResult>
-                    <div style={{ display: "flex", width: "100%" }}>
-                        <ResultLoseMainTable columns={main_columns} data={data} />
-                        <ResultLosePointTable columns={point_columns} data={data} />
+                <ResultContainer>
+                    <div className="result-container" style={{ margin: "100px auto", width: "60%" }}>
+                        <GameResult>
+                            <Text is_size="150px" is_bold="900" is_line_height="180px" is_stroke="3px #94D7BB" is_color="#565656" >패배</Text>
+                        </GameResult>
+                        <div style={{ display: "flex", width: "100%" }}>
+                            <ResultLoseMainTable columns={main_columns} data={data} />
+                            <ResultLosePointTable columns={point_columns} data={data} />
+                        </div>
+                        <div style={{ display: "flex", justifyContent: "center" }}>
+                            <Button is_width="15%" is_max_width="8rem" is_min_width="8rem" is_margin="0 4px 0 0" is_padding="5px 10px" is_size="25px"
+                                is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB" is_background="white" is_position="relative"
+                            >
+                                계속하기
+                            </Button>
+                            <Button is_width="15%" is_max_width="8rem" is_min_width="7rem" is_margin="0 0 0 4px" is_padding="5px 10px" is_size="25px" is_background="white"
+                                is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB"
+                                _onClick={exitResult}
+                            >
+                                나가기
+                            </Button>
+                        </div>
                     </div>
-                    <div style={{ display: "flex", justifyContent: "center" }}>
-                        <Button is_width="15%" is_max_width="8rem" is_min_width="8rem" is_margin="0 4px 0 0" is_padding="5px 10px" is_size="25px"
-                            is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB" is_background="white" is_position="relative"
-                        >
-                            계속하기
-                        </Button>
-                        <Button is_width="15%" is_max_width="8rem" is_min_width="7rem" is_margin="0 0 0 4px" is_padding="5px 10px" is_size="25px"
-                            is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB"
-                            _onClick={exitResult}
-                        >
-                            나가기
-                        </Button>
-                    </div>
-                </div>
+                </ResultContainer>
             }
         </>
     );
