@@ -22,7 +22,7 @@ function LeaderSlider(props) {
   const UserFaceColor =(point)=>{
     let color= "black 2px"
     if(point >= 1300 && point < 1500){
-      color = "#D3AB6F 3px";
+      color = "#835506 3px";
       return color;
     }
     if(point >= 1500 && point < 2000){

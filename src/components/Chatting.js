@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback, memo } from "react";
-import styled from "styled-components";
+import styled ,{keyframes}from "styled-components";
 import TextField from "@material-ui/core/TextField";
 import useInput from "../hook/useInput";
 import "../shared/App.css";
@@ -52,7 +52,7 @@ const Chatting = memo((props) => {
         }
         if(teaching === "Pointer" && message === "신의한수"){
           console.log("마우스로 찍자");
-          socket.emit("Pointer", userid);
+          socket.emit("Pointer", message);
          
         }
         socket.emit("chat", { chat: message });
@@ -66,15 +66,19 @@ const Chatting = memo((props) => {
 
   const renderChat = useCallback(() => {
     return chatList.map(({ id, message }, index) => (
+      <>
+      {id === "신의한수"?  <><HighLight/></> :
       <div
         key={index}
         className={userid == id ? "chat_from_me" : "chat_from_friend"}
       >
-        {userid != id ? <div className="chat_nick">{id}</div> : null}
+        {(userid != id )? <div className="chat_nick">{id}</div> : null}
         <div className="chat_content">
           <div className="chat_message">{message}</div>
         </div>
       </div>
+      }
+      </>
     ));
   });
 
@@ -91,6 +95,7 @@ const Chatting = memo((props) => {
 
   useEffect(() => {
     dispatch(gameActions.addGameChat(socket));
+    dispatch(gameActions.PointerSocket(socket));
   }, [socket]);
   useEffect(() => {
     return () => {
@@ -246,5 +251,24 @@ const SendText = styled.input`
       font-size: 16px;
     }
   }
+`;
+const GodSu = keyframes`
+from{
+  width : 0px;
+}
+to{
+  width : 100px;
+}
+`;
+const HighLight = styled.div`
+  background: #94d7bb;
+  
+  animation-name: ${GodSu};
+        animation-duration: 0.5s;
+        animation-timing-function: linear;
+        animation-iteration-count: 1;
+        animation-fill-mode: none;
+        animation-play-state: running;
+  height: 10px;
 `;
 export default Chatting;

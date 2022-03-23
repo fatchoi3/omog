@@ -203,42 +203,49 @@ const Roomlist = () => {
   );
 };
 const Table = styled.table`
-  width: 1000px;
+  width: 100%;
   border-radius: 15px 15px 0 0;
   background-color: #f2f2f2;
   border-bottom: 3px solid black;
 `;
 const Thead = styled.thead`
   background-color: #94d7bb;
-  width: 1000px;
+  width: 100%;
   height: 50px;
 `;
 const Tbody = styled.tbody`
+
   background-color: #f2f2f2;
 `;
 const Tr = styled.tr`
   height: 50px;
+  width : 100%;
 `;
 const Th = styled.th`
   border-bottom: 1px solid black;
   border-radius: 15px 0px 0 0;
+  width : 10%;
 `;
 const TdR = styled.td`
   border-bottom: 1px solid black;
   text-align: center;
+  width : 50%;
 `;
 const TdP = styled.td`
   border-bottom: 1px solid black;
   text-align: center;
+  width : 10%;
 `;
 const TdO = styled.td`
   border-bottom: 1px solid black;
   text-align: center;
+  width : 10%;
 `;
 const TdS = styled.td`
   text-align: center;
   border-bottom: 1px solid black;
   border-radius: 0px 15px 0 0;
+  width : 20%;
 `;
 
 const WaitingEnterRadio = styled.div`

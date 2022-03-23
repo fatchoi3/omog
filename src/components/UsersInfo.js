@@ -24,7 +24,7 @@ const UsersInfo = () => {
   const UserFaceColor =(point)=>{
     let color= "black 2px"
     if(point >= 1300 && point < 1500){
-      color = "#D3AB6F 3px";
+      color = "#835506 3px";
       return color;
     }
     if(point >= 1500 && point < 2000){
@@ -53,7 +53,7 @@ const UsersInfo = () => {
     <UserInfoContainer>
       <User>
         <UserFace color={color}/>
-        <UserName>
+             <UserName>
           <Text is_bold is_size="30px" is_margin="10px">
             {get_user.id}
           </Text>
@@ -75,7 +75,7 @@ const UsersInfo = () => {
 const UserInfoContainer = styled.div`
   height: 150px;
   width: 300px;
-  background-color: white;
+  
 `;
 const User = styled.div`
   display: flex;
@@ -88,11 +88,13 @@ const UserScore = styled.div`
   text-align: center;
 `;
 const UserFace = styled.div`
+  // background
   width: 70px;
   height: 70px;
   border-radius: 70px;
-  background-color: white;
+  // background-color: white;
   border: solid ${(props) => props.color};
+  // padding : auto;
   margin: 10px 20px 10px 20px;
 `;
 const UserName = styled.div`
