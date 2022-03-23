@@ -227,10 +227,13 @@ gameRoom.on("connect", async (socket) =>{
     socket.on("omog", (data, state) => {
 
       if(count % 2 == 0) {
-        if(check_33(data.x,data.y,bboard) || check_44(data.x,data.y,bboard)) return;
-      
+        if(check_33(data.x,data.y,bboard) || check_44(data.x,data.y,bboard)) {
+          let bye=0
+          console.log("걸렸구만",check_33(data.x,data.y,bboard),check_44(data.x,data.y,bboard)) ;
+          gameRoom.to(thisgameNum).emit("omog", data,bye,state);
+          return;
+        }
         console.log("삼삼하구만",check_33(data.x,data.y,bboard),check_44(data.x,data.y,bboard)) ;
-        
       } 
 
 

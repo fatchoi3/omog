@@ -78,6 +78,7 @@ const Game = memo((props) => {
   },1000)
   
 },[]);
+
   ///
 
   // useEffect(() => {
