@@ -59,7 +59,7 @@ const Game = memo((props) => {
   //"http://15.165.158.25/game"
   //"http://localhost:4001/game",
   const [socket, disconnectSocket] = useSocket(
-    "http://15.165.158.25/game",
+    "http://localhost:4001/game",
     gameNum,
     userId
   );
