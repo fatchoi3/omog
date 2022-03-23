@@ -19,7 +19,7 @@ import { actionCreators as gameActions } from "../redux/modules/game";
 
 const Game = memo((props) => {
   const dispatch = useDispatch();
-  const [spin, setsping]= useState(true);
+  const [spin, setsping] = useState(true);
   const userInfo = useSelector((state) => state.user.userInfo);
   const gameInfo = useSelector((state) => state.game.gameInfo);
 
@@ -38,7 +38,7 @@ const Game = memo((props) => {
   //     }
   //   }
   // }, []);
-  
+
   const realGameInfo = gameInfo[0];
   // gameInfo[0]?.blackTeamPlayer.length === 0 ? gameInfo[1] : gameInfo[0];
   console.log("realGameInfo", realGameInfo);
@@ -56,10 +56,10 @@ const Game = memo((props) => {
   };
 
   //////수정사항
-  //"http://15.165.158.25/game"
+  //
   //"http://localhost:4001/game",
   const [socket, disconnectSocket] = useSocket(
-    "http://localhost:4001/game",
+    "http://15.165.158.25/game",
     gameNum,
     userId
   );
@@ -70,14 +70,14 @@ const Game = memo((props) => {
     };
   }, [disconnectSocket]);
 
-  useEffect (()=>{
+  useEffect(() => {
     dispatch(gameActions.getGameDB(gameNum));
-    dispatch(userActions.loginCheckDB(userId));  
-    let timer= setTimeout(()=>{
+    dispatch(userActions.loginCheckDB(userId));
+    let timer = setTimeout(() => {
       setsping(false)
-  },1000)
-  
-},[]);
+    }, 1000)
+
+  }, []);
   ///
 
   // useEffect(() => {
@@ -100,7 +100,7 @@ const Game = memo((props) => {
 
   return (
     <GameContainer>
-      {spin?(<Spinner type={'page'} is_dim={true} width="200px"/>):""}
+      {spin ? (<Spinner type={'page'} is_dim={true} width="200px" />) : ""}
       <LogoWrap>
         <LogoImg src={Logo} />
       </LogoWrap>
@@ -129,7 +129,7 @@ const Game = memo((props) => {
             </TeachingWrap>
           </Wrap>
           <ChattingWrap>
-            <Chatting gameNum={gameNum} socket={socket} userInfo={userInfo} is_player={is_player}/>
+            <Chatting gameNum={gameNum} socket={socket} userInfo={userInfo} is_player={is_player} />
           </ChattingWrap>
         </>
       ) : (

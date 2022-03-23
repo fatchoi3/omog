@@ -265,7 +265,7 @@ const LoginPageLoginBox = styled.div`
     width: 340px;
     padding: 20px;
     flex-direction: column;
-    justify-contents: center;
+    justify-content: center;
     align-items: center;
     box-sizing: border-box;
 `
