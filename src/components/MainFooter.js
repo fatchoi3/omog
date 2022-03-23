@@ -227,20 +227,23 @@ const MainFooter = () => {
 };
 const Container = styled.div`
   display: flex;
-  margin: 0 10%;
+  margin: 0 20% 0 8%;
   width: 70%;
   max-widit: 900px;
-  justify-content: space-between;
+ ;
 `;
 const UserS = styled.div`
-  width: 400px;
+  width: 28%;
   height: 100px;
   max-height: 100px;
+  margin : 0 3% 0 0;
   display: flex;
 `;
 const Ranking = styled.div`
+width: 26%;
   height: 100px;
   display: flex;
+  margin : 0 3% 0 0;
 `;
 const UserContents = styled.div`
   width: 180px;
