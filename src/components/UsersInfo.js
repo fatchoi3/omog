@@ -74,7 +74,7 @@ const UsersInfo = () => {
 };
 const UserInfoContainer = styled.div`
   height: 150px;
-  width: 300px;
+  width: 100%;
   
 `;
 const User = styled.div`

@@ -143,8 +143,8 @@ const Main = () => {
           <UsersInfo />
           <ButtonWrap>
             <Button
-              is_margin="20px auto"
-              is_height="60px"
+              is_margin="5% auto"
+              is_height="100%"
               is_width="150px"
               is_radius="8px"
               is_border=" solid 2px black"
@@ -160,8 +160,8 @@ const Main = () => {
               </Text>
             </Button>
             <Button
-              is_margin="20px auto"
-              is_height="60px"
+              is_margin="5% auto"
+              is_height="100%"
               is_width="150px"
               is_radius="8px"
               is_border=" solid 2px black"
@@ -177,8 +177,8 @@ const Main = () => {
               </Text>
             </Button>
             <Button
-              is_margin="20px auto"
-              is_height="60px"
+              is_margin="5% auto"
+              is_height="100%"
               is_width="150px"
               is_radius="8px"
               is_border=" solid 2px black"
@@ -194,8 +194,8 @@ const Main = () => {
               </Text>
             </Button>
             <Button
-              is_margin="20px auto"
-              is_height="60px"
+              is_margin="5% auto 0 "
+              is_height="100%"
               is_width="150px"
               is_radius="8px"
               is_border=" solid 2px black"
@@ -296,10 +296,12 @@ const Main = () => {
 const Container = styled.div`
   display: flex;
   width: 90%;
+  
   margin: 90px 8% 90px 8%;
 `;
 const UserInfoWrap = styled.div`
   width: 20%;
+
 `;
 const RoomDiv = styled.div`
   height: 500px;
@@ -329,26 +331,26 @@ const ButtonWrap = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 300px;
-  height: 350px;
+  width: 100%;
+  height: 75%;
 `;
 const ListTip = styled.div`
   display: flex;
 `;
 const LogoWrap = styled.div`
   position: absolute;
-  width: 100px;
-  height: 100px;
+  width: 14%;
+  height: 14%;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px 0;
-  right: 13%;
-  bottom: 20%;
+  right: 9%;
+  bottom: 7%;
 `;
 const LogoImg = styled.img`
-  width: 200px;
-  height: 100px;
+  width: 100%;
+  height: 100%;
 `;
 const MakeRomm = styled.input`
   width: 400px;
