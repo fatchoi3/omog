@@ -83,7 +83,7 @@ const Main = () => {
     <>
       <Container>
         {loading ? <Spinner type={"page"} is_dim={true} width="200px" /> : ""}
-        <Banner />
+        {/* <Banner /> */}
         <ListDiv>
           <ListTitle>
             <ListTip>
@@ -295,8 +295,8 @@ const Main = () => {
 };
 const Container = styled.div`
   display: flex;
-  // width: 1200px;
-  margin: 90px 120px;
+  width: 90%;
+  margin: 90px 8% 90px 8%;
 `;
 const UserInfoWrap = styled.div`
   width: 20%;
@@ -319,9 +319,10 @@ const ListTitle = styled.div`
   display: flex;
   justify-content: space-between;
   height: 40px;
+  width : 100%;
 `;
 const ListDiv = styled.div`
-  //  margin: 0 30px 0 0;
+  margin: 0 5% 0 0;
   width : 70%;
 `;
 const ButtonWrap = styled.div`
@@ -342,8 +343,8 @@ const LogoWrap = styled.div`
   align-items: center;
   justify-content: center;
   padding: 20px 0;
-  right: 200px;
-  bottom: 100px;
+  right: 13%;
+  bottom: 20%;
 `;
 const LogoImg = styled.img`
   width: 200px;
