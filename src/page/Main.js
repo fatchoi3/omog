@@ -266,12 +266,15 @@ const Main = () => {
                 value="2min"
                 onChange={changeRadioQ1}
               />
-            <div>
+              <label
+              for="1"
+              >
               <Text
                is_margin="0 0 0 4px"
                is_size = "25px"
                >2분</Text>
-            </div>
+               </label>
+         
           </Radio>
 
           <Radio>
@@ -279,34 +282,38 @@ const Main = () => {
             
               <input
                 type="radio"
-                id="1"
+                id="2"
                 name="state"
                 value="3min"
                 onChange={changeRadioQ1}
               />
-           <div>
+           <label
+           for="2"
+           >
               <Text 
               is_margin="0 0 0 4px"
               is_size = "25px"
               >3분</Text>
-            </div>
+            </label>
           </Radio>
           <Radio>
             
           
               <input
                 type="radio"
-                id="1"
+                id="3"
                 name="state"
                 value="5min"
                 onChange={changeRadioQ1}
               />
-           <div>
+           <label
+           for="3"
+           >
               <Text 
               is_margin="0 0 0 4px"
               is_size = "25px"
               >5분</Text>
-            </div>
+            </label>
           </Radio>
         </WaitingEnterRadio>
 
