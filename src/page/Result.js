@@ -15,7 +15,7 @@ import { actionCreators as gameActions } from '../redux/modules/game';
 function Result(props) {
     const dispatch = useDispatch();
     const history = useHistory();
-    const [loading, setLoading]= useState(true);
+    const [loading, setLoading] = useState(true);
     const result = useSelector(state => state.game.result);
     console.log(result);
     const getGameResult = useSelector(state => state.game.gameresult);
@@ -57,13 +57,13 @@ function Result(props) {
         if (result) {
             dispatch(gameActions.getGameResultDB(userId, result.gameNum, result.result));
         }
-    }, [result])
+    }, [result, dispatch])
 
-    useEffect (()=>{
-        let timer= setTimeout(()=>{
-          setLoading(false)
-      },700)
-      },[]);
+    useEffect(() => {
+        let timer = setTimeout(() => {
+            setLoading(false)
+        }, 700)
+    }, []);
 
     // {
     //     win:[
@@ -139,13 +139,14 @@ function Result(props) {
             return true;
         }
     }
+
     const test_list = [{ id: 'test1' }, { id: "test2" }, { id: "test3" }, { id: "test4" }]
     let isWinner = test_list.some(checkWinner)
 
     return (
         <>
 
-        {loading?(<Spinner type={'page'} is_dim={true} width="200px"/>):""}
+            {loading ? (<Spinner type={'page'} is_dim={true} width="200px" />) : ""}
             {isWinner
                 ?
                 <ResultContainer>
