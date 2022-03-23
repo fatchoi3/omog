@@ -11,7 +11,9 @@ const Chatting = memo((props) => {
   const dispatch = useDispatch();
   const [message, onChangeMessage, setMessage] = useInput("");
   const [teaching, setTeaching] = useState();
+
   const userid = localStorage.getItem("userId");
+  
   const chatList = useSelector((state) => state.game.chat_list);
   const scroll = useRef(null);
   const gameNum = props.gameNum;
@@ -21,6 +23,7 @@ const Chatting = memo((props) => {
     props.userInfo.state === "blackObserver"
       ? "black"
       : "white";
+  const isPlayer = props.is_player;
   console.log("isTeam", isTeam);
   const teachingChoice = useCallback(
     (e) => {
@@ -153,6 +156,7 @@ const Chatting = memo((props) => {
           >
             <Text>Send</Text>
           </Button>
+          {isPlayer?(""):
           <TeachingSelect
             onChange={(e) => {
               teachingChoice(e);
@@ -163,6 +167,7 @@ const Chatting = memo((props) => {
             <option value="Fly">Fly</option>
             <option value="Pointer">Pointer</option>
           </TeachingSelect>
+          }
         </BottomWrap>
       </ChatForm>
     </ChattingContainer>

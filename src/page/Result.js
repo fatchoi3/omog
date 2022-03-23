@@ -7,6 +7,7 @@ import ResultWinMainTable from '../components/Result/ResultWinMainTable';
 import ResultWinPointTable from '../components/Result/ResultWinPointTable';
 import ResultLoseMainTable from '../components/Result/ResultLoseMainTable';
 import ResultLosePointTable from '../components/Result/ResultLosePointTable';
+import Spinner from '../elements/Spinner';
 
 import { actionCreators as gameActions } from '../redux/modules/game';
 
@@ -14,7 +15,7 @@ import { actionCreators as gameActions } from '../redux/modules/game';
 function Result(props) {
     const dispatch = useDispatch();
     const history = useHistory();
-
+    const [loading, setLoading]= useState(true);
     const result = useSelector(state => state.game.result);
     console.log(result);
     const getGameResult = useSelector(state => state.game.gameresult);
@@ -58,7 +59,11 @@ function Result(props) {
         }
     }, [result])
 
-
+    useEffect (()=>{
+        let timer= setTimeout(()=>{
+          setLoading(false)
+      },700)
+      },[]);
 
     // {
     //     win:[
@@ -139,6 +144,8 @@ function Result(props) {
 
     return (
         <>
+
+        {loading?(<Spinner type={'page'} is_dim={true} width="200px"/>):""}
             {isWinner
                 ?
                 <ResultContainer>

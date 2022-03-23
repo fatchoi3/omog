@@ -7,6 +7,7 @@ import TeachingW from "../components/TeachingW";
 import TeachingB from "../components/TeachingB";
 import PlayerCardB from "../components/PlayerCardB";
 import PlayerCardW from "../components/PlayerCardW";
+import Spinner from "../elements/Spinner";
 
 import { Text } from "../elements";
 import Logo from "../pictures/omogLogo.png";
@@ -18,7 +19,7 @@ import { actionCreators as gameActions } from "../redux/modules/game";
 
 const Game = memo((props) => {
   const dispatch = useDispatch();
-
+  const [spin, setsping]= useState(true);
   const userInfo = useSelector((state) => state.user.userInfo);
   const gameInfo = useSelector((state) => state.game.gameInfo);
 
@@ -30,17 +31,17 @@ const Game = memo((props) => {
       : false;
 
   console.log("gameInfo", gameInfo);
-  const pickGameInfo = useCallback((gameInfo) => {
-    for (let i = 0; i < gameInfo?.length; i++) {
-      if (gameInfo[i]?.blackTeamPlayer[0]) {
-        return gameInfo[i];
-      }
-    }
-  }, []);
-  console.log("과연", pickGameInfo(gameInfo));
-  const realGameInfo = pickGameInfo(gameInfo);
+  // const pickGameInfo = useCallback((gameInfo) => {
+  //   for (let i = 0; i < gameInfo?.length; i++) {
+  //     if (gameInfo[i]?.blackTeamPlayer[0]) {
+  //       return gameInfo[i];
+  //     }
+  //   }
+  // }, []);
+  
+  const realGameInfo = gameInfo[0];
   // gameInfo[0]?.blackTeamPlayer.length === 0 ? gameInfo[1] : gameInfo[0];
-
+  console.log("realGameInfo", realGameInfo);
   const blackPlayer = realGameInfo?.blackTeamPlayer[0];
   const whitePlayer = realGameInfo?.whiteTeamPlayer[0];
   console.log("blackTeamPlayer", blackPlayer);
@@ -69,6 +70,13 @@ const Game = memo((props) => {
     };
   }, [disconnectSocket]);
 
+  useEffect (()=>{
+    let timer= setTimeout(()=>{
+      setsping(false)
+  },1000)
+  },[]);
+  ///
+
   useEffect(() => {
     dispatch(userActions.loginCheckDB(userId));
     dispatch(gameActions.getGameDB(gameNum));
@@ -89,6 +97,7 @@ const Game = memo((props) => {
 
   return (
     <GameContainer>
+      {spin?(<Spinner type={'page'} is_dim={true} width="200px"/>):""}
       <LogoWrap>
         <LogoImg src={Logo} />
       </LogoWrap>
@@ -117,7 +126,7 @@ const Game = memo((props) => {
             </TeachingWrap>
           </Wrap>
           <ChattingWrap>
-            <Chatting gameNum={gameNum} socket={socket} userInfo={userInfo} />
+            <Chatting gameNum={gameNum} socket={socket} userInfo={userInfo} is_player={is_player}/>
           </ChattingWrap>
         </>
       ) : (
@@ -147,7 +156,7 @@ const Game = memo((props) => {
             whitePlayer={whitePlayer}
           />
           <ChattingWrap>
-            <Chatting gameNum={gameNum} socket={socket} userInfo={userInfo} />
+            <Chatting gameNum={gameNum} socket={socket} userInfo={userInfo} is_player={is_player} />
           </ChattingWrap>
         </>
       )}

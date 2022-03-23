@@ -8,6 +8,7 @@ import UsersInfo from "../components/UsersInfo";
 import MainFooter from "../components/MainFooter";
 import Spinner from "../elements/Spinner"
 import LeaderBoard from "../components/LeaderBoard";
+import Banner from "../components/Banner";
 import useInput from "../hook/useInput";
 
 import Logo from "../pictures/omogLogo.png";
@@ -20,30 +21,67 @@ const Main = () => {
   const [loading, setLoading]= useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [roomaName, onChangeRoomaName, setRoomaName] = useInput("");  
+  const [roomNum, onChangeRoomNum, setRoomNum]= useInput("");
+  const [state, setState] = useState("");
   const userId = localStorage.getItem("userId");
   
 
+
+  //모달창켜기
   const openModal = () => {
     setModalOpen(true);
   };
+
+  //모달창끄리
   const closeModal = () => {
     setModalOpen(false);
   };
+
+  //방만들어 입장
   const enterWaiting= () =>{
     // alert("안녕",roomaName);
-    if(roomaName===""){
+    if(roomaName===""||state===""){
       alert("빈칸을 채워주세요")
       return;
     }
     dispatch(roomActions.addRoomDB(roomaName))
+    //dispatch(roomActions.addRoomDB({
+    //   roomName: roomaName,
+    //   time: state
+    // }))
   };
-  
+
+  const enterNum= () =>{
+    // alert("안녕",roomaName);
+    if(roomNum===""){
+      alert("비어있습니다")
+      return;
+    }
+    // dispatch(roomActions.numJoinDB(roomNum))
+    console.log("되는듯")
+  };
+
+  const changeRadioQ1 = (e) => {
+    setState(e.target.value);
+   
+  };
+
+  //엔터키 작동 방만들기
   const onKeyPress = useCallback((e) => {
   
     if (e.key == "Enter") {
       enterWaiting();
     }
   });
+
+  //엔터키 작동 방번호로 들어가기
+  const onKeyPressNum = useCallback((e) => {
+  
+    if (e.key == "Enter") {
+      enterNum();
+    }
+  });
+
   useEffect (()=>{
     let timer= setTimeout(()=>{
       setLoading(false)
@@ -54,8 +92,8 @@ const Main = () => {
   return (
     <>
       <Container>
-      {loading?(<Spinner type={'page'} is_dim={true}/>):""}
-    
+      {loading?(<Spinner type={'page'} is_dim={true} width="200px"/>):""}
+    <Banner/>
         <ListDiv>
           <ListTitle>
             <ListTip>
@@ -75,17 +113,39 @@ const Main = () => {
               is_bold
               >게임방</Text>
             </ListTip>
+            <RoomFind>
+            <Text
+            is_size="15px"
+            is_width="45px"
+            is_margin = "10px 7px 0 0 "
+            is_color="gray"
+            is_bold
+            > 방번호</Text>
+            <RoomInput
+            placeholder="숫자만..."
+            name="roomNum"
+            onKeyDown={(e) => onKeyPressNum(e)}
+            onChange={(e) => onChangeRoomNum(e)}
+            placeholder="what...?"
+            value={roomNum}
+            id="outlined-multiline-static"
+            variant="outlined"
+            label="roomNum"
+            />
             <Button
-              is_margin="0 10px"
-              is_height="40px"
-              is_width="100px"
-              is_border="#6071CE solid 2px"
+              is_margin="4px 10px 0 0 "
+              is_height="30px"
+              is_width="30px"
+              is_border="none"
               _onClick={()=>{
-                alert("죄송합니다! 빠른시일 내로 구현하겠습니다!")
+                enterNum();
               }}
             >
-              방 번호 찾기
+              <Text
+              is_size="25px"
+              >🔍</Text>
             </Button>
+            </RoomFind>
           </ListTitle>
           <RoomDiv>
             <Roomlist />
@@ -197,6 +257,60 @@ const Main = () => {
         <Nemo/>
         <Text>시간</Text>
         </ModalFlex>
+        <WaitingEnterRadio>
+          <Radio>
+           
+            
+              <input
+                type="radio"
+                id="1"
+                name="state"
+                value="2min"
+                onChange={changeRadioQ1}
+              />
+            <div>
+              <Text
+               is_margin="0 0 0 4px"
+               is_size = "25px"
+               >2분</Text>
+            </div>
+          </Radio>
+
+          <Radio>
+            
+            
+              <input
+                type="radio"
+                id="1"
+                name="state"
+                value="3min"
+                onChange={changeRadioQ1}
+              />
+           <div>
+              <Text 
+              is_margin="0 0 0 4px"
+              is_size = "25px"
+              >3분</Text>
+            </div>
+          </Radio>
+          <Radio>
+            
+          
+              <input
+                type="radio"
+                id="1"
+                name="state"
+                value="5min"
+                onChange={changeRadioQ1}
+              />
+           <div>
+              <Text 
+              is_margin="0 0 0 4px"
+              is_size = "25px"
+              >5분</Text>
+            </div>
+          </Radio>
+        </WaitingEnterRadio>
 
 
       </LeaderBoard>
@@ -211,7 +325,7 @@ const Main = () => {
 const Container = styled.div`
   display: flex;
   width: 1200px;
-  margin: 70px auto;
+  margin: 90px 120px ;
 `;
 const UserInfoWrap = styled.div`
   width: 300px;
@@ -293,5 +407,24 @@ margin : 4px 3px 0 0;
 const ModalFlex = styled.div`
 display : flex;
 margin : 5px 0 15px 0;
+`;
+const RoomFind = styled.div`
+display : flex;
+width: 250px;
+`;
+const RoomInput = styled.input`
+width : 120px;
+height : 30px;
+border : 2px solid gray;
+background-color : #E1E1E1;
+border-radius : 15px;
+
+`;
+const Radio = styled.div`
+  display: flex;
+  height: 40px;
+`;
+const WaitingEnterRadio = styled.div`
+  display: flex;
 `;
 export default Main;
