@@ -75,7 +75,7 @@ function WaitChat({ socket, roomNum }) {
                     방 나가기
                 </Button>
             </ChattingHeader>
-            <div className="chatting-content" ref={scrollRef} style={{ overflow: "auto", width: "100%", height: "100%", padding: "0", margin: "0" }}>
+            <ChattingContent ref={scrollRef}>
                 {messageList.map((messageContent, idx) => {
                     let isMyMessage = messageContent.nickname === userId
 
@@ -92,7 +92,7 @@ function WaitChat({ socket, roomNum }) {
                         </MessageBox>
                     );
                 })}
-            </div>
+            </ChattingContent>
             <ChattingInputContainer>
                 <Input
                     ref={messageRef}
@@ -155,6 +155,14 @@ const ChattingInputContainer = styled.div`
     display: flex;
     border-top: 1px solid #D1D1D1;
     height: 50px;
+`
+
+const ChattingContent = styled.div`
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0
 `
 
 const MessageBox = styled.div`

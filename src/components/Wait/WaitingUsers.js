@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import styled from 'styled-components';
 import { history } from '../../redux/configureStore';
 import Logo from '../../pictures/omokjomok.svg'
 
 import { actionCreators as roomActions } from '../../redux/modules/room';
-import { Button, Text } from '../../elements';
 
 import WaitPlayerList from './WaitPlayerList';
 import WaitObserverList from './WaitObserverList';
+import GameStartBtn from './GameStartBtn';
 
 
 function WaitingUsers({ socket, roomNum }) {
@@ -18,26 +17,6 @@ function WaitingUsers({ socket, roomNum }) {
     const userId = localStorage.getItem("userId");
     const waitingPerson = useSelector((state) => state.room.userInfo);
     console.log(waitingPerson);
-
-    const blackPlayer = useSelector(state => state.room.blackPlayer);
-    const whitePlayer = useSelector(state => state.room.whitePlayer);
-    const blackObserverList = useSelector(state => state.room.blackObserverList);
-    const whiteObserverList = useSelector(state => state.room.whiteObserverList);
-    const [start, setStart] = useState(false);
-
-
-    console.log(blackPlayer, whitePlayer, blackObserverList, whiteObserverList);
-
-    const gameStart = (e) => {
-        if (blackPlayer?.hasOwnProperty('id') && whitePlayer?.hasOwnProperty('id')) {
-            console.log("게임 실행")
-            e.preventDefault();
-            const roomNumber = roomNum;
-            socket.emit("gameStart", roomNumber);
-            dispatch(roomActions.gameStartDB(blackPlayer, whitePlayer, blackObserverList, whiteObserverList, roomNumber));
-            setStart(true);
-        }
-    }
 
 
     useEffect(() => {
@@ -59,22 +38,20 @@ function WaitingUsers({ socket, roomNum }) {
             console.log("welcome 실행완료", id, userInfos);
             dispatch(roomActions.setWaitUser(id, userInfos));
         }
-
         socket.on("welcome", welcome)
 
+        // 사용자 팀 및 상태 변경
         const changeState = (id, userInfos) => {
             console.log("state 변경이 되나요?", id, userInfos);
             dispatch(roomActions.changeState(id, userInfos));
         }
-
         socket.on("changeComplete", changeState);
 
+        // 방 나갈 때 방 남은 인원 정보 업데이트
         const byeChangeState = (nickname, userInfos) => {
             console.log("bye 정보", nickname, userInfos)
-            console.log("bye bye bye");
             dispatch(roomActions.changeState(nickname, userInfos));
         }
-
         socket.on("bye", byeChangeState)
         dispatch(roomActions.resetStateUser(userId));
 
@@ -84,61 +61,15 @@ function WaitingUsers({ socket, roomNum }) {
         }
     }, [])
 
-    useEffect(() => {
-        const gameStartF = (roomNum) => {
-            history.push(`/game/${roomNum}`)
-        }
-
-        socket.on("game", gameStartF);
-
-        return () => {
-            socket.off("game", gameStartF);
-        }
-    }, [start])
-
 
     return (
         <>
             <div style={{ width: "7rem", height: "76px" }}>
                 <img src={Logo} alt="로고" style={{ width: "100%", height: "100%", background: "#C4C4C4" }} />
             </div>
-            <WaitPlayerList roomNum={roomNum} socket={socket} blackPlayer={blackPlayer} whitePlayer={whitePlayer} />
-
-            <div style={{ display: "flex", justifyContent: "center", boxSizing: "border-box" }}>
-                {waitingPerson &&
-                    waitingPerson.id === userId && waitingPerson.state === "blackPlayer"
-                    ?
-                    <Button
-                        is_width="30%"
-                        is_padding="18px 36px"
-                        is_radius="14px"
-                        is_background="#94D7BB"
-                        is_center="center"
-                        is_margin="20px"
-                        is_border="2px solid black"
-                        is_cursor="pointer"
-                        is_hover="inset 0 -5em 0 0 #6DB6DF, inset 0 5em 0 0 #6DB6DF"
-                        _onClick={gameStart}
-                    ><Text is_bold="800" is_size="24px" is_line_height="28px">게임 시작</Text></Button>
-                    :
-                    <Button
-                        is_width="30%"
-                        is_padding="18px 36px"
-                        is_radius="14px"
-                        is_background="#94D7BB"
-                        is_center="center"
-                        is_margin="20px"
-                        is_border="2px solid black"
-                        is_cursor="pointer"
-                        _onClick={gameStart}
-                        disabled
-                    ><Text is_bold="800" is_size="24px" is_line_height="28px">
-                            게임 시작
-                        </Text>
-                    </Button>
-                }
-            </div>
-            <WaitObserverList roomNum={roomNum} socket={socket} blackObserverList={blackObserverList} whiteObserverList={whiteObserverList} />
+            <WaitPlayerList roomNum={roomNum} socket={socket} />
+            <GameStartBtn socket={socket} roomNum={roomNum} />
+            <WaitObserverList roomNum={roomNum} socket={socket} />
         </>
     );
 }
