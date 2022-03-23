@@ -11,21 +11,21 @@ import Spinner from '../elements/Spinner';
 function Waiting(props) {
     const { roomNum } = useParams();
     const [currentSocket, setCurrentSocket] = useState();
-    const [loading, setLoading]= useState(true);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         setCurrentSocket(io("http://15.165.158.25/waiting"));
     }, []);
 
-    useEffect (()=>{
-        let timer= setTimeout(()=>{
-          setLoading(false)
-      },800)
-      },[]);
+    useEffect(() => {
+        let timer = setTimeout(() => {
+            setLoading(false)
+        }, 800)
+    }, []);
 
     return (
         <>
-        {loading?(<Spinner type={'page'} is_dim={true} width="200px"/>):""}
+            {loading ? (<Spinner type={'page'} is_dim={true} width="200px" />) : ""}
             {currentSocket ?
                 <WaitingContainer>
                     <div className="container_left" style={{ padding: "20px" }}>

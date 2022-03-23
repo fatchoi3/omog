@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Text from '../../elements/Text';
+import Progress from '../Progress';
 
 import { actionCreators as roomActions } from '../../redux/modules/room';
 
@@ -70,9 +71,10 @@ function WaitPlayerList({ roomNum, socket }) {
                             </div>
                         </div>
                         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                            <Text is_bold="800" is_size="17px" is_line_height="19px" is_margin="0 0 16px 0">
+                            <Text is_bold="800" is_size="17px" is_line_height="19px" width="100%" is_margin="0 0 10px 0">
                                 Point {blackPlayer?.point}p
                             </Text>
+                            <Progress win={blackPlayer.score[0].win} lose={blackPlayer.score[1].lose} width="100%" margin="0 0 10px 0" />
                             <div style={{ display: "flex", justifyContent: "space-between", width: "219px" }}>
                                 <Text is_bold="600">
                                     승률:
@@ -101,31 +103,17 @@ function WaitPlayerList({ roomNum, socket }) {
                                     }승 &nbsp;
                                     {blackPlayer?.score
                                         ?
-                                        blackPlayer?.score[0].win === 0
-                                            ?
-                                            0
-                                            :
-                                            blackPlayer.score[1].lose
+                                        blackPlayer.score[1].lose
                                         :
                                         null
-                                    }패
-                                    )
+                                    }패)
                                 </Text>
                             </div>
                         </div>
                     </div>
                 </PlayerCard>
                 :
-                <PlayerCard leftPlayer onClick={ChangeToBlackPlayer}>
-                    <div style={{ padding: "18px 24px 23px 23px", display: "flex", justifyContent: "space-between" }}>
-                        <div style={{ marginRight: "31px", boxSizing: "border-box" }}>
-                        </div>
-                        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                            <div style={{ display: "flex", justifyContent: "space-between", width: "219px" }}>
-                            </div>
-                        </div>
-                    </div>
-                </PlayerCard>
+                <PlayerCard leftPlayer onClick={ChangeToBlackPlayer} />
             }
 
             {whitePlayer &&
@@ -141,9 +129,10 @@ function WaitPlayerList({ roomNum, socket }) {
                             </div>
                         </div>
                         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                            <Text is_bold="800" is_size="17px" is_line_height="19px" is_margin="0 0 16px 0">
+                            <Text is_bold="800" is_size="17px" is_line_height="19px" is_margin="0 0 10px 0">
                                 Point {whitePlayer?.point}p
                             </Text>
+                            <Progress win={whitePlayer.score[0].win} lose={whitePlayer.score[1].lose} width="100%" margin="0 0 10px 0" />
                             <div style={{ display: "flex", justifyContent: "space-between", width: "219px" }}>
                                 <Text is_bold="600">
                                     승률:
@@ -172,31 +161,17 @@ function WaitPlayerList({ roomNum, socket }) {
                                     }승 &nbsp;
                                     {whitePlayer?.score
                                         ?
-                                        whitePlayer?.score[0].win === 0
-                                            ?
-                                            0
-                                            :
-                                            whitePlayer.score[1].lose
+                                        whitePlayer.score[1].lose
                                         :
                                         null
-                                    }패
-                                    )
+                                    }패)
                                 </Text>
                             </div>
                         </div>
                     </div>
                 </PlayerCard>
                 :
-                <PlayerCard onClick={ChangeToWhitePlayer}>
-                    <div style={{ padding: "18px 24px 23px 23px", display: "flex", justifyContent: "space-between" }}>
-                        <div style={{ marginRight: "31px", boxSizing: "border-box" }}>
-                        </div>
-                        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                            <div style={{ display: "flex", justifyContent: "space-between", width: "219px" }}>
-                            </div>
-                        </div>
-                    </div>
-                </PlayerCard>
+                <PlayerCard onClick={ChangeToWhitePlayer} />
             }
         </PlayerContainer>
     )
