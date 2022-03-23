@@ -75,7 +75,7 @@ const UsersInfo = () => {
 const UserInfoContainer = styled.div`
   height: 150px;
   width: 300px;
-  background-color: white;
+  
 `;
 const User = styled.div`
   display: flex;
