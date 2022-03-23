@@ -34,6 +34,7 @@ const Omog = memo((props) => {
   const timeout2 = useRef(null);
 
   const [pointer, setPointer] = useState();
+  const [power, setPower] = useState();
 
   const omoging = useCallback(() => {
     document.addEventListener("mouseup", (e) => {
