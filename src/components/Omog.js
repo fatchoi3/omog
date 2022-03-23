@@ -34,6 +34,7 @@ const Omog = memo((props) => {
   const timeout2 = useRef(null);
 
   const [pointer, setPointer] = useState();
+  const [power, setPower] = useState();
 
   const omoging = useCallback(() => {
     document.addEventListener("mouseup", (e) => {
@@ -320,7 +321,14 @@ const Omog = memo((props) => {
   }, [count, pointer]);
 
   useEffect(() => {
-    socket.on("omog", (data) => {
+    socket.on("omog", (data, bye, state) => {
+      if(bye === 0 && props.userInfo.state === state){
+       alert("금수입니다!!")
+        return;
+      }
+      if(bye === 0){
+        return;
+      }
       console.log("오목 소켓 받기");
 
       data.count % 2 == 0

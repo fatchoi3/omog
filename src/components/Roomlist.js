@@ -106,13 +106,15 @@ const Roomlist = () => {
       >
         <WaitingEnterRadio>
           <Radio>
-            <div>
+            <label
+            for="1"
+            >
               <Text is_margin="0 0 0 4px;">blackPlayer</Text>
               <Text is_margin="5px 0 0 20px">
                 {" "}
                 현재 {room_info.blackTeamPlayer ? 1 : 0} 명
               </Text>
-            </div>
+            </label>
             <Input>
               <input
                 type="radio"
@@ -126,13 +128,14 @@ const Roomlist = () => {
           </Radio>
 
           <Radio>
-            <div>
+            <label
+            for="2">
               <Text is_margin="0 0 0 10px;">whitePlayer</Text>
               <Text is_margin="5px 0 0 20px">
                 {" "}
                 현재 {room_info.whiteTeamPlayer ? 1 : 0} 명
               </Text>
-            </div>
+            </label>
             <Input>
               <input
                 type="radio"
@@ -146,7 +149,8 @@ const Roomlist = () => {
           </Radio>
 
           <Radio>
-            <div>
+            <label
+            for="3">
               <Text is_margin="0 0 0 10px;">blackObserver</Text>
               <Text is_margin="5px 0 0 20px">
                 {" "}
@@ -156,7 +160,7 @@ const Roomlist = () => {
                   : 0}{" "}
                 명
               </Text>
-            </div>
+            </label>
             <Input>
               <input
                 type="radio"
@@ -169,7 +173,9 @@ const Roomlist = () => {
           </Radio>
 
           <Radio>
-            <div>
+            <label
+            for="4"
+            >
               <Text is_margin="0 0 0 10px;">whiteObserver</Text>
               <Text is_margin="5px 0 0 20px">
                 {" "}
@@ -179,7 +185,7 @@ const Roomlist = () => {
                   : 0}{" "}
                 명
               </Text>
-            </div>
+            </label>
             <Input>
               <input
                 type="radio"

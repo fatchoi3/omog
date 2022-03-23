@@ -75,9 +75,10 @@ const Game = memo((props) => {
     dispatch(userActions.loginCheckDB(userId));
     let timer = setTimeout(() => {
       setsping(false)
-    }, 1000)
+  },1000)
+  
+},[]);
 
-  }, []);
   ///
 
   // useEffect(() => {

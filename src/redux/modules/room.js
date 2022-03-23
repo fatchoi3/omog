@@ -166,8 +166,8 @@ const quickStartPlayer = (id) => {
                 dispatch(joinRoom(response.data.userInfo, id));
                 history.push(`/waiting/${response.data.roomNum}`)
             }).catch(error => {
-
-                console.log(error)
+                alert("방이 없습니다!")
+                console.log(error.message)
             });
     }
 };
@@ -179,21 +179,22 @@ const quickStartObserver = (id) => {
                 console.log("response", response.data.roomNum);
                 history.push(`/waiting/${response.data.roomNum}`)
             }).catch(error => {
-
+                alert("방이 없습니다!")
                 console.log(error)
             });
     }
 };
 
 const numJoinDB = (data) => {
-    return function (dispatch, useState, { history }) {
+    console.log(data)
+    return  function (dispatch, useState, { history }) {
         api.post("/lobby/roomNumJoin", data)
             .then(function (response) {
                 console.log("안녕 나는 Numjoin", response.data.roomNum);
                 history.push(`/waiting/${response.data.roomNum}`)
             }).catch(error => {
                 // window.alert("방참가 실패!");
-                console.log(error)
+                console.log(error.message)
             });
     }
 };

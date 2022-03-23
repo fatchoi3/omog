@@ -39,7 +39,7 @@ const Main = () => {
 
   //방만들어 입장
   const enterWaiting= () =>{
-    // alert("안녕",roomaName);
+
     if(roomaName===""||state===""){
       alert("빈칸을 채워주세요")
       return;
@@ -52,13 +52,11 @@ const Main = () => {
   };
 
   const enterNum= () =>{
-    // alert("안녕",roomaName);
     if(roomNum===""){
       alert("비어있습니다")
       return;
     }
-    // dispatch(roomActions.numJoinDB(roomNum))
-    console.log("되는듯")
+    dispatch(roomActions.numJoinDB({id: userId,roomNum: roomNum}))
   };
 
   const changeRadioQ1 = (e) => {
@@ -268,12 +266,15 @@ const Main = () => {
                 value="2min"
                 onChange={changeRadioQ1}
               />
-            <div>
+              <label
+              for="1"
+              >
               <Text
                is_margin="0 0 0 4px"
                is_size = "25px"
                >2분</Text>
-            </div>
+               </label>
+         
           </Radio>
 
           <Radio>
@@ -281,34 +282,38 @@ const Main = () => {
             
               <input
                 type="radio"
-                id="1"
+                id="2"
                 name="state"
                 value="3min"
                 onChange={changeRadioQ1}
               />
-           <div>
+           <label
+           for="2"
+           >
               <Text 
               is_margin="0 0 0 4px"
               is_size = "25px"
               >3분</Text>
-            </div>
+            </label>
           </Radio>
           <Radio>
             
           
               <input
                 type="radio"
-                id="1"
+                id="3"
                 name="state"
                 value="5min"
                 onChange={changeRadioQ1}
               />
-           <div>
+           <label
+           for="3"
+           >
               <Text 
               is_margin="0 0 0 4px"
               is_size = "25px"
               >5분</Text>
-            </div>
+            </label>
           </Radio>
         </WaitingEnterRadio>
 
@@ -335,14 +340,14 @@ const RoomDiv = styled.div`
   width: 1000px;
   overflow-y: auto;
   overflow-x: hidden;
-  border-radius:18px 18px 0 0;
+  border-radius:18px;
   margin : 15px 0 0 0; 
   background-color : #f2f2f2;
   border : 2px solid black;
   ::-webkit-scrollbar {
     display: none;
   } 
-  box-shadow: 0px 4px 35px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: -5px 5px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 const ListTitle = styled.div`
   display: flex;
