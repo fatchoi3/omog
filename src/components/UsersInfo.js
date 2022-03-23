@@ -63,7 +63,7 @@ const UsersInfo = () => {
       <Progress win={win} lose={lose} width="250px" margin=" 0 auto" />
       <UserScore>
         <Text is_size="14px" is_bold>
-          승률 {win / (win + lose) ? (win / (win + lose)) * 100 + "%" : 0 + "%"}
+          승률 { Math.ceil(win / (win + lose)) ? Math.ceil(win / (win + lose)) * 100 + "%" : 0 + "%"}
         </Text>
         <Text is_size="14px">
           (전체 {win}승 {lose}패)

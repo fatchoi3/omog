@@ -16,11 +16,11 @@ const Omog = memo((props) => {
     props.userInfo.state === "whitePlayer"
       ? true
       : false;
-
+ 
   const socket = props.socket;
   const [X, setX] = useState();
   const [Y, setY] = useState();
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState();
   const [board, setBoard] = useState();
 
   const [min, setMin] = useState(5);
@@ -51,7 +51,7 @@ const Omog = memo((props) => {
         ) {
           const data = { x, y, board, count };
           socket.emit("omog", data, props.userInfo.state);
-          console.log("난플레이어야")
+          console.log("난플레이어야",count)
         }
       }
     });

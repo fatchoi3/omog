@@ -30,7 +30,7 @@ const Game = memo((props) => {
       ? true
       : false;
 
-  console.log("gameInfo", gameInfo);
+  console.log("가져오기gameInfo", gameInfo);
   // const pickGameInfo = useCallback((gameInfo) => {
   //   for (let i = 0; i < gameInfo?.length; i++) {
   //     if (gameInfo[i]?.blackTeamPlayer[0]) {
@@ -59,7 +59,7 @@ const Game = memo((props) => {
   //"http://15.165.158.25/game"
   //"http://localhost:4001/game",
   const [socket, disconnectSocket] = useSocket(
-    "http://15.165.158.25/game",
+    "http://localhost:4001/game",
     gameNum,
     userId
   );
@@ -71,16 +71,19 @@ const Game = memo((props) => {
   }, [disconnectSocket]);
 
   useEffect (()=>{
+    dispatch(gameActions.getGameDB(gameNum));
+    dispatch(userActions.loginCheckDB(userId));  
     let timer= setTimeout(()=>{
       setsping(false)
   },1000)
-  },[]);
+  
+},[]);
   ///
 
-  useEffect(() => {
-    dispatch(userActions.loginCheckDB(userId));
-    dispatch(gameActions.getGameDB(gameNum));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(userActions.loginCheckDB(userId));
+  //   dispatch(gameActions.getGameDB(gameNum));
+  // }, []);
 
   useEffect(() => {
     socket.on("flyingWord", (data) => {
