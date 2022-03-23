@@ -63,8 +63,8 @@ function WaitObserverList({ roomNum, socket }) {
                 blackObserverList.includes(userId)
                 ?
                 <div className="black-observer-box" style={{ width: "367px", height: "273px", dislay: "flex" }}>
-                    <ObserverCard leftObserver>
-                        <ObserverCardInnerBox>
+                    <ObserverCard leftObserver is_cliked>
+                        <ObserverCardInnerBox is_cliked>
                             <Text is_bold="800">흑팀 관전자</Text>
                         </ObserverCardInnerBox>
                         <ObserverListBox>
@@ -97,8 +97,8 @@ function WaitObserverList({ roomNum, socket }) {
                 whiteObserverList.includes(userId)
                 ?
                 <div className="white-observer-box" style={{ textAlign: "center" }}>
-                    <ObserverCard>
-                        <ObserverCardInnerBox>
+                    <ObserverCard is_cliked>
+                        <ObserverCardInnerBox is_cliked>
                             <Text is_bold="800">백팀 관전자</Text>
                         </ObserverCardInnerBox>
                         <ObserverListBox>
@@ -153,7 +153,7 @@ const ObserverCard = styled.div`
     display: flex;
     box-sizing: border-box;
     border: 2px solid black;
-    background: white;
+    background: ${props => props.is_cliked ? "#94D7BB" : "white"};
 
     &:hover {
         outline: 4px solid #94D7BB;
@@ -162,7 +162,7 @@ const ObserverCard = styled.div`
 
 const ObserverCardInnerBox = styled.div`
     width: 100%;
-    color: #19B775;
+    color: ${props => props.is_cliked ? "white" : "#19B775"};
     font-size: 17px;
     display: flex;
     align-items: center;

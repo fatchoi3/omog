@@ -162,7 +162,8 @@ const quickStartPlayer = (id) => {
         console.log("id", id);
         api.get(`/lobby/fastPlayer/${id}`)
             .then(function (response) {
-                console.log("response", response.data.roomNum);
+                console.log("response", response.data);
+                dispatch(joinRoom(response.data.userInfo, id));
                 history.push(`/waiting/${response.data.roomNum}`)
             }).catch(error => {
                 alert("방이 없습니다!")
@@ -173,7 +174,7 @@ const quickStartPlayer = (id) => {
 const quickStartObserver = (id) => {
     return function (dispatch, getState, { history }) {
         console.log("id", id);
-         api.get(`/lobby/fastObserver/${id}`)
+        api.get(`/lobby/fastObserver/${id}`)
             .then(function (response) {
                 console.log("response", response.data.roomNum);
                 history.push(`/waiting/${response.data.roomNum}`)
@@ -209,9 +210,7 @@ export default handleActions({
         console.log("action.payload.roomInfo", action.payload.roomInfo)
     }),
     [JOIN_ROOM]: (state, action) => produce(state, (draft) => {
-        // if (action.payload.localId === action.payload.userInfo.id) {
         draft.userInfo = action.payload.userInfo;
-        // }
         console.log("방입장 action.payload.userInfo", action.payload.userInfo)
     }),
     [SET_WAIT_USER]: (state, action) => produce(state, (draft) => {
@@ -220,16 +219,6 @@ export default handleActions({
         draft.whitePlayer = action.payload.users[0].whitePlayerInfo[0];
         draft.blackObserverList = [...action.payload.users[0].blackTeamObserver];
         draft.whiteObserverList = [...action.payload.users[0].whiteTeamObserver];
-
-        // if (action.payload.id?.state === "blackPlayer") {
-        //     draft.blackPlayer = action.payload.users[0].blackPlayerInfo[0];
-        // } else if (action.payload.id?.state === "whitePlayer") {
-        //     draft.whitePlayer = action.payload.users[0].whitePlayerInfo[0];
-        // } else if (action.payload.id?.state === "blackObserver") {
-        //     draft.blackObserverList = [...action.payload.users[0].blackTeamObserver];
-        // } else {
-        //     draft.whiteObserverList = [...action.payload.users[0].whiteTeamObserver];
-        // }
     }),
     [CHANGE_STATE]: (state, action) => produce(state, (draft) => {
         console.log(action.payload.id);
@@ -238,17 +227,7 @@ export default handleActions({
         draft.whitePlayer = action.payload.users[0].whitePlayerInfo[0];
         draft.blackObserverList = [...action.payload.users[0].blackTeamObserver];
         draft.whiteObserverList = [...action.payload.users[0].whiteTeamObserver];
-        // if (action.payload.user === action.payload.users[0].blackPlayerInfo[0]?.id) {
-        //     draft.userInfo.state = "blackPlayer";
-        // } else if (action.payload.user === action.payload.users[0].whitePlayerInfo[0]?.id) {
-        //     draft.userInfo.state = "whitePlayer";
-        // } else if (action.payload.users[0].blackTeamObserver.includes(action.payload.id)) {
-        //     draft.userInfo.state = "blackObserver";
-        // } else {
-        //     draft.userInfo.state = "whiteObserver";
-        // }
     }),
-    // const filter_list = draft.whiteObserverList.filter((l) => l.id !== action.payload.user.id);
     [RESET_STATE_USER]: (state, action) => produce(state, (draft) => {
         draft.blackObserverList = [];
         draft.whiteObserverList = [];
