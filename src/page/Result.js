@@ -18,7 +18,7 @@ function Result(props) {
     const [loading, setLoading] = useState(true);
     const result = useSelector(state => state.game.result);
     console.log(result);
-    const getGameResult = useSelector(state => state.game.gameresult);
+    const getGameResult = useSelector(state => state.game.gameResult);
     console.log(getGameResult);
     const userId = localStorage.getItem('userId');
 
@@ -89,50 +89,48 @@ function Result(props) {
     //     result: {win : id},
     //     }
 
-    const winUsers = getGameResult.win
-    const LoseUsers = getGameResult.lost
+    // const resultgame = {
+    //     userInfo: [
+    //         {
+    //             id: "test1",
+    //             score: 1234,
+    //             usePoint: 300,
+    //             getPoint: 400,
+    //             totalPoint: 1000,
+    //         },
+    //         {
+    //             id: "test2",
+    //             score: 1234,
+    //             usePoint: 300,
+    //             getPoint: 400,
+    //             totalPoint: 3000,
+    //         },
+    //         {
+    //             id: "test3",
+    //             score: 1234,
+    //             usePoint: 300,
+    //             getPoint: 400,
+    //             totalPoint: 2000,
+    //         },
+    //         {
+    //             id: "test4",
+    //             score: 1234,
+    //             usePoint: 300,
+    //             getPoint: 400,
+    //             totalPoint: 1500,
+    //         },
+    //     ],
+    //     gameInfo: {
+    //         blackTeamPlayer: "id1",
+    //         blackTeamObserver: ["a", "b", "c", "d"],
+    //         whiteTeamPlayer: "id2",
+    //         whiteTeamObserver: ["a", "b", "c", "d"]
+    //     },
+    //     result: { win: "이긴 사람 아이디" }
+    // }
 
-    const resultgame = {
-        userInfo: [
-            {
-                id: "test1",
-                score: 1234,
-                usePoint: 300,
-                getPoint: 400,
-                totalPoint: 1000,
-            },
-            {
-                id: "test2",
-                score: 1234,
-                usePoint: 300,
-                getPoint: 400,
-                totalPoint: 3000,
-            },
-            {
-                id: "test3",
-                score: 1234,
-                usePoint: 300,
-                getPoint: 400,
-                totalPoint: 2000,
-            },
-            {
-                id: "test4",
-                score: 1234,
-                usePoint: 300,
-                getPoint: 400,
-                totalPoint: 1500,
-            },
-        ],
-        gameInfo: {
-            blackTeamPlayer: "id1",
-            blackTeamObserver: ["a", "b", "c", "d"],
-            whiteTeamPlayer: "id2",
-            whiteTeamObserver: ["a", "b", "c", "d"]
-        },
-        result: { win: "이긴 사람 아이디" }
-    }
-
-    const data = useMemo(() => [...resultgame.userInfo], [resultgame.userInfo])
+    const winData = useMemo(() => [...getGameResult.win], [getGameResult.win])
+    const loseData = useMemo(() => [...getGameResult.lose], [getGameResult.lose])
 
     function checkWinner(element) {
         if (element.id === userId) {
@@ -140,8 +138,7 @@ function Result(props) {
         }
     }
 
-    const test_list = [{ id: 'test1' }, { id: "test2" }, { id: "test3" }, { id: "test4" }]
-    let isWinner = test_list.some(checkWinner)
+    let isWinner = getGameResult.win.some(checkWinner)
 
     return (
         <>
@@ -155,8 +152,8 @@ function Result(props) {
                             <Text is_size="150px" is_bold="1500" is_line_height="180px" is_stroke="3px #94D7BB" is_color="white" >승리</Text>
                         </GameResult>
                         <div style={{ display: "flex", width: "100%" }}>
-                            <ResultWinMainTable columns={main_columns} data={data} />
-                            <ResultWinPointTable columns={point_columns} data={data} />
+                            <ResultWinMainTable columns={main_columns} data={winData} />
+                            <ResultWinPointTable columns={point_columns} data={winData} />
                         </div>
                         <div style={{ display: "flex", justifyContent: "center" }}>
                             <Button is_width="15%" is_max_width="8rem" is_min_width="8rem" is_margin="0 4px 0 0" is_padding="5px 10px" is_size="25px"
@@ -180,8 +177,8 @@ function Result(props) {
                             <Text is_size="150px" is_bold="900" is_line_height="180px" is_stroke="3px #94D7BB" is_color="#565656" >패배</Text>
                         </GameResult>
                         <div style={{ display: "flex", width: "100%" }}>
-                            <ResultLoseMainTable columns={main_columns} data={data} />
-                            <ResultLosePointTable columns={point_columns} data={data} />
+                            <ResultLoseMainTable columns={main_columns} data={loseData} />
+                            <ResultLosePointTable columns={point_columns} data={loseData} />
                         </div>
                         <div style={{ display: "flex", justifyContent: "center" }}>
                             <Button is_width="15%" is_max_width="8rem" is_min_width="8rem" is_margin="0 4px 0 0" is_padding="5px 10px" is_size="25px"

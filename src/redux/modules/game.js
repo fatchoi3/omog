@@ -39,9 +39,9 @@ const initialState = {
     Teaching_listB: [],
     Teaching_listW: [],
     result: { win: '' },
-    gameresult: {
-        gameInfo: {},
-        userInfo: {},
+    gameResult: {
+        win: [],
+        lose: [],
         result: {}
     },
     PP: { pointer: false, power: false }
@@ -170,7 +170,7 @@ export default handleActions({
     }),
     [GET_GAME_RESULT]: (state, action) => produce(state, (draft) => {
         console.log(action.payload.result)
-        draft.gameresult = action.payload.result;
+        draft.gameResult = action.payload.result;
     }),
     [GAMEEND]: (state, action) => produce(state, (draft) => {
         console.log(action.payload.result)
