@@ -47,6 +47,7 @@ const UsersInfo = () => {
   const color = UserFaceColor(point);
 
   useEffect(() => {
+    dispatch(userActions.clearOne)
     dispatch(userActions.loginCheckDB(userId));
   }, []);
   return (

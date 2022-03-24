@@ -34,7 +34,7 @@ const Omog = memo((props) => {
   const timeout2 = useRef(null);
 
   const [pointer, setPointer] = useState();
-  const [loading, setLoading] = useState(1);
+
 
   const omoging = useCallback(() => {
     document.addEventListener("mouseup", (e) => {
@@ -392,8 +392,8 @@ const Omog = memo((props) => {
   useEffect(
     () => {
       if (
-        props.userInfo.state == "whitePlayer" ||
-        props.userInfo.state == "blackPlayer"
+        props.userInfo.state === "whitePlayer" ||
+        props.userInfo.state === "blackPlayer"
       ) {
         omoging();
       }

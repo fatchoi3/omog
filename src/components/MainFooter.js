@@ -101,29 +101,34 @@ const MainFooter = () => {
               </Text>
             </Button>
           </div>
-          <LeaderBoard
-            open={modalOpen}
-            close={closeModal}
-            header="누가 누가 잘 했나?"
-          >
-            <LogoWrap>
-              <LogoImg src={Logo} />
-            </LogoWrap>
+          <LeaderBoard open={modalOpen} close={closeModal} header="오늘의 랭킹">
             <SuperLeaders>
               <Leader>
                 <FirstImg src={First} />
-                <Text>{leader_board[0].id}</Text>
-                <Text>{leader_board[0].point}</Text>
+                <Text
+                is_size="25px"
+                is_bold
+                is_margin=" 0 0 8px 0"
+                >{leader_board[0].id}</Text>
+                <Text>   {leader_board[0].point} p </Text>
               </Leader>
               <Leader>
                 <SecondImg src={Second} />
-                <Text>{leader_board[1].id}</Text>
-                <Text>{leader_board[1].point}</Text>
+                <Text
+                is_size="25px"
+                is_bold
+                is_margin=" 0 0 8px 0"
+                >{leader_board[1].id}</Text>
+                <Text> {leader_board[1].point} p </Text>
               </Leader>
               <Leader>
                 <ThirdImg src={Third} />
-                <Text>{leader_board[2].id}</Text>
-                <Text>{leader_board[2].point}</Text>
+                <Text
+                is_size="25px"
+                is_bold
+                is_margin=" 0 0 8px 0"
+                >{leader_board[2].id}</Text>
+                <Text> {leader_board[2].point} p</Text>
               </Leader>
             </SuperLeaders>
             <LeaderSlider list={leader_board} />
@@ -442,40 +447,27 @@ const Nemo = styled.div`
   background-color: #94d7bb;
   margin: 4px 3px 0 0;
 `;
-const LogoWrap = styled.div`
-  position: absolute;
-  width: 100px;
-  height: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px 0;
-  right: 600px;
-  bottom: 200px;
-`;
-const LogoImg = styled.img`
-  width: 200px;
-  height: 100px;
-`;
+
 const SuperLeaders = styled.div`
   display: flex;
-  justify-content: space-around;
-  width: 500px;
-  padding: 0 60px;
+  width: 100%;
+  margin: 5% 18%;
 `;
 const Leader = styled.div`
+  width: 20%;
+  height: 20%;
   text-align: center;
 `;
 const FirstImg = styled.img`
-  width: 50px;
-  height: 50px;
+  width: 50%;
+  height: 50%;
 `;
 const SecondImg = styled.img`
-  width: 50px;
-  height: 50px;
+  width: 50%;
+  height: 50%;
 `;
 const ThirdImg = styled.img`
-  width: 50px;
-  height: 50px;
+  width: 50%;
+  height: 50%;
 `;
 export default MainFooter;

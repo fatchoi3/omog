@@ -111,6 +111,7 @@ const LOG_OUT = "LOG_OUT";
 const GET_USER_INFO = "GET_USER_INFO";
 const GET_LEADERS = "GET_LEADERS";
 const GET_LEADER_BOARD = "GET_LEADER_BOARD";
+const CLEAR_STATE = "CLEAR_STATE";
 
 // action creators
 const loginCheck = createAction(LOGIN_CHECK, (userInfo) => ({ userInfo }));
@@ -119,7 +120,7 @@ const getUserInfo = createAction((GET_USER_INFO), (user_list) => ({ user_list })
 const getLeaders = createAction((GET_LEADERS), (leader_list) => ({ leader_list }))
 const getLeaderBorad = createAction((GET_LEADER_BOARD), (leader_board) => ({ leader_board }))
 const logout = createAction((LOG_OUT), (user) => ({ user }));
-
+const clearOne = createAction(CLEAR_STATE);
 // middleware actions
 const signupDB = (id, nickname, password, passwordConfirm) => {
     return async function (dispatch, getState, { history }) {
@@ -234,6 +235,11 @@ export default handleActions({
         draft.leader_board = action.payload.leader_board;
 
     }),
+    [CLEAR_STATE]: (state, action) =>
+    produce(state, (draft) => {
+        draft.userInfo={};
+
+    }),
 },
     initialState
 );
@@ -248,6 +254,7 @@ const actionCreators = {
     getUserDB,
     getLeaderDB,
     getLeaderBoardDB,
+    clearOne
 
 }
 
