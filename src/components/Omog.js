@@ -454,7 +454,7 @@ const Omog = memo((props) => {
               <ObserverWPT>
                 <Text
                   is_bold
-                  is_color={count % 2 == 0 ? "white" : "white"}
+                  is_color={count % 2 == 0 ? "gray" : "gray"}
                   is_size="25px"
                 >
                   {min}: {sec}
@@ -521,13 +521,13 @@ const TimeStoneR = styled.div`
 `;
 const ObserverWPT = styled.div`
   position: absolute;
-  top: 375px;
-  left: 225px;
+  top: 40%;;
+  left: 13.5%;
 `;
 const ObserverBPT = styled.div`
   position: absolute;
-  top: 700px;
-  left: 225px;
+  top: 75%;
+  left: 13.5%;
 `;
 const ObserverTW = styled.div``;
 const ObserverOmog = styled.div`

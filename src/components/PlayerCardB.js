@@ -6,7 +6,7 @@ import Progress from "./Progress";
 const PlayerCardB = (props) => {
   const win = props.playerInfo?.score[0].win;
   const lose = props.playerInfo?.score[1].lose;
-  console.log("props.playerInfo", props.playerInfo);
+
 
   const UserFaceColor =(point)=>{
     let color= "black 2px"
@@ -33,19 +33,19 @@ const PlayerCardB = (props) => {
 
   return (
     <Container>
-      <UserFace color={UserFaceColor(props.playerInfo?.point)}/>
+      <UserFace color={UserFaceColor(props.playerInfo?.point)} />
       <Text is_bold is_size="30px" is_margin="20px 0">
         {" "}
-        {props.playerInfo ? props.playerInfo.id : "1"}
+        {props.playerInfo ? props.playerInfo.id : "2"}
       </Text>
       <ProgressWrap>
         <Progress win={win} lose={lose} />
       </ProgressWrap>
-      <Text is_margin="10px">
+      <Text is_margin="10px 0">
         승률 {win / (win + lose) ? Math.ceil(win / (win + lose)* 100 ) + "%" : 0 + "%"}{" "}
       </Text>
       <Text is_size="15px">
-        (전체 {win}승{lose}패 )
+        (전체 1{win}승{lose}패 )
       </Text>
     </Container>
   );
@@ -53,10 +53,12 @@ const PlayerCardB = (props) => {
 const Container = styled.div`
   width: 200px;
   height: 300px;
-  border: 4px solid #94d7bb;
+  border: 2px solid black;
   border-radius: 15px;
+  background-color: #e7e7e7;
   margin: 10px 0;
   text-align: center;
+  box-shadow: -5px 5px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 const ProgressWrap = styled.div`
   width: 150px;

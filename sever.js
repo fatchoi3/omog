@@ -181,7 +181,7 @@ gameRoom.on("connect", async (socket) =>{
     socket.on("chat", (chat) => {
       const data = {name:socket.nickname, chat};
       console.log("게임방 채팅data:", chat);
-      gameRoom.to(thisgameNum).emit("chat", data);
+      gameRoom.to(thisgameNum).emit("chat", data, chat.state);
       return () => socket.off("chat");
     });
     //game방 훈수채팅 
@@ -214,13 +214,13 @@ gameRoom.on("connect", async (socket) =>{
     });
 
     //game방 채팅으로 받는부분
-    socket.on("Pointer", (id) => {
+    socket.on("Pointer", (chat) => {
       
       pointer =true;
       const data = {name:socket.nickname, pointer :pointer};
       console.log("Pointer♬♪:",socket.nickname);
       console.log("Pointer data♬♪:", data);
-      gameRoom.to(thisgameNum).emit("Pointer", data);  
+      gameRoom.to(thisgameNum).emit("Pointer", data,chat);  
     });
     
     //오목 게임

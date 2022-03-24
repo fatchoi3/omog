@@ -95,6 +95,7 @@ const Main = () => {
                 is_height="30px"
                 is_width="30px"
                 is_margin="5px 0 0 0"
+                is_background="transparent"
                 _onClick={() => {
                   window.location.reload();
                 }}
@@ -127,6 +128,7 @@ const Main = () => {
                 label="roomNum"
               />
               <Button
+              is_background="transparent"
                 is_margin="4px 10px 0 0 "
                 is_height="30px"
                 is_width="30px"
