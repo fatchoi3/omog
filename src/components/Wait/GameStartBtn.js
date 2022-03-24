@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { Button, Text } from '../../elements';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { history } from '../../redux/configureStore';
-
 import { actionCreators as roomActions } from '../../redux/modules/room';
-import { Button, Text } from '../../elements';
 
 
 function GameStartBtn({ socket, roomNum }) {

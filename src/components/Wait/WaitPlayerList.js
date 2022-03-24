@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Text from '../../elements/Text';
 import Progress from '../Progress';
 
+import { useSelector, useDispatch } from 'react-redux';
 import { actionCreators as roomActions } from '../../redux/modules/room';
 
 
@@ -38,23 +38,6 @@ function WaitPlayerList({ roomNum, socket }) {
         }
     }, [waitingPerson.state])
 
-    // const ChangeToBlackPlayer = (e) => {
-    //     e.preventDefault();
-    //     if (userId === waitingPerson.id) {
-    //         dispatch(roomActions.changeUserInfo(userId, waitingPerson.id, "blackPlayer"))
-    //         socket.emit("changeToPlayer", roomNum, waitingPerson.state, "blackPlayer");
-    //         console.log(waitingPerson.state, "blackPlayer로 변경");
-    //     }
-    // };
-
-    // const ChangeToWhitePlayer = (e) => {
-    //     e.preventDefault();
-    //     if (userId === waitingPerson.id) {
-    //         dispatch(roomActions.changeUserInfo(userId, waitingPerson.id, "whitePlayer"))
-    //         socket.emit("changeToPlayer", roomNum, waitingPerson.state, "whitePlayer");
-    //         console.log(waitingPerson.state, "whitePlayer로 변경");
-    //     }
-    // };
 
     return (
         <PlayerContainer>
@@ -62,14 +45,14 @@ function WaitPlayerList({ roomNum, socket }) {
                 blackPlayer?.hasOwnProperty('id')
                 ?
                 <PlayerCard leftPlayer>
-                    <div style={{ padding: "18px 24px 23px 23px", display: "flex", justifyContent: "space-between" }}>
-                        <div style={{ marginRight: "31px", boxSizing: "border-box" }}>
-                            <div style={{ width: "70px", height: "70px", borderRadius: "50%", backgroundColor: "#D3D3D3", margin: "0 0 6px 0" }}>
-                            </div>
-                            <div>
-                                <Text>{blackPlayer?.id}</Text>
-                            </div>
+                    <div style={{ padding: "21px 13px", boxSizing: "border-box", borderRight: "1px solid #AFADAD", backgroundColor: "#5B5B5B" }}>
+                        <div style={{ width: "70px", height: "70px", borderRadius: "50%", backgroundColor: "#D3D3D3", margin: "0 0 6px 0" }}>
                         </div>
+                        <div>
+                            <Text is_color="white">{blackPlayer?.id}</Text>
+                        </div>
+                    </div>
+                    <div style={{ padding: "18px 24px 23px 23px", display: "flex", justifyContent: "space-between" }}>
                         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                             <Text is_bold="800" is_size="17px" is_line_height="19px" width="100%" is_margin="0 0 10px 0">
                                 Point {blackPlayer?.point}p
@@ -113,21 +96,28 @@ function WaitPlayerList({ roomNum, socket }) {
                     </div>
                 </PlayerCard>
                 :
-                <PlayerCard leftPlayer onClick={ChangeToBlackPlayer} />
+                <PlayerCard leftPlayer onClick={ChangeToBlackPlayer}>
+                    <div style={{ padding: "21px 13px", boxSizing: "border-box", borderRight: "1px solid #AFADAD", backgroundColor: "#5B5B5B" }}>
+                        <div style={{ width: "70px", height: "70px", borderRadius: "50%", backgroundColor: "#5B5B5B", margin: "0 0 6px 0" }}>
+                        </div>
+                        <div>
+                        </div>
+                    </div>
+                </PlayerCard>
             }
 
             {whitePlayer &&
                 whitePlayer?.hasOwnProperty('id')
                 ?
-                <PlayerCard>
-                    <div style={{ padding: "18px 24px 23px 23px", display: "flex", justifyContent: "space-between" }}>
-                        <div style={{ marginRight: "31px", boxSizing: "border-box" }}>
-                            <div style={{ width: "70px", height: "70px", borderRadius: "50%", backgroundColor: "#D3D3D3", margin: "0 0 6px 0" }}>
-                            </div>
-                            <div>
-                                <Text>{whitePlayer?.id}</Text>
-                            </div>
+                <PlayerCard isWhite>
+                    <div style={{ padding: "13px", boxSizing: "border-box", borderRight: "1px solid #AFADAD" }}>
+                        <div style={{ width: "70px", height: "70px", borderRadius: "50%", backgroundColor: "#D3D3D3", margin: "0 0 6px 0" }}>
                         </div>
+                        <div>
+                            <Text>{whitePlayer?.id}</Text>
+                        </div>
+                    </div>
+                    <div style={{ padding: "18px 24px 23px 23px", display: "flex", justifyContent: "space-between" }}>
                         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                             <Text is_bold="800" is_size="17px" is_line_height="19px" is_margin="0 0 10px 0">
                                 Point {whitePlayer?.point}p
@@ -180,17 +170,23 @@ function WaitPlayerList({ roomNum, socket }) {
 const PlayerContainer = styled.div`
     display: flex;
     justify-content: space-between;
+    box-sizing: border-box;
 `
 
 const PlayerCard = styled.div`
     width: 367px;
     height: 130px;
     margin: ${props => props.leftPlayer ? "0 9px 0 0" : "0 0 0 9px"};
-    border: 2px solid black;
+    padding: ${props => props.isWhite ? "8px 0" : 0};
+    /* border: 2px solid black; */
+    outline: 2px solid black;
     box-shadow: -3px 3px 6px 3px #A8937340;
     border-radius: 14px;
     box-sizing: border-box;
     background: white;
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
 
     &:hover {
         outline: 4px solid #94D7BB;
@@ -217,4 +213,4 @@ const PlayerCard = styled.div`
 //     }
 // `
 
-export default React.memo(WaitPlayerList);
+export default WaitPlayerList;

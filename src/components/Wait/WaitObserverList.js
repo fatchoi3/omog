@@ -36,26 +36,6 @@ function WaitObserverList({ roomNum, socket }) {
         console.log(waitingPerson.state, "whiteObserver로 변경");
     }, [waitingPerson.state])
 
-    // const ChangeToBlackObserver = (e) => {
-    //     e.preventDefault();
-    //     if (userId === waitingPerson.id) {
-    //         console.log(userId, waitingPerson.id)
-    //         dispatch(roomActions.changeUserInfo(userId, waitingPerson.id, "blackObserver"))
-    //         socket.emit("changeToObserver", roomNum, waitingPerson.state, "blackObserver")
-    //     }
-    //     console.log(waitingPerson.state, "blackObserver로 변경");
-    // };
-
-    // const ChangeToWhiteObserver = (e) => {
-    //     e.preventDefault();
-    //     if (userId === waitingPerson.id) {
-    //         console.log(userId, waitingPerson.id)
-    //         dispatch(roomActions.changeUserInfo(userId, waitingPerson.id, "whiteObserver"))
-    //         socket.emit("changeToObserver", roomNum, waitingPerson.state, "whiteObserver")
-    //     }
-    //     console.log(waitingPerson.state, "whiteObserver로 변경");
-    // };
-
 
     return (
         <ObserverContainer>
@@ -98,7 +78,7 @@ function WaitObserverList({ roomNum, socket }) {
                 ?
                 <div className="white-observer-box" style={{ textAlign: "center" }}>
                     <ObserverCard is_cliked>
-                        <ObserverCardInnerBox is_cliked>
+                        <ObserverCardInnerBox is_cliked isWhite>
                             <Text is_bold="800">백팀 관전자</Text>
                         </ObserverCardInnerBox>
                         <ObserverListBox>
@@ -113,7 +93,7 @@ function WaitObserverList({ roomNum, socket }) {
                 :
                 <div className="white-observer-box" style={{ textAlign: "center" }} onClick={ChangeToWhiteObserver}>
                     <ObserverCard>
-                        <ObserverCardInnerBox>
+                        <ObserverCardInnerBox isWhite>
                             <Text is_bold="800">백팀 관전자</Text>
                         </ObserverCardInnerBox>
                         <ObserverListBox>
@@ -136,14 +116,6 @@ const ObserverContainer = styled.div`
     justify-content: space-between;
 `
 
-const ObserverListBox = styled.div`
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-`
-
 const ObserverCard = styled.div`
     width: 367px;
     height: 24vh;
@@ -152,8 +124,10 @@ const ObserverCard = styled.div`
     border-radius: 14px;
     display: flex;
     box-sizing: border-box;
-    border: 2px solid black;
+    /* border: 2px solid black; */
+    outline: 2px solid black;
     background: ${props => props.is_cliked ? "#94D7BB" : "white"};
+    overflow: hidden;
 
     &:hover {
         outline: 4px solid #94D7BB;
@@ -161,13 +135,22 @@ const ObserverCard = styled.div`
 `
 
 const ObserverCardInnerBox = styled.div`
-    width: 100%;
-    color: ${props => props.is_cliked ? "white" : "#19B775"};
+    width: 35%;
+    color: ${props => props.isWhite ? "#19B775" : "white"};
     font-size: 17px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-right: 1px solid #D1D1D1
+    border-right: 1px solid #AFADAD;
+    background-color: ${props => props.isWhite ? "white" : "#5B5B5B"}; 
 `
 
-export default React.memo(WaitObserverList);
+const ObserverListBox = styled.div`
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+`
+
+export default WaitObserverList;
