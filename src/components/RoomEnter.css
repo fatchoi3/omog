@@ -9,7 +9,7 @@
     background-color: rgba(0, 0, 0, 0.6);
   }
   .modal > section {
-    width: 100%;
+    width: 52%;
     max-width: 1000px;
     max-height: 900px;
     margin: 0 auto;
@@ -20,13 +20,13 @@
     overflow: hidden;
   }
   .modal > section > header {
-    /* position: relative; */
-    /* padding: 16px 64px 16px 16px; */
+    position: relative;
+    padding: 16px 64px 16px 16px;
     background-color: #94d7bb;
     font-weight: 700;
   }
   .modal > section > header button {
-    /* position: absolute; */
+    position: absolute;
     top: 15px;
     right: 15px;
     width: 30px;
@@ -37,9 +37,8 @@
     background-color: transparent;
   }
   .modal > section > main {
-    width: 100%;
     padding: 16px;
-    height:  50%;;
+    border-top: 1px solid #dee2e6;
   }
   .modal > section > footer {
     padding: 12px 16px;
