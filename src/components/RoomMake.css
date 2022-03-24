@@ -6,46 +6,31 @@
     bottom: 0;
     left: 0;
     z-index: 99;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.5);
   }
   .modal > section {
-    width: 100%;
+    width: 50%;
+    height: 42%;
     max-width: 1000px;
     max-height: 900px;
     margin: 0 auto;
-    border-radius: 0.3rem;
+    border: 2px solid black;
+    border-radius: 1.4rem;
     background-color: #fff;
     /* 팝업이 열릴때 스르륵 열리는 효과 */
     animation: modal-show 0.3s;
     overflow: hidden;
   }
-  .modal > section > header {
-    /* position: relative; */
-    /* padding: 16px 64px 16px 16px; */
-    background-color: #94d7bb;
-    font-weight: 700;
-  }
+ 
   .modal > section > header button {
-    /* position: absolute; */
-    top: 15px;
-    right: 15px;
-    width: 30px;
-    font-size: 21px;
+    width: 5%;
+    margin: 0 5%;
+    font-size: 34px;
     font-weight: 700;
     text-align: center;
-    color: #999;
+    color: white;
+    border:  none;
     background-color: transparent;
-  }
-  .modal > section > main {
-    width: 100%;
-    padding: 16px;
-    height:  50%;;
-  }
-  .modal > section > footer {
-    padding: 12px 16px;
-    display: flex;
-  justify-content: space-between;
-    /* text-align: right; */
   }
   .modal > section > footer button {
     padding: 6px 12px;

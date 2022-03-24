@@ -7,10 +7,14 @@ import UsersInfo from "../components/UsersInfo";
 import MainFooter from "../components/MainFooter";
 import Spinner from "../elements/Spinner";
 import LeaderBoard from "../components/LeaderBoard";
+import RoomMake from "../components/RoomMake";
 import Banner from "../components/Banner";
 import useInput from "../hook/useInput";
 
 import Logo from "../pictures/omogLogo.png";
+import Time from "../pictures/Time.png";
+
+
 import { useDispatch } from "react-redux";
 import { actionCreators as roomActions } from "../redux/modules/room";
 import { actionCreators as userActions } from "../redux/modules/user";
@@ -213,17 +217,21 @@ const Main = () => {
           </ButtonWrap>
         </UserInfoWrap>
 
-        <LeaderBoard
+        <RoomMake
           open={modalOpen}
           close={closeModal}
-          header="방을 만들어 봅시다~!"
+          header="방 만들기"
           enter={enterWaiting}
           enterName="방 만들기"
         >
           <ModalFlex>
-            <Nemo />
-            <Text>방 이름</Text>
-          </ModalFlex>
+          <Front>
+          <RoomNameTitle>
+          <RoomName>
+            <Text
+            is_bold
+            >방 이름</Text>
+            </RoomName>
           <MakeRomm
             name="message"
             onKeyDown={(e) => onKeyPress(e)}
@@ -234,57 +242,72 @@ const Main = () => {
             variant="outlined"
             label="Message"
           />
-          <ModalFlex>
-            <Nemo />
-            <Text>시간</Text>
-          </ModalFlex>
+           </RoomNameTitle>
+          <TimeChoiceTitle>
+            <TimeChoice>
+            <Text
+            is_bold
+            >시간</Text>
+            </TimeChoice>
 
           <WaitingEnterRadio>
-            <Radio>
-              <input
+            <Item>
+              <RadioButton
                 type="radio"
                 id="1"
                 name="state"
-                value="2min"
+                value="2 : 00"
                 onChange={changeRadioQ1}
               />
-              <label for="1">
-                <Text is_margin="0 0 0 4px" is_size="25px">
-                  2분
+              <RadioButtonLabel for="1">
+                <Text is_size="25px">
+                  2 : 00
                 </Text>
-              </label>
-            </Radio>
+              </RadioButtonLabel>
+            </Item>
 
-            <Radio>
-              <input
+            <Item>
+              <RadioButton
                 type="radio"
                 id="2"
                 name="state"
-                value="3min"
+                value="3 : 00"
                 onChange={changeRadioQ1}
               />
-              <label for="2">
-                <Text is_margin="0 0 0 4px" is_size="25px">
-                  3분
+              <RadioButtonLabel for="2">
+                <Text is_size="25px">
+                  3 : 00
                 </Text>
-              </label>
-            </Radio>
-            <Radio>
-              <input
+              </RadioButtonLabel>
+            </Item>
+            <Item>
+              <RadioButton
                 type="radio"
                 id="3"
                 name="state"
-                value="5min"
+                value="5 : 00"
                 onChange={changeRadioQ1}
               />
-              <label for="3">
-                <Text is_margin="0 0 0 4px" is_size="25px">
-                  5분
+              <RadioButtonLabel for="3">
+                <Text is_size="25px">
+                  5 : 00
                 </Text>
-              </label>
-            </Radio>
+              </RadioButtonLabel>
+          
+            </Item>
+         
           </WaitingEnterRadio>
-        </LeaderBoard>
+         </TimeChoiceTitle>
+          </Front>
+          <TimeImg>
+           <Text
+           is_size="40px"
+           is_bold
+           is_margin="0 10% 0 0"
+           > {state?state:""}</Text>
+            </TimeImg>
+          </ModalFlex>
+        </RoomMake>
       </Container>
       <MainFooter />
       <LogoWrap>
@@ -296,7 +319,6 @@ const Main = () => {
 const Container = styled.div`
   display: flex;
   width: 90%;
-  
   margin: 90px 8% 90px 8%;
 `;
 const UserInfoWrap = styled.div`
@@ -353,12 +375,13 @@ const LogoImg = styled.img`
   height: 100%;
 `;
 const MakeRomm = styled.input`
-  width: 400px;
-  height: 50px;
-  border: 0.5px black solid;
+  width: 100%;
+  height: 50%;
+ 
+  border: 2px black solid;
   background-color: #ffffff;
   padding-left: 25px;
-
+  border-radius : 15px;
   ::placeholder {
     font-size: 18px;
   }
@@ -373,15 +396,11 @@ const MakeRomm = styled.input`
     }
   }
 `;
-const Nemo = styled.div`
-  width: 15px;
-  height: 15px;
-  background-color: #94d7bb;
-  margin: 4px 3px 0 0;
-`;
 const ModalFlex = styled.div`
   display: flex;
   margin: 5px 0 15px 0;
+  width : 100%;
+  height: 100%;
 `;
 const RoomFind = styled.div`
   display: flex;
@@ -394,11 +413,114 @@ const RoomInput = styled.input`
   background-color: #e1e1e1;
   border-radius: 15px;
 `;
-const Radio = styled.div`
-  display: flex;
-  height: 40px;
+const Item = styled.div`
+ display: flex;
+ width : 100%;
+ height: 50%;
+  align-items: center;
+  
+  position: relative;
+ 
+  box-sizing: border-box;
+  border-radius: 2px;
+  margin-bottom: 10px;
 `;
 const WaitingEnterRadio = styled.div`
+width : 100%;
+height : 100%;
   display: flex;
+  margin : 10% 0 0 0;
+  
+`;
+
+const TimeImg = styled.div`
+background-image : url(${Time});
+background-size : contain;
+background-repeat: no-repeat;
+height : 100%;
+width : 50%;
+margin : 2% 7% 2% 5%;
+display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+const RoomNameTitle =styled.div`
+display : flex;
+width : 100%;
+height : 40%;
+align-items: center;
+`;
+const RoomName = styled.div`
+width : 20%;
+height : 50%;
+border : 2px solid black;
+border-radius : 15px;
+margin : 0 6% 0 0;
+
+background-color : #94d7bb;
+display: flex;
+align-items: center;
+justify-content: center;
+
+`;
+const TimeChoiceTitle = styled.div`
+display : flex;
+width : 100%;
+height : 40%;
+align-items: center;
+`;
+const TimeChoice = styled.div`
+width : 19%;
+height : 50%;
+border : 2px solid black;
+border-radius : 15px;
+margin : 0 4% 0 0;
+
+background-color : #94d7bb;
+display: flex;
+align-items: center;
+justify-content: center;
+`;
+const Front =styled.div`
+width : 100%;
+margin : 0 4%;
+`;
+const RadioButtonLabel = styled.label`
+ width : 100%;
+ height: 100%;
+ border : 2px solid black;
+ border-radius : 15px;
+ background-color: #E6E6E6;
+ display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+const RadioButton = styled.input`
+  
+  opacity: 0;
+  z-index: 1;
+  cursor: pointer;
+    &:hover ~ ${RadioButtonLabel} {
+      box-shadow: -5px 5px 4px 0px rgba(0, 0, 0, 0.25);
+    &::after {
+      color: white;
+    }
+  }
+  &:checked  {
+    background: #94d7bb;
+    border: 2px solid #94d7bb;
+  }
+  &:checked + ${Item} {
+    background:  #94d7bb;
+    border: 2px solid  #94d7bb;
+  }
+  &:checked + ${RadioButtonLabel} {
+    background:  #94d7bb;
+    border: 1px solid  #94d7bb;
+    &::after {
+      color: white;
+      margin: 4px;
+    }
+  }
 `;
 export default Main;
