@@ -62,7 +62,7 @@ function Result(props) {
     useEffect(() => {
         let timer = setTimeout(() => {
             setLoading(false)
-        }, 700)
+        }, 1000)
     }, []);
 
 
