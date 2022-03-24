@@ -179,7 +179,7 @@ const quickStartObserver = (id) => {
                 console.log("response", response.data.roomNum);
                 history.push(`/waiting/${response.data.roomNum}`)
             }).catch(error => {
-                alert("방이 없습니다!")
+                alert("방이 없습니다!");
                 console.log(error)
             });
     }
@@ -193,6 +193,7 @@ const numJoinDB = (data) => {
                 console.log("안녕 나는 Numjoin", response.data.roomNum);
                 history.push(`/waiting/${response.data.roomNum}`)
             }).catch(error => {
+                alert("방이 없습니다!")
                 // window.alert("방참가 실패!");
                 console.log(error.message)
             });
