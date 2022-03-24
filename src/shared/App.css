@@ -122,6 +122,7 @@ span {
 .chat_from_friend .chat_nick {
   font-size: 15px;
   margin: 0 0 10px 20px;
+  display: flex;
 }
 .chat_from_friend .chat_content {
   display: flex;

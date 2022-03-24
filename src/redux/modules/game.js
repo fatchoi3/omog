@@ -127,8 +127,8 @@ const gameOutDB = (gameNum) => {
 
 const addGameChat = (socket) => {
     return async function (dispatch, getState, { history }) {
-        await socket.on("chat", (data) => {
-            let array = { id: data.name, message: data.chat.chat }
+        await socket.on("chat", (data,state) => {
+            let array = { id: data.name, message: data.chat.chat,  state }
             console.log("채팅받아오기", array)
             dispatch(GameAddChat(array));
         })

@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback, memo } from "react";
 import styled ,{keyframes}from "styled-components";
-import TextField from "@material-ui/core/TextField";
 import useInput from "../hook/useInput";
 import "../shared/App.css";
 import { Button, Text } from "../elements";
@@ -55,7 +54,7 @@ const Chatting = memo((props) => {
           socket.emit("Pointer", message);
          
         }
-        socket.emit("chat", { chat: message });
+        socket.emit("chat", { chat: message,state:isTeam });
         console.log("채팅보내기");
         e.preventDefault();
         setMessage("");
@@ -65,14 +64,14 @@ const Chatting = memo((props) => {
   );
 
   const renderChat = useCallback(() => {
-    return chatList.map(({ id, message }, index) => (
+    return chatList.map(({ id, message ,state}, index) => (
       <>
-      {id === "신의한수"?  <><HighLight/></> :
+      {id === "신의한수"?  <><HighLight key={index}/></> :
       <div
         key={index}
         className={userid == id ? "chat_from_me" : "chat_from_friend"}
       >
-        {(userid != id )? <div className="chat_nick">{id}</div> : null}
+        {(userid != id )? <div className="chat_nick"><Team state={state}/>{id}</div> : null}
         <div className="chat_content">
           <div className="chat_message">{message}</div>
         </div>
@@ -123,6 +122,7 @@ const Chatting = memo((props) => {
                 is_height="30px"
                 is_padding="7px 0px 0px 0px"
                 is_cursor
+                is_background="transparent"
                 is_border="#94D7BB"
                 is_hover="inset -5em 0 0 0 #f0f0f0, inset 5em 0 0 0 #f0f0f0"
                 _onClick={() => {
@@ -156,6 +156,7 @@ const Chatting = memo((props) => {
             is_height="50px"
             is_width="150px"
             is_border="none"
+            is_background="transparent"
             _onClick={onMessageSubmit}
             is_hover="inset -3.5em 0 0 0 #94D7BB, inset 3.5em 0 0 0 #94D7BB"
           >
@@ -270,5 +271,13 @@ const HighLight = styled.div`
         animation-fill-mode: none;
         animation-play-state: running;
   height: 10px;
+`;
+const Team =styled.div`
+width : 10px;
+height :10px;
+border-radius : 10px;
+border : 2px solid black;
+margin : 5px 0; 
+background-color : ${(props) => props.state};
 `;
 export default Chatting;

@@ -5,8 +5,8 @@ import Omog from "../components/Omog";
 import Chatting from "../components/Chatting";
 import TeachingW from "../components/TeachingW";
 import TeachingB from "../components/TeachingB";
-import PlayerCardB from "../components/PlayerCardB";
-import PlayerCardW from "../components/PlayerCardW";
+import PlayerCardB from "../components/PlayerCardW";
+import PlayerCardW from "../components/PlayerCardB";
 import Spinner from "../elements/Spinner";
 
 import { Text } from "../elements";
@@ -59,7 +59,7 @@ const Game = memo((props) => {
   //http://15.165.158.25/game
   //"http://localhost:4001/game",
   const [socket, disconnectSocket] = useSocket(
-    "http://15.165.158.25/game",
+    "http://localhost:4001/game",
     gameNum,
     userId
   );
@@ -79,13 +79,6 @@ const Game = memo((props) => {
   
 },[]);
 
-  ///
-
-  // useEffect(() => {
-  //   dispatch(userActions.loginCheckDB(userId));
-  //   dispatch(gameActions.getGameDB(gameNum));
-  // }, []);
-
   useEffect(() => {
     socket.on("flyingWord", (data) => {
       setRandomNum(rand(10, 1) * 50);
@@ -102,9 +95,7 @@ const Game = memo((props) => {
   return (
     <GameContainer>
       {spin ? (<Spinner type={'page'} is_dim={true} width="200px" />) : ""}
-      <LogoWrap>
-        <LogoImg src={Logo} />
-      </LogoWrap>
+      
       {is_player ? (
         <>
           {loading ? (
@@ -146,10 +137,11 @@ const Game = memo((props) => {
           )}
           <PlayerInfos>
             <>
-              <PlayerCardW playerInfo={whitePlayer} />
+            <PlayerCardW playerInfo={whitePlayer} />
             </>
             <>
-              <PlayerCardB playerInfo={blackPlayer} />
+            <PlayerCardB playerInfo={blackPlayer} />
+              
             </>
           </PlayerInfos>
           <Omog

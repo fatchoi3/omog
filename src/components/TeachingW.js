@@ -96,8 +96,9 @@ const Container = styled.div`
 `;
 const Chat_render_oneChat = styled.div`
   width: 280px;
+  border-radius : 15px;
   overflow-y: auto;
-  margin: 10px 5px 10px 0px;
+  margin: 10px 10px 10px 0px;
   height: 135px;
   border: 3px solid #94d7bb;
   box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
