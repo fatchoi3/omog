@@ -17,7 +17,8 @@ function WaitChat({ socket, roomNum }) {
 
     const sendMessages = useCallback(async (e) => {
         e.preventDefault();
-        await socket.emit("chat", roomNum, messageRef.current.value);
+        const data = { roomNum: roomNum, chat: messageRef.current.value }
+        await socket.emit("chat", data);
         messageRef.current.value = '';
     }, [])
 
@@ -38,8 +39,8 @@ function WaitChat({ socket, roomNum }) {
 
     useEffect(() => {
         const setChat = async () => {
-            await socket.on("chat", (data) => {
-                setMessageList((prev) => [...prev, data]);
+            await socket.on("chat", (chatData) => {
+                setMessageList((prev) => [...prev, chatData]);
             })
         }
 
@@ -71,6 +72,7 @@ function WaitChat({ socket, roomNum }) {
                     is_line_height="31px"
                     is_color="black"
                     is_weight="600"
+                    is_background="#94D7BB"
                     _onClick={exitWaiting}
                     is_hover="inset -5em 0 0 0 red, inset 5em 0 0 0 red"
                 >
@@ -117,6 +119,7 @@ function WaitChat({ socket, roomNum }) {
                     is_weight="700"
                     is_hover="inset -3.5em 0 0 0 #94D7BB, inset 3.5em 0 0 0 #94D7BB"
                     _onClick={sendMessages}
+                    is_radius="0 0 14px 0"
                 >
                     SEND
                 </Button>
@@ -128,9 +131,10 @@ function WaitChat({ socket, roomNum }) {
 
 const ChattingWindow = styled.div`
     width: 100%;
-    min-width: 320px;
-    max-width: 384px;
-    height: 41rem;
+    min-width: 18rem;
+    max-width: 350px;
+    height: 50vh;
+    min-height: 32rem;
     background: white;
     border: 2px solid black;
     border-radius: 14px;
@@ -157,6 +161,7 @@ const ChattingInputContainer = styled.div`
     display: flex;
     border-top: 1px solid #D1D1D1;
     height: 50px;
+    overflow: hidden;
 `
 
 const ChattingContent = styled.div`

@@ -25,10 +25,12 @@ function WaitingUsers({ socket, roomNum }) {
 
         // socket에 입장 정보 보내기
         if (waitingPerson.state === "blackPlayer" || waitingPerson.state === "whitePlayer") {
-            socket.emit("enterRoomPlayer", roomNum, waitingPerson.state);
+            const data = { roomNum: roomNum, state: waitingPerson.state }
+            socket.emit("enterRoomPlayer", data);
             console.log(`enterRoomBlackPlayer 입장, 방번호 : ${roomNum}, ${waitingPerson.state}`);
         } else {
-            socket.emit("enterRoomObserver", roomNum, waitingPerson.state);
+            const data = { roomNum: roomNum, state: waitingPerson.state }
+            socket.emit("enterRoomObserver", data);
             console.log(`enterRoomWhiteObserver 입장, 방번호 : ${roomNum}, ${waitingPerson.state}`)
         }
 

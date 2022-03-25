@@ -24,7 +24,8 @@ function WaitPlayerList({ roomNum, socket }) {
         e.preventDefault();
         if (userId === waitingPerson.id) {
             dispatch(roomActions.changeUserInfo(userId, waitingPerson.id, "blackPlayer"))
-            socket.emit("changeToPlayer", roomNum, waitingPerson.state, "blackPlayer");
+            const data = { roomNum: roomNum, previousTeam: waitingPerson.state, wantTeam: "blackPlayer" }
+            socket.emit("changeToPlayer", data);
             console.log(waitingPerson.state, "blackPlayer로 변경");
         }
     }, [waitingPerson.state])
@@ -33,7 +34,8 @@ function WaitPlayerList({ roomNum, socket }) {
         e.preventDefault();
         if (userId === waitingPerson.id) {
             dispatch(roomActions.changeUserInfo(userId, waitingPerson.id, "whitePlayer"))
-            socket.emit("changeToPlayer", roomNum, waitingPerson.state, "whitePlayer");
+            const data = { roomNum: roomNum, previousTeam: waitingPerson.state, wantTeam: "whitePlayer" }
+            socket.emit("changeToPlayer", data);
             console.log(waitingPerson.state, "whitePlayer로 변경");
         }
     }, [waitingPerson.state])
@@ -46,8 +48,9 @@ function WaitPlayerList({ roomNum, socket }) {
                 ?
                 <PlayerCard leftPlayer>
                     <div style={{ padding: "21px 13px", boxSizing: "border-box", borderRight: "1px solid #AFADAD", backgroundColor: "#5B5B5B" }}>
-                        <div style={{ width: "70px", height: "70px", borderRadius: "50%", backgroundColor: "#D3D3D3", margin: "0 0 6px 0" }}>
-                        </div>
+                        <PlayerThumbnail profileImage={blackPlayer.profileImage} />
+                        {/* <div style={{ width: "70px", height: "70px", borderRadius: "50%", backgroundColor: "#D3D3D3", margin: "0 0 6px 0" }}>
+                        </div> */}
                         <div>
                             <Text is_color="white">{blackPlayer?.id}</Text>
                         </div>
@@ -111,8 +114,7 @@ function WaitPlayerList({ roomNum, socket }) {
                 ?
                 <PlayerCard isWhite>
                     <div style={{ padding: "13px", boxSizing: "border-box", borderRight: "1px solid #AFADAD" }}>
-                        <div style={{ width: "70px", height: "70px", borderRadius: "50%", backgroundColor: "#D3D3D3", margin: "0 0 6px 0" }}>
-                        </div>
+                        <PlayerThumbnail profileImage={whitePlayer.profileImage} />
                         <div>
                             <Text>{whitePlayer?.id}</Text>
                         </div>
@@ -192,25 +194,28 @@ const PlayerCard = styled.div`
         outline: 4px solid #94D7BB;
     }
 `
-
-// const PlayerThumbnail = styled.img`
-//     // width: 100%;
-//     width: 200px;
-//     height: 100px;
-//     position: relative;
-//     padding-top: 75%;
-
-//     img {
-//         position: absolute;
-//         top: 0px;
-//         left: 0px;
-//         width: 100%;
-//         height: 100%;
-//         display: block;
-//         border-radius: 50%;
-//         border: 1px solid black;
-//         object-fit: cover;
-//     }
-// `
+const PlayerThumbnail = styled.div`
+    // width: 100%;
+    width: 70px;
+    height: 70px;
+    margin: 0 0 6px 0;
+    border-radius: 50%;
+    background-image: ${props => props.profileImage ? `url(${props.profileImage})` : ''};
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+/* 
+    img {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        display: block;
+        border-radius: 50%;
+        border: 1px solid black;
+        object-fit: cover;
+    } */
+`
 
 export default WaitPlayerList;

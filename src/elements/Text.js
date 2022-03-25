@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Text = (props) => {
-  const { children, is_size, is_color, is_margin, is_padding, _onClick, is_bold, is_height, is_width, is_center, is_line_height, is_box_sizing, is_stroke, is_border } = props;
+  const { children, is_size, is_color, is_margin, is_padding, _onClick, is_bold, is_height, is_width, is_center, is_line_height, is_box_sizing, is_stroke, is_border, is_cursor } = props;
 
   const styles = {
     is_bold: is_bold,
@@ -17,6 +17,7 @@ const Text = (props) => {
     is_box_sizing: is_box_sizing,
     is_stroke: is_stroke,
     is_border: is_border,
+    is_cursor: is_cursor,
   }
 
   return (
@@ -52,6 +53,7 @@ const ElText = styled.p`
   ${(props) => (props.is_box_sizing ? `box-sizing: ${props.is_box_sizing};` : 'box-sizing: border-box')};
   ${(props) => (props.is_stroke ? `-webkit-text-stroke: ${props.is_stroke};` : '')};
   ${(props) => (props.is_border ? `border: ${props.is_border};` : '')};
+  ${(props) => (props.is_cursor ? `cursor: ${props.is_cursor};` : '')};
 `;
 
 export default Text;

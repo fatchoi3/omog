@@ -6,9 +6,8 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { actionCreators as userActions } from '../redux/modules/user';
 
-import Logo from '../pictures/omokjomok.svg'
-import Button from '../elements/Button';
-import Input from '../elements/Input';
+import Logo from '../pictures/omokjomok.svg';
+import { Text, Input, Button } from '../elements';
 import LoginPageSlider from '../components/Login/LoginPageSlider';
 
 
@@ -41,7 +40,7 @@ function Login(props) {
     const [pickIndex, setPickIndex] = useState(0);
     const [iconIndex, setIconIndex] = useState(0);
     const slideRef = useRef(null);
-    console.log(pickIndex)
+
     const handleIdInput = (e) => {
         setId(e.target.value);
     }
@@ -57,12 +56,6 @@ function Login(props) {
     const idCheck = (id) => {
         let _reg = /^[A-Z0-9a-z]{2,7}$/g;
         return _reg.test(id);
-    }
-
-    const pwdCheck = (password) => {
-        // 최소 8 자, 최소 하나의 문자, 하나의 숫자 및 하나의 특수 문자 :
-        let _reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
-        return _reg.test(password);
     }
 
     const handleSignup = (e) => {
@@ -186,7 +179,7 @@ function Login(props) {
             {explainModal &&
                 <LoginPageModalContainer>
                     <LoginPageModal>
-                        <div style={{ display: "flex", margin: "0 auto", flexDirection: "column", alignContent: "center", alignItems: "center", justifyContent: "center", width: "100%" }}>
+                        <div style={{ display: "flex", margin: "0 auto", flexDirection: "column", alignContent: "center", alignItems: "center", justifyContent: "center", width: "100%", height: "auto" }}>
                             <LoginPageSlider />
                             <Button
                                 is_width="10rem"
@@ -209,7 +202,7 @@ function Login(props) {
                 </LoginPageModalContainer>
             }
             {isOpen &&
-                <LoginPageModalContainer>
+                <LoginPageModalContainer signup>
                     <LoginPageModal signup ref={modalEl}>
                         <div style={{ width: "70%", margin: "0 auto 30px auto", textAlign: "center" }}>
                             <h2 style={{ color: "#189FFB", padding: "0", margin: "0", fontWeight: "800" }}>회원가입</h2>
@@ -304,7 +297,7 @@ function Login(props) {
                     </div>
 
                     <Button
-                        is_width="80%"
+                        is_width="75%"
                         is_height="3rem"
                         is_size="23px"
                         is_weight="600"
@@ -318,9 +311,11 @@ function Login(props) {
                         로그인
                     </Button>
 
-                    <div className="signup_to_box" style={{ width: "14rem", textAlign: "center", display: "flex", justifyContent: "space-between" }}>
-                        <Button is_width="60%" is_cursor="pointer" is_size="13px" is_padding="14px 16px" _onClick={handleSignupModal}>회원가입</Button>
-                        <Button is_width="60%" is_cursor="pointer" is_size="13px" is_padding="14px 16px" _onClick={() => { alert("다시 가입하세요~!") }}>비밀번호 찾기</Button>
+                    <div className="signup_to_box" style={{ width: "14rem", textAlign: "center", display: "flex", justifyContent: "center" }}>
+                        {/* <Button is_width="60%" is_background="#94D7BB" is_radius="10px" is_cursor="pointer" is_size="13px" is_padding="14px 16px" _onClick={handleSignupModal}>
+                            회원가입
+                        </Button> */}
+                        <Text is_color="#616161" is_cursor="pointer" _onClick={handleSignupModal}>회원가입 하러가기</Text>
                     </div>
                 </LoginPageLoginBox>
             </LoginPageContainer>
@@ -355,7 +350,7 @@ const LoginPageModalContainer = styled.div`
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: ${props => props.signup ? "100vh" : "auto"};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -365,13 +360,13 @@ const LoginPageModalContainer = styled.div`
 
 const LoginPageModal = styled.div`
     position: relative;
-    transition: 0.3s;
-    box-shadow: rgb(0 0 0 / 9%) 0px 2px 12px 0px;
-    background: white;
     display: flex;
+    background: white;
     width: ${props => props.signup ? "28%" : "100%"};
     min-width: 330px;
     height: ${props => props.signup ? "561px" : "100vh"};
+    box-shadow: rgb(0 0 0 / 9%) 0px 2px 12px 0px;
+    transition: 0.3s;
     flex-direction: ${props => props.signup ? "column" : ""};
     justify-content: ${props => props.signup ? "center" : ""};
     border-radius: ${props => props.signup ? "14px" : ""};
@@ -403,14 +398,9 @@ const Container = styled.div`
 
 const FillImage = styled.img`
     max-width: 100%;
-    height: auto;
+    height: 100px;
     object-fit: cover;
     outline: ${props => props.isClicked ? "4px solid #94D7BB" : ""};
-    /* box-shadow: 3px 3px 3px #999; */
-
-    &:hover {
-        outline: 4px solid #94D7BB;
-    }
 `;
 
 
