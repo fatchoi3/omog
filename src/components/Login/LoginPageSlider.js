@@ -2,11 +2,11 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styled from 'styled-components';
 
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
-import OmokEx1 from '../pictures/omok_explain1.png'
-import OmokEx2 from '../pictures/omok_explain2.png'
-import OmokEx3 from '../pictures/omok_explain3.png'
-import OmokEx4 from '../pictures/omok_explain4.png'
-import OmokEx5 from '../pictures/omok_explain5.png'
+import OmokEx1 from '../../pictures/omok_explain1.png'
+import OmokEx2 from '../../pictures/omok_explain2.png'
+import OmokEx3 from '../../pictures/omok_explain3.png'
+import OmokEx4 from '../../pictures/omok_explain4.png'
+import OmokEx5 from '../../pictures/omok_explain5.png'
 
 
 

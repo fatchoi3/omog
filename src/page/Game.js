@@ -69,9 +69,9 @@ const Game = memo((props) => {
     dispatch(gameActions.getGameDB(gameNum));
     dispatch(userActions.loginCheckDB(userId));
       setsping(false)
-  },1000)
-  
-},[]);
+    }, 1000)
+
+  }, []);
 
   useEffect(() => {
     socket.on("flyingWord", (data) => {

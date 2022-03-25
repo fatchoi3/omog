@@ -122,7 +122,7 @@ const getLeaderBorad = createAction((GET_LEADER_BOARD), (leader_board) => ({ lea
 const logout = createAction((LOG_OUT), (user) => ({ user }));
 const clearOne = createAction(CLEAR_STATE);
 // middleware actions
-const signupDB = (id, nickname, password, passwordConfirm) => {
+const signupDB = (id, password, passwordConfirm, pickIndex) => {
     return async function (dispatch, getState, { history }) {
         try {
             const res = await api.post("/signup",
@@ -130,11 +130,12 @@ const signupDB = (id, nickname, password, passwordConfirm) => {
                 {
                     id: id,
                     pass: password,
-                    nickname: nickname,
-                    confirmPass: passwordConfirm
+                    confirmPass: passwordConfirm,
+                    profileImage: pickIndex + 1,
                 }
             );
             console.log(res);
+            alert("회원가입이 완료되었습니다. 로그인해주세요.");
         } catch (error) {
             alert(`${error.response.data.errorMessage}`);
         }

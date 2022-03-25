@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styled from 'styled-components';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -8,7 +9,20 @@ import { actionCreators as userActions } from '../redux/modules/user';
 import Logo from '../pictures/omokjomok.svg'
 import Button from '../elements/Button';
 import Input from '../elements/Input';
-import LoginPageSlider from '../components/LoginPageSlider';
+import LoginPageSlider from '../components/Login/LoginPageSlider';
+
+
+import profile1 from '../pictures/omok-profile1.svg';
+import profile2 from '../pictures/omok-profile2.svg';
+import profile3 from '../pictures/omok-profile3.svg';
+import profile4 from '../pictures/omok-profile4.svg';
+import profile5 from '../pictures/omok-profile5.svg';
+import profile6 from '../pictures/omok-profile6.svg';
+import profile7 from '../pictures/omok-profile7.svg';
+import profile8 from '../pictures/omok-profile8.svg';
+import profile9 from '../pictures/omok-profile9.svg';
+import profile10 from '../pictures/omok-profile10.svg';
+import profile11 from '../pictures/omok-profile11.svg';
 
 
 function Login(props) {
@@ -17,23 +31,17 @@ function Login(props) {
     const modalEl = useRef();
 
     const [id, setId] = useState("");
-    const [nickname, setNickname] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");
     const [isOpen, setIsOpen] = useState(false);
     const [explainModal, setExplainModal] = useState(true);
 
-    const loginInputStyles = {
-        is_width: "80%",
-        is_max_width: "20rem",
-        is_margin: "0 0 20px 0",
-        is_padding: "0 5px",
-        is_height: "30px",
-        is_border: "none",
-        is_border_bottom: "1px solid black",
-        is_outline: "none"
-    }
-
+    const icons = [profile1, profile2, profile3, profile4, profile5, profile6, profile7, profile8, profile9, profile10, profile11];
+    const [pickers, setPickers] = useState([]);
+    const [pickIndex, setPickIndex] = useState(0);
+    const [iconIndex, setIconIndex] = useState(0);
+    const slideRef = useRef(null);
+    console.log(pickIndex)
     const handleIdInput = (e) => {
         setId(e.target.value);
     }
@@ -46,12 +54,8 @@ function Login(props) {
         setPasswordConfirm(e.target.value);
     }
 
-    const handleNicknameInput = (e) => {
-        setNickname(e.target.value);
-    }
-
-    const emailCheck = (id) => {
-        let _reg = /^((\w|[\-\.])+)@((\w|[\-\.])+)\.([A-Za-z]+){2,3}$/;
+    const idCheck = (id) => {
+        let _reg = /^[A-Z0-9a-z]{2,7}$/g;
         return _reg.test(id);
     }
 
@@ -63,15 +67,6 @@ function Login(props) {
 
     const handleSignup = (e) => {
         e.preventDefault();
-        // if (!emailCheck(id)) {
-        //     alert('이메일이 형식에 맞지 않습니다!');
-        //     return;
-        // }
-
-        // if (!pwdCheck(password)) {
-        //     alert('비밀번호가 형식에 맞지 않습니다!');
-        //     return;
-        // }
 
         if (password !== passwordConfirm) {
             alert('비밀번호가 일치하지 않습니다!');
@@ -83,7 +78,15 @@ function Login(props) {
             return;
         }
 
-        dispatch(userActions.signupDB(id, nickname, password, passwordConfirm))
+        if (idCheck(id) === false) {
+            alert('아이디 형식이 올바르지 않습니다.');
+            return;
+        }
+
+        dispatch(userActions.signupDB(id, password, passwordConfirm, pickIndex))
+            .then(() => {
+                setIsOpen(false)
+            })
     }
 
     const handleLogin = (e) => {
@@ -117,6 +120,51 @@ function Login(props) {
     const handleExplainModal = () => {
         setExplainModal(false);
     }
+
+    const handleIconClick = useCallback(() => {
+        setIconIndex(pickIndex);
+    })
+
+    const handlePrevClick = useCallback(() => {
+        if (pickIndex <= 0) {
+            setPickIndex(icons.length - 1);
+            return;
+        }
+
+        setPickIndex(pickIndex - 1);
+    }, [pickIndex]);
+
+    const handleNextClick = useCallback(() => {
+        if (pickIndex + 1 === icons.length) {
+            setPickIndex(0);
+            return;
+        }
+
+        setPickIndex(pickIndex + 1);
+    }, [pickIndex]);
+
+    const onPickIndex = useCallback((idx) => {
+        if (pickIndex === idx) {
+            return;
+        }
+
+        setPickIndex(idx);
+    }, [pickIndex]);
+
+    useEffect(() => {
+        setPickers(icons.map((p, idx) => {
+            return (
+                <Picker
+                    key={idx}
+                    onClick={() => onPickIndex(idx)}
+                    background={pickIndex === idx ? '#333333' : '#C4C4C4'}
+                >
+                </Picker>
+            );
+        }));
+
+    }, [onPickIndex, pickIndex]);
+
 
     useEffect(() => {
         if (localStorage.getItem("token")) {
@@ -167,10 +215,41 @@ function Login(props) {
                             <h2 style={{ color: "#189FFB", padding: "0", margin: "0", fontWeight: "800" }}>회원가입</h2>
                         </div>
                         <div style={{ display: "flex", margin: "0 auto", flexDirection: "column", alignContent: "center", alignItems: "center", justifyContent: "center", width: "100%" }}>
-                            <Input is_width="80%" is_max_width="20rem" is_margin="0 0 20px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="아이디" is_outline="none" _onChange={handleIdInput} />
+                            <Input is_width="80%" is_max_width="20rem" is_margin="0 0 20px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="아이디 : 2자 이상 8자 미만, 영문 혹은 영문+숫자" is_outline="none" _onChange={handleIdInput} />
                             <Input is_width="80%" is_max_width="20rem" is_margin="20px 0 20px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="비밀번호" type="password" is_outline="none" _onChange={handlePasswordInput} />
-                            <Input is_width="80%" is_max_width="20rem" is_margin="20px 0 60px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="비밀번호 확인" type="password" is_outline="none" _onChange={handlePasswordConfirmInput} />
-                            {/* <Input is_width="80%" is_max_width="20rem" is_margin="20px 0 60px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="닉네임" _onChange={handleNicknameInput} /> */}
+                            <Input is_width="80%" is_max_width="20rem" is_margin="20px 0 40px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="비밀번호 확인" type="password" is_outline="none" _onChange={handlePasswordConfirmInput} />
+
+                            <div className="SliderContainer" style={{ width: "100%", height: "auto", marginBottom: "10px" }}>
+                                <Container>
+                                    <div className="arrow_box" style={{ display: "flex", alignItems: "center" }}>
+                                        <Arrow isLeft={true} onClick={handlePrevClick}>
+                                            <IoIosArrowBack />
+                                        </Arrow>
+                                    </div>
+                                    <div
+                                        style={{
+                                            width: "100%",
+                                            height: "auto",
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            alignItems: "center"
+                                        }}
+                                        ref={slideRef}
+                                    >
+
+                                        <FillImage
+                                            src={icons[pickIndex]}
+                                            onClick={handleIconClick}
+                                        />
+
+                                    </div>
+                                    <div className="arrow_box" style={{ display: "flex", alignItems: "center" }}>
+                                        <Arrow isLeft={false} onClick={handleNextClick}>
+                                            <IoIosArrowForward />
+                                        </Arrow>
+                                    </div>
+                                </Container>
+                            </div>
 
                             <Button
                                 is_width="13rem"
@@ -187,6 +266,7 @@ function Login(props) {
                     </LoginPageModal>
                 </LoginPageModalContainer>
             }
+
             <div style={{ width: "100%", textAlign: "center" }}>
                 <img src={Logo} alt="로고" style={{ height: "100%", width: "25%" }} />
             </div>
@@ -290,6 +370,7 @@ const LoginPageModal = styled.div`
     background: white;
     display: flex;
     width: ${props => props.signup ? "28%" : "100%"};
+    min-width: 330px;
     height: ${props => props.signup ? "561px" : "100vh"};
     flex-direction: ${props => props.signup ? "column" : ""};
     justify-content: ${props => props.signup ? "center" : ""};
@@ -314,6 +395,42 @@ const LoginPageModal = styled.div`
         }
     }
 `
+const Container = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+`;
 
+const FillImage = styled.img`
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+    outline: ${props => props.isClicked ? "4px solid #94D7BB" : ""};
+    /* box-shadow: 3px 3px 3px #999; */
+
+    &:hover {
+        outline: 4px solid #94D7BB;
+    }
+`;
+
+
+const Arrow = styled.div`
+    margin: 0 15px;
+    ${(props) => props.isLeft ? 'left: 5px' : 'right: 5px'};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    cursor: pointer;
+`;
+
+const Picker = styled.div`
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: ${(props) => props.background};
+    margin: 0 6px;
+    cursor: pointer;
+`;
 
 export default Login;
