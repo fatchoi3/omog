@@ -51,7 +51,7 @@ const Omog = memo((props) => {
           e.offsetY < 640
         ) {
           const data = { x, y, board, count };
-          socket.emit("omog", data, props.userInfo.state);
+          socket.emit("omog", data, props.userInfo.state,gameNum);
           console.log("난플레이어야",count)
         }
       }
@@ -74,7 +74,7 @@ const Omog = memo((props) => {
         ) {
           const data = { x, y, board };
           console.log("pointer", pointer);
-          socket.emit("pointerOmog", data);
+          socket.emit("pointerOmog", data,gameNum);
           console.log("안녕난 훈수야");
           // }
         }
@@ -321,12 +321,12 @@ const Omog = memo((props) => {
   }, [count, pointer]);
 
   useEffect(() => {
-    socket.on("omog", (data, bye, state) => {
-      if(bye === 0 && props.userInfo.state === state){
+    socket.on("omog", (data, checkSamsam, state) => {
+      if(checkSamsam === 0 && props.userInfo.state === state){
        alert("금수입니다!!")
         return;
       }
-      if(bye === 0){
+      if(checkSamsam === 0){
         return;
       }
       console.log("오목 소켓 받기");
@@ -420,7 +420,7 @@ const Omog = memo((props) => {
       if (state === "blackPlayer" ) {
         dispatch(
           gameActions.gameResultDB({
-            result: { win: props.whitePlayer.id },
+            result: { win: props.whitePlayer?.id },
             userInfo: props.userInfo,
             gameNum: gameNum,
           })
@@ -429,7 +429,7 @@ const Omog = memo((props) => {
       if (state === "whitePlayer") 
       dispatch(
         gameActions.gameResultDB({
-          result: { win: props.blackPlayer.id },
+          result: { win: props.blackPlayer?.id },
           userInfo: props.userInfo,
           gameNum: gameNum,
         })
@@ -452,7 +452,7 @@ const Omog = memo((props) => {
                   is_color={count % 2 == 0 ? "white" : "white"}
                   is_size="25px"
                 >
-                  {min}: {sec}
+                  {min2}: {sec2}
                 </Text>
               </TimeStoneL>
             </TimerWrapL>
@@ -465,7 +465,7 @@ const Omog = memo((props) => {
                   is_color={count % 2 == 0 ? "black" : "black"}
                   is_size="25px"
                 >
-                  {min2}: {sec2}
+                  {min}: {sec}
                 </Text>
               </TimeStoneR>
             </TimerWrapR>

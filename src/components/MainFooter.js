@@ -103,31 +103,31 @@ console.log("user_list",user_list)
           <LeaderBoard open={modalOpen} close={closeModal} header="오늘의 랭킹">
             <SuperLeaders>
               <Leader>
-                <FirstImg src={First} img={leader_board[0].profileImage} />
+                <FirstImg src={First} img={leader_board[0]?.profileImage} />
                 <Text
                 is_size="25px"
                 is_bold
                 is_margin=" 0 0 8px 0"
-                >{leader_board[0].id}</Text>
-                <Text>   {leader_board[0].point} p </Text>
+                >{leader_board[0]?.id}</Text>
+                <Text>   {leader_board[0]?.point} p </Text>
               </Leader>
               <Leader>
-                <SecondImg src={Second} img={leader_board[1].profileImage} />
+                <SecondImg src={Second} img={leader_board[1]?.profileImage} />
                 <Text
                 is_size="25px"
                 is_bold
                 is_margin=" 0 0 8px 0"
-                >{leader_board[1].id}</Text>
-                <Text> {leader_board[1].point} p </Text>
+                >{leader_board[1]?.id}</Text>
+                <Text> {leader_board[1]?.point} p </Text>
               </Leader>
               <Leader>
-                <ThirdImg src={Third} img={leader_board[2].profileImage} />
+                <ThirdImg src={Third} img={leader_board[2]?.profileImage} />
                 <Text
                 is_size="25px"
                 is_bold
                 is_margin=" 0 0 8px 0"
-                >{leader_board[2].id}</Text>
-                <Text> {leader_board[2].point} p</Text>
+                >{leader_board[2]?.id}</Text>
+                <Text> {leader_board[2]?.point} p</Text>
               </Leader>
             </SuperLeaders>
             <LeaderSlider list={leader_board} />

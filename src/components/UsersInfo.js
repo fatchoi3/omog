@@ -92,6 +92,7 @@ const UserFace = styled.div`
   background-image : url(${(props) => props.img});
   background-size : contain;
   background-repeat: no-repeat;
+  border-inline: solid 3px black;
   width: 70px;
   height: 70px;
   border-radius: 70px;
