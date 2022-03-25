@@ -4,25 +4,25 @@ import LoadingC from "../pictures/Loading.png"
 import { Text } from ".";
 
 const Spinner = (props) => {
-  const { type, size, is_dim } = props;
+  const { type, size, is_dim, is_result } = props;
 
   return (
     <React.Fragment>
       <SpinnerWrap type={type} is_dim={is_dim}>
         <div>
-          
-        <SpinnerSvg size={size} />
-        
-        <ProgressBar width={props.width} margin={props.margin}>
-      <HighLight width={9/10 * 100 + "%"} />
-    </ProgressBar>
-    <Text
-    is_bold
-    is_color="white"
-    is_size="30px"
-    is_margin="15px"
-    > LOADING . . .</Text>
-    </div>
+
+          <SpinnerSvg size={size} />
+
+          <ProgressBar width={props.width} margin={props.margin}>
+            <HighLight width={9 / 10 * 100 + "%"} />
+          </ProgressBar>
+          <Text
+            is_bold
+            is_color="white"
+            is_size="30px"
+            is_margin="15px"
+          > LOADING . . .</Text>
+        </div>
       </SpinnerWrap>
     </React.Fragment>
   );
@@ -56,6 +56,8 @@ const SpinnerWrap = styled.div`
      height: 100vh;
   `
       : ``}
+      
+      ${(props) => props.is_result ? `background: black; height: 100vh;` : ''}
 `;
 
 const SpinnerSvg = styled.div`

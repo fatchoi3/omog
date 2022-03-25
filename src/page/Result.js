@@ -65,6 +65,7 @@ function Result(props) {
     useEffect(() => {
         let timer = setTimeout(() => {
             setLoading(false)
+            return () => { clearTimeout(timer) }
         }, 1000)
     }, []);
 
@@ -82,7 +83,7 @@ function Result(props) {
 
     return (
         <>
-            {loading ? (<Spinner type={'page'} is_dim={true} width="200px" />) : ""}
+            {loading ? (<Spinner type={'page'} is_result={true} width="200px" />) : ""}
             {isWinner
                 ?
                 <ResultContainer>
@@ -96,13 +97,16 @@ function Result(props) {
                             <ResultWinPointTable columns={point_columns} data={winData} />
                         </div>
                         <div style={{ display: "flex", justifyContent: "center" }}>
-                            <Button is_width="15%" is_max_width="8rem" is_min_width="8rem" is_margin="0 4px 0 0" is_padding="5px 10px" is_size="25px"
-                                is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB" is_background="white"
-                            >
-                                계속하기
-                            </Button>
-                            <Button is_width="15%" is_max_width="8rem" is_min_width="7rem" is_margin="0 0 0 4px" is_padding="5px 10px" is_size="25px"
-                                is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB" is_background="white"
+                            <Button
+                                is_width="15%"
+                                is_max_width="8rem"
+                                is_min_width="7rem"
+                                is_margin="0 0 0 4px"
+                                is_padding="5px 10px"
+                                is_size="25px"
+                                is_background="white"
+                                is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB"
+                                is_radius="14px"
                                 _onClick={exitResult}
                             >
                                 나가기
