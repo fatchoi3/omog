@@ -19,7 +19,7 @@ function ResultLosePointTable({ columns, data }) {
                     </HeadTr>
                 ))}
             </TableThead>
-            <TableTbody {...getTableBodyProps()}>
+            <tbody {...getTableBodyProps()}>
                 {rows.map((row) => {
                     prepareRow(row);
                     return (
@@ -30,7 +30,7 @@ function ResultLosePointTable({ columns, data }) {
                         </BodyTr>
                     );
                 })}
-            </TableTbody>
+            </tbody>
         </TableSheet>
     );
 }
@@ -58,10 +58,6 @@ const Th = styled.th`
     font-size: 22px;
 `
 
-const TableTbody = styled.tbody`
-
-`
-
 const BodyTr = styled.tr`
     text-align: center;
     background: #565656;
@@ -70,7 +66,7 @@ const BodyTr = styled.tr`
 const Td = styled.td`
     font-size: 18px;
     color: #979797;
-    padding: 15px;
+    /* padding: 15px; */
 `
 
 export default ResultLosePointTable;

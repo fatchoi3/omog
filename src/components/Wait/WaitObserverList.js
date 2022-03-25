@@ -139,11 +139,9 @@ const ObserverCard = styled.div`
     border-radius: 14px;
     display: flex;
     box-sizing: border-box;
-    /* border: 2px solid black; */
     outline: 2px solid black;
-    /* background: ${props => props.is_cliked ? "#94D7BB" : "white"}; */
     background: white;
-    overflow: hidden;
+    overflow: auto;
 
     &:hover {
         outline: 4px solid #94D7BB;

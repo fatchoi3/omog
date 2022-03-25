@@ -5,6 +5,8 @@ import { Text, Input, Button } from '../../elements';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+import { actionCreators as roomActions } from '../../redux/modules/room';
+
 
 function WaitChat({ socket, roomNum }) {
     const dispatch = useDispatch();
@@ -51,6 +53,17 @@ function WaitChat({ socket, roomNum }) {
             socket.off("chat");
         }
     }, [messageList])
+
+
+    useEffect(() => {
+        // 방 나갈 때 방 남은 인원 정보 업데이트
+        const byeChangeState = (id, userInfos) => {
+            console.log("bye 정보", id, userInfos)
+            dispatch(roomActions.changeState(id, userInfos));
+            setMessageList((prev) => [...prev, { nickname: 'Goodbye!', chat: `${id}님이 대기방을 떠나셨습니다.` }]);
+        }
+        socket.on("bye", byeChangeState)
+    }, [])
 
     return (
         <ChattingWindow>
@@ -131,7 +144,7 @@ function WaitChat({ socket, roomNum }) {
 
 const ChattingWindow = styled.div`
     width: 100%;
-    min-width: 18rem;
+    min-width: 20rem;
     max-width: 350px;
     height: 50vh;
     min-height: 32rem;

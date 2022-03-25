@@ -48,14 +48,6 @@ function WaitingUsers({ socket, roomNum }) {
         }
         socket.on("changeComplete", changeState);
 
-        // 방 나갈 때 방 남은 인원 정보 업데이트
-        const byeChangeState = (nickname, userInfos) => {
-            console.log("bye 정보", nickname, userInfos)
-            dispatch(roomActions.changeState(nickname, userInfos));
-        }
-        socket.on("bye", byeChangeState)
-        dispatch(roomActions.resetStateUser(userId));
-
         return () => {
             socket.off("changeComplete", changeState);
             socket.disconnect();
