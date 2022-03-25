@@ -56,6 +56,7 @@ const CLEAR_ONE = "CLEAR_ONE";
 const ADD_TEACHING_W = "ADD_TEACHING_W";
 const ADD_TEACHING_B = "ADD_TEACHING_B";
 
+
 // action creators
 const getGame = createAction(GETGAME, (gameInfo) => ({ gameInfo }));
 const getGameResult = createAction(GET_GAME_RESULT, (result) => ({ result }));

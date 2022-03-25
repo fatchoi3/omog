@@ -12,6 +12,13 @@ function LeaderSlider(props) {
     currentPosts = tmp.slice(pickIndex, pickIndex + 3);
 
     return currentPosts;
+  };
+  
+  function NextPosts(tmp) {
+    let currentPosts = 0;
+    currentPosts = tmp.slice(pickIndex+3, pickIndex + 6);
+
+    return currentPosts;
   }
 
   const [pickers, setPickers] = React.useState([]);
@@ -84,7 +91,7 @@ function LeaderSlider(props) {
           {currentPosts(list).map((p, idx) => {
             return (
               <Wrap key={idx}>
-                <Stone color={UserFaceColor(p.point)}/>
+                <Stone color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"http://15.165.158.25/images/1.svg"}/>
                 <TextWrap>
                   <Text
                     is_size="20px"
@@ -102,6 +109,31 @@ function LeaderSlider(props) {
               </Wrap>
             );
           })}
+          
+        </FillDiv>
+        <FillDiv ref={slideRef}>
+          {NextPosts(list).map((p, idx) => {
+            return (
+              <Wrap key={idx}>
+                <Stone color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"http://15.165.158.25/images/1.svg"}/>
+                <TextWrap>
+                  <Text
+                    is_size="20px"
+                    is_color="black"
+                    is_margin="7px 0 0 0px "
+                  >{`${p.id}`}</Text>
+                  <Text
+                    is_size="15px"
+                    is_color="black"
+                    is_margin="9px 0 0 10px "
+                  >
+                    {`${p.point}`}p
+                  </Text>
+                </TextWrap>
+              </Wrap>
+            );
+          })}
+          
         </FillDiv>
         <div
           className="arrow_box"
@@ -119,19 +151,20 @@ function LeaderSlider(props) {
 }
 
 const Container = styled.div`
-  width: 500px;
+  width: 100%;
   height: 100%;
   display: flex;
   margin: 0 auto;
 `;
 
 const FillDiv = styled.div`
-  width: 384px;
+
+  width: 100%;
   height: 200px;
   margin: 20px 0 0 0;
   object-fit: cover;
   padding: 10px 0 0 5px;
-  box-shadow: 2px 2px 2px 3px #999;
+  box-shadow: -3px 4px 2px 3px #999;
 `;
 
 const PickerWrapper = styled.div`
@@ -155,6 +188,10 @@ const Stone = styled.div`
   height: 40px;
   border-radius: 40px;
   border: solid  ${(props)=>props.color};
+  margin : 4% 0 0 5%;
+  background-image : url(${(props)=>props.img});
+  background-size: contain;
+  background-repeat: no-repeat;
 `;
 const TextWrap = styled.div`
   margin: 5px 0 5px 30px;

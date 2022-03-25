@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Text } from "../elements/index";
 
 import Progress from "./Progress";
-import LeaderBoard from "./LeaderBoard";
+
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 
@@ -14,8 +14,8 @@ const UsersInfo = () => {
   const get_user = useSelector((state) => state.user.userInfo);
 
   const userId = localStorage.getItem("userId");
-
-  // console.log("get_user",get_user.score[0].win);
+  const profileImage = get_user.profileImage;
+ console.log("profileImage",profileImage);
   const win = get_user.score[0].win;
   const lose = get_user.score[1].lose;
   const point = get_user.point;
@@ -47,12 +47,13 @@ const UsersInfo = () => {
   const color = UserFaceColor(point);
 
   useEffect(() => {
+    dispatch(userActions.clearOne)
     dispatch(userActions.loginCheckDB(userId));
   }, []);
   return (
     <UserInfoContainer>
       <User>
-        <UserFace color={color}/>
+        <UserFace color={color} img={profileImage}/>
              <UserName>
           <Text is_bold is_size="30px" is_margin="10px">
             {get_user.id}
@@ -88,13 +89,13 @@ const UserScore = styled.div`
   text-align: center;
 `;
 const UserFace = styled.div`
-  // background
+  background-image : url(${(props) => props.img});
+  background-size : contain;
+  background-repeat: no-repeat;
   width: 70px;
   height: 70px;
   border-radius: 70px;
-  // background-color: white;
   border: solid ${(props) => props.color};
-  // padding : auto;
   margin: 10px 20px 10px 20px;
 `;
 const UserName = styled.div`

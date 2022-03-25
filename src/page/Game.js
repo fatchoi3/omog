@@ -10,7 +10,7 @@ import PlayerCardW from "../components/PlayerCardB";
 import Spinner from "../elements/Spinner";
 
 import { Text } from "../elements";
-import Logo from "../pictures/omogLogo.png";
+
 import useSocket from "../hook/useSocket";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -31,16 +31,8 @@ const Game = memo((props) => {
       : false;
 
   console.log("가져오기gameInfo", gameInfo);
-  // const pickGameInfo = useCallback((gameInfo) => {
-  //   for (let i = 0; i < gameInfo?.length; i++) {
-  //     if (gameInfo[i]?.blackTeamPlayer[0]) {
-  //       return gameInfo[i];
-  //     }
-  //   }
-  // }, []);
 
   const realGameInfo = gameInfo[0];
-  // gameInfo[0]?.blackTeamPlayer.length === 0 ? gameInfo[1] : gameInfo[0];
   console.log("realGameInfo", realGameInfo);
   const blackPlayer = realGameInfo?.blackTeamPlayer[0];
   const whitePlayer = realGameInfo?.whiteTeamPlayer[0];
@@ -71,9 +63,11 @@ const Game = memo((props) => {
   }, [disconnectSocket]);
 
   useEffect(() => {
+    dispatch(userActions.clearOne);
+    let timer = setTimeout(() => {
+    
     dispatch(gameActions.getGameDB(gameNum));
     dispatch(userActions.loginCheckDB(userId));
-    let timer = setTimeout(() => {
       setsping(false)
     }, 1000)
 
