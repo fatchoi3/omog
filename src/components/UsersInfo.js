@@ -1,4 +1,4 @@
-import { React, useCallback, useEffect, useState } from "react";
+import { React, useEffect } from "react";
 import styled from "styled-components";
 
 import { Text } from "../elements/index";
@@ -53,7 +53,7 @@ const UsersInfo = () => {
   return (
     <UserInfoContainer>
       <User>
-        <UserFace color={color} img={profileImage}/>
+        <UserFace color={color}img={profileImage ? profileImage:"http://15.165.158.25/images/1.svg"}/>
              <UserName>
           <Text is_bold is_size="30px" is_margin="10px">
             {get_user.id}

@@ -414,6 +414,28 @@ const Omog = memo((props) => {
       console.log("내가 아냐", data.pointer);
     });
   }, [socket]);
+  useEffect(() => {
+    socket.on("byebye", (state) => {
+      console.log("state", state);
+      if (state === "blackPlayer" ) {
+        dispatch(
+          gameActions.gameResultDB({
+            result: { win: props.whitePlayer.id },
+            userInfo: props.userInfo,
+            gameNum: gameNum,
+          })
+        );
+      };
+      if (state === "whitePlayer") 
+      dispatch(
+        gameActions.gameResultDB({
+          result: { win: props.blackPlayer.id },
+          userInfo: props.userInfo,
+          gameNum: gameNum,
+        })
+      );
+    });
+  }, [socket]);
 
  
 
