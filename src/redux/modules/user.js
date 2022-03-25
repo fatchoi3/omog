@@ -1,6 +1,6 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
-import axios from 'axios';
+
 import api from "../../api/api";
 
 
@@ -14,6 +14,7 @@ const initialState = {
             { lose: 0 }
         ],
         point: 10000,
+        profileImage:""
     },
     list: [{
         id: 1,

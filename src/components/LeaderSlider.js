@@ -91,7 +91,7 @@ function LeaderSlider(props) {
           {currentPosts(list).map((p, idx) => {
             return (
               <Wrap key={idx}>
-                <Stone color={UserFaceColor(p.point)}/>
+                <Stone color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"http://15.165.158.25/images/1.svg"}/>
                 <TextWrap>
                   <Text
                     is_size="20px"
@@ -115,7 +115,7 @@ function LeaderSlider(props) {
           {NextPosts(list).map((p, idx) => {
             return (
               <Wrap key={idx}>
-                <Stone color={UserFaceColor(p.point)}/>
+                <Stone color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"http://15.165.158.25/images/1.svg"}/>
                 <TextWrap>
                   <Text
                     is_size="20px"
@@ -189,6 +189,9 @@ const Stone = styled.div`
   border-radius: 40px;
   border: solid  ${(props)=>props.color};
   margin : 4% 0 0 5%;
+  background-image : url(${(props)=>props.img});
+  background-size: contain;
+  background-repeat: no-repeat;
 `;
 const TextWrap = styled.div`
   margin: 5px 0 5px 30px;

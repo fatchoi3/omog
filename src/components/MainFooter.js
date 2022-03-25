@@ -2,7 +2,6 @@ import { React, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { Text, Button } from "../elements/index";
-import Logo from "../pictures/omogLogo.png";
 import First from "../pictures/First1.png";
 import Second from "../pictures/Second2.png";
 import Third from "../pictures/Third3.png";
@@ -18,7 +17,7 @@ const MainFooter = () => {
   const user_leaders = useSelector((state) => state.user.leader_list);
   const leader_board = useSelector((state) => state.user.leader_board);
   const [modalOpen, setModalOpen] = useState(false);
-
+console.log("user_list",user_list)
   const openModal = () => {
     setModalOpen(true);
   };
@@ -64,7 +63,7 @@ const MainFooter = () => {
           {user_list.map((p, idx) => {
             return (
               <UserContent key={idx}>
-                <Userurl color={UserFaceColor(p.point)} />
+                <Userurl color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"http://15.165.158.25/images/1.svg"} />
                 <Text
                   is_size="20px"
                   is_color="black"
@@ -104,7 +103,7 @@ const MainFooter = () => {
           <LeaderBoard open={modalOpen} close={closeModal} header="오늘의 랭킹">
             <SuperLeaders>
               <Leader>
-                <FirstImg src={First} />
+                <FirstImg src={First} img={leader_board[0].profileImage} />
                 <Text
                 is_size="25px"
                 is_bold
@@ -113,7 +112,7 @@ const MainFooter = () => {
                 <Text>   {leader_board[0].point} p </Text>
               </Leader>
               <Leader>
-                <SecondImg src={Second} />
+                <SecondImg src={Second} img={leader_board[1].profileImage} />
                 <Text
                 is_size="25px"
                 is_bold
@@ -122,7 +121,7 @@ const MainFooter = () => {
                 <Text> {leader_board[1].point} p </Text>
               </Leader>
               <Leader>
-                <ThirdImg src={Third} />
+                <ThirdImg src={Third} img={leader_board[2].profileImage} />
                 <Text
                 is_size="25px"
                 is_bold
@@ -138,7 +137,7 @@ const MainFooter = () => {
           {user_leaders.map((p, idx) => {
             return (
               <UserContent key={idx}>
-                <Userurl color={UserFaceColor(p.point)} />
+                <Userurl color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"http://15.165.158.25/images/1.svg"} />
                 <Text
                   is_size="20px"
                   is_color="black"
@@ -174,7 +173,7 @@ const MainFooter = () => {
               height="79"
               rx="13"
               stroke="black"
-              stroke-width="2"
+              strokeWidth="2"
             />
           </g>
           <path
@@ -188,14 +187,14 @@ const MainFooter = () => {
           <g filter="url(#filter1_d_416_37)">
             <mask id="path-5-inside-1_416_37" fill="white">
               <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M54.7156 22.9046L57.0195 32.5139L63.5357 30.0226L64.4045 34.0993H67.4453L69.6174 39.7613L73.7798 37.1894C74.8773 39.8744 75.4819 42.8109 75.4819 45.8879C75.4819 58.6528 65.0766 69.0007 52.2409 69.0007C39.4053 69.0007 29 58.6528 29 45.8879C29 33.1231 39.4053 22.7751 52.2409 22.7751C53.0769 22.7751 53.9025 22.819 54.7156 22.9046Z"
               />
             </mask>
             <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+              fillRule="evenodd"
+              clipRule="evenodd"
               d="M54.7156 22.9046L57.0195 32.5139L63.5357 30.0226L64.4045 34.0993H67.4453L69.6174 39.7613L73.7798 37.1894C74.8773 39.8744 75.4819 42.8109 75.4819 45.8879C75.4819 58.6528 65.0766 69.0007 52.2409 69.0007C39.4053 69.0007 29 58.6528 29 45.8879C29 33.1231 39.4053 22.7751 52.2409 22.7751C53.0769 22.7751 53.9025 22.819 54.7156 22.9046Z"
               fill="#5B5B5B"
             />
@@ -222,25 +221,25 @@ const MainFooter = () => {
           <path
             d="M56.671 54.9355C55.0387 53.2265 50.6683 50.8337 46.2452 54.9355"
             stroke="#BCBCBC"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
           <path
             d="M36.9512 39.1396C36.4172 38.9912 36.0921 38.4271 36.2617 37.8951C37.0142 35.5346 38.2596 33.3726 39.9126 31.5674C41.5541 29.7747 43.5514 28.3844 45.7597 27.4906C46.2829 27.2789 46.8666 27.5953 47.0358 28.1521C47.1984 28.6871 46.9161 29.245 46.4144 29.4511C44.5035 30.2357 42.775 31.4453 41.3515 32.9999C39.9257 34.557 38.8457 36.4168 38.1826 38.4471C38.0113 38.9715 37.4788 39.2863 36.9512 39.1396Z"
             fill="#C4C4C4"
-            fill-opacity="0.4"
+            fillOpacity="0.4"
           />
           <mask id="path-11-inside-2_416_37" fill="white">
             <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+              fillRule="evenodd"
+              clipRule="evenodd"
               d="M107.357 54.1487C108.417 51.4719 109 48.554 109 45.5C109 32.5213 98.4787 22 85.5 22C72.5213 22 62 32.5213 62 45.5C62 58.4787 72.5213 69 85.5 69C92.0602 69 97.9926 66.3119 102.256 61.9771L109.523 64.6587C111.295 65.3128 112.903 63.3709 111.929 61.7517L107.357 54.1487Z"
             />
           </mask>
           <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
+            fillRule="evenodd"
+            clipRule="evenodd"
             d="M107.357 54.1487C108.417 51.4719 109 48.554 109 45.5C109 32.5213 98.4787 22 85.5 22C72.5213 22 62 32.5213 62 45.5C62 58.4787 72.5213 69 85.5 69C92.0602 69 97.9926 66.3119 102.256 61.9771L109.523 64.6587C111.295 65.3128 112.903 63.3709 111.929 61.7517L107.357 54.1487Z"
             fill="white"
           />
@@ -260,9 +259,9 @@ const MainFooter = () => {
           <path
             d="M80 51C81.7222 54.0185 86.3333 58.2444 91 51"
             stroke="black"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
           <defs>
             <filter
@@ -272,9 +271,9 @@ const MainFooter = () => {
               width="362"
               height="103"
               filterUnits="userSpaceOnUse"
-              color-interpolation-filters="sRGB"
+              colorInterpolationFilters="sRGB"
             >
-              <feFlood flood-opacity="0" result="BackgroundImageFix" />
+              <feFlood floodOpacity="0" result="BackgroundImageFix" />
               <feColorMatrix
                 in="SourceAlpha"
                 type="matrix"
@@ -313,9 +312,9 @@ const MainFooter = () => {
               width="68.4819"
               height="68.2256"
               filterUnits="userSpaceOnUse"
-              color-interpolation-filters="sRGB"
+              colorInterpolationFilters="sRGB"
             >
-              <feFlood flood-opacity="0" result="BackgroundImageFix" />
+              <feFlood floodOpacity="0" result="BackgroundImageFix" />
               <feColorMatrix
                 in="SourceAlpha"
                 type="matrix"
@@ -354,9 +353,9 @@ const MainFooter = () => {
               width="13.7103"
               height="13.7102"
               filterUnits="userSpaceOnUse"
-              color-interpolation-filters="sRGB"
+              colorInterpolationFilters="sRGB"
             >
-              <feFlood flood-opacity="0" result="BackgroundImageFix" />
+              <feFlood floodOpacity="0" result="BackgroundImageFix" />
               <feBlend
                 mode="normal"
                 in="SourceGraphic"
@@ -375,9 +374,9 @@ const MainFooter = () => {
               width="13.7103"
               height="13.7102"
               filterUnits="userSpaceOnUse"
-              color-interpolation-filters="sRGB"
+              colorInterpolationFilters="sRGB"
             >
-              <feFlood flood-opacity="0" result="BackgroundImageFix" />
+              <feFlood floodOpacity="0" result="BackgroundImageFix" />
               <feBlend
                 mode="normal"
                 in="SourceGraphic"
@@ -437,6 +436,9 @@ const Userurl = styled.div`
   border-radius: 20px;
   border: solid ${(props) => props.color};
   background: #f0f0f0;
+  background-image : url(${(props) => props.img});
+  background-size : contain;
+  background-repeat: no-repeat;
 `;
 const RankingTitle = styled.div`
   display: flex;
