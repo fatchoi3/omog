@@ -63,17 +63,18 @@ function WaitChat({ socket, roomNum }) {
                     실시간 채팅
                 </Text>
                 <Button
-                    is_size="1.4rem"
+                    is_size="1.5rem"
                     is_width="40%"
                     is_border="none"
                     is_radius="0 14px 0 0"
-                    is_padding="13px 20px"
-                    is_line_height="30px"
+                    // is_padding="13px 20px"
+                    is_line_height="31px"
                     is_color="black"
+                    is_weight="600"
                     _onClick={exitWaiting}
                     is_hover="inset -5em 0 0 0 red, inset 5em 0 0 0 red"
                 >
-                    방 나가기
+                    나가기&#9654;
                 </Button>
             </ChattingHeader>
             <ChattingContent ref={scrollRef}>

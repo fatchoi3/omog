@@ -8,6 +8,8 @@ import ResultWinPointTable from '../components/Result/ResultWinPointTable';
 import ResultLoseMainTable from '../components/Result/ResultLoseMainTable';
 import ResultLosePointTable from '../components/Result/ResultLosePointTable';
 import Spinner from '../elements/Spinner';
+import loser from '../pictures/loser.svg'
+import winner from '../pictures/winner.svg'
 
 import { actionCreators as gameActions } from '../redux/modules/game';
 
@@ -34,7 +36,7 @@ function Result(props) {
             },
             {
                 accessor: "getPoint",
-                Header: "훈수 포인트",
+                Header: "얻은 포인트",
             },
         ],
         []
@@ -54,9 +56,13 @@ function Result(props) {
     }
 
     useEffect(() => {
-        if (result) {
-            dispatch(gameActions.getGameResultDB(userId, result.gameNum, result.result));
-        }
+
+        // if (result) {
+        let timer = setTimeout(() => { dispatch(gameActions.getGameResultDB(userId, result.gameNum, result.result)) }, 1000);
+        // }
+        // dispatch(gameActions.getGameResultDB(userId, result.gameNum, result.result));
+
+        return () => { clearTimeout(timer) }
     }, [result, dispatch])
 
     useEffect(() => {
@@ -86,6 +92,7 @@ function Result(props) {
                 <ResultContainer>
                     <div className="result-container" style={{ margin: "100px auto", width: "60%", position: "relative" }}>
                         <GameResultText>
+                            <img src={winner} alt="승리자" />
                             <Text is_size="150px" is_bold="1500" is_line_height="180px" is_stroke="3px #94D7BB" is_color="white" >승리</Text>
                         </GameResultText>
                         <div style={{ display: "flex", width: "100%" }}>
@@ -112,17 +119,18 @@ function Result(props) {
                     <div className="result-container" style={{ margin: "100px auto", width: "60%" }}>
                         <GameResultText>
                             <Text is_size="150px" is_bold="900" is_line_height="180px" is_stroke="3px #94D7BB" is_color="#565656" >패배</Text>
+                            <img src={loser} alt="패배자" />
                         </GameResultText>
                         <div style={{ display: "flex", width: "100%" }}>
                             <ResultLoseMainTable columns={main_columns} data={loseData} />
                             <ResultLosePointTable columns={point_columns} data={loseData} />
                         </div>
                         <div style={{ display: "flex", justifyContent: "center" }}>
-                            <Button is_width="15%" is_max_width="8rem" is_min_width="8rem" is_margin="0 4px 0 0" is_padding="5px 10px" is_size="25px"
+                            {/* <Button is_width="15%" is_max_width="8rem" is_min_width="8rem" is_margin="0 4px 0 0" is_padding="5px 10px" is_size="25px"
                                 is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB" is_background="white" is_position="relative"
                             >
                                 계속하기
-                            </Button>
+                            </Button> */}
                             <Button is_width="15%" is_max_width="8rem" is_min_width="7rem" is_margin="0 0 0 4px" is_padding="5px 10px" is_size="25px" is_background="white"
                                 is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB"
                                 _onClick={exitResult}
@@ -146,6 +154,8 @@ const ResultContainer = styled.div`
 `
 
 const GameResultText = styled.div`
+    display: flex;
+    justify-content: center;
     width: 100%;
     margin: 0 auto;
     text-align: center;

@@ -176,7 +176,7 @@ const quickStartObserver = (id) => {
         console.log("id", id);
         api.get(`/lobby/fastObserver/${id}`)
             .then(function (response) {
-                console.log("response", response.data.roomNum);
+                console.log("response", response.data);
                 dispatch(joinRoom(response.data.userInfo));
                 history.push(`/waiting/${response.data.roomNum}`)
             }).catch(error => {

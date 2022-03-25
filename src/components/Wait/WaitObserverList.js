@@ -50,7 +50,13 @@ function WaitObserverList({ roomNum, socket }) {
                         <ObserverListBox>
                             {blackObserverList &&
                                 blackObserverList.map((observer, idx) => (
-                                    <Text key={idx} is_line_height="17px" is_margin="0.3rem">{observer}</Text>
+                                    <Text
+                                        key={idx}
+                                        is_width="100%"
+                                        is_line_height="17px"
+                                        is_margin="0.3rem"
+                                        is_border={userId === observer ? "5px solid red" : ""}
+                                    >{observer}</Text>
                                 ))
                             }
                         </ObserverListBox>
@@ -77,14 +83,20 @@ function WaitObserverList({ roomNum, socket }) {
                 whiteObserverList.includes(userId)
                 ?
                 <div className="white-observer-box" style={{ textAlign: "center" }}>
-                    <ObserverCard is_cliked>
+                    <ObserverCard is_cliked isWhite>
                         <ObserverCardInnerBox is_cliked isWhite>
                             <Text is_bold="800">백팀 관전자</Text>
                         </ObserverCardInnerBox>
                         <ObserverListBox>
                             {whiteObserverList &&
                                 whiteObserverList.map((observer, idx) => (
-                                    <Text key={idx} is_line_height="17px" is_margin="0.3rem">{observer}</Text>
+                                    <Text
+                                        key={idx}
+                                        is_width="100%"
+                                        is_line_height="17px"
+                                        is_margin="0.3rem"
+                                        is_border={userId === observer ? "5px solid red" : ""}
+                                    >{observer}</Text>
                                 ))
                             }
                         </ObserverListBox>
@@ -92,7 +104,7 @@ function WaitObserverList({ roomNum, socket }) {
                 </div>
                 :
                 <div className="white-observer-box" style={{ textAlign: "center" }} onClick={ChangeToWhiteObserver}>
-                    <ObserverCard>
+                    <ObserverCard isWhite>
                         <ObserverCardInnerBox isWhite>
                             <Text is_bold="800">백팀 관전자</Text>
                         </ObserverCardInnerBox>
@@ -119,6 +131,7 @@ const ObserverContainer = styled.div`
 const ObserverCard = styled.div`
     width: 367px;
     height: 24vh;
+    padding: ${props => props.isWhite ? "15px 0 15px 0" : ""};
     margin: ${props => props.leftObserver ? "0 9px 0 0" : "0 0 0 9px"};
     box-shadow: -3px 3px 6px 3px #A8937340;
     border-radius: 14px;
@@ -126,7 +139,8 @@ const ObserverCard = styled.div`
     box-sizing: border-box;
     /* border: 2px solid black; */
     outline: 2px solid black;
-    background: ${props => props.is_cliked ? "#94D7BB" : "white"};
+    /* background: ${props => props.is_cliked ? "#94D7BB" : "white"}; */
+    background: white;
     overflow: hidden;
 
     &:hover {
@@ -136,7 +150,7 @@ const ObserverCard = styled.div`
 
 const ObserverCardInnerBox = styled.div`
     width: 35%;
-    color: ${props => props.isWhite ? "#19B775" : "white"};
+    color: ${props => props.isWhite ? "black" : "#19B775"};
     font-size: 17px;
     display: flex;
     align-items: center;
@@ -151,6 +165,7 @@ const ObserverListBox = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
 `
 
 export default WaitObserverList;

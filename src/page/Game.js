@@ -59,7 +59,7 @@ const Game = memo((props) => {
   //http://15.165.158.25/game
   //"http://localhost:4001/game",
   const [socket, disconnectSocket] = useSocket(
-    "http://localhost:4001/game",
+    "http://15.165.158.25/game",
     gameNum,
     userId
   );
@@ -75,9 +75,9 @@ const Game = memo((props) => {
     dispatch(userActions.loginCheckDB(userId));
     let timer = setTimeout(() => {
       setsping(false)
-  },1000)
-  
-},[]);
+    }, 1000)
+
+  }, []);
 
   ///
 
