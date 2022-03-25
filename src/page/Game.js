@@ -131,10 +131,11 @@ const Game = memo((props) => {
           )}
           <PlayerInfos>
             <>
-            <PlayerCardW playerInfo={whitePlayer} />
+            <PlayerCardW playerInfo={blackPlayer} />
+            
             </>
             <>
-            <PlayerCardB playerInfo={blackPlayer} />
+            <PlayerCardB playerInfo={whitePlayer} />
               
             </>
           </PlayerInfos>
@@ -212,17 +213,5 @@ margin : auto;
   zIndex: 9999;
 `;
 
-const LogoWrap = styled.div`
-  position: absolute;
-  width: 100px;
-  height: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px 0;
-`;
-const LogoImg = styled.img`
-  width: 200px;
-  height: 100px;
-`;
+
 export default Game;

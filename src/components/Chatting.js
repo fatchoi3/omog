@@ -34,7 +34,7 @@ const Chatting = memo((props) => {
   );
   const Exiting = useCallback(()=>{
     if( props.userInfo.state === "blackPlayer"|| props.userInfo.state === "whitePlayer"){
-      socket.emit("byebye", props.userInfo.state);
+      socket.emit("byebye", props.userInfo.state,props.gameNum);
       return;
     }
     history.push("/main");
@@ -47,22 +47,22 @@ const Chatting = memo((props) => {
       } else {
         if (teaching === "Text" && isTeam === "white") {
           console.log("Text훈수W")
-          socket.emit("teachingW", {chat: message });
+          socket.emit("teachingW", {chat: message },props.gameNum);
         } 
         if (teaching === "Text" && isTeam === "black") {
           console.log("Text훈수B")
-          socket.emit("teachingB", { chat: message });
+          socket.emit("teachingB", { chat: message },props.gameNum);
         }
         if (teaching === "Fly") {
           console.log("이이상상무무")
-          socket.emit("flyingWord", {chat: message });
+          socket.emit("flyingWord", {chat: message },props.gameNum);
         }
         if(teaching === "Pointer" && message === "신의한수"){
           console.log("마우스로 찍자");
-          socket.emit("Pointer", message);
+          socket.emit("Pointer", message,props.gameNum);
          
         }
-        socket.emit("chat", { chat: message,state:isTeam });
+        socket.emit("chat", { chat: message,state:isTeam },props.gameNum);
         console.log("채팅보내기");
         e.preventDefault();
         setMessage("");
@@ -177,10 +177,10 @@ const Chatting = memo((props) => {
               teachingChoice(e);
             }}
           >
-            <option defaultValue="훈수하기"> 훈수하기</option>
-            <option value="Text">Text</option>
-            <option value="Fly">Fly</option>
-            <option value="Pointer">Pointer</option>
+            <option defaultValue="채팅"> 채팅</option>
+            <option value="Text">플레이어에게</option>
+            <option value="Fly">날리기</option>
+            <option value="Pointer">점찍기</option>
           </TeachingSelect>
           }
         </BottomWrap>
