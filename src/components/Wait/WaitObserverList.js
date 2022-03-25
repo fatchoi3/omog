@@ -21,7 +21,8 @@ function WaitObserverList({ roomNum, socket }) {
         if (userId === waitingPerson.id) {
             console.log(userId, waitingPerson.id)
             dispatch(roomActions.changeUserInfo(userId, waitingPerson.id, "blackObserver"))
-            socket.emit("changeToObserver", roomNum, waitingPerson.state, "blackObserver")
+            const data = { roomNum: roomNum, previousTeam: waitingPerson.state, wantTeam: "blackObserver" }
+            socket.emit("changeToObserver", data)
         }
         console.log(waitingPerson.state, "blackObserver로 변경");
     }, [waitingPerson.state])
@@ -31,7 +32,8 @@ function WaitObserverList({ roomNum, socket }) {
         if (userId === waitingPerson.id) {
             console.log(userId, waitingPerson.id)
             dispatch(roomActions.changeUserInfo(userId, waitingPerson.id, "whiteObserver"))
-            socket.emit("changeToObserver", roomNum, waitingPerson.state, "whiteObserver")
+            const data = { roomNum: roomNum, previousTeam: waitingPerson.state, wantTeam: "whiteObserver" }
+            socket.emit("changeToObserver", data)
         }
         console.log(waitingPerson.state, "whiteObserver로 변경");
     }, [waitingPerson.state])
