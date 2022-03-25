@@ -263,7 +263,7 @@ const Main = () => {
               />
               <RadioButtonLabel for="1">
                 <Text is_size="25px">
-                  2 : 00
+                  2: 00
                 </Text>
               </RadioButtonLabel>
             </Item>
@@ -278,7 +278,7 @@ const Main = () => {
               />
               <RadioButtonLabel for="2">
                 <Text is_size="25px">
-                  3 : 00
+                  3: 00
                 </Text>
               </RadioButtonLabel>
             </Item>
@@ -292,7 +292,7 @@ const Main = () => {
               />
               <RadioButtonLabel for="3">
                 <Text is_size="25px">
-                  5 : 00
+                  5: 00
                 </Text>
               </RadioButtonLabel>
           
@@ -428,7 +428,7 @@ const Item = styled.div`
   margin-bottom: 10px;
 `;
 const WaitingEnterRadio = styled.div`
-width : 100%;
+width : 115%;
 height : 100%;
   display: flex;
   margin : 10% 0 0 0;

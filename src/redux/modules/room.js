@@ -130,7 +130,7 @@ const joinRoomDB = (room) => {
                 dispatch(joinRoom(response.data));
                 history.push(`/waiting/${room.roomNum}`)
             }).catch(error => {
-                // window.alert("방참가 실패!");
+                alert("이미 게임이 시작되었습니다!");
                 console.log(error)
             });
     }

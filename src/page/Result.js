@@ -52,6 +52,7 @@ function Result(props) {
     )
 
     const exitResult = () => {
+        dispatch(gameActions.gameOutDB(result.gameNum));
         history.push(`/main`);
     }
 

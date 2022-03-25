@@ -5,8 +5,10 @@ import "../shared/App.css";
 import { Button, Text } from "../elements";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as gameActions } from "../redux/modules/game";
+import { useHistory } from "react-router-dom";
 
 const Chatting = memo((props) => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [message, onChangeMessage, setMessage] = useInput("");
   const [teaching, setTeaching] = useState();
@@ -15,7 +17,6 @@ const Chatting = memo((props) => {
   
   const chatList = useSelector((state) => state.game.chat_list);
   const scroll = useRef(null);
-  const gameNum = props.gameNum;
   const socket = props.socket;
   const isTeam =
     props.userInfo.state === "blackPlayer" ||
@@ -31,6 +32,13 @@ const Chatting = memo((props) => {
     },
     [teaching]
   );
+  const Exiting = useCallback(()=>{
+    if( props.userInfo.state === "blackPlayer"|| props.userInfo.state === "whitePlayer"){
+      socket.emit("byebye", props.userInfo.state);
+      return;
+    }
+    history.push("/main");
+  },[])
 
   const onMessageSubmit = useCallback(
     (e) => {
@@ -96,6 +104,7 @@ const Chatting = memo((props) => {
     dispatch(gameActions.addGameChat(socket));
     dispatch(gameActions.PointerSocket(socket));
   }, [socket]);
+
   useEffect(() => {
     return () => {
       dispatch(gameActions.clearOne());
@@ -126,8 +135,8 @@ const Chatting = memo((props) => {
                 is_border="#94D7BB"
                 is_hover="inset -5em 0 0 0 #f0f0f0, inset 5em 0 0 0 #f0f0f0"
                 _onClick={() => {
-                  socket.emit("bye", { id: userid });
-                  dispatch(gameActions.gameOutDB(gameNum));
+                  Exiting();
+                
                 }}
               >
                 <Text is_size="24px" is_color="#FFFFFF" is_bold>

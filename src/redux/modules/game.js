@@ -120,7 +120,7 @@ const gameOutDB = (gameNum) => {
         api.delete(`/game/delete/${gameNum}`)
             .then(function (response) {
                 console.log(response);
-                history.push("/main");
+                // history.push("/main");
             })
     }
 };
