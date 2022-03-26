@@ -1,11 +1,11 @@
-import React from "react";
+import React,{memo} from "react";
 import styled from "styled-components";
 import { Text } from "../elements/index";
 import Progress from "./Progress";
 
-const PlayerCardB = (props) => {
-  const win = props.playerInfo?.score[0].win;
-  const lose = props.playerInfo?.score[1].lose;
+const PlayerCardB = memo(({playerInfo,min2,sec2}) => {
+  const win = playerInfo?.score[0].win;
+  const lose = playerInfo?.score[1].lose;
 
 
   const UserFaceColor =(point)=>{
@@ -33,10 +33,10 @@ const PlayerCardB = (props) => {
 
   return (
     <Container>
-      <UserFace color={UserFaceColor(props.playerInfo?.point)} />
+      <UserFace color={UserFaceColor(playerInfo?.point)} />
       <Text is_bold is_size="30px" is_margin="20px 0">
         {" "}
-        {props.playerInfo ? props.playerInfo.id : "2"}
+        {playerInfo ? playerInfo.id : "2"}
       </Text>
       <ProgressWrap>
         <Progress win={win} lose={lose} />
@@ -47,9 +47,15 @@ const PlayerCardB = (props) => {
       <Text is_size="15px">
         (전체 1{win}승{lose}패 )
       </Text>
+      <Text
+       is_bold
+       is_margin="15px"
+       is_color="black"
+       is_size="25px"
+      >{min2} : {sec2}</Text>
     </Container>
   );
-};
+});
 const Container = styled.div`
   width: 200px;
   height: 300px;

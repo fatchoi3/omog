@@ -55,6 +55,7 @@ const UsersInfo = () => {
       <User>
         <UserFace color={color} img={profileImage ? profileImage : "http://13.125.221.178/images/1.svg"} />
         <UserName>
+
           <Text is_bold is_size="30px" is_margin="10px">
             {get_user.id}
           </Text>
@@ -92,6 +93,7 @@ const UserFace = styled.div`
   background-image : url(${(props) => props.img});
   background-size : contain;
   background-repeat: no-repeat;
+  border-inline: solid 3px black;
   width: 70px;
   height: 70px;
   border-radius: 70px;
