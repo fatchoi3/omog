@@ -38,6 +38,10 @@ function Result(props) {
                 accessor: "getPoint",
                 Header: "얻은 포인트",
             },
+            {
+                accessor: "existPoint",
+                Header: "기존 포인트",
+            }
         ],
         []
     );
@@ -66,7 +70,7 @@ function Result(props) {
         let timer = setTimeout(() => {
             setLoading(false)
             return () => { clearTimeout(timer) }
-        }, 1000)
+        }, 3000)
     }, []);
 
 
@@ -83,7 +87,7 @@ function Result(props) {
 
     return (
         <>
-            {loading ? (<Spinner type={'page'} is_result={true} width="200px" />) : ""}
+            {loading ? (<Spinner type={'page'} is_result={true} width="200px" loading_time={2} />) : ""}
             {isWinner
                 ?
                 <ResultContainer>
