@@ -66,7 +66,7 @@ function Result(props) {
         let timer = setTimeout(() => {
             setLoading(false)
             return () => { clearTimeout(timer) }
-        }, 1000)
+        }, 3000)
     }, []);
 
 
@@ -83,7 +83,7 @@ function Result(props) {
 
     return (
         <>
-            {loading ? (<Spinner type={'page'} is_result={true} width="200px" />) : ""}
+            {loading ? (<Spinner type={'page'} is_result={true} width="200px" loading_time={2} />) : ""}
             {isWinner
                 ?
                 <ResultContainer>
