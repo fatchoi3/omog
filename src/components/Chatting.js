@@ -79,6 +79,7 @@ const Chatting = memo((props) => {
         key={index}
         className={userid == id ? "chat_from_me" : "chat_from_friend"}
       >
+        {userid == id ? <Team state={state}/> : ""}
         {(userid != id )? <div className="chat_nick"><Team state={state}/>{id}</div> : null}
         <div className="chat_content">
           <div className="chat_message">{message}</div>

@@ -1,16 +1,15 @@
 import React, { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
 
-import { Button, Text, Input } from "../elements/index";
+import { Button, Text} from "../elements/index";
 import Roomlist from "../components/Roomlist";
 import UsersInfo from "../components/UsersInfo";
 import MainFooter from "../components/MainFooter";
 import Spinner from "../elements/Spinner";
-import LeaderBoard from "../components/LeaderBoard";
 import RoomMake from "../components/RoomMake";
-import Banner from "../components/Banner";
 import useInput from "../hook/useInput";
 
+import exit from "../pictures/exit.png"
 import Logo from "../pictures/omogLogo.png";
 import Time from "../pictures/Time.png";
 
@@ -85,6 +84,31 @@ const Main = () => {
 
   return (
     <>
+    
+    <Button
+              is_margin="3% 8% 2% "
+              is_height="50px"
+              is_width="150px"
+              is_radius="8px"
+              is_border="none"
+              is_background="transparent"
+              is_cursor
+              is_hover="inset -6em 0 0 0 #f0f0f0, inset 6em 0 0 0 #f0f0f0"
+              is_display="flex"
+              _onClick={() => {
+                dispatch(userActions.logout());
+              }}
+            >
+              <ExitImg src={exit}/>
+              <Text 
+              is_size="20px"
+              is_margin="10% 0 0 5%"
+              is_color="#C4C4C4" 
+              is_bold>
+                로그아웃
+              </Text>
+            </Button>
+         
       <Container>
         {loading ? <Spinner type={"page"} is_dim={true} width="200px" /> : ""}
         {/* <Banner /> */}
@@ -121,7 +145,6 @@ const Main = () => {
                 name="roomNum"
                 onKeyDown={(e) => onKeyPressNum(e)}
                 onChange={(e) => onChangeRoomNum(e)}
-                placeholder="what...?"
                 value={roomNum}
                 id="outlined-multiline-static"
                 variant="outlined"
@@ -199,23 +222,9 @@ const Main = () => {
                 관전자 빠른 참가
               </Text>
             </Button>
-            <Button
-              is_margin="5% auto 0 "
-              is_height="100%"
-              is_width="150px"
-              is_radius="8px"
-              is_border=" solid 2px black"
-              is_background="#94d7bb"
-              is_cursor
-              is_hover="inset -6em 0 0 0 #f0f0f0, inset 6em 0 0 0 #f0f0f0"
-              _onClick={() => {
-                dispatch(userActions.logout());
-              }}
-            >
-              <Text is_color="black" is_bold>
-                로그아웃
-              </Text>
-            </Button>
+            <LogoWrap>
+        <LogoImg src={Logo} />
+      </LogoWrap>
           </ButtonWrap>
         </UserInfoWrap>
 
@@ -312,16 +321,14 @@ const Main = () => {
         </RoomMake>
       </Container>
       <MainFooter />
-      <LogoWrap>
-        <LogoImg src={Logo} />
-      </LogoWrap>
+      
     </>
   );
 };
 const Container = styled.div`
   display: flex;
   width: 90%;
-  margin: 90px 8% 90px 8%;
+  margin: 1% 8% 1% 8%;
 `;
 const UserInfoWrap = styled.div`
   width: 20%;
@@ -362,18 +369,14 @@ const ListTip = styled.div`
   display: flex;
 `;
 const LogoWrap = styled.div`
-  position: absolute;
-  width: 14%;
-  height: 14%;
+  width: 100%;
+  height: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px 0;
-  right: 9%;
-  bottom: 7%;
 `;
 const LogoImg = styled.img`
-  width: 100%;
+  width: 50%;
   height: 100%;
 `;
 const MakeRomm = styled.input`
@@ -524,5 +527,9 @@ const RadioButton = styled.input`
       margin: 4px;
     }
   }
+`;
+const ExitImg = styled.img`
+width: 35%;
+height:100%;
 `;
 export default Main;

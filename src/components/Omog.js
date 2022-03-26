@@ -5,33 +5,33 @@ import { Text } from "../elements";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as gameActions } from "../redux/modules/game";
 
-const Omog = memo((props) => {
+const Omog = memo(({ socket, blackPlayer,whitePlayer,userInfo,gameNum ,min,min2,sec,sec2,timeout,timeout2,timeOut,timeOut2}) => {
   const dispatch = useDispatch();
 
   const userid = localStorage.getItem("userId");
-  const gameNum = props.gameNum;
+  // const gameNum = props.gameNum;
   const canvasRef = useRef(null);
   const is_player =
-    props.userInfo.state === "blackPlayer" ||
-    props.userInfo.state === "whitePlayer"
+    userInfo.state === "blackPlayer" ||
+    userInfo.state === "whitePlayer"
       ? true
       : false;
  
-  const socket = props.socket;
+  // const socket = props.socket;
   const [X, setX] = useState();
   const [Y, setY] = useState();
   const [count, setCount] = useState();
   const [board, setBoard] = useState();
 
-  const [min, setMin] = useState(5);
-  const [sec, setSec] = useState(0);
-  const time = useRef(300);
-  const timeout = useRef(null);
+  // const [min, setMin] = useState(5);
+  // const [sec, setSec] = useState(0);
+  // const time = useRef(300);
+  // const timeout = useRef(null);
 
-  const [min2, setMin2] = useState(5);
-  const [sec2, setSec2] = useState(0);
-  const time2 = useRef(300);
-  const timeout2 = useRef(null);
+  // const [min2, setMin2] = useState(5);
+  // const [sec2, setSec2] = useState(0);
+  // const time2 = useRef(300);
+  // const timeout2 = useRef(null);
 
   const [pointer, setPointer] = useState();
 
@@ -51,7 +51,7 @@ const Omog = memo((props) => {
           e.offsetY < 640
         ) {
           const data = { x, y, board, count };
-          socket.emit("omog", data, props.userInfo.state,gameNum);
+          socket.emit("omog", data, userInfo.state,gameNum);
           console.log("난플레이어야",count)
         }
       }
@@ -82,21 +82,21 @@ const Omog = memo((props) => {
     });
   }, []);
 
-  const timeOut = () => {
-    timeout.current = setInterval(() => {
-      setMin(parseInt(time.current / 60));
-      setSec(time.current % 60);
-      time.current -= 1;
-    }, 1000);
-  };
+  // const timeOut = () => {
+  //   timeout.current = setInterval(() => {
+  //     setMin(parseInt(time.current / 60));
+  //     setSec(time.current % 60);
+  //     time.current -= 1;
+  //   }, 1000);
+  // };
 
-  const timeOut2 = () => {
-    timeout2.current = setInterval(() => {
-      setMin2(parseInt(time2.current / 60));
-      setSec2(time2.current % 60);
-      time2.current -= 1;
-    }, 1000);
-  };
+  // const timeOut2 = () => {
+  //   timeout2.current = setInterval(() => {
+  //     setMin2(parseInt(time2.current / 60));
+  //     setSec2(time2.current % 60);
+  //     time2.current -= 1;
+  //   }, 1000);
+  // };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -279,8 +279,8 @@ const Omog = memo((props) => {
         case 1:
           dispatch(
             gameActions.gameResultDB({
-              result: { win: props.blackPlayer.id },
-              userInfo: props.userInfo,
+              result: { win:blackPlayer.id },
+              userInfo: userInfo,
               gameNum: gameNum,
             })
           );
@@ -289,8 +289,8 @@ const Omog = memo((props) => {
         case 2:
           dispatch(
             gameActions.gameResultDB({
-              result: { win: props.whitePlayer.id },
-              userInfo: props.userInfo,
+              result: { win:whitePlayer.id },
+              userInfo: userInfo,
               gameNum: gameNum,
             })
           );
@@ -322,7 +322,7 @@ const Omog = memo((props) => {
 
   useEffect(() => {
     socket.on("omog", (data, checkSamsam, state) => {
-      if(checkSamsam === 0 && props.userInfo.state === state){
+      if(checkSamsam === 0 && userInfo.state === state){
        alert("금수입니다!!")
         return;
       }
@@ -364,41 +364,41 @@ const Omog = memo((props) => {
     });
   }, [socket]);
   //시간 작동
-  useEffect(() => {
-    if (time.current < 0) {
-      console.log("타임 아웃1");
-      dispatch(
-        gameActions.gameResultDB({
-          result: { win: props.blackPlayer.id },
-          userInfo: props.userInfo,
-          gameNum: gameNum,
-        })
-      );
-      clearInterval(timeout.current);
-    }
-    if (time2.current < 0) {
-      console.log("타임 아웃2");
-      dispatch(
-        gameActions.gameResultDB({
-          result: { win: props.whitePlayer.id },
-          userInfo: props.userInfo,
-          gameNum: gameNum,
-        })
-      );
-      clearInterval(timeout2.current);
-    }
-  }, [sec, sec2]);
+  // useEffect(() => {
+  //   if (time.current < 0) {
+  //     console.log("타임 아웃1");
+  //     dispatch(
+  //       gameActions.gameResultDB({
+  //         result: { win: props.blackPlayer.id },
+  //         userInfo: props.userInfo,
+  //         gameNum: gameNum,
+  //       })
+  //     );
+  //     clearInterval(timeout.current);
+  //   }
+  //   if (time2.current < 0) {
+  //     console.log("타임 아웃2");
+  //     dispatch(
+  //       gameActions.gameResultDB({
+  //         result: { win: props.whitePlayer.id },
+  //         userInfo: props.userInfo,
+  //         gameNum: gameNum,
+  //       })
+  //     );
+  //     clearInterval(timeout2.current);
+  //   }
+  // }, [sec, sec2]);
 
   useEffect(
     () => {
       if (
-        props.userInfo.state === "whitePlayer" ||
-        props.userInfo.state === "blackPlayer"
+        userInfo.state === "whitePlayer" ||
+        userInfo.state === "blackPlayer"
       ) {
         omoging();
       }
     },
-    [props.userInfo.state],
+    [userInfo.state],
     pointer
   );
 
@@ -420,8 +420,8 @@ const Omog = memo((props) => {
       if (state === "blackPlayer" ) {
         dispatch(
           gameActions.gameResultDB({
-            result: { win: props.whitePlayer?.id },
-            userInfo: props.userInfo,
+            result: { win: whitePlayer?.id },
+            userInfo: userInfo,
             gameNum: gameNum,
           })
         );
@@ -429,8 +429,8 @@ const Omog = memo((props) => {
       if (state === "whitePlayer") 
       dispatch(
         gameActions.gameResultDB({
-          result: { win: props.blackPlayer?.id },
-          userInfo: props.userInfo,
+          result: { win: blackPlayer?.id },
+          userInfo: userInfo,
           gameNum: gameNum,
         })
       );
@@ -472,26 +472,6 @@ const Omog = memo((props) => {
           </>
         ) : (
           <>
-            <ObserverTW>
-              <ObserverWPT>
-                <Text
-                  is_bold
-                  is_color={count % 2 == 0 ? "gray" : "gray"}
-                  is_size="25px"
-                >
-                  {min}: {sec}
-                </Text>
-              </ObserverWPT>
-              <ObserverBPT>
-                <Text
-                  is_bold
-                  is_color={count % 2 == 0 ? "black" : "black"}
-                  is_size="25px"
-                >
-                  {min2}: {sec2}
-                </Text>
-              </ObserverBPT>
-            </ObserverTW>
             <ObserverOmog>
               <canvas ref={canvasRef} id="canvas" />
             </ObserverOmog>

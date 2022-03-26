@@ -1,15 +1,12 @@
 import React, { useState, useRef, useEffect, memo, useCallback } from "react";
 import styled, { keyframes } from "styled-components";
 
-import Omog from "../components/Omog";
-import Chatting from "../components/Chatting";
-import TeachingW from "../components/TeachingW";
-import TeachingB from "../components/TeachingB";
-import PlayerCardB from "../components/PlayerCardW";
-import PlayerCardW from "../components/PlayerCardB";
-import Spinner from "../elements/Spinner";
 
-import { Text } from "../elements";
+import Spinner from "../elements/Spinner";
+import PlayerGame from "../components/PlayerGame";
+import ObserverGame from "../components/ObserverGame";
+
+
 
 import useSocket from "../hook/useSocket";
 
@@ -30,28 +27,47 @@ const Game = memo((props) => {
       ? true
       : false;
 
-  console.log("가져오기gameInfo", gameInfo);
+  // console.log("가져오기gameInfo", gameInfo);
 
   const realGameInfo = gameInfo[0];
-  console.log("realGameInfo", realGameInfo);
+  // console.log("realGameInfo", realGameInfo);
   const blackPlayer = realGameInfo?.blackTeamPlayer[0];
   const whitePlayer = realGameInfo?.whiteTeamPlayer[0];
-  console.log("blackTeamPlayer", blackPlayer);
-  console.log("whiteTeamPlayer", whitePlayer);
-  const [randomNum, setRandomNum] = useState();
+  // console.log("blackTeamPlayer", blackPlayer);
+  // console.log("whiteTeamPlayer", whitePlayer);
 
-  const [loading, setLoading] = useState(1);
-  const [flying, setFlying] = useState();
+  const [min, setMin] = useState(5);
+  const [sec, setSec] = useState(0);
+  const time = useRef(300);
+  const timeout = useRef(null);
 
-  const rand = (max, min) => {
-    return Math.floor(Math.random() * (max - min)) + min;
+  const [min2, setMin2] = useState(5);
+  const [sec2, setSec2] = useState(0);
+  const time2 = useRef(300);
+  const timeout2 = useRef(null);
+
+
+  const timeOut = () => {
+    timeout.current = setInterval(() => {
+      setMin(parseInt(time.current / 60));
+      setSec(time.current % 60);
+      time.current -= 1;
+    }, 1000);
   };
 
-  //////수정사항
-  //http://15.165.158.25/game
+  const timeOut2 = () => {
+    timeout2.current = setInterval(() => {
+      setMin2(parseInt(time2.current / 60));
+      setSec2(time2.current % 60);
+      time2.current -= 1;
+    }, 1000);
+  };
+
+
+  //http://13.125.221.178/game
   //"http://localhost:4001/game",
   const [socket, disconnectSocket] = useSocket(
-    "http://15.165.158.25/game",
+    "http://13.125.221.178/game",
     gameNum,
     userId
   );
@@ -72,83 +88,64 @@ const Game = memo((props) => {
     }, 1000)
 
   }, []);
+   //시간 작동
+   useEffect(() => {
+    if (time.current < 0) {
+      console.log("타임 아웃1");
+      dispatch(
+        gameActions.gameResultDB({
+          result: { win: props.blackPlayer.id },
+          userInfo: props.userInfo,
+          gameNum: gameNum,
+        })
+      );
+      clearInterval(timeout.current);
+    }
+    if (time2.current < 0) {
+      console.log("타임 아웃2");
+      dispatch(
+        gameActions.gameResultDB({
+          result: { win: props.whitePlayer.id },
+          userInfo: props.userInfo,
+          gameNum: gameNum,
+        })
+      );
+      clearInterval(timeout2.current);
+    }
+  }, [sec, sec2]);
 
-  useEffect(() => {
-    socket.on("flyingWord", (data) => {
-      setRandomNum(rand(10, 1) * 50);
-      setFlying(data.chat.chat);
-      setLoading(0);
-      console.log("randomNum", randomNum);
-      let timer = setTimeout(() => {
-        console.log("시간은 똑딲똑딱");
-        setLoading(1);
-      }, 1000);
-    });
-  }, [socket]);
+  
 
   return (
     <GameContainer>
       {spin ? (<Spinner type={'page'} is_dim={true} width="200px" />) : ""}
-      
       {is_player ? (
         <>
-          {loading ? (
-            ""
-          ) : (
-            <DialogBlock RandomNum={randomNum}>
-              <Text is_size="50px" is_margin="20px 0 50px">
-                {flying}
-              </Text>
-            </DialogBlock>
-          )}
-          <Wrap>
-            <Omog
-              userInfo={userInfo}
-              gameNum={gameNum}
-              socket={socket}
-              blackPlayer={blackPlayer}
-              whitePlayer={whitePlayer}
-            />
-            <TeachingWrap>
-              <TeachingB playerInfo={blackPlayer} socket={socket} />
-              <TeachingW playerInfo={whitePlayer} socket={socket} />
-            </TeachingWrap>
-          </Wrap>
-          <ChattingWrap>
-            <Chatting gameNum={gameNum} socket={socket} userInfo={userInfo} is_player={is_player} />
-          </ChattingWrap>
+          <PlayerGame 
+          socket={socket} 
+          blackPlayer={blackPlayer}
+          whitePlayer={whitePlayer}
+          userInfo={userInfo}
+          gameNum={gameNum} 
+          min={min} min2={min2} 
+          sec={sec} sec2={sec2} 
+          timeout={timeout} timeout2={timeout2}
+          timeOut={timeOut} timeOut2={timeOut2} />
+           
         </>
       ) : (
         <>
-          {loading ? (
-            ""
-          ) : (
-            <DialogBlock RandomNum={randomNum}>
-              <Text is_size="50px" is_margin="20px 0 50px">
-                {flying}
-              </Text>
-            </DialogBlock>
-          )}
-          <PlayerInfos>
-            <>
-            <PlayerCardW playerInfo={blackPlayer} />
-            
-            </>
-            <>
-            <PlayerCardB playerInfo={whitePlayer} />
-              
-            </>
-          </PlayerInfos>
-          <Omog
-            userInfo={userInfo}
-            gameNum={gameNum}
-            socket={socket}
-            blackPlayer={blackPlayer}
-            whitePlayer={whitePlayer}
-          />
-          <ChattingWrap>
-            <Chatting gameNum={gameNum} socket={socket} userInfo={userInfo} is_player={is_player} />
-          </ChattingWrap>
+          <ObserverGame 
+          socket={socket} 
+          blackPlayer={blackPlayer}
+          whitePlayer={whitePlayer}
+          userInfo={userInfo}
+          gameNum={gameNum} 
+          min={min} min2={min2} 
+          sec={sec} sec2={sec2} 
+          timeout={timeout} timeout2={timeout2}
+          timeOut={timeOut} timeOut2={timeOut2} />
+          
         </>
       )}
     </GameContainer>
@@ -163,55 +160,4 @@ const GameContainer = styled.div`
   // background-color: pink;
   justify-content: space-between;
 `;
-const Wrap = styled.div`
-  width: 950px;
-  padding: 30px 10px 20px 10px;
-`;
-const TeachingWrap = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 950px;
-  margin: 20px 0px 0px;
-`;
-
-const PlayerInfos = styled.div`
-  height: 680px;
-  display: flex;
-  flex-direction: column;
-  padding: 120px 0px;
-  margin: 0 20px;
-`;
-const ChattingWrap = styled.div`
-  width: 450px;
-  margin: 0px 10px 0px 0px;
-`;
-
-const slideUp = keyframes`
-from {
-  transform: translateX(600px);
-}
-to {
-  transform : translateX(0px);
-}
-`;
-
-const DialogBlock = styled.div`
-position: absolute;
-top: ${(props) => props.RandomNum}px;
-max-width: 600px;
-height : 100px;
-max-height: 400px;
-margin : auto;
-  border-radius: 20px;
-  background-color: #94d7bb;
-  border: 2px solid black 
-  text-align: center;
-  animation-duration: 1s;
-  animation-timing-fuction: ease-out;
-  animation-name: ${slideUp};
-  animation-fill-mode: forwards;
-  zIndex: 9999;
-`;
-
-
 export default Game;

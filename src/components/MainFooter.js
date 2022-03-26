@@ -63,7 +63,7 @@ console.log("user_list",user_list)
           {user_list.map((p, idx) => {
             return (
               <UserContent key={idx}>
-                <Userurl color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"http://15.165.158.25/images/1.svg"} />
+                <Userurl color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"http://13.125.221.178/images/1.svg"} />
                 <Text
                   is_size="20px"
                   is_color="black"
@@ -137,7 +137,7 @@ console.log("user_list",user_list)
           {user_leaders.map((p, idx) => {
             return (
               <UserContent key={idx}>
-                <Userurl color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"http://15.165.158.25/images/1.svg"} />
+                <Userurl color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"http://13.125.221.178/images/1.svg"} />
                 <Text
                   is_size="20px"
                   is_color="black"
