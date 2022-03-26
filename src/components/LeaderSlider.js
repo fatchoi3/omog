@@ -13,10 +13,10 @@ function LeaderSlider(props) {
 
     return currentPosts;
   };
-  
+
   function NextPosts(tmp) {
     let currentPosts = 0;
-    currentPosts = tmp.slice(pickIndex+3, pickIndex + 6);
+    currentPosts = tmp.slice(pickIndex + 3, pickIndex + 6);
 
     return currentPosts;
   }
@@ -26,27 +26,27 @@ function LeaderSlider(props) {
   const [pickIndex, setPickIndex] = React.useState(0);
   const slideRef = React.useRef(null);
 
-  const UserFaceColor =(point)=>{
-    let color= "black 2px"
-    if(point >= 1300 && point < 1500){
+  const UserFaceColor = (point) => {
+    let color = "black 2px"
+    if (point >= 1300 && point < 1500) {
       color = "#835506 3px";
       return color;
     }
-    if(point >= 1500 && point < 2000){
-      color ="#B2B2B2 3px";
+    if (point >= 1500 && point < 2000) {
+      color = "#B2B2B2 3px";
       return color;
     }
-    if(point >= 2000 && point < 3000){
-      color ="#FFF27E 3px";
+    if (point >= 2000 && point < 3000) {
+      color = "#FFF27E 3px";
       return color;
     }
-    if(point >= 3000){
+    if (point >= 3000) {
       color = "#22E1E4 3px";
       return color;
     }
     return color;
   };
-  
+
 
   const handlePrevClick = React.useCallback(() => {
     if (pickIndex <= 0) {
@@ -91,7 +91,7 @@ function LeaderSlider(props) {
           {currentPosts(list).map((p, idx) => {
             return (
               <Wrap key={idx}>
-                <Stone color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"http://15.165.158.25/images/1.svg"}/>
+                <Stone color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage : "http://13.125.221.178/images/1.svg"} />
                 <TextWrap>
                   <Text
                     is_size="20px"
@@ -109,13 +109,13 @@ function LeaderSlider(props) {
               </Wrap>
             );
           })}
-          
+
         </FillDiv>
         <FillDiv ref={slideRef}>
           {NextPosts(list).map((p, idx) => {
             return (
               <Wrap key={idx}>
-                <Stone color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"http://15.165.158.25/images/1.svg"}/>
+                <Stone color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage : "http://13.125.221.178/images/1.svg"} />
                 <TextWrap>
                   <Text
                     is_size="20px"
@@ -133,7 +133,7 @@ function LeaderSlider(props) {
               </Wrap>
             );
           })}
-          
+
         </FillDiv>
         <div
           className="arrow_box"
@@ -187,9 +187,9 @@ const Stone = styled.div`
   width: 40px;
   height: 40px;
   border-radius: 40px;
-  border: solid  ${(props)=>props.color};
+  border: solid  ${(props) => props.color};
   margin : 4% 0 0 5%;
-  background-image : url(${(props)=>props.img});
+  background-image : url(${(props) => props.img});
   background-size: contain;
   background-repeat: no-repeat;
 `;

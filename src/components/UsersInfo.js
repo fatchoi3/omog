@@ -15,34 +15,34 @@ const UsersInfo = () => {
 
   const userId = localStorage.getItem("userId");
   const profileImage = get_user.profileImage;
- console.log("profileImage",profileImage);
+  console.log("profileImage", profileImage);
   const win = get_user.score[0].win;
   const lose = get_user.score[1].lose;
   const point = get_user.point;
- 
 
-  const UserFaceColor =(point)=>{
-    let color= "black 2px"
-    if(point >= 1300 && point < 1500){
+
+  const UserFaceColor = (point) => {
+    let color = "black 2px"
+    if (point >= 1300 && point < 1500) {
       color = "#835506 3px";
       return color;
     }
-    if(point >= 1500 && point < 2000){
-      color ="#B2B2B2 3px";
+    if (point >= 1500 && point < 2000) {
+      color = "#B2B2B2 3px";
       return color;
     }
-    if(point >= 2000 && point < 3000){
-      color ="#FFF27E 3px";
+    if (point >= 2000 && point < 3000) {
+      color = "#FFF27E 3px";
       return color;
     }
-    if(point >= 3000){
+    if (point >= 3000) {
       color = "#22E1E4 3px";
       return color;
     }
     return color;
   };
-  
- 
+
+
 
   const color = UserFaceColor(point);
 
@@ -53,8 +53,8 @@ const UsersInfo = () => {
   return (
     <UserInfoContainer>
       <User>
-        <UserFace color={color}img={profileImage ? profileImage:"http://15.165.158.25/images/1.svg"}/>
-             <UserName>
+        <UserFace color={color} img={profileImage ? profileImage : "http://13.125.221.178/images/1.svg"} />
+        <UserName>
           <Text is_bold is_size="30px" is_margin="10px">
             {get_user.id}
           </Text>
@@ -64,7 +64,7 @@ const UsersInfo = () => {
       <Progress win={win} lose={lose} width="250px" margin=" 0 auto" />
       <UserScore>
         <Text is_size="14px" is_bold>
-          승률 { Math.ceil(win / (win + lose)) ? Math.ceil(win / (win + lose)* 100 ) + "%" : 0 + "%"}
+          승률 {Math.ceil(win / (win + lose)) ? Math.ceil(win / (win + lose) * 100) + "%" : 0 + "%"}
         </Text>
         <Text is_size="14px">
           (전체 {win}승 {lose}패)

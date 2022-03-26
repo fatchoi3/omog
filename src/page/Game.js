@@ -51,7 +51,7 @@ const Game = memo((props) => {
   //http://15.165.158.25/game
   //"http://localhost:4001/game",
   const [socket, disconnectSocket] = useSocket(
-    "http://15.165.158.25/game",
+    "http://13.125.221.178/game",
     gameNum,
     userId
   );
@@ -65,9 +65,9 @@ const Game = memo((props) => {
   useEffect(() => {
     dispatch(userActions.clearOne);
     let timer = setTimeout(() => {
-    
-    dispatch(gameActions.getGameDB(gameNum));
-    dispatch(userActions.loginCheckDB(userId));
+
+      dispatch(gameActions.getGameDB(gameNum));
+      dispatch(userActions.loginCheckDB(userId));
       setsping(false)
     }, 1000)
 
@@ -89,7 +89,7 @@ const Game = memo((props) => {
   return (
     <GameContainer>
       {spin ? (<Spinner type={'page'} is_dim={true} width="200px" />) : ""}
-      
+
       {is_player ? (
         <>
           {loading ? (
@@ -131,11 +131,11 @@ const Game = memo((props) => {
           )}
           <PlayerInfos>
             <>
-            <PlayerCardW playerInfo={whitePlayer} />
+              <PlayerCardW playerInfo={whitePlayer} />
             </>
             <>
-            <PlayerCardB playerInfo={blackPlayer} />
-              
+              <PlayerCardB playerInfo={blackPlayer} />
+
             </>
           </PlayerInfos>
           <Omog

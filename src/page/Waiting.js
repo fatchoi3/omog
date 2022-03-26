@@ -14,7 +14,7 @@ function Waiting(props) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        setCurrentSocket(io("http://15.165.158.25/waiting"));
+        setCurrentSocket(io("http://13.125.221.178/waiting"));
     }, []);
 
     useEffect(() => {

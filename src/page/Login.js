@@ -54,7 +54,7 @@ function Login(props) {
     }
 
     const idCheck = (id) => {
-        let _reg = /^[A-Z0-9a-z]{2,7}$/g;
+        let _reg = /^[A-Z0-9a-z]{2,11}$/g;
         return _reg.test(id);
     }
 
