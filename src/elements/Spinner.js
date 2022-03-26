@@ -4,17 +4,17 @@ import LoadingC from "../pictures/Loading.png"
 import { Text } from ".";
 
 const Spinner = (props) => {
-  const { type, size, is_dim, is_result } = props;
+  const { type, size, is_dim, is_result, loading_time } = props;
 
   return (
     <React.Fragment>
-      <SpinnerWrap type={type} is_dim={is_dim}>
+      <SpinnerWrap type={type} is_dim={is_dim} is_result={is_result}>
         <div>
 
           <SpinnerSvg size={size} />
 
           <ProgressBar width={props.width} margin={props.margin}>
-            <HighLight width={9 / 10 * 100 + "%"} />
+            <HighLight width={9 / 10 * 100 + "%"} loading_time={loading_time} />
           </ProgressBar>
           <Text
             is_bold
@@ -32,6 +32,7 @@ Spinner.defaultProps = {
   type: "inline", // inline, page
   is_dim: false,
   // size: 400,
+  is_result: false,
 };
 
 const SpinnerWrap = styled.div`
@@ -47,7 +48,7 @@ const SpinnerWrap = styled.div`
         top: 0;
         left: 0;
         padding: 0;
-        zIndex: 9999;`
+        z-index: 9999;`
       : ``}
   ${(props) =>
     props.is_dim
@@ -56,8 +57,15 @@ const SpinnerWrap = styled.div`
      height: 100vh;
   `
       : ``}
+
+${(props) =>
+    props.is_result
+      ? `
+     background: rgba(0,0,0,1); 
+     height: 100vh;
+  `
+      : ``}
       
-      ${(props) => props.is_result ? `background: rgba(0,0,0,1); height: 100vh;` : ''}
 `;
 
 const SpinnerSvg = styled.div`
@@ -93,7 +101,7 @@ const HighLight = styled.div`
   background: #94d7bb;
   
   animation-name: ${loading};
-        animation-duration: 0.5s;
+        animation-duration: ${props => props.loading_time ? `${props.loading_time}s` : "0.5s"};
         animation-timing-function: linear;
         animation-iteration-count: 1;
         animation-fill-mode: none;
