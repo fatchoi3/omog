@@ -64,7 +64,7 @@ const MainFooter = () => {
             return (
               <UserContent key={idx}>
 
-                <Userurl color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"http://13.125.221.178/images/1.svg"} />
+                <Userurl color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"http://13.125.229.125/images/1.svg"} />
 
                 <Text
                   is_size="20px"
@@ -141,7 +141,7 @@ const MainFooter = () => {
           {user_leaders.map((p, idx) => {
             return (
               <UserContent key={idx}>
-                <Userurl color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"http://13.125.221.178/images/1.svg"} />
+                <Userurl color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"http://13.125.229.125/images/1.svg"} />
                 <Text
                   is_size="20px"
                   is_color="black"

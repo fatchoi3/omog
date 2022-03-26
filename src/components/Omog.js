@@ -521,17 +521,6 @@ const TimeStoneR = styled.div`
   border: 2px solid black;
   margin: 0 auto;
 `;
-const ObserverWPT = styled.div`
-  position: absolute;
-  top: 40%;;
-  left: 13.5%;
-`;
-const ObserverBPT = styled.div`
-  position: absolute;
-  top: 75%;
-  left: 13.5%;
-`;
-const ObserverTW = styled.div``;
 const ObserverOmog = styled.div`
   width: 680px;
   height: 680px;

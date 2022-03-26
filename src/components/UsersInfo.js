@@ -53,8 +53,9 @@ const UsersInfo = () => {
   return (
     <UserInfoContainer>
       <User>
-        <UserFace color={color} img={profileImage ? profileImage : "http://13.125.221.178/images/1.svg"} />
-        <UserName>
+
+        <UserFace color={color}img={profileImage ? profileImage:"http://13.125.229.125/images/1.svg"}/>
+             <UserName>
 
           <Text is_bold is_size="30px" is_margin="10px">
             {get_user.id}
