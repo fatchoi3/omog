@@ -7,11 +7,12 @@ import Omog from "./Omog";
 import PlayerCardB from "./PlayerCardB";
 import PlayerCardW from "./PlayerCardW";
 import Chatting from "./Chatting";
-
+import Cloud from "../pictures/cloud.png"
 
 const ObserverGame =memo(({ socket, blackPlayer,whitePlayer,userInfo,gameNum ,min,min2,sec,sec2,timeout,timeout2,timeOut,timeOut2})=>{
     
     const [loading, setLoading] = useState(1);
+    // const [loading2, setLoading2] = useState(1);
     const is_player =
     userInfo.state === "blackPlayer" || userInfo.state === "whitePlayer"
       ? true
@@ -34,17 +35,40 @@ const ObserverGame =memo(({ socket, blackPlayer,whitePlayer,userInfo,gameNum ,mi
           let timer = setTimeout(() => {
             console.log("시간은 똑딲똑딱");
             setLoading(1);
-           
           }, 1000);
         });
       }, [socket]);
+      // useEffect(()=>{
+      //   if(loading === 0){
+      //     setLoading2(0);
+      //     console.log("randomNum", randomNum);
+      //   let timer = setTimeout(() => {
+      //     console.log("시간이 흐르투");
+      //     setLoading2(1);
+      //   }, 1000);
+      //   };
+
+      // },[loading])
     return(
         <>
         {loading ? (
             ""
           ) : (
             <DialogBlock RandomNum={randomNum}>
-              <Text is_size="50px" is_margin="20px 0 50px">
+              <Text is_size="50px" is_margin="20px 0 50px" is_stroke="3px black" is_color="white"
+                  is_bold
+              >
+                {flying}
+              </Text>
+            </DialogBlock>
+          )}
+          {loading ? (
+            ""
+          ) : (
+            <DialogBlock RandomNum={randomNum}>
+              <Text is_size="50px" is_margin="20px 0 50px" is_stroke="3px black" is_color="white"
+                  is_bold
+              >
                 {flying}
               </Text>
             </DialogBlock>
@@ -114,9 +138,12 @@ max-width: 600px;
 height : 100px;
 max-height: 400px;
 margin : auto;
-  border-radius: 20px;
-  background-color: #94d7bb;
-  border: 2px solid black 
+  // border-radius: 20px;
+  // background-color: #94d7bb;
+  background-image : url(${Cloud});
+  background-size : contain;
+  background-repeat: no-repeat;
+  // border: 2px solid black; 
   text-align: center;
   animation-duration: 1s;
   animation-timing-fuction: ease-out;

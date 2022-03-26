@@ -64,7 +64,7 @@ const MainFooter = () => {
             return (
               <UserContent key={idx}>
 
-                <Userurl color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"http://13.125.229.125/images/1.svg"} />
+                <Userurl color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"https://13.125.229.125/images/1.svg"} />
 
                 <Text
                   is_size="20px"
@@ -103,9 +103,9 @@ const MainFooter = () => {
             </Button>
           </div>
           <LeaderBoard open={modalOpen} close={closeModal} header="오늘의 랭킹">
-            {/* <SuperLeaders>
+            <SuperLeaders>
               <Leader>
-                <FirstImg src={First} img={leader_board[0]?.profileImage} />
+                <FirstImg src={leader_board[0]?.profileImage} img={leader_board[0]?.profileImage} />
                 <Text
 
                 is_size="25px"
@@ -116,7 +116,7 @@ const MainFooter = () => {
 
               </Leader>
               <Leader>
-                <SecondImg src={Second} img={leader_board[1]?.profileImage} />
+                <SecondImg src={leader_board[1]?.profileImage} img={leader_board[1]?.profileImage} />
                 <Text
                 is_size="25px"
                 is_bold
@@ -125,7 +125,7 @@ const MainFooter = () => {
                 <Text> {leader_board[1]?.point} p </Text>
               </Leader>
               <Leader>
-                <ThirdImg src={Third} img={leader_board[2]?.profileImage} />
+                <ThirdImg src={leader_board[2]?.profileImage} img={leader_board[2]?.profileImage} />
                 <Text
                 is_size="25px"
                 is_bold
@@ -133,7 +133,7 @@ const MainFooter = () => {
                 >{leader_board[2]?.id}</Text>
                 <Text> {leader_board[2]?.point} p</Text>
               </Leader>
-            </SuperLeaders> */}
+            </SuperLeaders>
             <LeaderSlider list={leader_board} />
           </LeaderBoard>
         </RankingTitle>
@@ -141,7 +141,7 @@ const MainFooter = () => {
           {user_leaders.map((p, idx) => {
             return (
               <UserContent key={idx}>
-                <Userurl color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"http://13.125.229.125/images/1.svg"} />
+                <Userurl color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"https://13.125.229.125/images/1.svg"} />
                 <Text
                   is_size="20px"
                   is_color="black"

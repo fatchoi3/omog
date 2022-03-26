@@ -13,6 +13,7 @@ const Chatting = memo((props) => {
   const [message, onChangeMessage, setMessage] = useInput("");
   const [teaching, setTeaching] = useState();
 
+  console.log("props.gameNum",props.gameNum)
   const userid = localStorage.getItem("userId");
   
   const chatList = useSelector((state) => state.game.chat_list);
@@ -59,7 +60,7 @@ const Chatting = memo((props) => {
         }
         if(teaching === "Pointer" && message === "신의한수"){
           console.log("마우스로 찍자");
-          socket.emit("Pointer", message,props.gameNum);
+          socket.emit("Pointer", message, props.gameNum);
          
         }
         socket.emit("chat", { chat: message,state:isTeam },props.gameNum);
