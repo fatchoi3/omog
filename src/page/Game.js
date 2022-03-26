@@ -81,9 +81,9 @@ const Game = memo((props) => {
   useEffect(() => {
     dispatch(userActions.clearOne);
     let timer = setTimeout(() => {
-    
-    dispatch(gameActions.getGameDB(gameNum));
-    dispatch(userActions.loginCheckDB(userId));
+
+      dispatch(gameActions.getGameDB(gameNum));
+      dispatch(userActions.loginCheckDB(userId));
       setsping(false)
     }, 1000)
 

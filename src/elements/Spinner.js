@@ -57,7 +57,7 @@ const SpinnerWrap = styled.div`
   `
       : ``}
       
-      ${(props) => props.is_result ? `background: black; height: 100vh;` : ''}
+      ${(props) => props.is_result ? `background: rgba(0,0,0,1); height: 100vh;` : ''}
 `;
 
 const SpinnerSvg = styled.div`

@@ -65,8 +65,9 @@ const BodyTr = styled.tr`
 
 const Td = styled.td`
     font-size: 18px;
+    height: 2rem;
     color: #979797;
-    /* padding: 15px; */
+    padding: 15px;
 `
 
 export default ResultWinPointTable;

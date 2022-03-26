@@ -60,7 +60,7 @@ function WaitPlayerList({ roomNum, socket }) {
                             <Text is_bold="800" is_size="17px" is_line_height="19px" width="100%" is_margin="0 0 10px 0">
                                 Point {blackPlayer?.point}p
                             </Text>
-                            <Progress win={blackPlayer.score[0].win} lose={blackPlayer.score[1].lose} width="100%" margin="0 0 10px 0" />
+                            <Progress win={blackPlayer.score[0]?.win} lose={blackPlayer.score[1]?.lose} width="100%" margin="0 0 10px 0" />
                             <div style={{ display: "flex", justifyContent: "space-between", width: "219px" }}>
                                 <Text is_bold="600">
                                     승률:

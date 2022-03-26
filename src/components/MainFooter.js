@@ -17,7 +17,7 @@ const MainFooter = () => {
   const user_leaders = useSelector((state) => state.user.leader_list);
   const leader_board = useSelector((state) => state.user.leader_board);
   const [modalOpen, setModalOpen] = useState(false);
-console.log("user_list",user_list)
+  console.log("user_list", user_list)
   const openModal = () => {
     setModalOpen(true);
   };
@@ -63,7 +63,9 @@ console.log("user_list",user_list)
           {user_list.map((p, idx) => {
             return (
               <UserContent key={idx}>
+
                 <Userurl color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"http://13.125.221.178/images/1.svg"} />
+
                 <Text
                   is_size="20px"
                   is_color="black"
@@ -101,15 +103,17 @@ console.log("user_list",user_list)
             </Button>
           </div>
           <LeaderBoard open={modalOpen} close={closeModal} header="오늘의 랭킹">
-            <SuperLeaders>
+            {/* <SuperLeaders>
               <Leader>
                 <FirstImg src={First} img={leader_board[0]?.profileImage} />
                 <Text
+
                 is_size="25px"
                 is_bold
                 is_margin=" 0 0 8px 0"
                 >{leader_board[0]?.id}</Text>
                 <Text>   {leader_board[0]?.point} p </Text>
+
               </Leader>
               <Leader>
                 <SecondImg src={Second} img={leader_board[1]?.profileImage} />
@@ -129,7 +133,7 @@ console.log("user_list",user_list)
                 >{leader_board[2]?.id}</Text>
                 <Text> {leader_board[2]?.point} p</Text>
               </Leader>
-            </SuperLeaders>
+            </SuperLeaders> */}
             <LeaderSlider list={leader_board} />
           </LeaderBoard>
         </RankingTitle>
