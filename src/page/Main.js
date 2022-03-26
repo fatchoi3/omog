@@ -86,7 +86,7 @@ const Main = () => {
     <>
     
     <Button
-              is_margin="3% 8% 2% "
+              is_margin="1.5% 8% 1% "
               is_height="50px"
               is_width="150px"
               is_radius="8px"
@@ -102,7 +102,7 @@ const Main = () => {
               <ExitImg src={exit}/>
               <Text 
               is_size="20px"
-              is_margin="10% 0 0 5%"
+              is_margin="7% 0 0 5%"
               is_color="#C4C4C4" 
               is_bold>
                 로그아웃
@@ -530,6 +530,6 @@ const RadioButton = styled.input`
 `;
 const ExitImg = styled.img`
 width: 35%;
-height:100%;
+height:70%;
 `;
 export default Main;
