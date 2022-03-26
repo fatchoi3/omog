@@ -38,6 +38,10 @@ function Result(props) {
                 accessor: "getPoint",
                 Header: "얻은 포인트",
             },
+            {
+                accessor: "existPoint",
+                Header: "기존 포인트",
+            }
         ],
         []
     );
