@@ -1,6 +1,5 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
-import axios from 'axios';
 import api from "../../api/api";
 
 
@@ -88,11 +87,8 @@ const gameResultDB = (result) => {
         console.log(result)
         api.post("/gameFinish", result)
             .then(function (response) {
-
                 dispatch(GameEnd(result));
-
             }).catch(error => {
-
                 console.log(error)
             });
     }
@@ -128,8 +124,8 @@ const gameOutDB = (gameNum) => {
 
 const addGameChat = (socket) => {
     return async function (dispatch, getState, { history }) {
-        await socket.on("chat", (data,state) => {
-            let array = { id: data.name, message: data.chat.chat,  state }
+        await socket.on("chat", (data, state) => {
+            let array = { id: data.name, message: data.chat.chat, state }
             console.log("채팅받아오기", array)
             dispatch(GameAddChat(array));
         })
@@ -153,12 +149,12 @@ const AddTeachW = (socket) => {
         })
     }
 };
-const PointerSocket = (socket) =>{
+const PointerSocket = (socket) => {
     return async function (dispatch, getState, { history }) {
-        await socket.on("Pointer", (data,chat) => {
+        await socket.on("Pointer", (data, chat) => {
             let array = { id: "신의한수", message: chat.chat }
             console.log("신의한수", chat)
-            dispatch(GameAddChat(array));  
+            dispatch(GameAddChat(array));
         })
     }
 };
@@ -210,7 +206,7 @@ const actionCreators = {
     AddTeachB,
     AddTeachW,
     PointerSocket
-    
+
 }
 
 export { actionCreators };
