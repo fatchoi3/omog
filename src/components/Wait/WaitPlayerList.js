@@ -173,6 +173,26 @@ const PlayerContainer = styled.div`
     display: flex;
     justify-content: space-between;
     box-sizing: border-box;
+
+    /* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  /* ... */
+}
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  /* ... */
+}
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  /* ... */
+}
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+}
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+    justify-content: space-between;
+}
 `
 
 const PlayerCard = styled.div`
@@ -180,7 +200,6 @@ const PlayerCard = styled.div`
     height: 130px;
     margin: ${props => props.leftPlayer ? "0 9px 0 0" : "0 0 0 9px"};
     padding: ${props => props.isWhite ? "8px 0" : 0};
-    /* border: 2px solid black; */
     outline: 2px solid black;
     box-shadow: -3px 3px 6px 3px #A8937340;
     border-radius: 14px;
@@ -195,7 +214,6 @@ const PlayerCard = styled.div`
     }
 `
 const PlayerThumbnail = styled.div`
-    // width: 100%;
     width: 70px;
     height: 70px;
     margin: 0 0 6px 0;
@@ -204,18 +222,6 @@ const PlayerThumbnail = styled.div`
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-/* 
-    img {
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        width: 100%;
-        height: 100%;
-        display: block;
-        border-radius: 50%;
-        border: 1px solid black;
-        object-fit: cover;
-    } */
 `
 
 export default WaitPlayerList;

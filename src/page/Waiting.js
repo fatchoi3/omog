@@ -28,11 +28,11 @@ function Waiting(props) {
             {loading ? (<Spinner type={'page'} is_dim={true} width="200px" />) : ""}
             {currentSocket ?
                 <WaitingContainer>
-                    <div className="container_left" style={{ padding: "20px" }}>
+                    <div className="container_left">
                         <WaitingUsers socket={currentSocket} roomNum={roomNum} />
                     </div>
 
-                    <div className="container_right" style={{ width: "25%", padding: "20px" }}>
+                    <div className="container_right">
                         <WaitChat socket={currentSocket} roomNum={roomNum} />
                     </div>
                 </WaitingContainer>
@@ -51,6 +51,15 @@ const WaitingContainer = styled.div`
     box-sizing: border-box;
     background: #C4C4C4;
     padding: 5%;
+    
+    >div:nth-child(1) {
+        padding: 20px;
+    }
+
+    >div:nth-child(2){
+        width: 25%;
+        padding: 20px;
+    }
 `
 
 
