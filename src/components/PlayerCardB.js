@@ -33,7 +33,7 @@ const PlayerCardB = memo(({playerInfo,min2,sec2}) => {
 
   return (
     <Container>
-      <UserFace color={UserFaceColor(playerInfo?.point)} />
+      <UserFace color={UserFaceColor(playerInfo?.point)} img={playerInfo?.profileImage} />
       <Text is_bold is_size="30px" is_margin="20px 0">
         {" "}
         {playerInfo ? playerInfo.id : "2"}
@@ -77,5 +77,9 @@ const UserFace = styled.div`
   background-color: white;
   border:  solid ${(props) => props.color};
   margin: 25px auto;
+   background-image: url(${(props) => props.img});
+  background-size: contain;
+  background-repeat: no-repeat;
+
 `;
 export default PlayerCardB;

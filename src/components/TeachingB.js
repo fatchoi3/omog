@@ -72,7 +72,7 @@ const TeachingB = memo((props) => {
   return (
     <Container playerInfo={props.playerInfo}>
       <Profile>
-        <DdongGraMe color={UserFaceColor(props.playerInfo?.point)} />
+        <DdongGraMe color={UserFaceColor(props.playerInfo?.point)} img={ props.playerInfo?.profileImage}/>
         <Text is_size="24px" is_bold>
           {" "}
           {props.playerInfo ? props.playerInfo.id : "1"}
@@ -136,6 +136,9 @@ const DdongGraMe = styled.div`
   border-radius: 70px;
   border: solid ${(props) => props.color};
   margin: 15px 5px 15px 17px;
+  background-image: url(${(props) => props.img});
+  background-size: contain;
+  background-repeat: no-repeat;
 `;
 const Userurl = styled.div`
   height: 20px;

@@ -78,9 +78,9 @@ const changeUserInfo = createAction(CHANGE_USERINFO, (id, someone, state) => ({ 
 
 
 // middleware actions
-const getRoomListDB = () => {
+const getRoomListDB = (id) => {
     return async function (dispatch, getState, { history }) {
-        await api.get("/lobby")
+        await api.get(`/lobby`)
             .then(function (response) {
                 // console.log(response.data);
                 dispatch(getRoomList(response.data));
@@ -100,13 +100,14 @@ const getRoomInfoDB = (roomNum) => {
 
 
 
-const addRoomDB = (roomName) => {
+const addRoomDB = (roomName,timer) => {
     return function (dispatch, useState, { history }) {
         const userId = localStorage.getItem('userId');
         api.post("/lobby/create",
             {
                 roomName: roomName,
-                id: userId
+                id: userId,
+                timer : timer
             }
 
         )
@@ -115,7 +116,7 @@ const addRoomDB = (roomName) => {
                 dispatch(joinRoom(response.data.userInfo))
                 history.push(`/waiting/${response.data.roomNum}`)
             }).catch(error => {
-                // window.alert("방생성 실패!");
+                window.alert("방생성 실패!");
                 console.log(error)
             });
     }
@@ -130,8 +131,8 @@ const joinRoomDB = (room) => {
                 dispatch(joinRoom(response.data));
                 history.push(`/waiting/${room.roomNum}`)
             }).catch(error => {
-                alert("이미 게임이 시작되었습니다!");
-                console.log(error)
+                alert("방 입장 실패하셨습니다.");
+                console.log(error);
             });
     }
 };

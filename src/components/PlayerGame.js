@@ -8,7 +8,7 @@ import Chatting from "./Chatting";
 import styled, { keyframes } from "styled-components";
 
 const PlayerGame = memo(({ socket, blackPlayer,whitePlayer,userInfo,gameNum ,min,min2,sec,sec2,timeout,timeout2,timeOut,timeOut2})=>{
-    
+    console.log("blackPlayer",blackPlayer)
     const [loading, setLoading] = useState(1);
         const is_player =
     userInfo.state === "blackPlayer" || userInfo.state === "whitePlayer"

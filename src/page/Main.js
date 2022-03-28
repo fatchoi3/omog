@@ -43,11 +43,8 @@ const Main = () => {
       alert("빈칸을 채워주세요");
       return;
     }
-    dispatch(roomActions.addRoomDB(roomaName));
-    //dispatch(roomActions.addRoomDB({
-    //   roomName: roomaName,
-    //   time: state
-    // }))
+    dispatch(roomActions.addRoomDB(roomaName,state));
+ 
   };
 
   const enterNum = () => {
@@ -86,7 +83,7 @@ const Main = () => {
     <>
     
     <Button
-              is_margin="3% 8% 2% "
+              is_margin="1.5% 8% 1% "
               is_height="50px"
               is_width="150px"
               is_radius="8px"
@@ -96,13 +93,14 @@ const Main = () => {
               is_hover="inset -6em 0 0 0 #f0f0f0, inset 6em 0 0 0 #f0f0f0"
               is_display="flex"
               _onClick={() => {
-                dispatch(userActions.logout());
+                dispatch(userActions.logoutDB(userId));
+                // dispatch(userActions.logout());
               }}
             >
               <ExitImg src={exit}/>
               <Text 
               is_size="20px"
-              is_margin="10% 0 0 5%"
+              is_margin="7% 0 0 5%"
               is_color="#C4C4C4" 
               is_bold>
                 로그아웃
@@ -185,7 +183,7 @@ const Main = () => {
               }}
             >
               <Text is_bold is_color="black">
-                방 만들기
+                방 만들기!
               </Text>
             </Button>
             <Button
@@ -202,7 +200,7 @@ const Main = () => {
               }}
             >
               <Text is_color="black" is_bold>
-                플레이어 빠른 참가
+                플레이어 빠른 참가!
               </Text>
             </Button>
             <Button
@@ -219,7 +217,7 @@ const Main = () => {
               }}
             >
               <Text is_color="black" is_bold>
-                관전자 빠른 참가
+                관전자 빠른 참가!
               </Text>
             </Button>
             <LogoWrap>
@@ -530,6 +528,6 @@ const RadioButton = styled.input`
 `;
 const ExitImg = styled.img`
 width: 35%;
-height:100%;
+height:70%;
 `;
 export default Main;
