@@ -209,7 +209,8 @@ const actionCreators = {
     clearOne,
     AddTeachB,
     AddTeachW,
-    PointerSocket
+    PointerSocket,
+    GameEnd
     
 }
 

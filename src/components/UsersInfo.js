@@ -15,7 +15,7 @@ const UsersInfo = () => {
 
   const userId = localStorage.getItem("userId");
   const profileImage = get_user.profileImage;
-  console.log("profileImage", profileImage);
+  console.log("get_user", get_user.score);
   const win = get_user.score[0].win;
   const lose = get_user.score[1].lose;
   const point = get_user.point;
@@ -47,7 +47,7 @@ const UsersInfo = () => {
   const color = UserFaceColor(point);
 
   useEffect(() => {
-    dispatch(userActions.clearOne)
+    // dispatch(userActions.clearOne)
     dispatch(userActions.loginCheckDB(userId));
   }, []);
   return (

@@ -33,7 +33,7 @@ const PlayerCardW = memo(({playerInfo,min,sec} ) => {
 
   return (
     <Container>
-      <UserFace color={UserFaceColor(playerInfo?.point)} img={playerInfo.profileImage}/>
+      <UserFace color={UserFaceColor(playerInfo?.point)} img={playerInfo?.profileImage}/>
       <Text is_bold is_size="30px" is_margin="20px 0">
         {" "}
         {playerInfo ? playerInfo.id : "1"}

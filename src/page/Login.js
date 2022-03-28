@@ -195,7 +195,7 @@ function Login(props) {
                                 _onClick={handleExplainModal}
                                 is_cursor="pointer"
                             >
-                                SKIP
+                                SKIP!!
                             </Button>
                         </div>
                     </LoginPageModal>

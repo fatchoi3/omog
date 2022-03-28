@@ -13,7 +13,6 @@ const Chatting = memo((props) => {
   const [message, onChangeMessage, setMessage] = useInput("");
   const [teaching, setTeaching] = useState();
 
-  console.log("props.gameNum",props.gameNum)
   const userid = localStorage.getItem("userId");
   
   const chatList = useSelector((state) => state.game.chat_list);
@@ -25,7 +24,6 @@ const Chatting = memo((props) => {
       ? "black"
       : "white";
   const isPlayer = props.is_player;
-  console.log("isTeam", isTeam);
   const teachingChoice = useCallback(
     (e) => {
       setTeaching(e.target.value);

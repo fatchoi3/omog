@@ -43,11 +43,8 @@ const Main = () => {
       alert("빈칸을 채워주세요");
       return;
     }
-    dispatch(roomActions.addRoomDB(roomaName));
-    //dispatch(roomActions.addRoomDB({
-    //   roomName: roomaName,
-    //   time: state
-    // }))
+    dispatch(roomActions.addRoomDB(roomaName,state));
+ 
   };
 
   const enterNum = () => {
@@ -96,7 +93,8 @@ const Main = () => {
               is_hover="inset -6em 0 0 0 #f0f0f0, inset 6em 0 0 0 #f0f0f0"
               is_display="flex"
               _onClick={() => {
-                dispatch(userActions.logout());
+                dispatch(userActions.logoutDB(userId));
+                // dispatch(userActions.logout());
               }}
             >
               <ExitImg src={exit}/>
@@ -185,7 +183,7 @@ const Main = () => {
               }}
             >
               <Text is_bold is_color="black">
-                방 만들기
+                방 만들기!
               </Text>
             </Button>
             <Button
@@ -202,7 +200,7 @@ const Main = () => {
               }}
             >
               <Text is_color="black" is_bold>
-                플레이어 빠른 참가
+                플레이어 빠른 참가!
               </Text>
             </Button>
             <Button
@@ -219,7 +217,7 @@ const Main = () => {
               }}
             >
               <Text is_color="black" is_bold>
-                관전자 빠른 참가
+                관전자 빠른 참가!
               </Text>
             </Button>
             <LogoWrap>
