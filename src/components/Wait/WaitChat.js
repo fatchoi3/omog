@@ -110,33 +110,10 @@ function WaitChat({ socket, roomNum }) {
                     );
                 })}
             </ChattingContent>
-            <ChattingInputContainer>
-                <Input
-                    ref={messageRef}
-                    is_box_sizing="border-box"
-                    placeholder="say something..."
-                    is_font_size="14px"
-                    is_padding="17px 21px"
-                    is_border="none"
-                    is_width="70%"
-                    is_radius="0 0 0 14px"
-                    is_outline="none"
-                    _onKeyPress={(e) => e.key === "Enter" && sendMessages(e)}
-                >
-                </Input>
-                <Button
-                    is_border="none"
-                    is_width="30%"
-                    is_color="#6DB6DF"
-                    is_size="18px"
-                    is_weight="700"
-                    is_hover="inset -3.5em 0 0 0 #94D7BB, inset 3.5em 0 0 0 #94D7BB"
-                    _onClick={sendMessages}
-                    is_radius="0 0 14px 0"
-                >
-                    SEND
-                </Button>
-            </ChattingInputContainer>
+            <ChattingInputForm>
+                <input placeholder="say something..." ref={messageRef} onKeyPress={(e) => e.key === "Enter" && sendMessages(e)} />
+                <button type="submit" onClick={sendMessages}>SEND</button>
+            </ChattingInputForm>
         </ChattingWindow>
     );
 }
@@ -168,13 +145,39 @@ const ChattingHeader = styled.div`
     box-sizing: border-box;
 `
 
-const ChattingInputContainer = styled.div`
+const ChattingInputForm = styled.form`
     width: 100%;
     box-sizing: border-box;
     display: flex;
     border-top: 1px solid #D1D1D1;
     height: 50px;
     overflow: hidden;
+
+    >input {
+        box-sizing: border-box;
+        width: 70%;
+        font-size: 14px;
+        padding: 17px 21px;
+        border: none;
+        border-radius: 0 0 0 14px;
+        outline: none;
+    }
+
+    >button {
+        width: 30%;
+        color: #6DB6DF;
+        font-size: 18px;
+        font-weight: 700;
+        border: none;
+        border-radius: 0 0 14px 0;
+        transition: 0.25s;
+
+        &:hover {
+            box-shadow: 
+                inset -3em 0 0 0 #94D7BB,
+                inset 3em 0 0 0 #94D7BB;
+        }
+    }
 `
 
 const ChattingContent = styled.div`
