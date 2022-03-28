@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 import { Text, Button } from "../elements/index";
-import LeaderBoard from "./LeaderBoard";
 import RoomEnter from "./RoomEnter";
 import { actionCreators as roomActions } from "../redux/modules/room";
 
@@ -15,6 +14,7 @@ const Roomlist = () => {
   const room_list = useSelector((state) => state.room.list);
   const room_info = useSelector((state) => state.room.roomInfo);
   const userId = localStorage.getItem("userId");
+  console.log("room_list",room_list);
 
   const openModal = () => {
     setModalOpen(true);
@@ -45,13 +45,11 @@ const Roomlist = () => {
     );
   };
 
-  const aaa = () => {
-    dispatch(roomActions.getRoomListDB());
-  };
+  
 
   useEffect(() => {
-    // setInterval((aaa),10000);
-    dispatch(roomActions.getRoomListDB());
+  
+    dispatch(roomActions.getRoomListDB(userId));
   }, []);
 
   return (
@@ -76,6 +74,7 @@ const Roomlist = () => {
               <TdS>
                 <Button
                   is_border="2px solid #f2f2f2"
+                  is_background="transparent"
                   is_width="120px"
                   is_height="50px"
                   disabled={n.state == "wait" ? false : true}
@@ -85,7 +84,7 @@ const Roomlist = () => {
                     openModal();
                   }}
                 >
-                  <Text>대기실 입장</Text>
+                  <Text>방 입장</Text>
                 </Button>
               </TdS>
             </Tr>

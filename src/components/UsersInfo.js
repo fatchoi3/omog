@@ -15,7 +15,7 @@ const UsersInfo = () => {
 
   const userId = localStorage.getItem("userId");
   const profileImage = get_user.profileImage;
-  console.log("profileImage", profileImage);
+  console.log("get_user", get_user.score);
   const win = get_user.score[0].win;
   const lose = get_user.score[1].lose;
   const point = get_user.point;
@@ -47,14 +47,14 @@ const UsersInfo = () => {
   const color = UserFaceColor(point);
 
   useEffect(() => {
-    dispatch(userActions.clearOne)
+    // dispatch(userActions.clearOne)
     dispatch(userActions.loginCheckDB(userId));
   }, []);
   return (
     <UserInfoContainer>
       <User>
 
-        <UserFace color={color}img={profileImage ? profileImage:"http://13.125.229.125/images/1.svg"}/>
+        <UserFace color={color}img={profileImage ? profileImage:"https://haksae90.shop/images/1.svg"}/>
              <UserName>
 
           <Text is_bold is_size="30px" is_margin="10px">

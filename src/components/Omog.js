@@ -4,12 +4,12 @@ import styled from "styled-components";
 import { Text } from "../elements";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as gameActions } from "../redux/modules/game";
+import { useHistory } from "react-router-dom";
 
 const Omog = memo(({ socket, blackPlayer,whitePlayer,userInfo,gameNum ,min,min2,sec,sec2,timeout,timeout2,timeOut,timeOut2}) => {
   const dispatch = useDispatch();
-
+  const history = useHistory();
   const userid = localStorage.getItem("userId");
-  // const gameNum = props.gameNum;
   const canvasRef = useRef(null);
   const is_player =
     userInfo.state === "blackPlayer" ||
@@ -17,33 +17,19 @@ const Omog = memo(({ socket, blackPlayer,whitePlayer,userInfo,gameNum ,min,min2,
       ? true
       : false;
  
-  // const socket = props.socket;
   const [X, setX] = useState();
   const [Y, setY] = useState();
   const [count, setCount] = useState();
   const [board, setBoard] = useState();
-
-  // const [min, setMin] = useState(5);
-  // const [sec, setSec] = useState(0);
-  // const time = useRef(300);
-  // const timeout = useRef(null);
-
-  // const [min2, setMin2] = useState(5);
-  // const [sec2, setSec2] = useState(0);
-  // const time2 = useRef(300);
-  // const timeout2 = useRef(null);
 
   const [pointer, setPointer] = useState();
 
 
   const omoging = useCallback(() => {
     document.addEventListener("mouseup", (e) => {
-      // let ccount =0;
       if (e.target.id == "canvas") {
         let x = Math.round(Math.abs(e.offsetX - 30) / 33.3);
-        //margin rowSize
         let y = Math.round(Math.abs(e.offsetY - 30) / 33.3);
-        //   console.log(e.offsetX, e.offsetY, x, y);
         if (
           e.offsetX > 10 &&
           e.offsetX < 640 &&
@@ -60,12 +46,9 @@ const Omog = memo(({ socket, blackPlayer,whitePlayer,userInfo,gameNum ,min,min2,
 
   const pointerTeaching = useCallback(() => {
     document.addEventListener("mouseup", (e) => {
-      // let ccount =0;
       if (e.target.id == "canvas") {
         let x = Math.round(Math.abs(e.offsetX - 30) / 33.3);
-        //margin rowSize
         let y = Math.round(Math.abs(e.offsetY - 30) / 33.3);
-        //   console.log(e.offsetX, e.offsetY, x, y);
         if (
           e.offsetX > 10 &&
           e.offsetX < 640 &&
@@ -82,22 +65,6 @@ const Omog = memo(({ socket, blackPlayer,whitePlayer,userInfo,gameNum ,min,min2,
     });
   }, []);
 
-  // const timeOut = () => {
-  //   timeout.current = setInterval(() => {
-  //     setMin(parseInt(time.current / 60));
-  //     setSec(time.current % 60);
-  //     time.current -= 1;
-  //   }, 1000);
-  // };
-
-  // const timeOut2 = () => {
-  //   timeout2.current = setInterval(() => {
-  //     setMin2(parseInt(time2.current / 60));
-  //     setSec2(time2.current % 60);
-  //     time2.current -= 1;
-  //   }, 1000);
-  // };
-
   useEffect(() => {
     const canvas = canvasRef.current;
 
@@ -111,7 +78,6 @@ const Omog = memo(({ socket, blackPlayer,whitePlayer,userInfo,gameNum ,min,min2,
     const rowSize = 600 / row; // 바둑판 한 칸의 너비
     const dolSize = 15; // 바둑돌 크기
 
-    // let histories = new Array();
     const checkDirection = [
       [1, -1],
       [1, 0],
@@ -218,9 +184,6 @@ const Omog = memo(({ socket, blackPlayer,whitePlayer,userInfo,gameNum ,min,min2,
       }
       drawRect(x, y);
       checkWin(x, y); // 돌이 5개 연속 놓였는지 확인 함수 실행
-
-      // let boardCopy = Object.assign([], board);
-      // histories.push(boardCopy); //무르기를 위해서 판 전체 모양을 배열에 입력
     };
 
     // 승패 판정 함수
@@ -339,14 +302,12 @@ const Omog = memo(({ socket, blackPlayer,whitePlayer,userInfo,gameNum ,min,min2,
       setBoard(data.board);
       setY(data.y);
       setX(data.x);
-      // setPointer(false);
       setCount(data.count);
 
       console.log("여기도 소켓유즈이팩에서 바꾼 후count", data.count);
     });
 
     return () => socket.off();
-    // return () => socketRef.current.disconnect();
   }, [socket]);
 
   useEffect(() => {
@@ -363,32 +324,7 @@ const Omog = memo(({ socket, blackPlayer,whitePlayer,userInfo,gameNum ,min,min2,
       console.log("pointer 훈수 후");
     });
   }, [socket]);
-  //시간 작동
-  // useEffect(() => {
-  //   if (time.current < 0) {
-  //     console.log("타임 아웃1");
-  //     dispatch(
-  //       gameActions.gameResultDB({
-  //         result: { win: props.blackPlayer.id },
-  //         userInfo: props.userInfo,
-  //         gameNum: gameNum,
-  //       })
-  //     );
-  //     clearInterval(timeout.current);
-  //   }
-  //   if (time2.current < 0) {
-  //     console.log("타임 아웃2");
-  //     dispatch(
-  //       gameActions.gameResultDB({
-  //         result: { win: props.whitePlayer.id },
-  //         userInfo: props.userInfo,
-  //         gameNum: gameNum,
-  //       })
-  //     );
-  //     clearInterval(timeout2.current);
-  //   }
-  // }, [sec, sec2]);
-
+ 
   useEffect(
     () => {
       if (
@@ -417,27 +353,28 @@ const Omog = memo(({ socket, blackPlayer,whitePlayer,userInfo,gameNum ,min,min2,
   useEffect(() => {
     socket.on("byebye", (state) => {
       console.log("state", state);
+     
       if (state === "blackPlayer" ) {
         dispatch(
-          gameActions.gameResultDB({
+          gameActions.GameEnd({
             result: { win: whitePlayer?.id },
             userInfo: userInfo,
             gameNum: gameNum,
           })
         );
+        history.push(`/game/result/${gameNum}`);
       };
       if (state === "whitePlayer") 
       dispatch(
-        gameActions.gameResultDB({
+        gameActions.GameEnd({
           result: { win: blackPlayer?.id },
           userInfo: userInfo,
           gameNum: gameNum,
         })
       );
+      history.push(`/game/result/${gameNum}`);
     });
   }, [socket]);
-
- 
 
   return (
     <div>

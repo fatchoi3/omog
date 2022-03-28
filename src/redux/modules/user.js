@@ -163,12 +163,28 @@ const loginDB = (id, password) => {
 
     }
 };
+const logoutDB = (id) => {
+    return async function (dispatch, getState, { history }) {
+        try {
+            const res = await api.post("/lobby/logout", {id:id});
+            console.log(res);
+            if (res) {
+                console.log("로그아웃이 되었어요",res);
+                dispatch(logout(id));
+            }
+        } catch (error) {
+            alert(`${error.response.data.errorMessage}`);
+        }
+
+
+    }
+};
 
 const getUserDB = () => {
     return function (dispatch, getState, { history }) {
         api.get("/lobby/userList")
             .then(function (response) {
-                // console.log(response.data);
+                console.log(response.data);
                 dispatch(getUserInfo(response.data));
             })
     }
@@ -192,7 +208,7 @@ const getLeaderDB = () => {
     return function (dispatch, getState, { history }) {
         api.get("/lobby/leaderList")
             .then(function (response) {
-                // console.log(response.data);
+                 console.log(response.data);
                 dispatch(getLeaders(response.data));
             })
     }
@@ -202,7 +218,7 @@ const getLeaderBoardDB = () => {
     return function (dispatch, getState, { history }) {
         api.get("/leaderBoard")
             .then(function (response) {
-                // console.log(response.data);
+                console.log(response.data);
                 dispatch(getLeaderBorad(response.data));
             })
     }
@@ -224,6 +240,7 @@ export default handleActions({
         }),
     [LOGIN_CHECK]: (state, action) => produce(state, (draft) => {
         draft.userInfo = action.payload.userInfo;
+        console.log("action.payload.userInfo",action.payload.userInfo)
     }),
     [GET_USER_INFO]: (state, action) => produce(state, (draft) => {
         draft.list = action.payload.user_list;
@@ -256,7 +273,8 @@ const actionCreators = {
     getUserDB,
     getLeaderDB,
     getLeaderBoardDB,
-    clearOne
+    clearOne,
+    logoutDB
 
 }
 

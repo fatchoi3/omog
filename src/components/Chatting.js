@@ -24,7 +24,6 @@ const Chatting = memo((props) => {
       ? "black"
       : "white";
   const isPlayer = props.is_player;
-  console.log("isTeam", isTeam);
   const teachingChoice = useCallback(
     (e) => {
       setTeaching(e.target.value);
@@ -59,7 +58,7 @@ const Chatting = memo((props) => {
         }
         if(teaching === "Pointer" && message === "신의한수"){
           console.log("마우스로 찍자");
-          socket.emit("Pointer", message,props.gameNum);
+          socket.emit("Pointer", message, props.gameNum);
          
         }
         socket.emit("chat", { chat: message,state:isTeam },props.gameNum);

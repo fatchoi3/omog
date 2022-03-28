@@ -11,6 +11,8 @@ const TeachingW = memo((props) => {
   const chatList = useSelector((state) => state.game.Teaching_listW);
   const scroll = useRef(null);
 
+
+
   const socket = props.socket;
 
   const UserFaceColor =(point)=>{
@@ -42,7 +44,7 @@ const TeachingW = memo((props) => {
         {chatList.map(({ id, message }, index) => (
           <ChatContents key={index}>
             <ChatId playerInfo={props.playerInfo}>
-            <Userurl color={UserFaceColor(id)}/>
+            <Userurl color={UserFaceColor(id)}  />
               <Text is_size="12px" is_color="black" is_margin="2px 0 0 5px">
                 {id}
               </Text>
@@ -74,7 +76,7 @@ const TeachingW = memo((props) => {
   return (
     <Container playerInfo={props.playerInfo}>
       <Profile>
-        <DdongGraMe color={UserFaceColor(props.playerInfo?.point)}  />
+        <DdongGraMe color={UserFaceColor(props.playerInfo?.point)}  img={ props.playerInfo?.profileImage} />
         <Text is_size="24px" is_bold>
           {" "}
           {props.playerInfo ? props.playerInfo.id : "2"}
@@ -135,6 +137,10 @@ const DdongGraMe = styled.div`
   border-radius: 70px;
   border: solid 2px black;
   margin: 15px 5px 15px 17px;
+  background-image: url(${(props) => props.img});
+  background-size: contain;
+  background-repeat: no-repeat;
+  
 `;
 const Userurl = styled.div`
   height: 20px;
@@ -142,5 +148,7 @@ const Userurl = styled.div`
   border-radius: 20px;
   border: solid ${(props) => props.color};
   background: #f0f0f0;
+ 
+
 `;
 export default TeachingW;
