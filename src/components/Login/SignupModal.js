@@ -97,7 +97,7 @@ const SignupModal = forwardRef(({ handleSignupModal }, modalEl) => {
                 </div>
                 <div className="signup_modal_input_box" style={{ position: "relative" }}>
 
-                    <Input is_width="80%" is_max_width="20rem" is_margin="0 0 20px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="아이디 : 2자 이상 8자 미만, 영문 혹은 영문+숫자" is_outline="none" _onChange={handleIdInput} />
+                    <Input is_width="80%" is_max_width="20rem" is_margin="0 0 20px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="아이디 : 2자 이상 13자 미만, 영문 혹은 영문+숫자" is_outline="none" _onChange={handleIdInput} />
                     <Input is_width="80%" is_max_width="20rem" is_margin="20px 0 20px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="비밀번호" type="password" is_outline="none" _onChange={handlePasswordInput} />
                     <Input is_width="80%" is_max_width="20rem" is_margin="20px 0 40px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="비밀번호 확인" type="password" is_outline="none" _onChange={handlePasswordConfirmInput} />
                     <div style={{ width: "80%", display: "flex", justifyContent: "space-around" }}>

@@ -3,12 +3,12 @@ import styled from 'styled-components';
 
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import Logo from '../../pictures/omokjomok.svg'
-import OmokEx1 from '../../pictures/omok-ex1.svg';
-import OmokEx2 from '../../pictures/omok-ex2.svg';
-import OmokEx3 from '../../pictures/omok-ex3.svg';
-import OmokEx4 from '../../pictures/omok-ex4.svg';
-import OmokEx5 from '../../pictures/omok-ex5.svg';
-import OmokEx6 from '../../pictures/omok-ex6.svg';
+import OmokEx1 from '../../pictures/omokex1.svg';
+import OmokEx2 from '../../pictures/omokex2.svg';
+import OmokEx3 from '../../pictures/omokex3.svg';
+import OmokEx4 from '../../pictures/omokex4.svg';
+import OmokEx5 from '../../pictures/omokex5.svg';
+import OmokEx6 from '../../pictures/omokex6.svg';
 
 
 
@@ -74,11 +74,11 @@ function LoginPageSlider({ handleExplainModal }) {
 
     return (
         <>
-            <img src={Logo} alt="로고" style={{ width: "162px", height: "92px" }} />
+            {/* <img src={Logo} alt="로고" style={{ width: "162px", height: "92px" }} /> */}
             <div className="SliderContainer">
                 <Container>
                     <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <FillImage src={images[pickIndex]} ref={slideRef} />
+                        <FillImage style={{ backgroundImage: `url(${images[pickIndex]})` }} ref={slideRef} />
                     </div>
                 </Container>
 
@@ -128,28 +128,35 @@ function LoginPageSlider({ handleExplainModal }) {
 
 
 const Container = styled.div`
-    width: 100%;
-    height: 100%;
+    width: 45rem;
+    height: 45rem;
     display: flex;
-`;
+    overflow: hidden;
+    background-color: white;
 
-const FillImage = styled.img`
-    width: 100%;
-    object-fit: cover;
-    /* box-shadow: 3px 3px 3px #999; */
-
-/* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
-    height: 20rem;
+    width: 30rem;
+    height: 30rem;
 }
-/* Small devices (portrait tablets and large phones, 600px and up) */
+
 @media only screen and (min-width: 600px) {
-    height: 21rem;
+    width: 35rem;
+    height: 35rem;
 }
 
 @media only screen and (min-width: 992px) {
-    height: 25rem;
+    width: 40rem;
+    height: 40rem;
 }
+`;
+
+const FillImage = styled.div`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 `;
 
 const PickerWrapper = styled.div`
@@ -348,6 +355,7 @@ const ExplainModalOut = styled.button`
     position: relative;
     width: 10rem;
     height: 3rem;
+    line-height: 1.8;
     right: -340px;
     bottom: -20px;
     background: #94D7BB;
@@ -388,19 +396,20 @@ const ExplainModalOut = styled.button`
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
-    bottom: -80px;
+    bottom: -10px;
     right: 0px;
 }
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
-    bottom: -80px;
+    bottom: -10px;
     right: 0px;
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
-    bottom: -20px;
+    bottom: 60px;
     right: -340px;
+    line-height: 2.5;
 }
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
