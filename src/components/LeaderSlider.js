@@ -91,7 +91,7 @@ function LeaderSlider(props) {
           {currentPosts(list).map((p, idx) => {
             return (
               <Wrap key={idx}>
-                <Stone color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"https://13.125.229.125/images/1.svg"}/>
+                <Stone color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"https://haksae90.shop/images/1.svg"}/>
                 <TextWrap>
                   <Text
                     is_size="20px"
@@ -116,7 +116,7 @@ function LeaderSlider(props) {
             return (
               <Wrap key={idx}>
 
-                <Stone color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"https://13.125.229.125/images/1.svg"}/>
+                <Stone color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"https://haksae90.shop/images/1.svg"}/>
 
                 <TextWrap>
                   <Text

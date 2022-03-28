@@ -54,7 +54,7 @@ const UsersInfo = () => {
     <UserInfoContainer>
       <User>
 
-        <UserFace color={color}img={profileImage ? profileImage:"https://13.125.229.125/images/1.svg"}/>
+        <UserFace color={color}img={profileImage ? profileImage:"https://haksae90.shop/images/1.svg"}/>
              <UserName>
 
           <Text is_bold is_size="30px" is_margin="10px">
