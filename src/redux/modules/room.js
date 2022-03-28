@@ -53,7 +53,7 @@ const initialState = {
         point: 0,
         state: '',
     },
-
+    roomName: "",
 }
 
 // actions
@@ -222,6 +222,7 @@ export default handleActions({
         draft.whitePlayer = action.payload.users[0].whitePlayerInfo[0];
         draft.blackObserverList = [...action.payload.users[0].blackTeamObserver];
         draft.whiteObserverList = [...action.payload.users[0].whiteTeamObserver];
+        draft.roomName = action.payload.users[0].roomName;
     }),
     [CHANGE_STATE]: (state, action) => produce(state, (draft) => {
         console.log(action.payload.id);

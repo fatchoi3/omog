@@ -1,4 +1,4 @@
-import React, { useState, forwardRef, useRef, useCallback } from 'react';
+import React, { useState, forwardRef, useRef } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 
@@ -30,11 +30,8 @@ const SignupModal = forwardRef(({ handleSignupModal }, modalEl) => {
     const [password, setPassword] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");
 
-    // const [pickers, setPickers] = useState([]);
     const [pickIndex, setPickIndex] = useState(0);
-    // const [iconIndex, setIconIndex] = useState(0);
     const [iconModal, setIconModal] = useState(false);
-
 
 
     const handleIdInput = (e) => {
@@ -48,7 +45,6 @@ const SignupModal = forwardRef(({ handleSignupModal }, modalEl) => {
     const handlePasswordConfirmInput = (e) => {
         setPasswordConfirm(e.target.value);
     }
-
 
     const handleIconModal = () => {
         if (iconModal === false) {
@@ -160,6 +156,7 @@ const SignupModalContainer = styled.div`
     justify-content: center;
     background: rgba(0, 0, 0, 0.3);
     z-index: 5;
+    overflow: auto;
 
     > div {
         background: #fff;
@@ -207,15 +204,5 @@ const FillImage = styled.img`
     outline: ${props => props.isClicked ? "4px solid #94D7BB" : ""};
 `;
 
-
-const Arrow = styled.div`
-    margin: 0 15px;
-    ${(props) => props.isLeft ? 'left: 5px' : 'right: 5px'};
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
-    cursor: pointer;
-`;
 
 export default SignupModal;

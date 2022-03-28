@@ -7,8 +7,6 @@ import { actionCreators as userActions } from '../redux/modules/user';
 
 import Logo from '../pictures/omokjomok.svg';
 import { Text, Input, Button } from '../elements';
-import LoginPageSlider from '../components/Login/LoginPageSlider';
-
 
 import profile1 from '../pictures/omok-profile1.svg';
 import profile2 from '../pictures/omok-profile2.svg';
@@ -22,6 +20,7 @@ import profile9 from '../pictures/omok-profile9.svg';
 import profile10 from '../pictures/omok-profile10.svg';
 import profile11 from '../pictures/omok-profile11.svg';
 import SignupModal from '../components/Login/SignupModal';
+import ExplainModal from '../components/Login/ExplainModal';
 
 
 function Login(props) {
@@ -31,7 +30,6 @@ function Login(props) {
 
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
-    const [passwordConfirm, setPasswordConfirm] = useState("");
     const [isOpen, setIsOpen] = useState(false);
     const [explainModal, setExplainModal] = useState(true);
 
@@ -121,29 +119,7 @@ function Login(props) {
     return (
         <>
             {explainModal &&
-                <LoginPageModalContainer>
-                    <LoginPageModal>
-                        <div style={{ display: "flex", margin: "0 auto", flexDirection: "column", alignContent: "center", alignItems: "center", justifyContent: "center", width: "100%", height: "auto" }}>
-                            <LoginPageSlider />
-                            <Button
-                                is_width="10rem"
-                                is_height="3rem"
-                                is_background="#C4C4C4"
-                                is_size="18px"
-                                is_color="white"
-                                is_weight="800"
-                                is_border="none"
-                                is_radius="10px"
-                                is_margin="100px 0 0 0"
-                                is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB"
-                                _onClick={handleExplainModal}
-                                is_cursor="pointer"
-                            >
-                                SKIP
-                            </Button>
-                        </div>
-                    </LoginPageModal>
-                </LoginPageModalContainer>
+                <ExplainModal handleExplainModal={handleExplainModal} />
             }
             {isOpen &&
                 <SignupModal handleSignupModal={handleSignupModal} ref={modalEl} />
@@ -253,56 +229,7 @@ const LogoBox = styled.div`
             width: 23rem;
         }
     }
-
-
 `
-
-const LoginPageModalContainer = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: ${props => props.signup ? "100vh" : "auto"};
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.3);
-    z-index: 5;
-`
-
-const LoginPageModal = styled.div`
-    position: relative;
-    display: flex;
-    background: white;
-    width: ${props => props.signup ? "28%" : "100%"};
-    min-width: 330px;
-    height: ${props => props.signup ? "561px" : "100vh"};
-    box-shadow: rgb(0 0 0 / 9%) 0px 2px 12px 0px;
-    transition: 0.3s;
-    flex-direction: ${props => props.signup ? "column" : ""};
-    justify-content: ${props => props.signup ? "center" : ""};
-    border-radius: ${props => props.signup ? "14px" : ""};
-    max-width: ${props => props.signup ? "25rem" : ""};
-
-    // 아래에서 위로
-    // animation: 400ms ease-in-out 0ms 1 normal forwards running modalIn;
-    // 사라락 나타나기
-    animation: ${props => props.signup ? "0.3s ease us814pn" : ""};
-
-    @keyframes us814pn {
-        0%{
-            // transform: translateY(600px);
-            backdrop-filter: blur(0rem);
-            opacity: 0;
-        }  
-        100%{
-            // transform: translateY(0px);
-            backdrop-filter: blur(0rem);
-            opacity: 1;
-        }
-    }
-`
-
 
 const Picker = styled.div`
     width: 12px;

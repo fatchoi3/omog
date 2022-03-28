@@ -7,6 +7,7 @@ import { actionCreators as roomActions } from '../../redux/modules/room';
 import WaitPlayerList from './WaitPlayerList';
 import WaitObserverList from './WaitObserverList';
 import GameStartBtn from './GameStartBtn';
+import { Text } from '../../elements';
 
 
 function WaitingUsers({ socket, roomNum }) {
@@ -15,6 +16,7 @@ function WaitingUsers({ socket, roomNum }) {
 
     const userId = localStorage.getItem("userId");
     const waitingPerson = useSelector((state) => state.room.userInfo);
+    const roomName = useSelector((state) => state.room.roomName);
     console.log(waitingPerson);
 
 
@@ -57,8 +59,8 @@ function WaitingUsers({ socket, roomNum }) {
 
     return (
         <>
-            <div style={{ width: "7rem", height: "76px" }}>
-                <img src={Logo} alt="로고" style={{ width: "100%", height: "100%", background: "#C4C4C4" }} />
+            <div style={{ width: "100%", height: "auto", outline: "2px solid black", padding: "5px", borderRadius: "10px", margin: "0 0 12px 0" }}>
+                <Text is_size="24px" is_margin="10px 0" is_bold="700">방 제목 : {roomName}</Text>
             </div>
             <WaitPlayerList roomNum={roomNum} socket={socket} />
             <GameStartBtn socket={socket} roomNum={roomNum} />
