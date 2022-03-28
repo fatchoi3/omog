@@ -376,8 +376,6 @@ const Omog = memo(({ socket, blackPlayer,whitePlayer,userInfo,gameNum ,min,min2,
     });
   }, [socket]);
 
- 
-
   return (
     <div>
       <GameWrap>
