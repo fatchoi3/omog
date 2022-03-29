@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Logo from '../../pictures/omokjomok.svg'
+import styled from 'styled-components';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { actionCreators as roomActions } from '../../redux/modules/room';
@@ -25,7 +25,7 @@ function WaitingUsers({ socket, roomNum }) {
         const nickname = {
             id: userId,
             roomNum: roomNum
-        }
+        };
         socket.emit("nickname", nickname);
         console.log(nickname, ": 닉네임을 보냈습니다.");
 
@@ -39,13 +39,6 @@ function WaitingUsers({ socket, roomNum }) {
             socket.emit("enterRoomObserver", data);
             console.log(`enterRoomWhiteObserver 입장, 방번호 : ${roomNum}, ${waitingPerson.state}`)
         }
-
-        // 대기방 접속한 인원 정보 받기
-        const welcome = (id, userInfos) => {
-            console.log("welcome 실행완료", id, userInfos);
-            dispatch(roomActions.setWaitUser(id, userInfos));
-        }
-        socket.on("welcome", welcome)
 
         // 사용자 팀 및 상태 변경
         const changeState = (id, userInfos) => {
@@ -63,14 +56,26 @@ function WaitingUsers({ socket, roomNum }) {
 
     return (
         <>
-            <div style={{ width: "100%", height: "auto", outline: "2px solid black", padding: "5px", borderRadius: "10px", margin: "0 0 12px 0" }}>
+            <WaitingHeader>
+                <Text is_size="24px" is_margin="10px 0" is_bold="700">방 번호 : {roomNum}</Text>
                 <Text is_size="24px" is_margin="10px 0" is_bold="700">방 제목 : {roomName}</Text>
-            </div>
+            </WaitingHeader>
             <WaitPlayerList roomNum={roomNum} socket={socket} />
             <GameStartBtn socket={socket} roomNum={roomNum} />
             <WaitObserverList roomNum={roomNum} socket={socket} />
         </>
     );
 }
+
+const WaitingHeader = styled.div`
+    width: 100%;
+    height: auto;
+    outline: 2px solid black;
+    padding: 5px;
+    border-radius: 10px;
+    margin: 0 0 12px 0;
+    display: flex;
+    justify-content: space-around;
+`
 
 export default WaitingUsers;
