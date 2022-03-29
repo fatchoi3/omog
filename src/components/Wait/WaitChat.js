@@ -24,7 +24,9 @@ function WaitChat({ socket, roomNum }) {
         const data = { roomNum: roomNum, chat: messageRef.current.value };
         await socket.emit("chat", data);
         messageRef.current.value = '';
-        let delay = setTimeout(() => { setDisabled(false) }, 1500);
+        let delay = setTimeout(() => {
+            setDisabled(false)
+        }, 1500);
     }, [])
 
     const moveScrollToReceiveMessage = useCallback(() => {
@@ -117,10 +119,11 @@ function WaitChat({ socket, roomNum }) {
                     type="text"
                     placeholder="say something..."
                     ref={messageRef}
-                    disabled={disabled}
+                    // disabled={disabled}
                     onKeyPress={(e) => e.key === "Enter" && sendMessages(e)}
+                    autoFocus
                 />
-                <button disabled={disabled} type="submit">SEND</button>
+                <button style={{ backgroundColor: "#94D7BB" }} disabled={disabled} type="submit">SEND</button>
             </ChattingInputForm>
         </ChattingWindow>
     );
@@ -182,8 +185,8 @@ const ChattingInputForm = styled.form`
 
         &:hover {
             box-shadow: 
-                inset -3em 0 0 0 #94D7BB,
-                inset 3em 0 0 0 #94D7BB;
+                inset -3em 0 0 0 #6DB6DF,
+                inset 3em 0 0 0 #6DB6DF;
         }
     }
 `
