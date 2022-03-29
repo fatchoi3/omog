@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import styled, { keyframes } from 'styled-components';
 import { Button, Text } from '../../elements';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -42,42 +43,113 @@ function GameStartBtn({ socket, roomNum }) {
     }, [start])
 
     return (
-        <div style={{ display: "flex", justifyContent: "center", boxSizing: "border-box" }}>
+        <GameStart>
             {waitingPerson &&
                 waitingPerson.id === userId && waitingPerson.state === "blackPlayer"
                 ?
-                <Button
-                    is_width="30%"
-                    is_padding="18px 36px"
-                    is_radius="14px"
-                    is_background="#94D7BB"
-                    is_center="center"
-                    is_margin="20px"
-                    is_border="2px solid black"
-                    is_cursor="pointer"
-                    is_hover="inset 0 -5em 0 0 #6DB6DF, inset 0 5em 0 0 #6DB6DF"
-                    _onClick={gameStart}
-                ><Text is_bold="800" is_size="24px" is_line_height="28px">게임 시작</Text></Button>
+                <button className="gamestart__btn btn-animated btn-white" onClick={gameStart}>
+                    <Text is_bold="800" is_size="24px" is_line_height="28px">게임 시작</Text>
+                </button>
                 :
-                <Button
-                    is_width="30%"
-                    is_padding="18px 36px"
-                    is_radius="14px"
-                    is_background="#94D7BB"
-                    is_center="center"
-                    is_margin="20px"
-                    is_border="2px solid black"
-                    is_cursor="pointer"
-                    _onClick={gameStart}
-                    disabled
-                ><Text is_bold="800" is_size="24px" is_line_height="28px">
+                <button className="btn-disabled" onClick={gameStart} disabled>
+                    <Text is_bold="800" is_size="24px" is_line_height="28px">
                         게임 시작
                     </Text>
-                </Button>
+                </button>
             }
-        </div>
+        </GameStart>
     );
 }
 
+const moveInBottom = keyframes`
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+`;
+
+const GameStart = styled.div`
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+
+    .gamestart__btn {
+        width: 30%;
+        padding: 18px 36px;
+        margin: 20px;
+        border: 2px solid black;
+        border-radius: 14px;
+        background-color: #94D7BB;
+        text-align: center;
+        cursor: pointer;
+        transition: all .2s;
+
+        &:link,
+        &:visited {
+            text-transform: uppercase;
+            text-decoration: none;
+            padding: 15px 40px;
+            display: inline-block;
+            border-radius: 100px;
+            transition: all .2s;
+            position: absolute;
+        }
+
+        &:hover {
+            /* box-shadow: */
+                /* inset 0 -5em 0 0 #6DB6DF,
+                inset 0 5em 0 0 #6DB6DF; */
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        &:active {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        &::after {
+            content: "";
+            display: inline-block;
+            height: 100%;
+            width: 100%;
+            border-radius: 100px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            transition: all .4s;
+        }
+
+        &::after {
+            background-color: #6DB6DF;
+        }
+        
+        &:hover::after {
+            transform: scaleX(1.4) scaleY(1.6);
+            opacity: 0;
+        }
+
+        .btn-animated {
+            animation: ${moveInBottom} 5s ease-out;
+            animation-fill-mode: backwards;
+        }
+    }
+
+    .btn-disabled {
+        width: 30%;
+        padding: 18px 36px;
+        margin: 20px;
+        border: 2px solid black;
+        border-radius: 14px;
+        background-color: #94D7BB;
+        text-align: center;
+    }
+`
 
 export default React.memo(GameStartBtn);

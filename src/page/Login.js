@@ -63,8 +63,12 @@ function Login(props) {
         )
     }
 
-    const handleSignupModal = () => {
+    const openSignupModal = () => {
         setIsOpen(true);
+    }
+
+    const closeSignupModal = () => {
+        setIsOpen(false);
     }
 
     const handleClickOutside = ({ target }) => {
@@ -122,7 +126,7 @@ function Login(props) {
                 <ExplainModal handleExplainModal={handleExplainModal} />
             }
             {isOpen &&
-                <SignupModal handleSignupModal={handleSignupModal} ref={modalEl} />
+                <SignupModal closeSignupModal={closeSignupModal} ref={modalEl} />
             }
 
             <LogoBox>
@@ -177,7 +181,7 @@ function Login(props) {
                     </Button>
 
                     <div className="signup_to_box" style={{ width: "14rem", textAlign: "center", display: "flex", justifyContent: "center" }}>
-                        <Text is_color="#616161" is_cursor="pointer" _onClick={handleSignupModal}>회원가입 하러가기</Text>
+                        <Text is_color="#616161" is_cursor="pointer" _onClick={openSignupModal}>회원가입 하러가기</Text>
                     </div>
                 </div>
             </LoginPageContainer>
