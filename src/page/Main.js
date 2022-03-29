@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
 
-import { Button, Text} from "../elements/index";
+import { Button, Text } from "../elements/index";
 import Roomlist from "../components/Roomlist";
 import UsersInfo from "../components/UsersInfo";
 import MainFooter from "../components/MainFooter";
@@ -9,23 +9,34 @@ import Spinner from "../elements/Spinner";
 import RoomMake from "../components/RoomMake";
 import useInput from "../hook/useInput";
 
-import exit from "../pictures/exit.png"
+import exit from "../pictures/exit.png";
 import Logo from "../pictures/omogLogo.png";
 import Time from "../pictures/Time.png";
 
+import useSocket from "../hook/useSocket";
 
 import { useDispatch } from "react-redux";
 import { actionCreators as roomActions } from "../redux/modules/room";
 import { actionCreators as userActions } from "../redux/modules/user";
+import { useHistory } from "react-router-dom";
 
 const Main = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [roomaName, onChangeRoomaName, setRoomaName] = useInput("");
   const [roomNum, onChangeRoomNum, setRoomNum] = useInput("");
   const [state, setState] = useState("");
   const userId = localStorage.getItem("userId");
+  const is_token = userId ? true : false;
+
+  const [socket, disconnectSocket] = useSocket(
+    "https://haksae90.shop/lobby",
+    -1,
+    userId
+  );
 
   //모달창켜기
   const openModal = () => {
@@ -43,8 +54,7 @@ const Main = () => {
       alert("빈칸을 채워주세요");
       return;
     }
-    dispatch(roomActions.addRoomDB(roomaName,state));
- 
+    dispatch(roomActions.addRoomDB(roomaName, state));
   };
 
   const enterNum = () => {
@@ -79,34 +89,71 @@ const Main = () => {
     }, 1000);
   }, []);
 
+  useEffect(() => {
+    return () => {
+      disconnectSocket();
+    };
+  }, [disconnectSocket]);
+
+  useEffect(() => {
+    socket.emit("lobby", userId);
+  }, []);
+
+  if (!is_token) {
+    return (
+      <Getout>
+        <Text is_size="32px" is_margin="20px auto" is_bold>
+          앗 잠깐!
+        </Text>
+        <Text is_size="16px" is_margin="20px auto">
+          {" "}
+          로그인 후에만 이용할 수 있어요!
+        </Text>
+        <Button
+          is_width="300px"
+          is_height="100px"
+          is_margin="5px 100px"
+          is_radius="9px"
+          is_border="none"
+          is_background="#94d7bb"
+          is_cursor
+          is_hover="inset -6em 0 0 0 #f0f0f0, inset 6em 0 0 0 #f0f0f0"
+          _onClick={() => {
+            history.replace("/");
+          }}
+        >
+          <Text is_size="32px" is_margin="20px auto" is_bold>
+            {" "}
+            로그인 하러가기
+          </Text>
+        </Button>
+      </Getout>
+    );
+  }
+
   return (
     <>
-    
-    <Button
-              is_margin="1.5% 8% 1% "
-              is_height="50px"
-              is_width="150px"
-              is_radius="8px"
-              is_border="none"
-              is_background="transparent"
-              is_cursor
-              is_hover="inset -6em 0 0 0 #f0f0f0, inset 6em 0 0 0 #f0f0f0"
-              is_display="flex"
-              _onClick={() => {
-                dispatch(userActions.logoutDB(userId));
-                // dispatch(userActions.logout());
-              }}
-            >
-              <ExitImg src={exit}/>
-              <Text 
-              is_size="20px"
-              is_margin="7% 0 0 5%"
-              is_color="#C4C4C4" 
-              is_bold>
-                로그아웃
-              </Text>
-            </Button>
-         
+      <Button
+        is_margin="1.5% 8% 1% "
+        is_height="50px"
+        is_width="150px"
+        is_radius="8px"
+        is_border="none"
+        is_background="transparent"
+        is_cursor
+        is_hover="inset -6em 0 0 0 #f0f0f0, inset 6em 0 0 0 #f0f0f0"
+        is_display="flex"
+        _onClick={() => {
+          dispatch(userActions.logoutDB(userId));
+          // dispatch(userActions.logout());
+        }}
+      >
+        <ExitImg src={exit} />
+        <Text is_size="20px" is_margin="7% 0 0 5%" is_color="#C4C4C4" is_bold>
+          로그아웃
+        </Text>
+      </Button>
+
       <Container>
         {loading ? <Spinner type={"page"} is_dim={true} width="200px" /> : ""}
         {/* <Banner /> */}
@@ -149,7 +196,7 @@ const Main = () => {
                 label="roomNum"
               />
               <Button
-              is_background="transparent"
+                is_background="transparent"
                 is_margin="4px 10px 0 0 "
                 is_height="30px"
                 is_width="30px"
@@ -221,8 +268,8 @@ const Main = () => {
               </Text>
             </Button>
             <LogoWrap>
-        <LogoImg src={Logo} />
-      </LogoWrap>
+              <LogoImg src={Logo} />
+            </LogoWrap>
           </ButtonWrap>
         </UserInfoWrap>
 
@@ -234,95 +281,89 @@ const Main = () => {
           enterName="방 만들기"
         >
           <ModalFlex>
-          <Front>
-          <RoomNameTitle>
-          <RoomName>
-            <Text
-            is_bold
-            >방 이름</Text>
-            </RoomName>
-          <MakeRomm
-            name="message"
-            onKeyDown={(e) => onKeyPress(e)}
-            onChange={(e) => onChangeRoomaName(e)}
-            placeholder="what...?"
-            value={roomaName}
-            id="outlined-multiline-static"
-            variant="outlined"
-            label="Message"
-          />
-           </RoomNameTitle>
-          <TimeChoiceTitle>
-            <TimeChoice>
-            <Text
-            is_bold
-            >시간</Text>
-            </TimeChoice>
+            <Front>
+              <RoomNameTitle>
+                <RoomName>
+                  <Text is_bold>방 이름</Text>
+                </RoomName>
+                <MakeRomm
+                  name="message"
+                  onKeyDown={(e) => onKeyPress(e)}
+                  onChange={(e) => onChangeRoomaName(e)}
+                  placeholder="what...?"
+                  value={roomaName}
+                  id="outlined-multiline-static"
+                  variant="outlined"
+                  label="Message"
+                />
+              </RoomNameTitle>
+              <TimeChoiceTitle>
+                <TimeChoice>
+                  <Text is_bold>시간</Text>
+                </TimeChoice>
 
-          <WaitingEnterRadio>
-            <Item>
-              <RadioButton
-                type="radio"
-                id="1"
-                name="state"
-                value="2 : 00"
-                onChange={changeRadioQ1}
-              />
-              <RadioButtonLabel for="1">
-                <Text is_size="25px">
-                  2: 00
-                </Text>
-              </RadioButtonLabel>
-            </Item>
+                <WaitingEnterRadio>
+                  <Item>
+                    <RadioButton
+                      type="radio"
+                      id="1"
+                      name="state"
+                      value="2 : 00"
+                      onChange={changeRadioQ1}
+                    />
+                    <RadioButtonLabel for="1">
+                      <Text is_size="25px">2: 00</Text>
+                    </RadioButtonLabel>
+                  </Item>
 
-            <Item>
-              <RadioButton
-                type="radio"
-                id="2"
-                name="state"
-                value="3 : 00"
-                onChange={changeRadioQ1}
-              />
-              <RadioButtonLabel for="2">
-                <Text is_size="25px">
-                  3: 00
-                </Text>
-              </RadioButtonLabel>
-            </Item>
-            <Item>
-              <RadioButton
-                type="radio"
-                id="3"
-                name="state"
-                value="5 : 00"
-                onChange={changeRadioQ1}
-              />
-              <RadioButtonLabel for="3">
-                <Text is_size="25px">
-                  5: 00
-                </Text>
-              </RadioButtonLabel>
-          
-            </Item>
-         
-          </WaitingEnterRadio>
-         </TimeChoiceTitle>
-          </Front>
-          <TimeImg>
-           <Text
-           is_size="40px"
-           is_bold
-           is_margin="0 10% 0 0"
-           > {state?state:""}</Text>
+                  <Item>
+                    <RadioButton
+                      type="radio"
+                      id="2"
+                      name="state"
+                      value="3 : 00"
+                      onChange={changeRadioQ1}
+                    />
+                    <RadioButtonLabel for="2">
+                      <Text is_size="25px">3: 00</Text>
+                    </RadioButtonLabel>
+                  </Item>
+                  <Item>
+                    <RadioButton
+                      type="radio"
+                      id="3"
+                      name="state"
+                      value="5 : 00"
+                      onChange={changeRadioQ1}
+                    />
+                    <RadioButtonLabel for="3">
+                      <Text is_size="25px">5: 00</Text>
+                    </RadioButtonLabel>
+                  </Item>
+                </WaitingEnterRadio>
+              </TimeChoiceTitle>
+            </Front>
+            <TimeImg>
+              <Text is_size="40px" is_bold is_margin="0 10% 0 0">
+                {" "}
+                {state ? state : ""}
+              </Text>
             </TimeImg>
           </ModalFlex>
         </RoomMake>
       </Container>
       <MainFooter />
-      
     </>
   );
 };
+
+const Getout = styled.div`
+  width: 500px;
+  height: 300px;
+  margin: 200px auto;
+  padding: 50px;
+  background-color: #f2f2f2;
+`;
 const Container = styled.div`
   display: flex;
   width: 90%;
@@ -330,7 +371,6 @@ const Container = styled.div`
 `;
 const UserInfoWrap = styled.div`
   width: 20%;
-
 `;
 const RoomDiv = styled.div`
   height: 500px;
@@ -350,11 +390,11 @@ const ListTitle = styled.div`
   display: flex;
   justify-content: space-between;
   height: 40px;
-  width : 100%;
+  width: 100%;
 `;
 const ListDiv = styled.div`
   margin: 0 5% 0 0;
-  width : 70%;
+  width: 70%;
 `;
 const ButtonWrap = styled.div`
   display: flex;
@@ -380,11 +420,11 @@ const LogoImg = styled.img`
 const MakeRomm = styled.input`
   width: 100%;
   height: 50%;
- 
+
   border: 2px black solid;
   background-color: #ffffff;
   padding-left: 25px;
-  border-radius : 15px;
+  border-radius: 15px;
   ::placeholder {
     font-size: 18px;
   }
@@ -402,7 +442,7 @@ const MakeRomm = styled.input`
 const ModalFlex = styled.div`
   display: flex;
   margin: 5px 0 15px 0;
-  width : 100%;
+  width: 100%;
   height: 100%;
 `;
 const RoomFind = styled.div`
@@ -417,109 +457,106 @@ const RoomInput = styled.input`
   border-radius: 15px;
 `;
 const Item = styled.div`
- display: flex;
- width : 100%;
- height: 50%;
+  display: flex;
+  width: 100%;
+  height: 50%;
   align-items: center;
-  
+
   position: relative;
- 
+
   box-sizing: border-box;
   border-radius: 2px;
   margin-bottom: 10px;
 `;
 const WaitingEnterRadio = styled.div`
-width : 115%;
-height : 100%;
+  width: 115%;
+  height: 100%;
   display: flex;
-  margin : 10% 0 0 0;
-  
+  margin: 10% 0 0 0;
 `;
 
 const TimeImg = styled.div`
-background-image : url(${Time});
-background-size : contain;
-background-repeat: no-repeat;
-height : 100%;
-width : 50%;
-margin : 2% 7% 2% 5%;
-display: flex;
+  background-image: url(${Time});
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 50%;
+  margin: 2% 7% 2% 5%;
+  display: flex;
   align-items: center;
   justify-content: center;
 `;
-const RoomNameTitle =styled.div`
-display : flex;
-width : 100%;
-height : 40%;
-align-items: center;
+const RoomNameTitle = styled.div`
+  display: flex;
+  width: 100%;
+  height: 40%;
+  align-items: center;
 `;
 const RoomName = styled.div`
-width : 20%;
-height : 50%;
-border : 2px solid black;
-border-radius : 15px;
-margin : 0 6% 0 0;
+  width: 20%;
+  height: 50%;
+  border: 2px solid black;
+  border-radius: 15px;
+  margin: 0 6% 0 0;
 
-background-color : #94d7bb;
-display: flex;
-align-items: center;
-justify-content: center;
-
+  background-color: #94d7bb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 const TimeChoiceTitle = styled.div`
-display : flex;
-width : 100%;
-height : 40%;
-align-items: center;
+  display: flex;
+  width: 100%;
+  height: 40%;
+  align-items: center;
 `;
 const TimeChoice = styled.div`
-width : 19%;
-height : 50%;
-border : 2px solid black;
-border-radius : 15px;
-margin : 0 4% 0 0;
+  width: 19%;
+  height: 50%;
+  border: 2px solid black;
+  border-radius: 15px;
+  margin: 0 4% 0 0;
 
-background-color : #94d7bb;
-display: flex;
-align-items: center;
-justify-content: center;
+  background-color: #94d7bb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
-const Front =styled.div`
-width : 100%;
-margin : 0 4%;
+const Front = styled.div`
+  width: 100%;
+  margin: 0 4%;
 `;
 const RadioButtonLabel = styled.label`
- width : 100%;
- height: 100%;
- border : 2px solid black;
- border-radius : 15px;
- background-color: #E6E6E6;
- display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 100%;
+  height: 100%;
+  border: 2px solid black;
+  border-radius: 15px;
+  background-color: #e6e6e6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 const RadioButton = styled.input`
-  
   opacity: 0;
   z-index: 1;
   cursor: pointer;
-    &:hover ~ ${RadioButtonLabel} {
-      box-shadow: -5px 5px 4px 0px rgba(0, 0, 0, 0.25);
+  &:hover ~ ${RadioButtonLabel} {
+    box-shadow: -5px 5px 4px 0px rgba(0, 0, 0, 0.25);
     &::after {
       color: white;
     }
   }
-  &:checked  {
+  &:checked {
     background: #94d7bb;
     border: 2px solid #94d7bb;
   }
   &:checked + ${Item} {
-    background:  #94d7bb;
-    border: 2px solid  #94d7bb;
+    background: #94d7bb;
+    border: 2px solid #94d7bb;
   }
   &:checked + ${RadioButtonLabel} {
-    background:  #94d7bb;
-    border: 1px solid  #94d7bb;
+    background: #94d7bb;
+    border: 1px solid #94d7bb;
     &::after {
       color: white;
       margin: 4px;
@@ -527,7 +564,7 @@ const RadioButton = styled.input`
   }
 `;
 const ExitImg = styled.img`
-width: 35%;
-height:70%;
+  width: 35%;
+  height: 70%;
 `;
 export default Main;

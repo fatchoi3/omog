@@ -1,39 +1,42 @@
-import React,{memo} from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
-import { Text } from "../elements/index";
-import Progress from "./Progress";
 
-const PlayerCardW = memo(({playerInfo,min,sec} ) => {
+import Heart from "../../pictures/Heart.png";
+import { Text } from "../../elements/index";
+import Progress from "../Progress";
+
+const PlayerCardW = memo(({ playerInfo, min, sec, isTeam }) => {
   const win = playerInfo?.score[0].win;
   const lose = playerInfo?.score[1].lose;
-  console.log("playerInfo", playerInfo);
 
-  const UserFaceColor =(point)=>{
-    let color= "black 2px"
-    if(point >= 1300 && point < 1500){
+  const UserFaceColor = (point) => {
+    let color = "black 2px";
+    if (point >= 1300 && point < 1500) {
       color = "#835506 3px";
       return color;
     }
-    if(point >= 1500 && point < 2000){
-      color ="#B2B2B2 3px";
+    if (point >= 1500 && point < 2000) {
+      color = "#B2B2B2 3px";
       return color;
     }
-    if(point >= 2000 && point < 3000){
-      color ="#FFF27E 3px";
+    if (point >= 2000 && point < 3000) {
+      color = "#FFF27E 3px";
       return color;
     }
-    if(point >= 3000){
+    if (point >= 3000) {
       color = "#22E1E4 3px";
       return color;
     }
     return color;
   };
-  
-
 
   return (
     <Container>
-      <UserFace color={UserFaceColor(playerInfo?.point)} img={playerInfo?.profileImage}/>
+      {isTeam === "white" ? <HeartImg src={Heart} /> : ""}
+      <UserFace
+        color={UserFaceColor(playerInfo?.point)}
+        img={playerInfo?.profileImage}
+      />
       <Text is_bold is_size="30px" is_margin="20px 0">
         {" "}
         {playerInfo ? playerInfo.id : "1"}
@@ -42,17 +45,17 @@ const PlayerCardW = memo(({playerInfo,min,sec} ) => {
         <Progress win={win} lose={lose} />
       </ProgressWrap>
       <Text is_margin="10px">
-        승률 {win / (win + lose) ? Math.ceil(win / (win + lose)* 100 ) + "%" : 0 + "%"}{" "}
+        승률{" "}
+        {win / (win + lose)
+          ? Math.ceil((win / (win + lose)) * 100) + "%"
+          : 0 + "%"}{" "}
       </Text>
       <Text is_size="15px">
         (전체 {win}승{lose}패 )
       </Text>
-      <Text
-       is_bold
-       is_margin="15px"
-       is_color="gray"
-       is_size="25px"
-      >{min} : {sec}</Text>
+      <Text is_bold is_margin="15px" is_color="gray" is_size="25px">
+        {min} : {sec}
+      </Text>
     </Container>
   );
 });
@@ -64,6 +67,13 @@ const Container = styled.div`
   margin: 10px 0;
   text-align: center;
   box-shadow: -5px 5px 4px 0px rgba(0, 0, 0, 0.25);
+  position: relative;
+`;
+const HeartImg = styled.img`
+  position: absolute;
+  right: 0;
+  width: 50px;
+  height: 50ps;
 `;
 const ProgressWrap = styled.div`
   width: 150px;
@@ -74,7 +84,7 @@ const UserFace = styled.div`
   height: 70px;
   border-radius: 70px;
   background-color: white;
-  border:  solid ${(props) => props.color};
+  border: solid ${(props) => props.color};
   margin: 25px auto;
   background-image: url(${(props) => props.img});
   background-size: contain;

@@ -12,7 +12,7 @@ function LeaderSlider(props) {
     currentPosts = tmp.slice(pickIndex, pickIndex + 3);
 
     return currentPosts;
-  };
+  }
 
   function NextPosts(tmp) {
     let currentPosts = 0;
@@ -27,7 +27,7 @@ function LeaderSlider(props) {
   const slideRef = React.useRef(null);
 
   const UserFaceColor = (point) => {
-    let color = "black 2px"
+    let color = "black 2px";
     if (point >= 1300 && point < 1500) {
       color = "#835506 3px";
       return color;
@@ -46,7 +46,6 @@ function LeaderSlider(props) {
     }
     return color;
   };
-
 
   const handlePrevClick = React.useCallback(() => {
     if (pickIndex <= 0) {
@@ -91,7 +90,14 @@ function LeaderSlider(props) {
           {currentPosts(list).map((p, idx) => {
             return (
               <Wrap key={idx}>
-                <Stone color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"https://haksae90.shop/images/1.svg"}/>
+                <Stone
+                  color={UserFaceColor(p.point)}
+                  img={
+                    p.profileImage
+                      ? p.profileImage
+                      : "https://haksae90.shop/images/1.svg"
+                  }
+                />
                 <TextWrap>
                   <Text
                     is_size="20px"
@@ -109,14 +115,19 @@ function LeaderSlider(props) {
               </Wrap>
             );
           })}
-
         </FillDiv>
         <FillDiv ref={slideRef}>
           {NextPosts(list).map((p, idx) => {
             return (
               <Wrap key={idx}>
-
-                <Stone color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"https://haksae90.shop/images/1.svg"}/>
+                <Stone
+                  color={UserFaceColor(p.point)}
+                  img={
+                    p.profileImage
+                      ? p.profileImage
+                      : "https://haksae90.shop/images/1.svg"
+                  }
+                />
 
                 <TextWrap>
                   <Text
@@ -135,7 +146,6 @@ function LeaderSlider(props) {
               </Wrap>
             );
           })}
-
         </FillDiv>
         <div
           className="arrow_box"
@@ -160,13 +170,12 @@ const Container = styled.div`
 `;
 
 const FillDiv = styled.div`
-
   width: 100%;
   height: 200px;
   margin: 20px 0 0 0;
   object-fit: cover;
   padding: 10px 0 0 5px;
-  box-shadow: -3px 4px 2px 3px #999;
+  box-shadow: -3px 7px 6px 1px #999;
 `;
 
 const PickerWrapper = styled.div`
@@ -189,9 +198,9 @@ const Stone = styled.div`
   width: 40px;
   height: 40px;
   border-radius: 40px;
-  border: solid  ${(props) => props.color};
-  margin : 4% 0 0 5%;
-  background-image : url(${(props) => props.img});
+  border: solid ${(props) => props.color};
+  margin: 4% 0 0 5%;
+  background-image: url(${(props) => props.img});
   background-size: contain;
   background-repeat: no-repeat;
 `;

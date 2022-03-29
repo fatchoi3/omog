@@ -2,41 +2,37 @@ import React, { useState, useRef, useEffect, memo, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-import { Text } from "../elements";
-import { actionCreators as gameActions } from "../redux/modules/game";
+import Heart from "../../pictures/Heart.png";
+import { Text } from "../../elements";
+import { actionCreators as gameActions } from "../../redux/modules/game";
 
-const TeachingW = memo((props) => {
+const TeachingB = memo((props) => {
   const dispatch = useDispatch();
-
-  const chatList = useSelector((state) => state.game.Teaching_listW);
+  const chatList = useSelector((state) => state.game.Teaching_listB);
   const scroll = useRef(null);
-
-
-
+  const isTeam = props.isTeam;
   const socket = props.socket;
 
-  const UserFaceColor =(point)=>{
-    let color= "black 2px"
-    if(point >= 1300 && point < 1500){
+  const UserFaceColor = (point) => {
+    let color = "black 2px";
+    if (point >= 1300 && point < 1500) {
       color = "#835506 3px";
       return color;
     }
-    if(point >= 1500 && point < 2000){
-      color ="#B2B2B2 3px";
+    if (point >= 1500 && point < 2000) {
+      color = "#B2B2B2 3px";
       return color;
     }
-    if(point >= 2000 && point < 3000){
-      color ="#FFF27E 3px";
+    if (point >= 2000 && point < 3000) {
+      color = "#FFF27E 3px";
       return color;
     }
-    if(point >= 3000){
+    if (point >= 3000) {
       color = "#22E1E4 3px";
       return color;
     }
     return color;
   };
-  
-  
 
   const renderChat = () => {
     return (
@@ -44,8 +40,8 @@ const TeachingW = memo((props) => {
         {chatList.map(({ id, message }, index) => (
           <ChatContents key={index}>
             <ChatId playerInfo={props.playerInfo}>
-            <Userurl color={UserFaceColor(id)}  />
-              <Text is_size="12px" is_color="black" is_margin="2px 0 0 5px">
+              <Userurl color={UserFaceColor(id)} />
+              <Text is_size="13px" is_color="black" is_margin="2px 0 0 5px">
                 {id}
               </Text>
             </ChatId>
@@ -69,17 +65,21 @@ const TeachingW = memo((props) => {
   }, [bottomView, chatList]);
 
   useEffect(() => {
-    dispatch(gameActions.AddTeachW(socket));
+    dispatch(gameActions.AddTeachB(socket));
     console.log("chatList", chatList);
   }, [socket]);
 
   return (
     <Container playerInfo={props.playerInfo}>
       <Profile>
-        <DdongGraMe color={UserFaceColor(props.playerInfo?.point)}  img={ props.playerInfo?.profileImage} />
+        {isTeam === "black" ? <HeartImg src={Heart} /> : ""}
+        <DdongGraMe
+          color={UserFaceColor(props.playerInfo?.point)}
+          img={props.playerInfo?.profileImage}
+        />
         <Text is_size="24px" is_bold>
           {" "}
-          {props.playerInfo ? props.playerInfo.id : "2"}
+          {props.playerInfo ? props.playerInfo.id : "1"}
         </Text>
       </Profile>
       <Chat_render_oneChat playerInfo={props.playerInfo}>
@@ -93,16 +93,18 @@ const Container = styled.div`
   height: 160px;
   display: flex;
   box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
-  border: 3px solid #94d7bb;
+  border: 3px solid
+    ${(props) =>
+      props.playerInfo?.state === "whitePlayer" ? `#94d7bb` : `#9E9E9E`};
   border-radius: 10px;
 `;
 const Chat_render_oneChat = styled.div`
   width: 280px;
-  border-radius : 15px;
+  border-radius: 15px;
   overflow-y: auto;
+  overflow-x: hidden;
   margin: 10px 10px 10px 0px;
   height: 135px;
-  border: 3px solid #94d7bb;
   box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
   ::-webkit-scrollbar {
     display: none;
@@ -114,33 +116,40 @@ const ChatId = styled.div`
   border-radius: 5px;
   padding: 5px;
   width: 90px;
-  display : flex;
+  display: flex;
 `;
 const ChatMessage = styled.div`
   margin: 5px 5px;
-  max-width : 200px;  
+  max-width: 200px;
   padding: 5px;
-  background-color: #94d7bb;
+  border: 1px solid black;
+  background-color: #f0f0f0;
   border-top-right-radius: 5px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   overflow-wrap: break-word;
-    word-break: break-word;
+  word-break: break-word;
 `;
 const Profile = styled.div`
   width: 120px;
   margin: 5px 0px 5px 5px;
+  position: relative;
+`;
+const HeartImg = styled.img`
+  position: absolute;
+  width: 50px;
+  height: 50ps;
+  z-index: 999;
 `;
 const DdongGraMe = styled.div`
   width: 70px;
   height: 70px;
   border-radius: 70px;
-  border: solid 2px black;
+  border: solid ${(props) => props.color};
   margin: 15px 5px 15px 17px;
   background-image: url(${(props) => props.img});
   background-size: contain;
   background-repeat: no-repeat;
-  
 `;
 const Userurl = styled.div`
   height: 20px;
@@ -148,7 +157,5 @@ const Userurl = styled.div`
   border-radius: 20px;
   border: solid ${(props) => props.color};
   background: #f0f0f0;
- 
-
 `;
-export default TeachingW;
+export default TeachingB;

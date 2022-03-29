@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { Text, Button } from "../elements/index";
 import Banner from "../pictures/banner.png";
 
-
 import LeaderBoard from "./LeaderBoard";
 import LeaderSlider from "./LeaderSlider";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,8 +14,9 @@ const MainFooter = () => {
   const user_list = useSelector((state) => state.user.list);
   const user_leaders = useSelector((state) => state.user.leader_list);
   const leader_board = useSelector((state) => state.user.leader_board);
+  const userId = localStorage.getItem("userId");
   const [modalOpen, setModalOpen] = useState(false);
-  console.log("user_list", user_list)
+  console.log("user_list", user_list);
   const openModal = () => {
     setModalOpen(true);
   };
@@ -47,7 +47,7 @@ const MainFooter = () => {
   };
 
   useEffect(() => {
-    dispatch(userActions.getUserDB());
+    dispatch(userActions.getUserDB(userId));
     dispatch(userActions.getLeaderDB());
     dispatch(userActions.getLeaderBoardDB());
   }, []);
@@ -56,14 +56,20 @@ const MainFooter = () => {
       <UserS>
         <Nemo />
         <Text is_bold is_margin="0 20px 0 0 ">
-          오목조목 유저
+          접속 유저
         </Text>
         <UserContents>
           {user_list.map((p, idx) => {
             return (
               <UserContent key={idx}>
-
-                <Userurl color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"https://haksae90.shop/images/1.svg"} />
+                <Userurl
+                  color={UserFaceColor(p.point)}
+                  img={
+                    p.profileImage
+                      ? p.profileImage
+                      : "https://haksae90.shop/images/1.svg"
+                  }
+                />
 
                 <Text
                   is_size="20px"
@@ -104,39 +110,36 @@ const MainFooter = () => {
           <LeaderBoard open={modalOpen} close={closeModal} header="오늘의 랭킹">
             <SuperLeaders>
               <Leader>
-              
-                <FirstImg src={leader_board[0]?.profileImage} img={leader_board[0]?.profileImage} />
-        
-               
-             
-                <Text
+                <FirstImg
+                  src={leader_board[0]?.profileImage}
+                  img={leader_board[0]?.profileImage}
+                />
 
-                is_size="25px"
-                is_bold
-                is_margin=" 0 0 8px 0"
-                >{leader_board[0]?.id}</Text>
-                <Text>   {leader_board[0]?.point} p </Text>
+                <Text is_size="25px" is_bold is_margin=" 0 0 8px 0">
+                  {leader_board[0]?.id}
+                </Text>
+                <Text> {leader_board[0]?.point} p </Text>
               </Leader>
               <Leader>
-              
-                <SecondImg src={leader_board[1]?.profileImage} img={leader_board[1]?.profileImage} />
+                <SecondImg
+                  src={leader_board[1]?.profileImage}
+                  img={leader_board[1]?.profileImage}
+                />
 
-                <Text
-                is_size="25px"
-                is_bold
-                is_margin=" 0 0 8px 0"
-                >{leader_board[1]?.id}</Text>
+                <Text is_size="25px" is_bold is_margin=" 0 0 8px 0">
+                  {leader_board[1]?.id}
+                </Text>
                 <Text> {leader_board[1]?.point} p </Text>
               </Leader>
               <Leader>
-         
-                <ThirdImg src={leader_board[2]?.profileImage} img={leader_board[2]?.profileImage} />
-              
-                <Text
-                is_size="25px"
-                is_bold
-                is_margin=" 0 0 8px 0"
-                >{leader_board[2]?.id}</Text>
+                <ThirdImg
+                  src={leader_board[2]?.profileImage}
+                  img={leader_board[2]?.profileImage}
+                />
+
+                <Text is_size="25px" is_bold is_margin=" 0 0 8px 0">
+                  {leader_board[2]?.id}
+                </Text>
                 <Text> {leader_board[2]?.point} p</Text>
               </Leader>
             </SuperLeaders>
@@ -147,7 +150,14 @@ const MainFooter = () => {
           {user_leaders.map((p, idx) => {
             return (
               <UserContent key={idx}>
-                <Userurl color={UserFaceColor(p.point)} img={p.profileImage ? p.profileImage:"https://haksae90.shop/images/1.svg"} />
+                <Userurl
+                  color={UserFaceColor(p.point)}
+                  img={
+                    p.profileImage
+                      ? p.profileImage
+                      : "https://haksae90.shop/images/1.svg"
+                  }
+                />
                 <Text
                   is_size="20px"
                   is_color="black"
@@ -163,12 +173,12 @@ const MainFooter = () => {
         is_height="103"
         is_border="none"
         is_background="transparent"
+        is_cursor
         _onClick={() => {
           window.open("https://forms.gle/AxysJH5XHe66kKDn8", "_blank");
         }}
       >
-        <BannerImg src={Banner}/>
-        
+        <BannerImg src={Banner} />
       </Button>
     </Container>
   );
@@ -215,8 +225,8 @@ const Userurl = styled.div`
   border-radius: 20px;
   border: solid ${(props) => props.color};
   background: #f0f0f0;
-  background-image : url(${(props) => props.img});
-  background-size : contain;
+  background-image: url(${(props) => props.img});
+  background-size: contain;
   background-repeat: no-repeat;
 `;
 const RankingTitle = styled.div`
@@ -251,24 +261,7 @@ const ThirdImg = styled.img`
   width: 50%;
   height: 50%;
 `;
-const BannerImg =styled.img`
-width : 500px;
-
-`;
-// const Img1 = styled.img`
-// width: 25px;
-// height: 50px;
-// margin : 0 5px 0 0;
-// `;
-// const Img2 = styled.img`
-// width: 40px;
-// height: 50px;
-// `;
-// const Img3 = styled.img`
-// width: 40px;
-// height: 50px;
-// `;
-const Div = styled.div`
-display:flex;
+const BannerImg = styled.img`
+  width: 500px;
 `;
 export default MainFooter;
