@@ -24,7 +24,6 @@ const PlayerGame = memo(
     timeOut,
     timeOut2,
   }) => {
-    console.log("blackPlayer", blackPlayer);
     const [loading, setLoading] = useState(1);
     const is_player =
       userInfo.state === "blackPlayer" || userInfo.state === "whitePlayer"

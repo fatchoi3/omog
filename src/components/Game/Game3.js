@@ -20,7 +20,6 @@ const Game3 = memo((props) => {
   const userId = localStorage.getItem("userId");
   const gameNum = props.gameNum;
   const roomName = useSelector((state) => state.game.roomName);
-  console.log("방 이름", roomName);
   const is_player =
     userInfo.state === "blackPlayer" || userInfo.state === "whitePlayer"
       ? true
@@ -30,7 +29,8 @@ const Game3 = memo((props) => {
 
   const blackPlayer = realGameInfo.blackTeamPlayer[0];
   const whitePlayer = realGameInfo.whiteTeamPlayer[0];
-
+const Num = gameInfo[0].blackTeamObserver.length +gameInfo[0].whiteTeamObserver.length;
+console.log("Num",Num)
   const [min, setMin] = useState(3);
   const [sec, setSec] = useState(0);
   const time = useRef(180);
@@ -40,8 +40,6 @@ const Game3 = memo((props) => {
   const [sec2, setSec2] = useState(0);
   const time2 = useRef(180);
   const timeout2 = useRef(null);
-
-  console.log("min", min);
 
   const timeOut = () => {
     timeout.current = setInterval(() => {
@@ -109,11 +107,20 @@ const Game3 = memo((props) => {
 
   return (
     <GameContainer>
+      <RoomTitle>
+        <Number>
+          <Text is_size="20px" is_margin=" 20px 10px" is_bold>방 번호 {gameNum}</Text>
+          
+          </Number>
       <RoomName>
         <Text is_size="20px" is_margin=" 20px 10px" is_bold>
           {roomName}
         </Text>
       </RoomName>
+      <Member> 
+      <Text is_size="20px" is_margin=" 20px 10px" is_bold >관전자 수 {Num} 명</Text>
+      </Member>
+      </RoomTitle>
       {spin ? <Spinner type={"page"} is_dim={true} width="200px" /> : ""}
       {is_player ? (
         <>
@@ -164,8 +171,29 @@ const GameContainer = styled.div`
   // background-color: pink;
   justify-content: space-between;
 `;
+
+const RoomTitle = styled.div`
+border : 2px solid black;
+border-radius : 10px;
+display : flex;
+position : absolute;
+width : 700px;
+margin : 2px 0 2px 10px;
+`;
+const Number = styled.div`
+border-right : 2px solid black;
+width: 200px;
+background-color : #94D7BB;
+border-radius :  10px 0 0 10px ;
+`;
 const RoomName = styled.div`
-  position: absolute;
-  width: 200px;
+  
+  width: 300px;
+`;
+const Member =styled.div`
+border-left : 2px solid black;
+width: 200px;
+background-color : #f2f2f2;
+border-radius : 0 10px 10px 0;
 `;
 export default Game3;
