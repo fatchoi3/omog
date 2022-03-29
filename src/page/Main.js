@@ -20,6 +20,8 @@ import { actionCreators as roomActions } from "../redux/modules/room";
 import { actionCreators as userActions } from "../redux/modules/user";
 import { useHistory } from "react-router-dom";
 
+import "../components/lobby.css"
+
 const Main = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -303,7 +305,7 @@ const Main = () => {
                 </TimeChoice>
 
                 <WaitingEnterRadio>
-                  <Item>
+                  <div className="TBTN">
                     <RadioButton
                       type="radio"
                       id="1"
@@ -312,11 +314,11 @@ const Main = () => {
                       onChange={changeRadioQ1}
                     />
                     <RadioButtonLabel for="1">
-                      <Text is_size="25px">2: 00</Text>
+                      <Text is_size="25px" >2: 00</Text>
                     </RadioButtonLabel>
-                  </Item>
+                  </div>
 
-                  <Item>
+                  <div className="TBTN">
                     <RadioButton
                       type="radio"
                       id="2"
@@ -327,8 +329,8 @@ const Main = () => {
                     <RadioButtonLabel for="2">
                       <Text is_size="25px">3: 00</Text>
                     </RadioButtonLabel>
-                  </Item>
-                  <Item>
+                  </div>
+                  <div className="TBTN">
                     <RadioButton
                       type="radio"
                       id="3"
@@ -339,7 +341,7 @@ const Main = () => {
                     <RadioButtonLabel for="3">
                       <Text is_size="25px">5: 00</Text>
                     </RadioButtonLabel>
-                  </Item>
+                  </div>
                 </WaitingEnterRadio>
               </TimeChoiceTitle>
             </Front>
@@ -469,7 +471,7 @@ const Item = styled.div`
   margin-bottom: 10px;
 `;
 const WaitingEnterRadio = styled.div`
-  width: 115%;
+  width: 100%;
   height: 100%;
   display: flex;
   margin: 10% 0 0 0;
@@ -529,19 +531,20 @@ const Front = styled.div`
 const RadioButtonLabel = styled.label`
   width: 100%;
   height: 100%;
-  border: 2px solid black;
+  z-index: 2;
   border-radius: 15px;
-  background-color: #e6e6e6;
+  background-color: transparant;
   display: flex;
   align-items: center;
   justify-content: center;
+  position : absolute;
 `;
 const RadioButton = styled.input`
   opacity: 0;
   z-index: 1;
   cursor: pointer;
   &:hover ~ ${RadioButtonLabel} {
-    box-shadow: -5px 5px 4px 0px rgba(0, 0, 0, 0.25);
+    // box-shadow: -5px 5px 4px 0px rgba(0, 0, 0, 0.25);
     &::after {
       color: white;
     }
@@ -552,6 +555,10 @@ const RadioButton = styled.input`
   }
   &:checked + ${Item} {
     background: #94d7bb;
+    border: 2px solid #94d7bb;
+  }
+  &:checked + div {
+    background-color: #94d7bb;
     border: 2px solid #94d7bb;
   }
   &:checked + ${RadioButtonLabel} {
@@ -567,4 +574,5 @@ const ExitImg = styled.img`
   width: 35%;
   height: 70%;
 `;
+
 export default Main;

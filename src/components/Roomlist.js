@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { Text, Button } from "../elements/index";
 import RoomEnter from "./RoomEnter";
 import { actionCreators as roomActions } from "../redux/modules/room";
-
+import "./lobby.css"
 const Roomlist = () => {
   const dispatch = useDispatch();
   const [modalOpen, setModalOpen] = useState(false);
@@ -74,20 +74,17 @@ const Roomlist = () => {
               <TdP>{n.playerCnt}</TdP>
               <TdO>{n.observerCnt}</TdO>
               <TdS>
-                <Button
-                  is_border="2px solid #f2f2f2"
-                  is_background="transparent"
-                  is_width="120px"
-                  is_height="50px"
+                <button 
+                className="EBTN"
+            
                   disabled={n.state == "wait" ? false : true}
-                  is_hover="inset -4.5em 0 0 0 #94d7bb, inset 4.5em 0 0 0 #94d7bb"
-                  _onClick={() => {
+                  onClick={() => {
                     dispatch(roomActions.getRoomInfoDB(n.roomNum));
                     openModal();
                   }}
                 >
                   <Text>방 입장</Text>
-                </Button>
+                </button>
               </TdS>
             </Tr>
           );
@@ -196,6 +193,7 @@ const Roomlist = () => {
     </Table>
   );
 };
+
 const Table = styled.table`
   width: 100%;
   border-radius: 15px 15px 0 0;
@@ -239,6 +237,7 @@ const TdS = styled.td`
   border-bottom: 1px solid black;
   border-radius: 0px 15px 0 0;
   width: 20%;
+  position: relative;
 `;
 
 const WaitingEnterRadio = styled.div`

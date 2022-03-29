@@ -164,12 +164,11 @@ const DialogBlock = styled.div`
   height: 100px;
   max-height: 400px;
   margin: auto;
-  // border-radius: 20px;
-  // background-color: #94d7bb;
+ 
   background-image: url(${Cloud});
   background-size: contain;
   background-repeat: no-repeat;
-  // border: 2px solid black;
+ 
   text-align: center;
   animation-duration: 1s;
   animation-timing-fuction: ease-out;
