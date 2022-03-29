@@ -43,6 +43,16 @@ function WaitChat({ socket, roomNum }) {
         history.push('/main');
     }
 
+    useEffect(() => {
+        // 대기방 접속한 인원 정보 받기
+        const welcome = (id, userInfos) => {
+            console.log("welcome 실행완료", id, userInfos);
+            dispatch(roomActions.setWaitUser(id, userInfos));
+            setMessageList((prev) => [...prev, { nickname: 'Welcome!', chat: `${id}님이 대기방에 입장하셨습니다.` }]);
+        }
+        socket.on("welcome", welcome)
+    }, [])
+
 
     useEffect(() => {
         const setChat = async () => {
