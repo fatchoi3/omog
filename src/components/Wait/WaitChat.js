@@ -123,7 +123,7 @@ function WaitChat({ socket, roomNum }) {
                     onKeyPress={(e) => e.key === "Enter" && sendMessages(e)}
                     autoFocus
                 />
-                <button style={{ backgroundColor: "#94D7BB" }} disabled={disabled} type="submit">SEND</button>
+                <button disabled={disabled} type="submit">SEND</button>
             </ChattingInputForm>
         </ChattingWindow>
     );
@@ -144,7 +144,7 @@ const ChattingWindow = styled.div`
     flex-direction: column;
     justify-content: space-between;
     box-shadow: -3px 3px 6px 1px #A8937340;
-`
+`;
 
 const ChattingHeader = styled.div`
     display: flex;
@@ -185,11 +185,11 @@ const ChattingInputForm = styled.form`
 
         &:hover {
             box-shadow: 
-                inset -3em 0 0 0 #6DB6DF,
-                inset 3em 0 0 0 #6DB6DF;
+                inset -3em 0 0 0 #94D7BB,
+                inset 3em 0 0 0 #94D7BB;
         }
     }
-`
+`;
 
 const ChattingContent = styled.div`
     overflow: auto;
@@ -197,13 +197,13 @@ const ChattingContent = styled.div`
     height: 100%;
     padding: 0;
     margin: 0
-`
+`;
 
 const MessageBox = styled.div`
     display: flex;
     justify-content: ${props => props.isMyMessage === true ? "flex-end" : "flex-start"};
     margin: ${props => props.isMyMessage === true ? "5px 27px 5px 0" : "5px 0 5px 27px"};
-`
+`;
 
 const MessageContent = styled.div`
     display: flex;
@@ -221,7 +221,7 @@ const MessageContent = styled.div`
     padding-left: 5px;
     overflow-wrap: break-word;
     word-break: break-word;
-`
+`;
 
 const MessageMeta = styled.div`
     display: flex;
@@ -230,6 +230,6 @@ const MessageMeta = styled.div`
     margin-left: 5px;
     margin-right: 5px;
     justify-content: ${props => props.isMyMessage === true ? "flex-end" : "flex-sart"}
-`
+`;
 
 export default WaitChat;

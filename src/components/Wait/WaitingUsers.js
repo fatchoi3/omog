@@ -22,8 +22,12 @@ function WaitingUsers({ socket, roomNum }) {
 
     useEffect(() => {
         // socket에 닉네임 보내기
-        socket.emit("nickname", userId);
-        console.log(userId, ": 닉네임을 보냈습니다.");
+        const nickname = {
+            id: userId,
+            roomNum: roomNum
+        }
+        socket.emit("nickname", nickname);
+        console.log(nickname, ": 닉네임을 보냈습니다.");
 
         // socket에 입장 정보 보내기
         if (waitingPerson.state === "blackPlayer" || waitingPerson.state === "whitePlayer") {
