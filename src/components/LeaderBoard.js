@@ -132,5 +132,4 @@ const OpenModal = styled.div`
   animation: ${modal_bg_show} 0.3s;
 `;
 
-
 export default LeaderBoard;

@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect, useCallback, memo } from "react";
-import styled ,{keyframes}from "styled-components";
-import useInput from "../hook/useInput";
-import "../shared/App.css";
-import { Button, Text } from "../elements";
+import styled, { keyframes } from "styled-components";
+import useInput from "../../hook/useInput";
+import "../../shared/App.css";
+import { Button, Text } from "../../elements";
 import { useDispatch, useSelector } from "react-redux";
-import { actionCreators as gameActions } from "../redux/modules/game";
+import { actionCreators as gameActions } from "../../redux/modules/game";
 import { useHistory } from "react-router-dom";
 
 const Chatting = memo((props) => {
@@ -12,9 +12,9 @@ const Chatting = memo((props) => {
   const dispatch = useDispatch();
   const [message, onChangeMessage, setMessage] = useInput("");
   const [teaching, setTeaching] = useState();
-
+  console.log("props.whiteplayer.id", props.whitePlayer);
   const userid = localStorage.getItem("userId");
-  
+
   const chatList = useSelector((state) => state.game.chat_list);
   const scroll = useRef(null);
   const socket = props.socket;
@@ -31,13 +31,26 @@ const Chatting = memo((props) => {
     },
     [teaching]
   );
-  const Exiting = useCallback(()=>{
-    if( props.userInfo.state === "blackPlayer"|| props.userInfo.state === "whitePlayer"){
-      socket.emit("byebye", props.userInfo.state,props.gameNum);
+  const Exiting = useCallback(() => {
+    if (props.userInfo.state === "blackPlayer") {
+      socket.emit(
+        "byebye",
+        props.userInfo.state,
+        props.gameNum,
+        props.whitePlayer.id
+      );
+      return;
+    } else if (props.userInfo.state === "whitePlayer") {
+      socket.emit(
+        "byebye",
+        props.userInfo.state,
+        props.gameNum,
+        props.blackPlayer.id
+      );
       return;
     }
     history.push("/main");
-  },[])
+  }, []);
 
   const onMessageSubmit = useCallback(
     (e) => {
@@ -45,23 +58,22 @@ const Chatting = memo((props) => {
         console.log("빈값입니다.");
       } else {
         if (teaching === "Text" && isTeam === "white") {
-          console.log("Text훈수W")
-          socket.emit("teachingW", {chat: message },props.gameNum);
-        } 
+          console.log("Text훈수W");
+          socket.emit("teachingW", { chat: message }, props.gameNum);
+        }
         if (teaching === "Text" && isTeam === "black") {
-          console.log("Text훈수B")
-          socket.emit("teachingB", { chat: message },props.gameNum);
+          console.log("Text훈수B");
+          socket.emit("teachingB", { chat: message }, props.gameNum);
         }
         if (teaching === "Fly") {
-          console.log("이이상상무무")
-          socket.emit("flyingWord", {chat: message },props.gameNum);
+          console.log("이이상상무무");
+          socket.emit("flyingWord", { chat: message }, props.gameNum);
         }
-        if(teaching === "Pointer" && message === "신의한수"){
+        if (teaching === "Pointer" && message === "신의한수") {
           console.log("마우스로 찍자");
           socket.emit("Pointer", message, props.gameNum);
-         
         }
-        socket.emit("chat", { chat: message,state:isTeam },props.gameNum);
+        socket.emit("chat", { chat: message, state: isTeam }, props.gameNum);
         console.log("채팅보내기");
         e.preventDefault();
         setMessage("");
@@ -71,20 +83,29 @@ const Chatting = memo((props) => {
   );
 
   const renderChat = useCallback(() => {
-    return chatList.map(({ id, message ,state}, index) => (
+    return chatList.map(({ id, message, state }, index) => (
       <>
-      {id === "신의한수"?  <><HighLight key={index}/></> :
-      <div
-        key={index}
-        className={userid == id ? "chat_from_me" : "chat_from_friend"}
-      >
-        {userid == id ? <Team state={state}/> : ""}
-        {(userid != id )? <div className="chat_nick"><Team state={state}/>{id}</div> : null}
-        <div className="chat_content">
-          <div className="chat_message">{message}</div>
-        </div>
-      </div>
-      }
+        {id === "신의한수" ? (
+          <>
+            <HighLight key={index} />
+          </>
+        ) : (
+          <div
+            key={index}
+            className={userid == id ? "chat_from_me" : "chat_from_friend"}
+          >
+            {userid == id ? <Team state={state} /> : ""}
+            {userid != id ? (
+              <div className="chat_nick">
+                <Team state={state} />
+                {id}
+              </div>
+            ) : null}
+            <div className="chat_content">
+              <div className="chat_message">{message}</div>
+            </div>
+          </div>
+        )}
       </>
     ));
   });
@@ -96,7 +117,6 @@ const Chatting = memo((props) => {
   const onKeyPress = useCallback((e) => {
     if (e.key == "Enter") {
       onMessageSubmit(e);
-      
     }
   });
 
@@ -136,7 +156,6 @@ const Chatting = memo((props) => {
                 is_hover="inset -5em 0 0 0 #f0f0f0, inset 5em 0 0 0 #f0f0f0"
                 _onClick={() => {
                   Exiting();
-                
                 }}
               >
                 <Text is_size="24px" is_color="#FFFFFF" is_bold>
@@ -171,18 +190,20 @@ const Chatting = memo((props) => {
           >
             <Text>Send</Text>
           </Button>
-          {isPlayer?(""):
-          <TeachingSelect
-            onChange={(e) => {
-              teachingChoice(e);
-            }}
-          >
-            <option defaultValue="채팅"> 채팅</option>
-            <option value="Text">플레이어에게</option>
-            <option value="Fly">날리기</option>
-            <option value="Pointer">점찍기</option>
-          </TeachingSelect>
-          }
+          {isPlayer ? (
+            ""
+          ) : (
+            <TeachingSelect
+              onChange={(e) => {
+                teachingChoice(e);
+              }}
+            >
+              <option defaultValue="채팅"> 채팅</option>
+              <option value="Text">플레이어에게</option>
+              <option value="Fly">날리기</option>
+              <option value="Pointer">점찍기</option>
+            </TeachingSelect>
+          )}
         </BottomWrap>
       </ChatForm>
     </ChattingContainer>
@@ -272,21 +293,21 @@ to{
 `;
 const HighLight = styled.div`
   background: #94d7bb;
-  
+
   animation-name: ${GodSu};
-        animation-duration: 0.5s;
-        animation-timing-function: linear;
-        animation-iteration-count: 1;
-        animation-fill-mode: none;
-        animation-play-state: running;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+  animation-fill-mode: none;
+  animation-play-state: running;
   height: 10px;
 `;
-const Team =styled.div`
-width : 10px;
-height :10px;
-border-radius : 10px;
-border : 2px solid black;
-margin : 5px 0; 
-background-color : ${(props) => props.state};
+const Team = styled.div`
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  border: 2px solid black;
+  margin: 5px 0;
+  background-color: ${(props) => props.state};
 `;
 export default Chatting;

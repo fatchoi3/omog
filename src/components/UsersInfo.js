@@ -20,9 +20,8 @@ const UsersInfo = () => {
   const lose = get_user.score[1].lose;
   const point = get_user.point;
 
-
   const UserFaceColor = (point) => {
-    let color = "black 2px"
+    let color = "black 2px";
     if (point >= 1300 && point < 1500) {
       color = "#835506 3px";
       return color;
@@ -42,8 +41,6 @@ const UsersInfo = () => {
     return color;
   };
 
-
-
   const color = UserFaceColor(point);
 
   useEffect(() => {
@@ -53,10 +50,13 @@ const UsersInfo = () => {
   return (
     <UserInfoContainer>
       <User>
-
-        <UserFace color={color}img={profileImage ? profileImage:"https://haksae90.shop/images/1.svg"}/>
-             <UserName>
-
+        <UserFace
+          color={color}
+          img={
+            profileImage ? profileImage : "https://haksae90.shop/images/1.svg"
+          }
+        />
+        <UserName>
           <Text is_bold is_size="30px" is_margin="10px">
             {get_user.id}
           </Text>
@@ -66,7 +66,10 @@ const UsersInfo = () => {
       <Progress win={win} lose={lose} width="250px" margin=" 0 auto" />
       <UserScore>
         <Text is_size="14px" is_bold>
-          승률 {Math.ceil(win / (win + lose)) ? Math.ceil(win / (win + lose) * 100) + "%" : 0 + "%"}
+          승률{" "}
+          {Math.ceil(win / (win + lose))
+            ? Math.ceil((win / (win + lose)) * 100) + "%"
+            : 0 + "%"}
         </Text>
         <Text is_size="14px">
           (전체 {win}승 {lose}패)
@@ -78,7 +81,6 @@ const UsersInfo = () => {
 const UserInfoContainer = styled.div`
   height: 150px;
   width: 100%;
-  
 `;
 const User = styled.div`
   display: flex;
@@ -91,8 +93,8 @@ const UserScore = styled.div`
   text-align: center;
 `;
 const UserFace = styled.div`
-  background-image : url(${(props) => props.img});
-  background-size : contain;
+  background-image: url(${(props) => props.img});
+  background-size: contain;
   background-repeat: no-repeat;
   border-inline: solid 3px black;
   width: 70px;
