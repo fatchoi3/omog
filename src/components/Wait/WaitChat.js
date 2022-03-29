@@ -14,14 +14,17 @@ function WaitChat({ socket, roomNum }) {
     const messageRef = useRef(null);
     const scrollRef = useRef();
     const [messageList, setMessageList] = useState([]);
+    const [disabled, setDisabled] = useState(false);
     const userId = localStorage.getItem("userId")
 
 
     const sendMessages = useCallback(async (e) => {
+        setDisabled(true);
         e.preventDefault();
-        const data = { roomNum: roomNum, chat: messageRef.current.value }
+        const data = { roomNum: roomNum, chat: messageRef.current.value };
         await socket.emit("chat", data);
         messageRef.current.value = '';
+        let delay = setTimeout(() => { setDisabled(false) }, 1500);
     }, [])
 
     const moveScrollToReceiveMessage = useCallback(() => {
@@ -30,7 +33,7 @@ function WaitChat({ socket, roomNum }) {
                 top: scrollRef.current.scrollHeight,
                 behavior: "smooth",
             });
-        }
+        };
     });
 
     const exitWaiting = (e) => {
@@ -43,11 +46,11 @@ function WaitChat({ socket, roomNum }) {
         const setChat = async () => {
             await socket.on("chat", (chatData) => {
                 setMessageList((prev) => [...prev, chatData]);
-            })
+            });
         }
 
         setChat()
-            .then(() => moveScrollToReceiveMessage())
+            .then(() => moveScrollToReceiveMessage());
 
         return () => {
             socket.off("chat");
@@ -58,11 +61,11 @@ function WaitChat({ socket, roomNum }) {
     useEffect(() => {
         // 방 나갈 때 방 남은 인원 정보 업데이트
         const byeChangeState = (id, userInfos) => {
-            console.log("bye 정보", id, userInfos)
+            console.log("bye 정보", id, userInfos);
             dispatch(roomActions.changeState(id, userInfos));
             setMessageList((prev) => [...prev, { nickname: 'Goodbye!', chat: `${id}님이 대기방을 떠나셨습니다.` }]);
         }
-        socket.on("bye", byeChangeState)
+        socket.on("bye", byeChangeState);
     }, [])
 
     return (
@@ -81,7 +84,6 @@ function WaitChat({ socket, roomNum }) {
                     is_width="40%"
                     is_border="none"
                     is_radius="0 14px 0 0"
-                    // is_padding="13px 20px"
                     is_line_height="31px"
                     is_color="black"
                     is_weight="600"
@@ -110,9 +112,15 @@ function WaitChat({ socket, roomNum }) {
                     );
                 })}
             </ChattingContent>
-            <ChattingInputForm>
-                <input placeholder="say something..." ref={messageRef} onKeyPress={(e) => e.key === "Enter" && sendMessages(e)} />
-                <button type="submit" onClick={sendMessages}>SEND</button>
+            <ChattingInputForm onSubmit={sendMessages}>
+                <input
+                    type="text"
+                    placeholder="say something..."
+                    ref={messageRef}
+                    disabled={disabled}
+                    onKeyPress={(e) => e.key === "Enter" && sendMessages(e)}
+                />
+                <button disabled={disabled} type="submit">SEND</button>
             </ChattingInputForm>
         </ChattingWindow>
     );

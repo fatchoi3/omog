@@ -20,7 +20,7 @@ import profile10 from '../../pictures/omok-profile10.svg';
 import profile11 from '../../pictures/omok-profile11.svg';
 import SignupIconModal from './SignupIconModal';
 
-const SignupModal = forwardRef(({ handleSignupModal }, modalEl) => {
+const SignupModal = forwardRef(({ closeSignupModal }, modalEl) => {
     const icons = [profile1, profile2, profile3, profile4, profile5, profile6, profile7, profile8, profile9, profile10, profile11];
 
     const dispatch = useDispatch();
@@ -79,7 +79,7 @@ const SignupModal = forwardRef(({ handleSignupModal }, modalEl) => {
 
         dispatch(userActions.signupDB(id, password, passwordConfirm, pickIndex))
             .then(() => {
-                handleSignupModal(false)
+                closeSignupModal()
             })
     }
 

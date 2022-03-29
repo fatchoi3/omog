@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { Button, Text } from '../../elements';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -60,6 +60,18 @@ function GameStartBtn({ socket, roomNum }) {
         </GameStart>
     );
 }
+
+const moveInBottom = keyframes`
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+`;
 
 const GameStart = styled.div`
     display: flex;
@@ -124,20 +136,8 @@ const GameStart = styled.div`
         }
 
         .btn-animated {
-            animation: moveInBottom 5s ease-out;
+            animation: ${moveInBottom} 5s ease-out;
             animation-fill-mode: backwards;
-        }
-
-        @keyframes moveInBottom {
-            0% {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            100% {
-                opacity: 1;
-                transform: translateY(0px);
-            }
         }
     }
 
@@ -151,7 +151,5 @@ const GameStart = styled.div`
         text-align: center;
     }
 `
-
-
 
 export default React.memo(GameStartBtn);
