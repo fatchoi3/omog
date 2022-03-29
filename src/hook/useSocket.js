@@ -17,7 +17,7 @@ const useSocket = (serverUrl, gameNum,userId) => {
 
   if (!sockets[gameNum]) {
     sockets[gameNum] = io.connect(serverUrl);
-    sockets[gameNum].emit("joinGame", gameNum);
+    sockets[gameNum].emit("joinGame", gameNum,userId);
     sockets[gameNum].emit("nickname", userId);
     console.info("create socket", gameNum, sockets[gameNum]);
   }

@@ -5,6 +5,7 @@ import Omog from "./Omog";
 import TeachingB from "./TeachingB";
 import TeachingW from "./TeachingW";
 import Chatting from "./Chatting";
+import Cloud from "../../pictures/cloud.png";
 import styled, { keyframes } from "styled-components";
 
 const PlayerGame = memo(
@@ -138,9 +139,10 @@ max-width: 600px;
 height : 100px;
 max-height: 400px;
 margin : auto;
-  border-radius: 20px;
-  background-color: #94d7bb;
-  border: 2px solid black 
+  background-image: url(${Cloud});
+  background-size: contain;
+  background-repeat: no-repeat;
+
   text-align: center;
   animation-duration: 1s;
   animation-timing-fuction: ease-out;
