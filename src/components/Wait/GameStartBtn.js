@@ -125,7 +125,7 @@ const GameStart = styled.div`
         }
 
         &::after {
-            background-color: #6DB6DF;
+            background-color: #8e8e93;
         }
         
         &:hover::after {

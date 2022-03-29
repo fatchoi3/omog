@@ -129,8 +129,6 @@ function WaitChat({ socket, roomNum }) {
                     type="text"
                     placeholder="say something..."
                     ref={messageRef}
-                    // disabled={disabled}
-                    onKeyPress={(e) => e.key === "Enter" && sendMessages(e)}
                     autoFocus
                 />
                 <button disabled={disabled} type="submit">SEND</button>
