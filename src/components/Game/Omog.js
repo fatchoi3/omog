@@ -22,8 +22,6 @@ const Omog = memo(
     timeOut2,
   }) => {
     const dispatch = useDispatch();
-    console.log("blackPlayer", blackPlayer);
-    console.log("whitePlayer", whitePlayer);
     const userid = localStorage.getItem("userId");
     const canvasRef = useRef(null);
     const is_player =

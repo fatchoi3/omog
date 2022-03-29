@@ -83,7 +83,7 @@ const Roomlist = () => {
                     openModal();
                   }}
                 >
-                  <Text>방 입장</Text>
+                 {n.state==="wait"? <Text>방 입장</Text>:<Text>게임중</Text> }
                 </button>
               </TdS>
             </Tr>
@@ -98,7 +98,7 @@ const Roomlist = () => {
         enter={joinWaiting}
       >
         <WaitingEnterRadio>
-          <Item>
+          <div className="PBTNB">
             <RadioButtonBP
               type="radio"
               id="1"
@@ -109,17 +109,17 @@ const Roomlist = () => {
             />
             <RadioButtonLabelBP for="1">
               <div>
-                <Text is_margin="0 0 0 2px" is_bold is_color="white">
+               <Text is_margin="0 0 0 2px" is_bold is_color="white" is_stroke="0.7px black" is_size="24px">
                   Black Player
                 </Text>
-                <Text is_margin="5px 0 0 0" is_bold is_color="white">
+                <Text is_margin="10px 0 0 0" is_bold is_color="black">
                   현재 {room_info.blackTeamPlayer ? 1 : 0} 명
                 </Text>
               </div>
             </RadioButtonLabelBP>
-          </Item>
+          </div>
 
-          <Item>
+          <div className="PBTNW">
             <RadioButtonWP
               type="radio"
               id="2"
@@ -130,17 +130,17 @@ const Roomlist = () => {
             />
             <RadioButtonLabelWP for="2">
               <div>
-                <Text is_margin="0 0 0 2px" is_bold is_color="white">
+              <Text is_margin="0 0 0 2px" is_bold is_color="white" is_stroke="0.9px #94D7BB" is_size="24px">
                   White Player
                 </Text>
-                <Text is_margin="5px 0 0 0" is_bold is_color="white">
+                <Text is_margin="5px 0 0 0" is_bold is_color="#94D7BB">
                   현재 {room_info.whiteTeamPlayer ? 1 : 0} 명
                 </Text>
               </div>
             </RadioButtonLabelWP>
-          </Item>
+          </div>
 
-          <Item>
+          <div className="PBTNB">
             <RadioButtonBO
               type="radio"
               id="3"
@@ -150,7 +150,7 @@ const Roomlist = () => {
             />
             <RadioButtonLabelBO for="3">
               <div>
-                <Text is_margin="0 0 0 2px" is_bold>
+              <Text is_margin="0 0 0 2px" is_bold is_color="white" is_stroke="0.7px black" is_size="24px">
                   Black Observer
                 </Text>
                 <Text is_margin="5px 0 0 0" is_bold>
@@ -162,9 +162,9 @@ const Roomlist = () => {
                 </Text>
               </div>
             </RadioButtonLabelBO>
-          </Item>
+          </div>
 
-          <Item>
+          <div className="PBTNW">
             <RadioButtonWO
               type="radio"
               id="4"
@@ -174,7 +174,7 @@ const Roomlist = () => {
             />
             <RadioButtonLabelWO for="4">
               <div>
-                <Text is_margin="0 0 0 2px" is_bold is_color="#94D7BB">
+              <Text is_margin="0 0 0 2px" is_bold is_color="white" is_stroke="0.9px #94D7BB" is_size="24px">
                   White Observer
                 </Text>
                 <Text is_margin="5px 0 0 0" is_bold is_color="#94D7BB">
@@ -186,7 +186,7 @@ const Roomlist = () => {
                 </Text>
               </div>
             </RadioButtonLabelWO>
-          </Item>
+          </div>
         </WaitingEnterRadio>
         <></>
       </RoomEnter>
@@ -249,161 +249,100 @@ const WaitingEnterRadio = styled.div`
   justify-content: center;
 `;
 
-const Item = styled.div`
-  display: flex;
-  width: 35%;
-  height: 20%;
-  margin: 0;
-  align-items: center;
-  box-sizing: border-box;
-  border-radius: 2px;
-`;
+
 const RadioButtonLabelBP = styled.label`
-  width: 79%;
-  height: 70px;
-  border: 2px solid 94d7bb;
+  width: 100%;
+  height: 100%;
   border-radius: 15px;
-  background-color: #000000;
+  background-color: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
+  position : absolute;
 `;
+
 const RadioButtonBP = styled.input`
   opacity: 0;
   z-index: 1;
   cursor: pointer;
-  &:hover ~ ${RadioButtonLabelBP} {
-    box-shadow: -5px 5px 4px 0px rgba(0, 0, 0, 0.25);
-    &::after {
-      color: white;
-    }
-  }
-  &:checked {
-    background: #e5e5e5;
+    &:checked {
+    background: black;
     border: 2px solid #e5e5e5;
   }
-  &:checked + ${Text} {
-    background: #e5e5e5;
-    border: 2px solid #e5e5e5;
-    font-color: black;
-  }
-  &:checked + ${Item} {
-    background: #e5e5e5;
-    border: 2px solid #e5e5e5;
-  }
-  &:checked + ${RadioButtonLabelBP} {
-    background: #e5e5e5;
+   &:checked + ${RadioButtonLabelBP} {
+    background: black;
     border: 1px solid #e5e5e5;
-    &::after {
-      color: white;
-      margin: 4px;
-    }
   }
 `;
 const RadioButtonLabelWP = styled.label`
-  width: 79%;
-  height: 70px;
-  border: 2px solid black;
-  border-radius: 15px;
-  background-color: #94d7bb;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+width: 100%;
+height: 100%;
+border-radius: 15px;
+background-color: transparent;
+display: flex;
+align-items: center;
+justify-content: center;
+position : absolute;
 `;
 const RadioButtonWP = styled.input`
   opacity: 0;
   z-index: 1;
   cursor: pointer;
-  &:hover ~ ${RadioButtonLabelWP} {
-    box-shadow: -5px 5px 4px 0px rgba(0, 0, 0, 0.25);
-    &::after {
-      color: white;
-    }
-  }
   &:checked {
     background: #e5e5e5;
     border: 2px solid #e5e5e5;
   }
-  &:checked + ${Item} {
-    background: #e5e5e5;
-    border: 2px solid #e5e5e5;
-  }
   &:checked + ${RadioButtonLabelWP} {
-    background: #e5e5e5;
+    background: #94D7BB;
     border: 1px solid #e5e5e5;
-    &::after {
-      color: white;
-      margin: 4px;
-    }
   }
 `;
 const RadioButtonLabelBO = styled.label`
-  width: 79%;
-  height: 70px;
-  border: 2px solid black;
-  border-radius: 15px;
-  background-color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+width: 100%;
+height: 100%;
+border-radius: 15px;
+background-color: transparent;
+display: flex;
+align-items: center;
+justify-content: center;
+position : absolute;
 `;
 const RadioButtonBO = styled.input`
   opacity: 0;
   z-index: 1;
   cursor: pointer;
-  &:hover ~ ${RadioButtonLabelBO} {
-    box-shadow: -5px 5px 4px 0px rgba(0, 0, 0, 0.25);
-    &::after {
-      color: white;
-    }
-  }
   &:checked {
     background: #e5e5e5;
     border: 2px solid #e5e5e5;
   }
-  &:checked + ${Item} {
-    background: #e5e5e5;
-    border: 2px solid #e5e5e5;
-  }
   &:checked + ${RadioButtonLabelBO} {
-    background: #e5e5e5;
-    border: 1px solid #e5e5e5;
-    &::after {
-      color: white;
-      margin: 4px;
-    }
+    background: black;
+    border: 1px solid black;
+   
   }
 `;
 const RadioButtonLabelWO = styled.label`
-  width: 79%;
-  height: 70px;
-  border: 2px solid black;
-  border-radius: 15px;
-  background-color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+width: 100%;
+height: 100%;
+border-radius: 15px;
+background-color: transparent;
+display: flex;
+align-items: center;
+justify-content: center;
+position : absolute;
 `;
 const RadioButtonWO = styled.input`
   opacity: 0;
   z-index: 1;
   cursor: pointer;
-  &:hover ~ ${RadioButtonLabelWO} {
-    box-shadow: -5px 5px 4px 0px rgba(0, 0, 0, 0.25);
-    &::after {
-      color: white;
-    }
-  }
+ 
   &:checked {
-    background: #e5e5e5;
+    background: #94D7BB;
     border: 2px solid #e5e5e5;
   }
-  &:checked + ${Item} {
-    background: #e5e5e5;
-    border: 2px solid #e5e5e5;
-  }
+ 
   &:checked + ${RadioButtonLabelWO} {
-    background: #e5e5e5;
+    background:#94D7BB;
     border: 1px solid #e5e5e5;
     &::after {
       color: white;
