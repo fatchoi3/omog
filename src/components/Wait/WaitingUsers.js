@@ -57,8 +57,8 @@ function WaitingUsers({ socket, roomNum }) {
     return (
         <>
             <WaitingHeader>
-                <Text is_size="24px" is_margin="10px 0" is_bold="700">방 번호 : {roomNum}</Text>
-                <Text is_size="24px" is_margin="10px 0" is_bold="700">방 제목 : {roomName}</Text>
+                <p className="waiting__roomnum">{roomNum}번 방</p>
+                <p className="waiting__roomname">{roomName}</p>
             </WaitingHeader>
             <WaitPlayerList roomNum={roomNum} socket={socket} />
             <GameStartBtn socket={socket} roomNum={roomNum} />
@@ -68,14 +68,45 @@ function WaitingUsers({ socket, roomNum }) {
 }
 
 const WaitingHeader = styled.div`
-    width: 100%;
+    width: 50%;
     height: auto;
     outline: 2px solid black;
-    padding: 5px;
-    border-radius: 10px;
-    margin: 0 0 12px 0;
+    border-radius: 15px;
+    margin: 0 auto 20px auto;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    box-sizing: border-box;
+    overflow: hidden;
+
+    > p:nth-child(1) {
+        width: 50%;
+        height: auto;
+        margin: 0;
+        padding: 10px 0;
+        border-right: 2px solid black;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 17px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #94D7BB;
+    }
+
+    > p:nth-child(2){
+        width: 50%;
+        height: auto;
+        margin: 0;
+        padding: 10px 0;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 17px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #fff;
+    }
 `
 
 export default WaitingUsers;

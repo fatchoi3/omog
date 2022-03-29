@@ -49,8 +49,6 @@ function WaitPlayerList({ roomNum, socket }) {
                 <PlayerCard leftPlayer>
                     <div style={{ padding: "21px 13px", boxSizing: "border-box", borderRight: "1px solid #AFADAD", backgroundColor: "#5B5B5B" }}>
                         <PlayerThumbnail profileImage={blackPlayer.profileImage} />
-                        {/* <div style={{ width: "70px", height: "70px", borderRadius: "50%", backgroundColor: "#D3D3D3", margin: "0 0 6px 0" }}>
-                        </div> */}
                         <div>
                             <Text is_color="white">{blackPlayer?.id}</Text>
                         </div>
