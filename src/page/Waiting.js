@@ -51,6 +51,7 @@ const WaitingContainer = styled.div`
     box-sizing: border-box;
     background: #C4C4C4;
     padding: 5%;
+    overflow: hidden;
     
     >div:nth-child(1) {
         padding: 20px;

@@ -79,6 +79,7 @@ const GameStart = styled.div`
     box-sizing: border-box;
 
     .gamestart__btn {
+        position: relative;
         width: 30%;
         padding: 18px 36px;
         margin: 20px;
@@ -101,9 +102,6 @@ const GameStart = styled.div`
         }
 
         &:hover {
-            /* box-shadow: */
-                /* inset 0 -5em 0 0 #6DB6DF,
-                inset 0 5em 0 0 #6DB6DF; */
             transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }

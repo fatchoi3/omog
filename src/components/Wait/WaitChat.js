@@ -24,7 +24,9 @@ function WaitChat({ socket, roomNum }) {
         const data = { roomNum: roomNum, chat: messageRef.current.value };
         await socket.emit("chat", data);
         messageRef.current.value = '';
-        let delay = setTimeout(() => { setDisabled(false) }, 1500);
+        let delay = setTimeout(() => {
+            setDisabled(false)
+        }, 1500);
     }, [])
 
     const moveScrollToReceiveMessage = useCallback(() => {
@@ -117,8 +119,9 @@ function WaitChat({ socket, roomNum }) {
                     type="text"
                     placeholder="say something..."
                     ref={messageRef}
-                    disabled={disabled}
+                    // disabled={disabled}
                     onKeyPress={(e) => e.key === "Enter" && sendMessages(e)}
+                    autoFocus
                 />
                 <button disabled={disabled} type="submit">SEND</button>
             </ChattingInputForm>
@@ -141,7 +144,7 @@ const ChattingWindow = styled.div`
     flex-direction: column;
     justify-content: space-between;
     box-shadow: -3px 3px 6px 1px #A8937340;
-`
+`;
 
 const ChattingHeader = styled.div`
     display: flex;
@@ -186,7 +189,7 @@ const ChattingInputForm = styled.form`
                 inset 3em 0 0 0 #94D7BB;
         }
     }
-`
+`;
 
 const ChattingContent = styled.div`
     overflow: auto;
@@ -194,13 +197,13 @@ const ChattingContent = styled.div`
     height: 100%;
     padding: 0;
     margin: 0
-`
+`;
 
 const MessageBox = styled.div`
     display: flex;
     justify-content: ${props => props.isMyMessage === true ? "flex-end" : "flex-start"};
     margin: ${props => props.isMyMessage === true ? "5px 27px 5px 0" : "5px 0 5px 27px"};
-`
+`;
 
 const MessageContent = styled.div`
     display: flex;
@@ -218,7 +221,7 @@ const MessageContent = styled.div`
     padding-left: 5px;
     overflow-wrap: break-word;
     word-break: break-word;
-`
+`;
 
 const MessageMeta = styled.div`
     display: flex;
@@ -227,6 +230,6 @@ const MessageMeta = styled.div`
     margin-left: 5px;
     margin-right: 5px;
     justify-content: ${props => props.isMyMessage === true ? "flex-end" : "flex-sart"}
-`
+`;
 
 export default WaitChat;
