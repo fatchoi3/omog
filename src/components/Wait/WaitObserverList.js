@@ -47,7 +47,7 @@ function WaitObserverList({ roomNum, socket }) {
                 <div className="black-observer-box" style={{ width: "367px", height: "273px", dislay: "flex" }}>
                     <ObserverCard leftObserver is_cliked>
                         <ObserverCardInnerBox is_cliked>
-                            <Text is_bold="800">흑팀 관전자</Text>
+                            <Text is_size="20px" is_bold="800">관전자</Text>
                         </ObserverCardInnerBox>
                         <ObserverListBox>
                             {blackObserverList &&
@@ -56,7 +56,8 @@ function WaitObserverList({ roomNum, socket }) {
                                         key={idx}
                                         is_width="100%"
                                         is_line_height="17px"
-                                        is_margin="0.3rem"
+                                        is_margin="0.2rem"
+                                        is_padding="0.2rem"
                                         is_border={userId === observer ? "5px solid red" : ""}
                                     >{observer}</Text>
                                 ))
@@ -87,7 +88,7 @@ function WaitObserverList({ roomNum, socket }) {
                 <div className="white-observer-box" style={{ textAlign: "center" }}>
                     <ObserverCard is_cliked isWhite>
                         <ObserverCardInnerBox is_cliked isWhite>
-                            <Text is_bold="800">백팀 관전자</Text>
+                            <Text is_size="20px" is_bold="800">관전자</Text>
                         </ObserverCardInnerBox>
                         <ObserverListBox>
                             {whiteObserverList &&
@@ -96,7 +97,8 @@ function WaitObserverList({ roomNum, socket }) {
                                         key={idx}
                                         is_width="100%"
                                         is_line_height="17px"
-                                        is_margin="0.3rem"
+                                        is_margin="0.2rem"
+                                        is_padding="0.2rem"
                                         is_border={userId === observer ? "5px solid red" : ""}
                                     >{observer}</Text>
                                 ))
@@ -131,8 +133,8 @@ const ObserverContainer = styled.div`
 `
 
 const ObserverCard = styled.div`
-    width: 367px;
-    height: 24vh;
+    width: 384px;
+    height: 320px;
     /* padding: ${props => props.isWhite ? "15px 0 15px 0" : ""}; */
     margin: ${props => props.leftObserver ? "0 9px 0 0" : "0 0 0 9px"};
     box-shadow: -3px 3px 6px 3px #A8937340;
@@ -141,7 +143,7 @@ const ObserverCard = styled.div`
     box-sizing: border-box;
     outline: 2px solid black;
     background: white;
-    overflow: auto;
+    overflow: hidden;
 
     &:hover {
         outline: 4px solid #94D7BB;
@@ -167,7 +169,8 @@ const ObserverListBox = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
 `
 
 export default WaitObserverList;

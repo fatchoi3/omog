@@ -12,6 +12,7 @@ function WaitPlayerList({ roomNum, socket }) {
     const dispatch = useDispatch();
     const userId = localStorage.getItem("userId")
     const waitingPerson = useSelector((state) => state.room.userInfo);
+    const isWhite = true;
 
     const blackPlayer = useSelector(state => state.room.blackPlayer);
     const whitePlayer = useSelector(state => state.room.whitePlayer);
@@ -47,13 +48,13 @@ function WaitPlayerList({ roomNum, socket }) {
                 blackPlayer?.hasOwnProperty('id')
                 ?
                 <PlayerCard leftPlayer>
-                    <div style={{ padding: "21px 13px", boxSizing: "border-box", borderRight: "1px solid #AFADAD", backgroundColor: "#5B5B5B" }}>
+                    <div className="player__thumbnail__box" leftPlayer>
                         <PlayerThumbnail profileImage={blackPlayer.profileImage} />
                         <div>
                             <Text is_color="white">{blackPlayer?.id}</Text>
                         </div>
                     </div>
-                    <div style={{ padding: "18px 24px 23px 23px", display: "flex", justifyContent: "space-between" }}>
+                    <div className="player__info__box" style={{ padding: "18px 24px 23px 23px", display: "flex", justifyContent: "space-between" }}>
                         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                             <Text is_bold="800" is_size="17px" is_line_height="19px" width="100%" is_margin="0 0 10px 0">
                                 Point {blackPlayer?.point}p
@@ -98,10 +99,8 @@ function WaitPlayerList({ roomNum, socket }) {
                 </PlayerCard>
                 :
                 <PlayerCard leftPlayer onClick={ChangeToBlackPlayer}>
-                    <div style={{ padding: "21px 13px", boxSizing: "border-box", borderRight: "1px solid #AFADAD", backgroundColor: "#5B5B5B" }}>
-                        <div style={{ width: "70px", height: "70px", borderRadius: "50%", backgroundColor: "#5B5B5B", margin: "0 0 6px 0" }}>
-                        </div>
-                        <div>
+                    <div className="player__thumbnail__box" leftPlayer>
+                        <div style={{ width: "70px", height: "70px" }}>
                         </div>
                     </div>
                 </PlayerCard>
@@ -111,13 +110,13 @@ function WaitPlayerList({ roomNum, socket }) {
                 whitePlayer?.hasOwnProperty('id')
                 ?
                 <PlayerCard isWhite>
-                    <div style={{ padding: "13px", boxSizing: "border-box", borderRight: "1px solid #AFADAD" }}>
+                    <div className="player__thumbnail__box">
                         <PlayerThumbnail profileImage={whitePlayer.profileImage} />
                         <div>
                             <Text>{whitePlayer?.id}</Text>
                         </div>
                     </div>
-                    <div style={{ padding: "18px 24px 23px 23px", display: "flex", justifyContent: "space-between" }}>
+                    <div className="player__info__box" style={{ padding: "18px 24px 23px 23px", display: "flex", justifyContent: "space-between" }}>
                         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                             <Text is_bold="800" is_size="17px" is_line_height="19px" is_margin="0 0 10px 0">
                                 Point {whitePlayer?.point}p
@@ -161,7 +160,12 @@ function WaitPlayerList({ roomNum, socket }) {
                     </div>
                 </PlayerCard>
                 :
-                <PlayerCard onClick={ChangeToWhitePlayer} />
+                <PlayerCard onClick={ChangeToWhitePlayer}>
+                    <div className="player__thumbnail__box">
+                        <div style={{ width: "70px", height: "70px" }}>
+                        </div>
+                    </div>
+                </PlayerCard>
             }
         </PlayerContainer>
     )
@@ -194,18 +198,23 @@ const PlayerContainer = styled.div`
 `
 
 const PlayerCard = styled.div`
-    width: 367px;
+    width: 384px;
     height: 130px;
-    margin: ${props => props.leftPlayer ? "0 9px 0 0" : "0 0 0 9px"};
-    padding: ${props => props.isWhite ? "8px 0" : 0};
+    margin: ${props => props.leftPlayer ? "0 12px 0 0" : "0 0 0 12px"};
     outline: 2px solid black;
     box-shadow: -3px 3px 6px 3px #A8937340;
     border-radius: 14px;
     box-sizing: border-box;
-    background: white;
+    background-color: #fff;
     display: flex;
     justify-content: space-between;
     overflow: hidden;
+
+    .player__thumbnail__box{
+        padding: 20px;
+        border-right: 2px solid #000;
+        background-color: ${props => props.leftPlayer ? "#5B5B5B" : ""};
+    }
 
     &:hover {
         outline: 4px solid #94D7BB;
