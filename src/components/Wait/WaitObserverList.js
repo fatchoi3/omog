@@ -68,7 +68,7 @@ function WaitObserverList({ roomNum, socket }) {
                 <div className="black-observer-box" style={{ width: "367px", height: "273px", dislay: "flex" }} onClick={ChangeToBlackObserver}>
                     <ObserverCard leftObserver>
                         <ObserverCardInnerBox>
-                            <Text is_bold="800">흑팀 관전자</Text>
+                            <Text is_size="20px" is_bold="800">관전자</Text>
                         </ObserverCardInnerBox>
                         <ObserverListBox>
                             {blackObserverList &&
@@ -108,7 +108,7 @@ function WaitObserverList({ roomNum, socket }) {
                 <div className="white-observer-box" style={{ textAlign: "center" }} onClick={ChangeToWhiteObserver}>
                     <ObserverCard isWhite>
                         <ObserverCardInnerBox isWhite>
-                            <Text is_bold="800">백팀 관전자</Text>
+                            <Text is_size="20px" is_bold="800">관전자</Text>
                         </ObserverCardInnerBox>
                         <ObserverListBox>
                             {whiteObserverList &&
@@ -133,7 +133,7 @@ const ObserverContainer = styled.div`
 const ObserverCard = styled.div`
     width: 367px;
     height: 24vh;
-    padding: ${props => props.isWhite ? "15px 0 15px 0" : ""};
+    /* padding: ${props => props.isWhite ? "15px 0 15px 0" : ""}; */
     margin: ${props => props.leftObserver ? "0 9px 0 0" : "0 0 0 9px"};
     box-shadow: -3px 3px 6px 3px #A8937340;
     border-radius: 14px;
@@ -150,12 +150,14 @@ const ObserverCard = styled.div`
 
 const ObserverCardInnerBox = styled.div`
     width: 35%;
+    font-size: 14px;
+    line-height: 16.8px;
     color: ${props => props.isWhite ? "black" : "#19B775"};
-    font-size: 17px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-right: 1px solid #AFADAD;
+    border-right: 2px solid #000;
+    /* border-right: 1px solid #AFADAD; */
     background-color: ${props => props.isWhite ? "white" : "#5B5B5B"}; 
 `
 

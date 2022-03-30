@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -16,8 +16,21 @@ function WaitingUsers({ socket, roomNum }) {
 
     const userId = localStorage.getItem("userId");
     const waitingPerson = useSelector((state) => state.room.userInfo);
-    const roomName = useSelector((state) => state.room.roomName);
     console.log(waitingPerson);
+    const roomName = useSelector((state) => state.room.roomName);
+    const blackPlayer = useSelector(state => state.room.blackPlayer);
+    const whitePlayer = useSelector(state => state.room.whitePlayer);
+    const [playerNum, setPlayerNum] = useState(0);
+
+    useEffect(() => {
+        if (blackPlayer?.hasOwnProperty('id') && whitePlayer?.hasOwnProperty('id')) {
+            setPlayerNum(2);
+        } else if (blackPlayer?.hasOwnProperty('id') || whitePlayer?.hasOwnProperty('id')) {
+            setPlayerNum(1)
+        } else {
+            return setPlayerNum(0);
+        }
+    }, [blackPlayer, whitePlayer])
 
 
     useEffect(() => {
@@ -59,6 +72,7 @@ function WaitingUsers({ socket, roomNum }) {
             <WaitingHeader>
                 <p className="waiting__roomnum">{roomNum}번 방</p>
                 <p className="waiting__roomname">{roomName}</p>
+                <p className="waiting__player__number">플레이어 {playerNum}/2</p>
             </WaitingHeader>
             <WaitPlayerList roomNum={roomNum} socket={socket} />
             <GameStartBtn socket={socket} roomNum={roomNum} />
@@ -78,34 +92,31 @@ const WaitingHeader = styled.div`
     box-sizing: border-box;
     overflow: hidden;
 
-    > p:nth-child(1) {
+    >p {
         width: 50%;
         height: auto;
         margin: 0;
         padding: 10px 0;
-        border-right: 2px solid black;
         font-size: 14px;
         font-weight: 700;
-        line-height: 17px;
+        line-height: 16.8px;
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+
+    > p:nth-child(1) {
         background-color: #94D7BB;
     }
 
     > p:nth-child(2){
-        width: 50%;
-        height: auto;
-        margin: 0;
-        padding: 10px 0;
-        font-size: 14px;
-        font-weight: 700;
-        line-height: 17px;
-        text-align: center;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        border-right: 2px solid black;
+        border-left: 2px solid black;
         background-color: #fff;
+    }
+
+    >p:nth-child(3){
+        background-color: #B1B1B1;
     }
 `
 
