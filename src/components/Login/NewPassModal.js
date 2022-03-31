@@ -28,6 +28,10 @@ const NewPassModal = (({ visible, setNewPass }) => {
         setConfirmPass(e.target.value);
     }
 
+    const closeModal = () => {
+        setNewPass(false);
+    }
+
     const newPassUpdate = () => {
         if (id === "" || email === "" || pass === "" || confirmPass === "") {
             alert("입력하지 않은 칸이 있습니다.");
@@ -46,6 +50,9 @@ const NewPassModal = (({ visible, setNewPass }) => {
     return (
         <PassSeachOverlay visible={visible}>
             <div className="search__box" tabIndex="-1">
+                <div onClick={closeModal}>
+                    <span>&#10005;</span>
+                </div>
                 <div className="signup_modal_title_box">
                     <h2>비밀번호 변경</h2>
                 </div>
@@ -89,7 +96,19 @@ const PassSeachOverlay = styled.div`
         border-radius: 14px;
         background: #fff;
 
+
         > div:nth-child(1) {
+            display:flex;
+            justify-content: flex-end;
+
+            > span {
+                font-size: 18px;
+                font-weight: 800;
+                cursor: pointer;
+            }
+        }
+
+        > div:nth-child(2) {
             width: 100%;
             margin: 0 auto 30px auto;
             text-align: center;

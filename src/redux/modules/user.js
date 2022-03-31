@@ -214,7 +214,7 @@ const passwordSearchDB = (id, email) => {
       console.log(error);
       alert(`${error}`);
     }
-  };
+  }
 }
 
 const newPasswordDB = (id, email, password) => {
