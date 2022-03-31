@@ -36,7 +36,8 @@ const PlayerGame = memo(
     const rand = (max, min) => {
       return Math.floor(Math.random() * (max - min)) + min;
     };
-
+    console.log("blackPlayer",blackPlayer);
+    console.log("whitePlayer",whitePlayer);
     const [randomNum, setRandomNum] = useState();
     const [flying, setFlying] = useState();
     useEffect(() => {
@@ -59,7 +60,7 @@ const PlayerGame = memo(
           ""
         ) : (
           <DialogBlock RandomNum={randomNum}>
-            <Text is_size="50px" is_margin="20px 0 50px">
+            <Text is_size="2.93vw" is_margin="1.17vw 0 2.93vw">
               {flying}
             </Text>
           </DialogBlock>
@@ -86,6 +87,7 @@ const PlayerGame = memo(
               socket={socket}
               isTeam={isTeam}
             />
+            {/* <button onClick={()=>{ window.location.reload()}}>게임이 안될 때 눌러주세요!</button> */}
             <TeachingW
               playerInfo={whitePlayer}
               socket={socket}
@@ -108,35 +110,35 @@ const PlayerGame = memo(
   }
 );
 const Wrap = styled.div`
-  width: 950px;
-  height: 923px;
-  padding: 60px 10px 20px 10px;
+  width: 55.65vw;
+  height: 54.07vw;
+  padding: 3.51vw 0.59vw 1.17vw 0.59vw;
 `;
 const TeachingWrap = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 950px;
-  margin: 20px 0px 0px;
+  width: 55.65vw;
+  margin: 1.17vw 0vw 0vw;
 `;
 const ChattingWrap = styled.div`
-  width: 450px;
-  margin: 0px 10px 0px 0px;
+  width: 26.36vw;
+  margin: 0vw 0.59vw 0vw 0vw;
 `;
 const slideUp = keyframes`
 from {
-  transform: translateX(600px);
+  transform: translateX(35.15vw);
 }
 to {
-  transform : translateX(0px);
+  transform : translateX(0vw);
 }
 `;
 
 const DialogBlock = styled.div`
 position: absolute;
 top: ${(props) => props.RandomNum}px;
-max-width: 600px;
-height : 100px;
-max-height: 400px;
+max-width: 35.15vw;
+height : 5.86vw;
+max-height: 23.43vw;
 margin : auto;
   background-image: url(${Cloud});
   background-size: contain;

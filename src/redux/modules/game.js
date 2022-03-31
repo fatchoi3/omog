@@ -40,6 +40,9 @@ const initialState = {
       blackTeamObserver: ["a", "b", "c", "d"],
       whiteTeamObserver: ["e", "f", "d", "w"],
     },
+    {
+      boardColor:1
+    }
   ],
   userInfo: {
     id: "",
@@ -89,7 +92,7 @@ const getGameDB = (gameNum) => {
     api
       .get(`/game/start/${gameNum}`)
       .then(function (response) {
-        console.log("gameInfo 미들웨어", response.data.gameInfo);
+        console.log("gameInfo 미들웨어", response);
         dispatch(getGame(response.data.gameInfo));
         dispatch(RoomName(response.data.gameName.gameName));
         console.log("gameInfo time", response.data.gameInfo[0].timer);

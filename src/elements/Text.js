@@ -44,18 +44,19 @@ Text.defaultProps = {
 const ElText = styled.p`
   ${(props) => (props.is_margin ? `margin: ${props.is_margin};` : 'margin: 0;')};
   ${(props) => (props.is_padding ? `padding: ${props.is_padding};` : 'padding: 0;')};
-  ${(props) => (props.is_size ? `font-size: ${props.is_size};` : 'font-size: 16px;')};
+  ${(props) => (props.is_size ? `font-size: ${props.is_size};` : 'font-size: 0.94vw;')};
   ${(props) => (props.is_color ? `color: ${props.is_color};` : '')};
   ${(props) => (props.is_bold ? `font-weight: 700;` : 'font-weight: 400')};
   ${(props) => (props.is_width ? `width: ${props.is_width};` : '')};
   ${(props) => (props.is_height ? `height: ${props.is_height};` : '')};
   ${(props) => (props.is_center ? `text-align: ${props.is_center};` : 'text-align: center')};
-  ${(props) => (props.is_line_height ? `line-height: ${props.is_line_height};` : 'line-height: 16px')};
+  ${(props) => (props.is_line_height ? `line-height: ${props.is_line_height};` : 'line-height: 0.94vw')};
   ${(props) => (props.is_box_sizing ? `box-sizing: ${props.is_box_sizing};` : 'box-sizing: border-box')};
   ${(props) => (props.is_stroke ? `-webkit-text-stroke: ${props.is_stroke};` : '')};
   ${(props) => (props.is_border ? `border: ${props.is_border};` : '')};
   ${(props) => (props.is_cursor ? `cursor: ${props.is_cursor};` : '')};
   ${(props) => (props.is_outline ? `outline: ${props.is_outline};` : '')};
+  ${(props) => (props.is_cursor ? `cursor: pointer;` : '')};
 `;
 
 export default Text;

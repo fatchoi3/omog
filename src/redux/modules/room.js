@@ -1,7 +1,7 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import api from "../../api/api";
-
+import Swal from 'sweetalert2';
 // initialState
 const initialState = {
   list: [
@@ -72,7 +72,7 @@ const changeUserInfo = createAction(CHANGE_USERINFO, (id, someone, state) => ({
 // middleware actions
 const getRoomListDB = (id) => {
   return async function (dispatch, getState, { history }) {
-    await api.get(`/lobby/`).then(function (response) {
+    await api.get(`/lobby`).then(function (response) {
       // console.log(response.data);
       dispatch(getRoomList(response.data));
     });
@@ -88,7 +88,7 @@ const getRoomInfoDB = (roomNum) => {
   };
 };
 
-const addRoomDB = (roomName, timer) => {
+const addRoomDB = (roomName, timer ,color) => {
   return function (dispatch, useState, { history }) {
     const userId = localStorage.getItem("userId");
     api
@@ -96,6 +96,7 @@ const addRoomDB = (roomName, timer) => {
         roomName: roomName,
         id: userId,
         timer: timer,
+        boardColor: color
       })
       .then(function (response) {
         console.log("안녕 나는 미들웨어 add", response.data);
@@ -103,7 +104,11 @@ const addRoomDB = (roomName, timer) => {
         history.push(`/waiting/${response.data.roomNum}`);
       })
       .catch((error) => {
-        window.alert("방생성 실패!");
+        Swal.fire({
+          title: '방 생성 실패했어요!',
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        });
         console.log(error);
       });
   };
@@ -120,7 +125,11 @@ const joinRoomDB = (room) => {
         history.push(`/waiting/${room.roomNum}`);
       })
       .catch((error) => {
-        alert("방 입장 실패하셨습니다.");
+        Swal.fire({
+          title: '방 입장 실패했어요!',
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        });
         console.log(error);
       });
   };
@@ -162,7 +171,11 @@ const quickStartPlayer = (id) => {
         history.push(`/waiting/${response.data.roomNum}`);
       })
       .catch((error) => {
-        alert("방이 없습니다!");
+        Swal.fire({
+          title: '방이 없습니다!',
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        });
         console.log(error.message);
       });
   };
@@ -178,7 +191,11 @@ const quickStartObserver = (id) => {
         history.push(`/waiting/${response.data.roomNum}`);
       })
       .catch((error) => {
-        alert("방이 없습니다!");
+        Swal.fire({
+          title: '방이 없습니다!',
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        });
         console.log(error);
       });
   };
@@ -195,8 +212,11 @@ const numJoinDB = (data) => {
         history.push(`/waiting/${response.data.roomNum}`);
       })
       .catch((error) => {
-        alert("방이 없습니다!");
-        // window.alert("방참가 실패!");
+        Swal.fire({
+          title: '방이 없습니다!',
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        });
         console.log(error.message);
       });
   };

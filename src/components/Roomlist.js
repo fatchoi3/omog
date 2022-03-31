@@ -1,6 +1,7 @@
 import { React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import Swal from 'sweetalert2';
 
 import { Text, Button } from "../elements/index";
 import RoomEnter from "./RoomEnter";
@@ -27,12 +28,20 @@ const Roomlist = () => {
   };
   const joinWaiting = () => {
     if (!room_info.roomNum) {
-      alert("없는 방입니다~!");
+      Swal.fire({
+        title: '방이 없어요!',
+        icon: 'info',
+        confirmButtonText: 'Ok'
+      });
       window.location.reload();
       return;
     }
     if (state === "") {
-      alert("선택해주세요~~!");
+      Swal.fire({
+        title: '팀을 선택해주세요!',
+        icon: 'warning',
+        confirmButtonText: 'Ok'
+      });
       return;
     }
 
@@ -93,7 +102,7 @@ const Roomlist = () => {
       <RoomEnter
         open={modalOpen}
         close={closeModal}
-        header="방 입장하기"
+        header="방 입장하기"  
         enterName="방 입장"
         enter={joinWaiting}
       >
@@ -109,10 +118,10 @@ const Roomlist = () => {
             />
             <RadioButtonLabelBP for="1">
               <div>
-               <Text is_margin="0 0 0 2px" is_bold is_color="white" is_stroke="0.7px black" is_size="24px">
+               <Text is_margin="0 0 0 0.12vw" is_bold is_color="white" is_stroke="0.04vw black" is_size="1.41vw">
                   Black Player
                 </Text>
-                <Text is_margin="10px 0 0 0" is_bold is_color="black">
+                <Text is_margin="0.59vw 0 0 0" is_bold is_color="black">
                   현재 {room_info.blackTeamPlayer ? 1 : 0} 명
                 </Text>
               </div>
@@ -130,10 +139,10 @@ const Roomlist = () => {
             />
             <RadioButtonLabelWP for="2">
               <div>
-              <Text is_margin="0 0 0 2px" is_bold is_color="white" is_stroke="0.9px #94D7BB" is_size="24px">
+              <Text is_margin="0 0 0 0.12vw" is_bold is_color="white" is_stroke="0.05vw #94D7BB" is_size="1.41vw">
                   White Player
                 </Text>
-                <Text is_margin="5px 0 0 0" is_bold is_color="#94D7BB">
+                <Text is_margin="0.29vw 0 0 0" is_bold is_color="#94D7BB">
                   현재 {room_info.whiteTeamPlayer ? 1 : 0} 명
                 </Text>
               </div>
@@ -150,10 +159,10 @@ const Roomlist = () => {
             />
             <RadioButtonLabelBO for="3">
               <div>
-              <Text is_margin="0 0 0 2px" is_bold is_color="white" is_stroke="0.7px black" is_size="24px">
+              <Text is_margin="0 0 0 0.12vw" is_bold is_color="white" is_stroke="0.04vw black" is_size="1.41vw">
                   Black Observer
                 </Text>
-                <Text is_margin="5px 0 0 0" is_bold>
+                <Text is_margin="0.29vw 0 0 0" is_bold>
                   현재
                   {room_info.blackTeamObserver
                     ? room_info.blackTeamObserver.length
@@ -174,10 +183,10 @@ const Roomlist = () => {
             />
             <RadioButtonLabelWO for="4">
               <div>
-              <Text is_margin="0 0 0 2px" is_bold is_color="white" is_stroke="0.9px #94D7BB" is_size="24px">
+              <Text is_margin="0 0 0 0.12vw" is_bold is_color="white" is_stroke="0.05vw #94D7BB" is_size="1.41vw">
                   White Observer
                 </Text>
-                <Text is_margin="5px 0 0 0" is_bold is_color="#94D7BB">
+                <Text is_margin="0.29vw 0 0 0" is_bold is_color="#94D7BB">
                   현재
                   {room_info.whiteTeamObserver
                     ? room_info.whiteTeamObserver.length
@@ -195,49 +204,60 @@ const Roomlist = () => {
 };
 
 const Table = styled.table`
-  width: 100%;
-  border-radius: 15px 15px 0 0;
-  background-color: #f2f2f2;
-  border-bottom: 3px solid black;
+  width: 70.3vw;
+  border-radius: 0.88vw 0.88vw 0 0;
+  background-color: white;
+  border-bottom: 0.18vw solid black;
+  font-size:0.94vw;
 `;
 const Thead = styled.thead`
   background-color: #94d7bb;
-  width: 100%;
-  height: 50px;
+  width: 70.3vw;
+  height: 2.93vw;
 `;
 const Tbody = styled.tbody`
-  background-color: #f2f2f2;
+  background-color: white;
+  width : 70.3vw;
 `;
 const Tr = styled.tr`
-  height: 50px;
-  width: 100%;
+  height: 3.51vw;
+  width: 11.72vw;
 `;
 const Th = styled.th`
-  border-bottom: 1px solid black;
-  border-radius: 15px 0px 0 0;
-  width: 10%;
+  border-bottom: 0.06vw solid black;
+  border-right: 0.06vw solid black;
+    border-radius: 0.88vw 0vw 0 0;
+  width: 11.72vw;
+  height: 3.51vw;
 `;
 const TdR = styled.td`
-  border-bottom: 1px solid black;
+  border-bottom: 0.06vw solid black;
+  border-right: 0.06vw solid black;
   text-align: center;
-  width: 50%;
+  width: 41.01vw;
+  height: 3.51vw;
 `;
 const TdP = styled.td`
-  border-bottom: 1px solid black;
+  border-bottom: 0.06vw solid black;
+  border-right: 0.06vw solid black;
   text-align: center;
-  width: 10%;
+  width: 7.03vw;
+  height: 3.51vw;
 `;
 const TdO = styled.td`
-  border-bottom: 1px solid black;
+  border-bottom: 0.06vw solid black;
+  border-right: 0.06vw solid black;
   text-align: center;
-  width: 10%;
+  width: 7.03vw;
+  height: 3.51vw;
 `;
 const TdS = styled.td`
   text-align: center;
-  border-bottom: 1px solid black;
-  border-radius: 0px 15px 0 0;
-  width: 20%;
+  border-bottom: 0.06vw solid black;
+  border-radius: 0vw 0.88vw 0 0;
+  width: 14.06vw;
   position: relative;
+  height: 3.51vw;
 `;
 
 const WaitingEnterRadio = styled.div`
@@ -253,7 +273,7 @@ const WaitingEnterRadio = styled.div`
 const RadioButtonLabelBP = styled.label`
   width: 100%;
   height: 100%;
-  border-radius: 15px;
+  border-radius: 0.88vw;
   background-color: transparent;
   display: flex;
   align-items: center;
@@ -267,17 +287,17 @@ const RadioButtonBP = styled.input`
   cursor: pointer;
     &:checked {
     background: black;
-    border: 2px solid #e5e5e5;
+    border: 0.12vw solid #e5e5e5;
   }
    &:checked + ${RadioButtonLabelBP} {
     background: black;
-    border: 1px solid #e5e5e5;
+    border: 0.06vw solid #e5e5e5;
   }
 `;
 const RadioButtonLabelWP = styled.label`
 width: 100%;
 height: 100%;
-border-radius: 15px;
+border-radius: 0.88vw;
 background-color: transparent;
 display: flex;
 align-items: center;
@@ -290,17 +310,17 @@ const RadioButtonWP = styled.input`
   cursor: pointer;
   &:checked {
     background: #e5e5e5;
-    border: 2px solid #e5e5e5;
+    border: 0.12vw solid #e5e5e5;
   }
   &:checked + ${RadioButtonLabelWP} {
     background: #94D7BB;
-    border: 1px solid #e5e5e5;
+    border: 0.06vw solid #e5e5e5;
   }
 `;
 const RadioButtonLabelBO = styled.label`
 width: 100%;
 height: 100%;
-border-radius: 15px;
+border-radius: 0.88vw;
 background-color: transparent;
 display: flex;
 align-items: center;
@@ -313,18 +333,18 @@ const RadioButtonBO = styled.input`
   cursor: pointer;
   &:checked {
     background: #e5e5e5;
-    border: 2px solid #e5e5e5;
+    border: 0.12vw solid #e5e5e5;
   }
   &:checked + ${RadioButtonLabelBO} {
     background: black;
-    border: 1px solid black;
+    border: 0.06vw solid black;
    
   }
 `;
 const RadioButtonLabelWO = styled.label`
 width: 100%;
 height: 100%;
-border-radius: 15px;
+border-radius: 0.88vw;
 background-color: transparent;
 display: flex;
 align-items: center;
@@ -338,15 +358,15 @@ const RadioButtonWO = styled.input`
  
   &:checked {
     background: #94D7BB;
-    border: 2px solid #e5e5e5;
+    border: 0.12vw solid #e5e5e5;
   }
  
   &:checked + ${RadioButtonLabelWO} {
     background:#94D7BB;
-    border: 1px solid #e5e5e5;
+    border: 0.06vw solid #e5e5e5;
     &::after {
       color: white;
-      margin: 4px;
+      margin: 0.23vw;
     }
   }
 `;

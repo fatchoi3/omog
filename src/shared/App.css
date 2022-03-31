@@ -20,7 +20,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(0.59vw + 2vmin);
   color: white;
 }
 
@@ -39,23 +39,24 @@
 .card {
 
 }
-/* form {
-  max-width: 500px;
-  width: 500px;
-  border-radius: 5px;
+
+form {
+  max-width: 29.29vw;
+  width: 29.29vw;
+  border-radius: 0.29vw;
   
-  box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
-} */
+  box-shadow: 0vw 0.18vw 1.41vw -0.47vw rgba(0, 0, 0, 0.75);
+}
 
 .name-field {
-  margin-bottom: 40px;
+  margin-bottom: 2.34vw;
 }
 /* 
 button {
-  margin-top: 20px;
-  padding: 10px;
+  margin-top: 1.17vw;
+  padding: 0.59vw;
   background: transparent;
-  border-radius: 5px;
+  border-radius: 0.29vw;
 } */
 h3 {
   color: #2f72da;
@@ -67,18 +68,18 @@ span {
 
 .chat_textfield_container {
   position: absolute;
-  bottom: 18px;
-  width: 411px;
+  bottom: 1.05vw;
+  width: 24.08vw;
   box-sizing: border-box;
 }
 .chat_textfield_container .chat_textfield {
   width: 100%;
   height: 5.64vh;
-  padding: 0 10px;
-  font-size: 14px;
+  padding: 0 0.59vw;
+  font-size: 0.82vw;
   color: #212121;
   box-sizing: border-box;
-  border-radius: 11px;
+  border-radius: 0.64vw;
   background-color: #f4f4f4;
   border: none;
 }
@@ -93,35 +94,35 @@ span {
 
 .chat_render_oneChat {
   width: 100%;
-  /* max-height: 640px; */
-  /* margin-bottom: 80px; */
+  /* max-height: 37.49vw; */
+  /* margin-bottom: 4.69vw; */
   overflow: auto;
   /* background-color: #ffd0d0; */
 }
 
 .chat_message {
-  max-width: 330px;
-  font-size: 16px;
+  max-width: 19.33vw;
+  font-size: 0.94vw;
   color: #070707;
-  padding: 15px;
+  padding: 0.88vw;
   box-sizing: border-box;
   line-height: 1.2;
   word-break: keep-all;
 }
 .chat_message_time {
-  font-size: 12px;
+  font-size: 0.7vw;
   color: #a3a3a3;
-  margin: 10px;
+  margin: 0.59vw;
 }
 /* 다른 사람의 채팅 */
 .chat_from_friend {
   text-align: left;
-  margin: 10px 0;
+  margin: 0.59vw 0;
 }
 
 .chat_from_friend .chat_nick {
-  font-size: 15px;
-  margin: 0 0 10px 20px;
+  font-size: 0.88vw;
+  margin: 0 0 0.59vw 1.17vw;
   display: flex;
 }
 .chat_from_friend .chat_content {
@@ -131,10 +132,10 @@ span {
 }
 .chat_from_friend .chat_content .chat_message {
   background-color: #94D7BB;
-  margin-left: 20px; 
-  border-top-right-radius: 11px;
-  border-bottom-left-radius: 11px;
-  border-bottom-right-radius: 11px;
+  margin-left: 1.17vw; 
+  border-top-right-radius: 0.64vw;
+  border-bottom-left-radius: 0.64vw;
+  border-bottom-right-radius: 0.64vw;
 }
 /* 내가 채팅칭 때 */
 .chat_from_me {
@@ -142,14 +143,14 @@ span {
   display: flex;
   flex-direction: row-reverse;
   align-items: flex-end;
-  margin: 20px 5px 20px 15px;
+  margin: 1.17vw 0.29vw 1.17vw 0.88vw;
 }
 .chat_from_me .chat_message {
   background-color: #f0f0f0;
   color: #000;
-  border-top-left-radius: 11px;
-  border-bottom-left-radius: 11px;
-  border-bottom-right-radius: 11px;
-  margin-right: 20px;
+  border-top-left-radius: 0.64vw;
+  border-bottom-left-radius: 0.64vw;
+  border-bottom-right-radius: 0.64vw;
+  margin-right: 1.17vw;
 }
 

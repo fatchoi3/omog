@@ -1,9 +1,9 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 import { Text, Button } from "../elements";
+import GameSlider from "./GameSlider"
 
-
-const LeaderBoard = (props) => {
+const GameInfo = (props) => {
   const { open, close, header, enter, enterName } = props;
 
   return (
@@ -15,15 +15,11 @@ const LeaderBoard = (props) => {
           <Section>
             <Header>
               <DDiv></DDiv>
-              <RoomTitle>
-                <Text is_bold is_size="1.76vw" is_margin="2.34vw 0 0 1.17vw">
-                  {header}
-                </Text>
-              </RoomTitle>
+              <Text is_size="2.64vw" is_margin="0.7vw 0 0 0" is_bold >게임 방법 설명!</Text>
               <Xbutton onClick={close}>✕</Xbutton>
             </Header>
             <Main>
-              {props.children}
+            <GameSlider/>
                 </Main>
           </Section>
         </OpenModal>
@@ -65,7 +61,7 @@ const Section = styled.div`
 `;
 const Header = styled.header`
   width: 49.79vw;
-  height: 5.86vw;
+  height: 2.93vw;
   padding: 0.47vw 0;
   background-color: #94d7bb;
   border-bottom: 0.12vw solid black;
@@ -81,13 +77,8 @@ const Main = styled.main`
   margin: 0 auto;
 `;
 
-const RoomTitle = styled.div`
-  height: 2.93vw;
-  width: 24.9vw;
-  display: flex;
-`;
 const DDiv = styled.div`
-  width: 20.5vw;
+  width: 7.03vw;
 `;
 const Xbutton = styled.button`
   width: 2.34vw;
@@ -114,4 +105,4 @@ const OpenModal = styled.div`
   animation: ${modal_bg_show} 0.3s;
 `;
 
-export default LeaderBoard;
+export default GameInfo;
