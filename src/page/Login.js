@@ -2,11 +2,10 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styled from 'styled-components';
 
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { actionCreators as userActions } from '../redux/modules/user';
 
 import Logo from '../pictures/omokjomok.svg';
-import { Text } from '../elements';
 
 import profile1 from '../pictures/omok-profile1.svg';
 import profile2 from '../pictures/omok-profile2.svg';
@@ -19,23 +18,31 @@ import profile8 from '../pictures/omok-profile8.svg';
 import profile9 from '../pictures/omok-profile9.svg';
 import profile10 from '../pictures/omok-profile10.svg';
 import profile11 from '../pictures/omok-profile11.svg';
+
 import SignupModal from '../components/Login/SignupModal';
 import ExplainModal from '../components/Login/ExplainModal';
+import PassSearchModal from '../components/Login/PassSearchModal';
+import NewPassModal from '../components/Login/NewPassModal';
 
 
 function Login(props) {
     const history = useHistory();
     const dispatch = useDispatch();
     const modalEl = useRef();
+    const passModalEl = useRef();
 
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
-    const [modalVisible, setModalVisible] = useState(false)
+    const [modalVisible, setModalVisible] = useState(false);
     const [explainModal, setExplainModal] = useState(true);
+    const [passModal, setPassModal] = useState(false);
+    const [newPass, setNewPass] = useState(true);
 
     const icons = [profile1, profile2, profile3, profile4, profile5, profile6, profile7, profile8, profile9, profile10, profile11];
     const [pickers, setPickers] = useState([]);
     const [pickIndex, setPickIndex] = useState(0);
+    const passUserCheck = useSelector(state => state.user.findPassCheck);
+
 
 
     const handleIdInput = (e) => {
@@ -71,13 +78,23 @@ function Login(props) {
         }
     }
 
-    const closeSignupModal = () => {
+    const handlePassSearchModal = () => {
+        if (passModal === false) {
+            setPassModal(true);
+        } else {
+            setPassModal(false);
+        }
     }
 
     const handleClickOutside = ({ target }) => {
         if (modalVisible && (!modalEl.current || !modalEl.current.contains(target))) {
             console.log(modalEl.current.contains(target))
             setModalVisible(false);
+        }
+
+        if (passModal && (!passModalEl.current || !passModalEl.current.contains(target))) {
+            console.log(passModalEl.current.contains(target))
+            setPassModal(false);
         }
     };
 
@@ -122,6 +139,13 @@ function Login(props) {
         };
     }, [modalVisible]);
 
+    useEffect(() => {
+        window.addEventListener("click", handleClickOutside);
+        return () => {
+            window.removeEventListener("click", handleClickOutside);
+        };
+    }, [passModal]);
+
 
     return (
         <LoginPageContainer>
@@ -129,7 +153,15 @@ function Login(props) {
                 <ExplainModal handleExplainModal={handleExplainModal} />
             }
             {modalVisible &&
-                <SignupModal closeSignupModal={closeSignupModal} visible={modalVisible} ref={modalEl} />
+                <SignupModal visible={modalVisible} handleSignupModal={handleSignupModal} setModalVisible={setModalVisible} ref={modalEl} />
+            }
+
+            {passModal &&
+                <PassSearchModal visible={passModal} handlePassSearchModal={handlePassSearchModal} setPassModal={setPassModal} ref={passModalEl} />
+            }
+
+            {passUserCheck &&
+                <NewPassModal visible={newPass} setNewPass={setNewPass} />
             }
             <LogoBox>
                 <img src={Logo} alt="로고" />
@@ -150,6 +182,7 @@ function Login(props) {
                     </div>
                     <div className="signup_box">
                         <p onClick={handleSignupModal}>회원가입 하러가기</p>
+                        <p onClick={handlePassSearchModal}>비밀번호 찾기</p>
                     </div>
                 </div>
             </LoginInputContainer>
@@ -219,8 +252,12 @@ const LoginInputContainer = styled.div`
         > div:nth-child(2){
             display: flex;
             justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            row-gap: 20px;
 
             > p {
+                margin: 0;
                 font-size: 16px;
                 line-height: 16.8px;
                 color: #616161;
