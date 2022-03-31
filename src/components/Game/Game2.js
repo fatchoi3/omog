@@ -19,18 +19,20 @@ const Game2 = memo((props) => {
   const gameInfo = useSelector((state) => state.game.gameInfo);
   const userId = localStorage.getItem("userId");
   const gameNum = props.gameNum;
+  const socket =props.socket;
   const roomName = useSelector((state) => state.game.roomName);
-  console.log("방 이름", roomName);
+
   const is_player =
     userInfo.state === "blackPlayer" || userInfo.state === "whitePlayer"
       ? true
       : false;
 
   const realGameInfo = gameInfo[0];
-
+const boardColorNum = gameInfo[1].boardColor;
+console.log("방 이름", gameInfo,is_player,boardColorNum);
   const blackPlayer = realGameInfo.blackTeamPlayer[0];
   const whitePlayer = realGameInfo.whiteTeamPlayer[0];
-
+  const Num = gameInfo[0].blackTeamObserver.length +gameInfo[0].whiteTeamObserver.length;
   const [min, setMin] = useState(2);
   const [sec, setSec] = useState(0);
   const time = useRef(120);
@@ -59,22 +61,8 @@ const Game2 = memo((props) => {
     }, 1000);
   };
 
-  //https://haksae90.shop/game
-  //"https://localhost:4001/game",
-  const [socket, disconnectSocket] = useSocket(
-    "https://haksae90.shop/game",
-    gameNum,
-    userId
-  );
 
   useEffect(() => {
-    return () => {
-      disconnectSocket();
-    };
-  }, [disconnectSocket]);
-
-  useEffect(() => {
-    dispatch(userActions.clearOne);
     let timer = setTimeout(() => {
       dispatch(gameActions.getGameDB(gameNum));
       dispatch(userActions.loginCheckDB(userId));
@@ -109,12 +97,21 @@ const Game2 = memo((props) => {
 
   return (
     <GameContainer>
+     <RoomTitle>
+        <Number>
+          <Text is_size="1.17vw" is_margin=" 1.17vw 0.59vw" is_bold>방 번호 {gameNum}</Text>
+          
+          </Number>
       <RoomName>
-        <Text is_size="20px" is_margin=" 20px 10px" is_bold>
+        <Text is_size="1.17vw" is_margin=" 1.17vw 0.59vw" is_bold>
           {roomName}
         </Text>
       </RoomName>
-      {spin ? <Spinner type={"page"} is_dim={true} width="200px" /> : ""}
+      <Member> 
+      <Text is_size="1.17vw" is_margin=" 1.17vw 0.59vw" is_bold >관전자 수 {Num} 명</Text>
+      </Member>
+      </RoomTitle>
+      {spin ? <Spinner type={"page"} is_dim={true} width="11.72vw" /> : ""}
       {is_player ? (
         <>
           <PlayerGame
@@ -157,15 +154,35 @@ const Game2 = memo((props) => {
 });
 const GameContainer = styled.div`
   display: flex;
-  width: 1456px;
+  width: 85.3vw;
   margin: 0 auto;
-  padding: 50px auto;
-  height: 924px;
+  padding: 2.93vw auto;
+  height: 54.13vw;
   // background-color: pink;
   justify-content: space-between;
 `;
+const RoomTitle = styled.div`
+border : 0.12vw solid black;
+border-radius : 0.59vw;
+display : flex;
+position : absolute;
+width : 41.01vw;
+margin : 0.12vw 0 0.12vw 0.59vw;
+`;
+const Number = styled.div`
+border-right : 0.12vw solid black;
+width: 11.72vw;
+background-color : #94D7BB;
+border-radius :  0.59vw 0 0 0.59vw ;
+`;
 const RoomName = styled.div`
-  position: absolute;
-  width: 200px;
+  
+  width: 17.57vw;
+`;
+const Member =styled.div`
+border-left : 0.12vw solid black;
+width: 11.72vw;
+background-color : #f2f2f2;
+border-radius : 0 0.59vw 0.59vw 0;
 `;
 export default Game2;

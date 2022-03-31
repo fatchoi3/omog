@@ -3,7 +3,7 @@ import styled, { keyframes } from "styled-components";
 import { Text, Button } from "../elements";
 
 
-const LeaderBoard = (props) => {
+const UserModal = (props) => {
   const { open, close, header, enter, enterName } = props;
 
   return (
@@ -15,11 +15,7 @@ const LeaderBoard = (props) => {
           <Section>
             <Header>
               <DDiv></DDiv>
-              <RoomTitle>
-                <Text is_bold is_size="1.76vw" is_margin="2.34vw 0 0 1.17vw">
-                  {header}
-                </Text>
-              </RoomTitle>
+             
               <Xbutton onClick={close}>✕</Xbutton>
             </Header>
             <Main>
@@ -43,7 +39,7 @@ to {
 const modal_show = keyframes`
 from {
   opacity: 0;
-  margin-top: -2.93vw;
+  margin-top: -50px;
 }
 to {
   opacity: 1;
@@ -51,12 +47,12 @@ to {
 }
 `;
 const Section = styled.div`
-  width: 49.79vw;
-  height: 38.08vw;
-  max-width: 58.58vw;
-  max-height: 52.72vw;
-  margin: 0 auto;
-  border: 0.12vw solid black;
+  width: 30%;
+  height: 40%;
+  
+  max-height: 900px;
+  margin: 0 0 400px 1000px;
+  border: 2px solid black;
   border-radius: 1.4rem;
   background-color: #fff;
 
@@ -64,38 +60,30 @@ const Section = styled.div`
   overflow: hidden;
 `;
 const Header = styled.header`
-  width: 49.79vw;
-  height: 5.86vw;
-  padding: 0.47vw 0;
-  background-color: #94d7bb;
-  border-bottom: 0.12vw solid black;
-  font-weight: 700;
-  font-size: 1.46vw;
+  width: 100%;
+  height: 10%;
+  padding: 1% 0;
+  background-color: transparent;
   display: flex;
   justify-content: space-between;
   color: white;
 `;
 const Main = styled.main`
-  width: 49.79vw;
-  height: 29.29vw;
+  width: 100%;
+  height: 100%;
   margin: 0 auto;
 `;
 
-const RoomTitle = styled.div`
-  height: 2.93vw;
-  width: 24.9vw;
-  display: flex;
-`;
 const DDiv = styled.div`
-  width: 20.5vw;
+  width: 40%;
 `;
 const Xbutton = styled.button`
-  width: 2.34vw;
+  width: 5%;
   margin: 0 5%;
-  font-size: 1.99vw;
+  font-size: 34px;
   font-weight: 700;
   text-align: center;
-  color: white;
+  color: black;
   border: none;
   background-color: transparent;
 `;
@@ -114,4 +102,4 @@ const OpenModal = styled.div`
   animation: ${modal_bg_show} 0.3s;
 `;
 
-export default LeaderBoard;
+export default UserModal;

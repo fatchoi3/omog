@@ -3,9 +3,13 @@ import styled from "styled-components";
 
 import { Text, Button } from "../elements/index";
 import Banner from "../pictures/banner.png";
+import Logo from "../pictures/omogLogo.png";
 
 import LeaderBoard from "./LeaderBoard";
 import LeaderSlider from "./LeaderSlider";
+import First from "../pictures/1.svg";
+import Second from "../pictures/2.svg";
+import Third from "../pictures/3.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 
@@ -16,7 +20,17 @@ const MainFooter = () => {
   const leader_board = useSelector((state) => state.user.leader_board);
   const userId = localStorage.getItem("userId");
   const [modalOpen, setModalOpen] = useState(false);
-  console.log("user_list", user_list);
+  const [isUser, setUser] = useState(false);
+  const [isRank, setRank] = useState(false);
+
+  const toggleUser = () => {
+    setUser(isUser => !isUser); // on,off 개념 boolean
+}
+const toggleRank = () => {
+  setRank(isRank => !isRank); // on,off 개념 boolean
+}
+
+
   const openModal = () => {
     setModalOpen(true);
   };
@@ -26,21 +40,21 @@ const MainFooter = () => {
   };
 
   const UserFaceColor = (point) => {
-    let color = "black 2px";
-    if (point >= 1300 && point < 1500) {
-      color = "#835506 3px";
+    let color = "black 0.12vw";
+    if (point >= 1300 && point < 1700) {
+      color = "#835506 0.18vw";
       return color;
     }
-    if (point >= 1500 && point < 2000) {
-      color = "#B2B2B2 3px";
+    if (point >= 1700 && point < 2500) {
+      color = "#B2B2B2 0.18vw";
       return color;
     }
-    if (point >= 2000 && point < 3000) {
-      color = "#FFF27E 3px";
+    if (point >= 2500 && point < 4000) {
+      color = "#FFF27E 0.18vw";
       return color;
     }
-    if (point >= 3000) {
-      color = "#22E1E4 3px";
+    if (point >= 4000) {
+      color = "#22E1E4 0.18vw";
       return color;
     }
     return color;
@@ -53,12 +67,18 @@ const MainFooter = () => {
   }, []);
   return (
     <Container>
+      <div>
       <UserS>
+      
         <Nemo />
-        <Text is_bold is_margin="0 20px 0 0 ">
+        <Text is_bold is_margin="0 2.34vw 0 0 ">
           접속 유저
         </Text>
-        <UserContents>
+      
+        <Text is_cursor is_margin="0 0 0 2.34vw " _onClick={()=>{toggleUser()}}>▽</Text>
+        
+      </UserS>
+      {isUser?<UserContents>
           {user_list.map((p, idx) => {
             return (
               <UserContent key={idx}>
@@ -72,105 +92,93 @@ const MainFooter = () => {
                 />
 
                 <Text
-                  is_size="20px"
+                  is_size="1.17vw"
                   is_color="black"
-                  is_margin="4px"
+                  is_margin="0.23vw"
                 >{`${p.id}`}</Text>
               </UserContent>
             );
           })}
-        </UserContents>
-      </UserS>
+        </UserContents>:""}
+        </div>
       <Ranking>
+      <div>
         <RankingTitle>
+      
           <Nemo />
-          <div>
-            <Text is_bold is_margin="0 20px 0 0 ">
+      
+            <Text is_bold  is_margin="0 1.17vw 0 0 " >
               오늘의 랭킹
             </Text>
-            <Button
-              is_width="80px"
-              is_height="24px"
-              is_margin=" 10px"
-              is_border="none"
-              is_background="transparent"
-              is_hover="inset -2em 0 0 0 #94d7bb, inset 4em 0 0 0 #94d7bb"
-            >
+            <Text is_cursor is_margin="0 0 0 2.34vw " _onClick={()=>{toggleRank()}}>▽</Text>
+       </RankingTitle>
+       
+      {isRank?
+      <Button is_width="5.86vw" is_border="none" is_background="white" is_cursor  _onClick={()=>{openModal()}}>
+      <UserContents>
+        {user_leaders.map((p, idx) => {
+          return (
+            <UserContent key={idx}>
+              <Userurl
+                color={UserFaceColor(p.point)}
+                img={
+                  p.profileImage
+                    ? p.profileImage
+                    : "https://haksae90.shop/images/1.svg"
+                }
+              />
               <Text
-                _onClick={() => {
-                  openModal();
-                }}
-                is_bold
-                is_size="20px"
-              >
-                더보기⇑{" "}
-              </Text>
-            </Button>
-          </div>
-          <LeaderBoard open={modalOpen} close={closeModal} header="오늘의 랭킹">
+                is_size="1.17vw"
+                is_color="black"
+                is_margin="0.23vw"
+              >{`${p.id}`}</Text>
+            </UserContent>
+          );
+        })}
+      </UserContents>
+      </Button>:""}
+      </div>
+        <LeaderBoard open={modalOpen} close={closeModal} header="오늘의 랭킹">
             <SuperLeaders>
               <Leader>
                 <FirstImg
-                  src={leader_board[0]?.profileImage}
-                  img={leader_board[0]?.profileImage}
+                  src={First}
                 />
 
-                <Text is_size="25px" is_bold is_margin=" 0 0 8px 0">
+                <Text is_size="1.46vw" is_bold is_margin=" 0 0 0.47vw 0.47vw">
                   {leader_board[0]?.id}
                 </Text>
-                <Text> {leader_board[0]?.point} p </Text>
+                <Text is_margin=" 0 0 0 0.7vw"> {leader_board[0]?.point} p </Text>
               </Leader>
               <Leader>
                 <SecondImg
-                  src={leader_board[1]?.profileImage}
-                  img={leader_board[1]?.profileImage}
+                  src={Second}
+              
                 />
 
-                <Text is_size="25px" is_bold is_margin=" 0 0 8px 0">
+                <Text is_size="1.46vw" is_bold is_margin=" 0 0 0.47vw 0.47vw">
                   {leader_board[1]?.id}
                 </Text>
-                <Text> {leader_board[1]?.point} p </Text>
+                <Text  is_margin=" 0 0 0 0.7vw"> {leader_board[1]?.point} p </Text>
               </Leader>
               <Leader>
                 <ThirdImg
-                  src={leader_board[2]?.profileImage}
-                  img={leader_board[2]?.profileImage}
+                  src={Third}
+                
                 />
 
-                <Text is_size="25px" is_bold is_margin=" 0 0 8px 0">
+                <Text is_size="1.46vw" is_bold is_margin=" 0 0 0.47vw 0.47vw">
                   {leader_board[2]?.id}
                 </Text>
-                <Text> {leader_board[2]?.point} p</Text>
+                <Text  is_margin=" 0 0 0 0.7vw"> {leader_board[2]?.point} p</Text>
               </Leader>
             </SuperLeaders>
             <LeaderSlider list={leader_board} />
           </LeaderBoard>
-        </RankingTitle>
-        <UserContents>
-          {user_leaders.map((p, idx) => {
-            return (
-              <UserContent key={idx}>
-                <Userurl
-                  color={UserFaceColor(p.point)}
-                  img={
-                    p.profileImage
-                      ? p.profileImage
-                      : "https://haksae90.shop/images/1.svg"
-                  }
-                />
-                <Text
-                  is_size="20px"
-                  is_color="black"
-                  is_margin="4px"
-                >{`${p.id}`}</Text>
-              </UserContent>
-            );
-          })}
-        </UserContents>
       </Ranking>
       <Button
-        is_width=" 362"
-        is_height="103"
+        is_width="29.29vw"
+        is_height="6.03vw"
         is_border="none"
         is_background="transparent"
         is_cursor
@@ -180,49 +188,49 @@ const MainFooter = () => {
       >
         <BannerImg src={Banner} />
       </Button>
+      <LogoWrap>
+              <LogoImg src={Logo} />
+            </LogoWrap>
     </Container>
   );
 };
 const Container = styled.div`
   display: flex;
-  margin: 0 20% 0 8%;
-  width: 87%;
-  max-widit: 900px; ;
+  width: 87.87vw;
+  margin : 0 0 0 3.51vw;
 `;
 const UserS = styled.div`
-  width: 28%;
-  height: 100px;
-  max-height: 100px;
-  margin: 0 3% 0 0;
+  width: 19.63vw;
   display: flex;
+
 `;
 const Ranking = styled.div`
-  width: 26%;
-  height: 100px;
+  width: 19.63vw;
+  height: 5.86vw;
   display: flex;
-  margin: 0 3% 0 0;
+  margin: 0 1.76vw 0 0;
 `;
 const UserContents = styled.div`
-  width: 180px;
-  border: solid 1px black;
-  height: 100px;
+  width: 10.54vw;
+  border: solid 0.06vw black;
+  height: 5.86vw;
   overflow-y: auto;
   overflow-x: hidden;
   ::-webkit-scrollbar {
     display: none;
   }
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 0.59vw;
+  box-shadow: 0vw 0.23vw 0.59vw 0.23vw rgba(0, 0, 0, 0.25);
 `;
 const UserContent = styled.div`
-  height: 30px;
+  height: 1.76vw;
   display: flex;
-  margin: 6px;
+  margin: 0.35vw;
 `;
 const Userurl = styled.div`
-  height: 20px;
-  width: 20px;
-  border-radius: 20px;
+  height: 1.17vw;
+  width: 1.17vw;
+  border-radius: 1.17vw;
   border: solid ${(props) => props.color};
   background: #f0f0f0;
   background-image: url(${(props) => props.img});
@@ -231,37 +239,52 @@ const Userurl = styled.div`
 `;
 const RankingTitle = styled.div`
   display: flex;
+  width : 11.72vw;
 `;
 const Nemo = styled.div`
-  width: 15px;
-  height: 15px;
+  width: 0.88vw;
+  height: 0.88vw;
   background-color: #94d7bb;
-  margin: 4px 3px 0 0;
+  margin: 0.23vw 0.18vw 0 0;
 `;
 
 const SuperLeaders = styled.div`
   display: flex;
-  width: 100%;
-  margin: 5% 18%;
+  width: 50.09vw;
+  margin: 1.41vw 9.96vw 0;
 `;
 const Leader = styled.div`
-  width: 20%;
-  height: 20%;
+  width: 9.96vw;
+  height: 9.37vw;
   text-align: center;
 `;
 const FirstImg = styled.img`
-  width: 50%;
-  height: 50%;
+  width: 5.86vw;
+  height: 7.03vw;
+
 `;
 const SecondImg = styled.img`
-  width: 50%;
-  height: 50%;
+  width: 5.86vw;
+  height: 7.03vw;
 `;
 const ThirdImg = styled.img`
-  width: 50%;
-  height: 50%;
+  width: 5.86vw;
+  height: 7.03vw;
 `;
 const BannerImg = styled.img`
-  width: 500px;
+  width: 29.29vw;
+`;
+const LogoWrap = styled.div`
+
+  width: 9.72vw;
+  height: 8.79vw;
+  margin : 0 0 0 7.03vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+const LogoImg = styled.img`
+  width: 9.72vw;
+  height: 8.79vw;
 `;
 export default MainFooter;
