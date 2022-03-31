@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Text } from "../../elements";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as gameActions } from "../../redux/modules/game";
+
 import Swal from "sweetalert2";
 import GameEnd from "./GameEnd";
 
@@ -28,8 +29,7 @@ const Omog = memo(
 
     const boardColorNum = useSelector((state) => state.game.gameInfo[1].boardColor);
     console.log("userInfo",userInfo);
-    console.log("boardColorNum",boardColorNum,loading);
-
+    console.log("boardColorNum",boardColorNum);
     const boardColorChoice= (num)=>{
       let answer1;
       let answer2;
@@ -307,12 +307,9 @@ const Omog = memo(
                 })
               );
             }, 3000);
-            
             console.log("흑 승");
             break;
           case 2:
-            setWinner("백돌 승");
-            setLoading(true);
             let timer2 = setTimeout(() => {
               dispatch(
                 gameActions.gameResultDB({
@@ -322,7 +319,6 @@ const Omog = memo(
                 })
               );
             }, 3000);
-           
             console.log("백 승");
             break;
           default:
@@ -450,16 +446,16 @@ const Omog = memo(
         open={loading}
         winner={winner}
           />
-        
+        <GameWrap>
           {is_player ? (
-            <PlayContainer>
+            <>
               <TimerWrapL count={count}>
                 <TimeStoneL>
                   <Text
                     is_bold
                     is_margin="auto 0"
                     is_color={count % 2 == 0 ? "white" : "white"}
-                    is_size="1.46vw"
+                    is_size="25px"
                   >
                     {min2}: {sec2}
                   </Text>
@@ -472,76 +468,70 @@ const Omog = memo(
                     is_bold
                     is_margin="auto 0"
                     is_color={count % 2 == 0 ? "black" : "black"}
-                    is_size="1.46vw"
+                    is_size="25px"
                   >
                     {min}: {sec}
                   </Text>
                 </TimeStoneR>
               </TimerWrapR>
-            </PlayContainer>
+            </>
           ) : (
-            <ObserverContainer>
+            <>
               <ObserverOmog>
                 <canvas ref={canvasRef} id="canvas" />
               </ObserverOmog>
-            </ObserverContainer>
+            </>
           )}
-      
+        </GameWrap>
       </div>
     );
   }
 );
-const PlayContainer = styled.div`
-display: flex;
-width : 55.65vw;
-height : 38.66vw;
-`;
-const ObserverContainer = styled.div`
-display: flex;
-`;
 const TimerWrapL = styled.div`
-  height: 38.66vw;
-  width: 8.79vw;
-  line-height: 5.27vw;
+  height: 660px;
+  width: 150px;
+  line-height: 90px;
   display: flex;
   align-items: center;
   background-color: ${(props) =>
     props.count % 2 == 0 ? "#F6F6F6" : "#C4C4C4"};
 `;
 const TimerWrapR = styled.div`
-  height: 38.66vw;
-  width: 8.79vw;
-  line-height: 5.27vw;
+  height: 660px;
+  width: 150px;
+  line-height: 90px;
   display: flex;
   align-items: center;
   background-color: ${(props) =>
     props.count % 2 == 0 ? "#C4C4C4" : "#F6F6F6"};
 `;
-
+const GameWrap = styled.div`
+  display: flex;
+`;
 const TimeStoneL = styled.div`
-  width: 5.27vw;
-  height: 5.27vw;
-  border-radius: 2.64vw;
+  width: 90px;
+  height: 90px;
+  border-radius: 45px;
   background-color: black;
   display: flex;
   justify-content: center;
   margin: 0 auto;
 `;
 const TimeStoneR = styled.div`
-  width: 5.27vw;
-  height: 5.27vw;
-  border-radius: 2.64vw;
+  width: 90px;
+  height: 90px;
+  border-radius: 45px;
   background-color: #f0f0f0;
   display: flex;
   justify-content: center;
-  border: 0.12vw solid black;
+  border: 2px solid black;
   margin: 0 auto;
 `;
 const ObserverOmog = styled.div`
-  width: 39.84vw;
-  height: 39.84vw;
-  margin: 5.86vw auto;
-  padding: 1.46vw 0.88vw 0.59vw 1.76vw;
-  box-shadow: 0vw 0.23vw 0.59vw 0.23vw rgba(0, 0, 0, 0.25);
+  width: 680px;
+  height: 680px;
+  margin: 100px auto;
+  padding: 25px 15px 10px 30px;
+  box-shadow: 0px 4px 10px 4px rgba(0, 0, 0, 0.25);
 `;
 export default Omog;
