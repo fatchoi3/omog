@@ -71,6 +71,7 @@ function Login(props) {
     }
 
     const handleSignupModal = () => {
+        alert("이메일을 제대로 입력해주셔야 경품을 보내드립니다!!!")
         if (modalVisible === false) {
             setModalVisible(true);
         } else {
