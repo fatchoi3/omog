@@ -30,7 +30,7 @@ function Login(props) {
 
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
-    const [isOpen, setIsOpen] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false)
     const [explainModal, setExplainModal] = useState(true);
 
     const icons = [profile1, profile2, profile3, profile4, profile5, profile6, profile7, profile8, profile9, profile10, profile11];
@@ -63,18 +63,21 @@ function Login(props) {
         )
     }
 
-    const openSignupModal = () => {
-        setIsOpen(true);
+    const handleSignupModal = () => {
+        if (modalVisible === false) {
+            setModalVisible(true);
+        } else {
+            setModalVisible(false);
+        }
     }
 
     const closeSignupModal = () => {
-        setIsOpen(false);
     }
 
     const handleClickOutside = ({ target }) => {
-        if (isOpen && (!modalEl.current || !modalEl.current.contains(target))) {
+        if (modalVisible && (!modalEl.current || !modalEl.current.contains(target))) {
             console.log(modalEl.current.contains(target))
-            setIsOpen(false);
+            setModalVisible(false);
         }
     };
 
@@ -117,121 +120,118 @@ function Login(props) {
         return () => {
             window.removeEventListener("click", handleClickOutside);
         };
-    }, [isOpen]);
+    }, [modalVisible]);
 
 
     return (
-        <>
+        <LoginPageContainer>
             {explainModal &&
                 <ExplainModal handleExplainModal={handleExplainModal} />
             }
-            {isOpen &&
-                <SignupModal closeSignupModal={closeSignupModal} ref={modalEl} />
+            {modalVisible &&
+                <SignupModal closeSignupModal={closeSignupModal} visible={modalVisible} ref={modalEl} />
             }
-
             <LogoBox>
                 <img src={Logo} alt="로고" />
             </LogoBox>
-            <LoginPageContainer>
-                <div className="login_box">
-                    <div className="input_box"
-                        style={{
-                            width: "70%",
-                            margin: "30px auto",
-                            textAlign: "center",
-                            boxSizing: "border-box",
-                        }}
-                    >
-                        <Input
-                            is_border="none"
-                            placeholder="아이디"
-                            is_padding="3px"
-                            is_margin="20px 0 15px 0"
-                            is_size="17px"
-                            is_outline="none"
-                            is_border_bottom="2px solid black"
-                            _onChange={handleIdInput}
-                        />
-                        <Input
+            <LoginInputContainer>
+                <div>
+                    <div>
+                        <input type="text" autoComplete="on" placeholder="아이디" onChange={handleIdInput} />
+                        <input
                             autoComplete="on"
-                            is_border="none"
                             placeholder="비밀번호"
-                            is_padding="3px"
-                            is_margin="15px 0 10px 0"
-                            is_outline="none"
-                            is_border_bottom="2px solid black"
                             type="password"
-                            _onChange={handlePasswordInput}
+                            onChange={handlePasswordInput}
                         />
+                        <button onClick={handleLogin}>
+                            로그인
+                        </button>
                     </div>
-
-                    <Button
-                        is_width="75%"
-                        is_height="3rem"
-                        is_size="23px"
-                        is_weight="600"
-                        is_padding="5px"
-                        is_margin="10px 0 30px 0"
-                        is_cursor="pointer"
-                        is_radius="10px"
-                        is_background="#94D7BB"
-                        _onClick={handleLogin}
-                    >
-                        로그인
-                    </Button>
-
-                    <div className="signup_to_box" style={{ width: "14rem", textAlign: "center", display: "flex", justifyContent: "center" }}>
-                        <Text is_color="#616161" is_cursor="pointer" _onClick={openSignupModal}>회원가입 하러가기</Text>
+                    <div className="signup_to_box">
+                        <Text is_color="#616161" is_cursor="pointer" _onClick={handleSignupModal}>회원가입 하러가기</Text>
                     </div>
                 </div>
-            </LoginPageContainer>
-        </>
+            </LoginInputContainer>
+        </LoginPageContainer>
     );
 }
-
 
 const LoginPageContainer = styled.div`
     display: flex;
     width: 100%;
-    padding: 30px;
-    margin: 0 auto;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
+    height: 100vh;
+    row-gap: 100px;
+`
+
+
+const LoginInputContainer = styled.div`
     box-sizing: border-box;
+    width: 100%;
 
     > div {
         display:flex;
-        width: 25rem;
-        height: auto;
-        padding: 20px;
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform:translate(-50%, -50%);
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
         box-sizing: border-box;
-    }
+        row-gap: 30px;
 
-    @media only screen and (min-width: 1200px) {
-        >div {
-            width: 30rem;
+        > div:nth-child(1){
+            display: flex;
+            flex-direction: column;
+            width: 230px;
+            margin: 0 auto;
+            text-align: center;
+            row-gap: 30px;
+
+            > input:nth-child(1){
+                padding: 3px;
+                font-size: 14px;
+                line-height: 16.8px;
+                border: none;
+                border-bottom: 2px solid black;
+                outline: none;
+            }
+
+            > input:nth-child(2){
+                font-size: 14px;
+                line-height: 16.8px;
+                padding: 3px;
+                border:none;
+                border-bottom: 2px solid black;
+                outline: none;
+            }
+
+            > button {
+                padding: 14px 0;
+                font-size: 18px;
+                font-weight: 400;
+                line-height: 21.6px;
+                border-radius: 14px;
+                background-color: #94D7BB;
+                cursor: pointer;
+            }
+        }
+
+        > div:nth-child(2){
+            display: flex;
+            justify-content: center;
         }
     }
 `
 
 const LogoBox = styled.div`
-    width: 100%;
-    text-align: center;
+    position:absolute;
+    top:0%;
+    left:50%;
+    transform:translate(-50%,10%);
 
     >img {
         height: auto;
-        width: 20rem
-    }
-
-
-    @media only screen and (min-width: 1200px) {
-        >img {
-            width: 23rem;
-        }
+        width: 15rem
     }
 `
 
