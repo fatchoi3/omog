@@ -74,7 +74,7 @@ const Num = gameInfo[0].blackTeamObserver.length +gameInfo[0].whiteTeamObserver.
       console.log("타임 아웃1");
       dispatch(
         gameActions.gameResultDB({
-          result: { win: blackPlayer.id },
+          result: { win: blackPlayer.id, state : "blackPlayer" },
           userInfo: userInfo,
           gameNum: gameNum,
         })
@@ -85,7 +85,7 @@ const Num = gameInfo[0].blackTeamObserver.length +gameInfo[0].whiteTeamObserver.
       console.log("타임 아웃2");
       dispatch(
         gameActions.gameResultDB({
-          result: { win: whitePlayer.id },
+          result: { win: whitePlayer.id, state : "whitePlayer" },
           userInfo: userInfo,
           gameNum: gameNum,
         })

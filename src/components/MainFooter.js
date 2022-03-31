@@ -197,7 +197,7 @@ const toggleRank = () => {
 const Container = styled.div`
   display: flex;
   width: 87.87vw;
-  margin : 0 0 0 3.51vw;
+  margin : 1.5vw 0 0 3.51vw;
 `;
 const UserS = styled.div`
   width: 19.63vw;

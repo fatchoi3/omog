@@ -111,7 +111,7 @@ const PlayerGame = memo(
 );
 const Wrap = styled.div`
   width: 55.65vw;
-  height: 54.07vw;
+  height: 41.01vw;
   padding: 3.51vw 0.59vw 1.17vw 0.59vw;
 `;
 const TeachingWrap = styled.div`

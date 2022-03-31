@@ -301,7 +301,7 @@ const Omog = memo(
             let timer = setTimeout(() => {
               dispatch(
                 gameActions.gameResultDB({
-                  result: { win: blackPlayer.id },
+                  result: { win: blackPlayer.id , state : "blackPlayer"},
                   userInfo: userInfo,
                   gameNum: gameNum,
                 })
@@ -313,7 +313,7 @@ const Omog = memo(
             let timer2 = setTimeout(() => {
               dispatch(
                 gameActions.gameResultDB({
-                  result: { win: whitePlayer.id },
+                  result: { win: whitePlayer.id, state : "whitePlayer" },
                   userInfo: userInfo,
                   gameNum: gameNum,
                 })
@@ -421,7 +421,7 @@ const Omog = memo(
         if (state === "blackPlayer") {
           dispatch(
             gameActions.gameResultDB({
-              result: { win: id },
+              result: { win: id , state: "whitePlayer" },
               userInfo: userInfo,
               gameNum: gameNum,
             })
@@ -431,7 +431,7 @@ const Omog = memo(
           console.log("userInfo",userInfo)
           dispatch(
             gameActions.gameResultDB({
-              result: { win: id },
+              result: { win: id, state: "blackPlayer" },
               userInfo: userInfo,
               gameNum: gameNum,
             })

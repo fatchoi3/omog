@@ -441,14 +441,15 @@ const Getout = styled.div`
 const Container = styled.div`
   display: flex;
   width: 96.66vw;
-  height : 41.01vw;
-  margin : 2.34vw 2.93vw 0 2.93vw;
+  margin : 0 1.67vw 0;
+  padding-top : 1.5vw;
+  box-sizing : border-box;
 `;
 const UserInfoWrap = styled.div`
   width: 23.43vw  ;
 `;
 const RoomDiv = styled.div`
-  height: 35.15vw;
+  height: 34vw;
   width: 70.3vw;
   overflow-y: auto;
   overflow-x: hidden;
