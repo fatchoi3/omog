@@ -84,6 +84,8 @@ const initialState = {
     point: 1000,
     state: "whitePlayer",
   },
+  findPassCheck: false
+  ,
 };
 
 // actions
@@ -94,6 +96,7 @@ const GET_USER_INFO = "GET_USER_INFO";
 const GET_LEADERS = "GET_LEADERS";
 const GET_LEADER_BOARD = "GET_LEADER_BOARD";
 const CLEAR_STATE = "CLEAR_STATE";
+const FIND_PASS_CHECK = "FIND_PASS_CHECK";
 
 // action creators
 const loginCheck = createAction(LOGIN_CHECK, (userInfo) => ({ userInfo }));
@@ -107,6 +110,7 @@ const getLeaderBorad = createAction(GET_LEADER_BOARD, (leader_board) => ({
 }));
 const logout = createAction(LOG_OUT, (user) => ({ user }));
 const clearOne = createAction(CLEAR_STATE);
+const findPassCheck = createAction(FIND_PASS_CHECK, (boo) => ({ boo }));
 
 // middleware actions
 const signupDB = (id, email, password, passwordConfirm, pickIndex) => {
@@ -201,6 +205,33 @@ const getLeaderBoardDB = () => {
   };
 };
 
+const passwordSearchDB = (id, email) => {
+  return async function (dispatch, getState, { history }) {
+    try {
+      const res = await api.post("/findpass", { id: id, email: email })
+      dispatch(findPassCheck(res.data.ok));
+    } catch (error) {
+      console.log(error);
+      alert(`${error}`);
+    }
+  }
+}
+
+const newPasswordDB = (id, email, password) => {
+  return async function (dispatch, getState, { history }) {
+    try {
+      const res = await api.post("/newPass", { id: id, email: email, newPass: password });
+      console.log(res.data);
+      alert("비밀번호가 변경되었습니다.");
+      history.replace('/');
+    } catch (error) {
+      console.log(error);
+      alert(`${error.response.data.errorMessage}`);
+    }
+  };
+}
+
+
 //reducer
 export default handleActions(
   {
@@ -236,6 +267,9 @@ export default handleActions(
       produce(state, (draft) => {
         draft.userInfo = {};
       }),
+    [FIND_PASS_CHECK]: (state, action) => produce(state, (draft) => {
+      draft.findPassCheck = action.payload.boo;
+    })
   },
   initialState
 );
@@ -252,6 +286,9 @@ const actionCreators = {
   getLeaderBoardDB,
   clearOne,
   logoutDB,
+  passwordSearchDB,
+  findPassCheck,
+  newPasswordDB,
 };
 
 export { actionCreators };
