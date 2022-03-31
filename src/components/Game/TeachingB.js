@@ -14,21 +14,21 @@ const TeachingB = memo((props) => {
   const socket = props.socket;
 
   const UserFaceColor = (point) => {
-    let color = "black 2px";
-    if (point >= 1300 && point < 1500) {
-      color = "#835506 3px";
+    let color = "black 0.12vw";
+    if (point >= 1300 && point < 1700) {
+      color = "#835506 0.29vw";
       return color;
     }
-    if (point >= 1500 && point < 2000) {
-      color = "#B2B2B2 3px";
+    if (point >= 1700 && point < 2500) {
+      color = "#B2B2B2 0.29vw";
       return color;
     }
-    if (point >= 2000 && point < 3000) {
-      color = "#FFF27E 3px";
+    if (point >= 2500 && point < 4000) {
+      color = "#FFF27E 0.29vw";
       return color;
     }
-    if (point >= 3000) {
-      color = "#22E1E4 3px";
+    if (point >= 4000) {
+      color = "#22E1E4 0.29vw";
       return color;
     }
     return color;
@@ -41,13 +41,13 @@ const TeachingB = memo((props) => {
           <ChatContents key={index}>
             <ChatId playerInfo={props.playerInfo}>
               <Userurl color={UserFaceColor(id)} />
-              <Text is_size="13px" is_color="black" is_margin="2px 0 0 5px">
+              <Text is_size="0.76vw" is_color="black" is_margin="0.12vw 0 0 0.29vw">
                 {id}
               </Text>
             </ChatId>
 
             <ChatMessage playerInfo={props.playerInfo}>
-              <Text is_size="15px" is_color="black ">
+              <Text is_size="0.88vw" is_color="black ">
                 {message}
               </Text>
             </ChatMessage>
@@ -77,7 +77,7 @@ const TeachingB = memo((props) => {
           color={UserFaceColor(props.playerInfo?.point)}
           img={props.playerInfo?.profileImage}
         />
-        <Text is_size="24px" is_bold>
+        <Text is_size="1.41vw" is_bold>
           {" "}
           {props.playerInfo ? props.playerInfo.id : "1"}
         </Text>
@@ -89,72 +89,72 @@ const TeachingB = memo((props) => {
   );
 });
 const Container = styled.div`
-  width: 400px;
-  height: 160px;
+  width: 23.43vw;
+  height: 9.37vw;
   display: flex;
-  box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
-  border: 3px solid
+  box-shadow: 0vw 0.18vw 1.41vw -0.47vw rgba(0, 0, 0, 0.75);
+  border: 0.18vw solid
     ${(props) =>
       props.playerInfo?.state === "whitePlayer" ? `#94d7bb` : `#9E9E9E`};
-  border-radius: 10px;
+  border-radius: 0.59vw;
 `;
 const Chat_render_oneChat = styled.div`
-  width: 280px;
-  border-radius: 15px;
+  width: 16.4vw;
+  border-radius: 0.88vw;
   overflow-y: auto;
   overflow-x: hidden;
-  margin: 10px 10px 10px 0px;
-  height: 135px;
-  box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
+  margin: 0.59vw 0.59vw 0.59vw 0vw;
+  height: 7.91vw;
+  box-shadow: 0vw 0.18vw 1.41vw -0.47vw rgba(0, 0, 0, 0.75);
   ::-webkit-scrollbar {
     display: none;
   }
 `;
 const ChatContents = styled.div``;
 const ChatId = styled.div`
-  margin: 5px;
-  border-radius: 5px;
-  padding: 5px;
-  width: 90px;
+  margin: 0.29vw;
+  border-radius: 0.29vw;
+  padding: 0.29vw;
+  width: 5.27vw;
   display: flex;
 `;
 const ChatMessage = styled.div`
-  margin: 5px 5px;
-  max-width: 200px;
-  padding: 5px;
-  border: 1px solid black;
+  margin: 0.29vw 0.29vw;
+  max-width: 11.72vw;
+  padding: 0.29vw;
+  border: 0.06vw solid black;
   background-color: #f0f0f0;
-  border-top-right-radius: 5px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+  border-top-right-radius: 0.29vw;
+  border-bottom-left-radius: 0.29vw;
+  border-bottom-right-radius: 0.29vw;
   overflow-wrap: break-word;
   word-break: break-word;
 `;
 const Profile = styled.div`
-  width: 120px;
-  margin: 5px 0px 5px 5px;
+  width: 7.03vw;
+  margin: 0.29vw 0vw 0.29vw 0.29vw;
   position: relative;
 `;
 const HeartImg = styled.img`
   position: absolute;
-  width: 50px;
+  width: 2.93vw;
   height: 50ps;
   z-index: 999;
 `;
 const DdongGraMe = styled.div`
-  width: 70px;
-  height: 70px;
-  border-radius: 70px;
+  width: 4.1vw;
+  height: 4.1vw;
+  border-radius: 4.1vw;
   border: solid ${(props) => props.color};
-  margin: 15px 5px 15px 17px;
+  margin: 0.88vw 0.29vw 0.88vw 1vw;
   background-image: url(${(props) => props.img});
   background-size: contain;
   background-repeat: no-repeat;
 `;
 const Userurl = styled.div`
-  height: 20px;
-  width: 20px;
-  border-radius: 20px;
+  height: 1.17vw;
+  width: 1.17vw;
+  border-radius: 1.17vw;
   border: solid ${(props) => props.color};
   background: #f0f0f0;
 `;

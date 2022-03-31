@@ -72,7 +72,7 @@ const changeUserInfo = createAction(CHANGE_USERINFO, (id, someone, state) => ({
 // middleware actions
 const getRoomListDB = (id) => {
   return async function (dispatch, getState, { history }) {
-    await api.get(`/lobby/`).then(function (response) {
+    await api.get(`/lobby`).then(function (response) {
       // console.log(response.data);
       dispatch(getRoomList(response.data));
     });
@@ -88,7 +88,7 @@ const getRoomInfoDB = (roomNum) => {
   };
 };
 
-const addRoomDB = (roomName, timer) => {
+const addRoomDB = (roomName, timer ,color) => {
   return function (dispatch, useState, { history }) {
     const userId = localStorage.getItem("userId");
     api
@@ -96,6 +96,7 @@ const addRoomDB = (roomName, timer) => {
         roomName: roomName,
         id: userId,
         timer: timer,
+        boardColor: color
       })
       .then(function (response) {
         console.log("안녕 나는 미들웨어 add", response.data);

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Text } from "../../elements";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as gameActions } from "../../redux/modules/game";
+import GameEnd from "./GameEnd";
 
 const Omog = memo(
   ({
@@ -21,6 +22,50 @@ const Omog = memo(
     timeOut,
     timeOut2,
   }) => {
+    const [loading, setLoading] = useState(false);
+    const [winner, setWinner] = useState("흑백");
+
+    const boardColorNum = useSelector((state) => state.game.gameInfo[1].boardColor);
+    console.log("userInfo",userInfo);
+    console.log("boardColorNum",boardColorNum,loading);
+
+    const boardColorChoice= (num)=>{
+      let answer1;
+      let answer2;
+      if(num == 1){
+      answer1= "#E08C4F";
+      answer2= "black";
+      return [answer1,answer2];
+      };
+      if(num == 2){
+        answer1= "#D3EAE0";
+        answer2="#00858C";
+        return [answer1,answer2];
+        };
+      if(num == 3){
+        answer1= "#FFD7E7";
+        answer2="#F97DB6";
+        return [answer1,answer2];
+        };
+      if(num == 4){
+        answer1= "#D9E4F4";
+        answer2= "#8DB0DB";
+        return [answer1,answer2];
+        };
+      if(num == 5){
+        answer1= "#DDDDDD"
+        answer2="#727272"
+        return [answer1,answer2];
+        };
+      if(num == 6){
+        answer1= "#8E8E8E"
+        answer2="#CCCCCC"
+        return [answer1,answer2];
+        };
+    }
+    const boardColor =boardColorChoice(boardColorNum)[0];
+    const boardLine =boardColorChoice(boardColorNum)[1];
+    console.log("boardColor",boardColor,boardLine);
     const dispatch = useDispatch();
     const userid = localStorage.getItem("userId");
     const canvasRef = useRef(null);
@@ -103,12 +148,12 @@ const Omog = memo(
 
       // 바둑판 그리기 함수
       function draw() {
-        ctx.fillStyle = "#e38d00";
+        ctx.fillStyle = boardColor;
         ctx.fillRect(0, 0, cw, ch);
         for (let x = 0; x < row; x++) {
           for (let y = 0; y < row; y++) {
             let w = (cw - margin * 2) / row;
-            ctx.strokeStyle = "black";
+            ctx.strokeStyle = boardLine;
             ctx.lineWidth = 1;
             ctx.strokeRect(w * x + margin, w * y + margin, w, w);
           }
@@ -116,7 +161,7 @@ const Omog = memo(
         // 화점에 점 찍기
         for (let a = 0; a < 3; a++) {
           for (let b = 0; b < 3; b++) {
-            ctx.fillStyle = "black";
+            ctx.fillStyle = boardLine;
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.arc(
@@ -250,23 +295,33 @@ const Omog = memo(
       const winShow = (x) => {
         switch (x) {
           case 1:
-            dispatch(
-              gameActions.gameResultDB({
-                result: { win: blackPlayer.id },
-                userInfo: userInfo,
-                gameNum: gameNum,
-              })
-            );
+            setWinner("흑돌 승");
+            setLoading(true);
+            let timer = setTimeout(() => {
+              dispatch(
+                gameActions.gameResultDB({
+                  result: { win: blackPlayer.id },
+                  userInfo: userInfo,
+                  gameNum: gameNum,
+                })
+              );
+            }, 3000);
+            
             console.log("흑 승");
             break;
           case 2:
-            dispatch(
-              gameActions.gameResultDB({
-                result: { win: whitePlayer.id },
-                userInfo: userInfo,
-                gameNum: gameNum,
-              })
-            );
+            setWinner("백돌 승");
+            setLoading(true);
+            let timer2 = setTimeout(() => {
+              dispatch(
+                gameActions.gameResultDB({
+                  result: { win: whitePlayer.id },
+                  userInfo: userInfo,
+                  gameNum: gameNum,
+                })
+              );
+            }, 3000);
+           
             console.log("백 승");
             break;
           default:
@@ -372,6 +427,7 @@ const Omog = memo(
           );
         }
         if (state === "whitePlayer") {
+          console.log("userInfo",userInfo)
           dispatch(
             gameActions.gameResultDB({
               result: { win: id },
@@ -385,16 +441,20 @@ const Omog = memo(
 
     return (
       <div>
-        <GameWrap>
+        <GameEnd
+        open={loading}
+        winner={winner}
+          />
+        
           {is_player ? (
-            <>
+            <PlayContainer>
               <TimerWrapL count={count}>
                 <TimeStoneL>
                   <Text
                     is_bold
                     is_margin="auto 0"
                     is_color={count % 2 == 0 ? "white" : "white"}
-                    is_size="25px"
+                    is_size="1.46vw"
                   >
                     {min2}: {sec2}
                   </Text>
@@ -407,70 +467,76 @@ const Omog = memo(
                     is_bold
                     is_margin="auto 0"
                     is_color={count % 2 == 0 ? "black" : "black"}
-                    is_size="25px"
+                    is_size="1.46vw"
                   >
                     {min}: {sec}
                   </Text>
                 </TimeStoneR>
               </TimerWrapR>
-            </>
+            </PlayContainer>
           ) : (
-            <>
+            <ObserverContainer>
               <ObserverOmog>
                 <canvas ref={canvasRef} id="canvas" />
               </ObserverOmog>
-            </>
+            </ObserverContainer>
           )}
-        </GameWrap>
+      
       </div>
     );
   }
 );
+const PlayContainer = styled.div`
+display: flex;
+width : 55.65vw;
+height : 38.66vw;
+`;
+const ObserverContainer = styled.div`
+display: flex;
+`;
 const TimerWrapL = styled.div`
-  height: 660px;
-  width: 150px;
-  line-height: 90px;
+  height: 38.66vw;
+  width: 8.79vw;
+  line-height: 5.27vw;
   display: flex;
   align-items: center;
   background-color: ${(props) =>
     props.count % 2 == 0 ? "#F6F6F6" : "#C4C4C4"};
 `;
 const TimerWrapR = styled.div`
-  height: 660px;
-  width: 150px;
-  line-height: 90px;
+  height: 38.66vw;
+  width: 8.79vw;
+  line-height: 5.27vw;
   display: flex;
   align-items: center;
   background-color: ${(props) =>
     props.count % 2 == 0 ? "#C4C4C4" : "#F6F6F6"};
 `;
-const GameWrap = styled.div`
-  display: flex;
-`;
+
 const TimeStoneL = styled.div`
-  width: 90px;
-  height: 90px;
-  border-radius: 45px;
+  width: 5.27vw;
+  height: 5.27vw;
+  border-radius: 2.64vw;
   background-color: black;
   display: flex;
   justify-content: center;
   margin: 0 auto;
 `;
 const TimeStoneR = styled.div`
-  width: 90px;
-  height: 90px;
-  border-radius: 45px;
+  width: 5.27vw;
+  height: 5.27vw;
+  border-radius: 2.64vw;
   background-color: #f0f0f0;
   display: flex;
   justify-content: center;
-  border: 2px solid black;
+  border: 0.12vw solid black;
   margin: 0 auto;
 `;
 const ObserverOmog = styled.div`
-  width: 680px;
-  height: 680px;
-  margin: 100px auto;
-  padding: 25px 15px 10px 30px;
-  box-shadow: 0px 4px 10px 4px rgba(0, 0, 0, 0.25);
+  width: 39.84vw;
+  height: 39.84vw;
+  margin: 5.86vw auto;
+  padding: 1.46vw 0.88vw 0.59vw 1.76vw;
+  box-shadow: 0vw 0.23vw 0.59vw 0.23vw rgba(0, 0, 0, 0.25);
 `;
 export default Omog;

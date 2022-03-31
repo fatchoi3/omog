@@ -9,15 +9,15 @@ import Spinner from "../elements/Spinner";
 import RoomMake from "../components/RoomMake";
 import useInput from "../hook/useInput";
 
-import exit from "../pictures/exit.png";
-import Logo from "../pictures/omogLogo.png";
+
+
 import Time from "../pictures/Time.png";
 
 import useSocket from "../hook/useSocket";
 
 import { useDispatch } from "react-redux";
 import { actionCreators as roomActions } from "../redux/modules/room";
-import { actionCreators as userActions } from "../redux/modules/user";
+
 import { useHistory } from "react-router-dom";
 
 import "../components/lobby.css"
@@ -30,7 +30,10 @@ const Main = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [roomaName, onChangeRoomaName, setRoomaName] = useInput("");
   const [roomNum, onChangeRoomNum, setRoomNum] = useInput("");
-  const [state, setState] = useState("");
+  const [state, setState] = useState("2 : 00");
+  const [color, setColor] = useState("1");
+ 
+
   const userId = localStorage.getItem("userId");
   const is_token = userId ? true : false;
 
@@ -39,7 +42,7 @@ const Main = () => {
     -1,
     userId
   );
-
+  
   //모달창켜기
   const openModal = () => {
     setModalOpen(true);
@@ -52,11 +55,11 @@ const Main = () => {
 
   //방만들어 입장
   const enterWaiting = () => {
-    if (roomaName === "" || state === "") {
-      alert("빈칸을 채워주세요");
+    if ((roomaName === "" || state === "")||color==="") {
+      alert("모두 채워주세요");
       return;
     }
-    dispatch(roomActions.addRoomDB(roomaName, state));
+    dispatch(roomActions.addRoomDB(roomaName, state,color));
   };
 
   const enterNum = () => {
@@ -69,6 +72,10 @@ const Main = () => {
 
   const changeRadioQ1 = (e) => {
     setState(e.target.value);
+  };
+  const changeRadioQ2 = (e) => {
+    console.log("e",e.target.value)
+    setColor(e.target.value);
   };
 
   //엔터키 작동 방만들기
@@ -104,18 +111,18 @@ const Main = () => {
   if (!is_token) {
     return (
       <Getout>
-        <Text is_size="32px" is_margin="20px auto" is_bold>
+        <Text is_size="1.87vw" is_margin="1.17vw auto" is_bold>
           앗 잠깐!
         </Text>
-        <Text is_size="16px" is_margin="20px auto">
+        <Text is_size="0.94vw" is_margin="1.17vw auto">
           {" "}
           로그인 후에만 이용할 수 있어요!
         </Text>
         <Button
-          is_width="300px"
-          is_height="100px"
-          is_margin="5px 100px"
-          is_radius="9px"
+          is_width="17.57vw"
+          is_height="5.86vw"
+          is_margin="0.29vw 5.86vw"
+          is_radius="0.53vw"
           is_border="none"
           is_background="#94d7bb"
           is_cursor
@@ -124,7 +131,7 @@ const Main = () => {
             history.replace("/");
           }}
         >
-          <Text is_size="32px" is_margin="20px auto" is_bold>
+          <Text is_size="1.87vw" is_margin="1.17vw auto" is_bold>
             {" "}
             로그인 하러가기
           </Text>
@@ -135,53 +142,33 @@ const Main = () => {
 
   return (
     <>
-      <Button
-        is_margin="1.5% 8% 1% "
-        is_height="50px"
-        is_width="150px"
-        is_radius="8px"
-        is_border="none"
-        is_background="transparent"
-        is_cursor
-        is_hover="inset -6em 0 0 0 #f0f0f0, inset 6em 0 0 0 #f0f0f0"
-        is_display="flex"
-        _onClick={() => {
-          dispatch(userActions.logoutDB(userId));
-          // dispatch(userActions.logout());
-        }}
-      >
-        <ExitImg src={exit} />
-        <Text is_size="20px" is_margin="7% 0 0 5%" is_color="#C4C4C4" is_bold>
-          로그아웃
-        </Text>
-      </Button>
+      
 
       <Container>
-        {loading ? <Spinner type={"page"} is_dim={true} width="200px" /> : ""}
-        {/* <Banner /> */}
+        {loading ? <Spinner type={"page"} is_dim={true} width="11.72vw" /> : ""}
         <ListDiv>
           <ListTitle>
             <ListTip>
               <Button
-                is_height="30px"
-                is_width="30px"
-                is_margin="5px 0 0 0"
+                is_height="1.76vw"
+                is_width="1.76vw"
+                is_margin="0.29vw 0 0 0"
                 is_background="transparent"
                 _onClick={() => {
                   window.location.reload();
                 }}
               >
-                <Text is_size="15px">↻</Text>
+                <Text is_size="0.88vw">↻</Text>
               </Button>
-              <Text is_size="30px" is_margin="10px 0 0 6px" is_bold>
+              <Text is_size="1.76vw" is_margin="0.59vw 0 0 0.35vw" is_bold>
                 게임방
               </Text>
             </ListTip>
             <RoomFind>
               <Text
-                is_size="15px"
-                is_width="45px"
-                is_margin="10px 7px 0 0 "
+                is_size="0.88vw"
+                is_width="2.64vw"
+                is_margin="0.59vw 0.41vw 0 0 "
                 is_color="gray"
                 is_bold
               >
@@ -199,15 +186,15 @@ const Main = () => {
               />
               <Button
                 is_background="transparent"
-                is_margin="4px 10px 0 0 "
-                is_height="30px"
-                is_width="30px"
+                is_margin="0.23vw 0.59vw 0 0 "
+                is_height="1.76vw"
+                is_width="1.76vw"
                 is_border="none"
                 _onClick={() => {
                   enterNum();
                 }}
               >
-                <Text is_size="25px">🔍</Text>
+                <Text is_size="1.46vw">🔍</Text>
               </Button>
             </RoomFind>
           </ListTitle>
@@ -219,11 +206,11 @@ const Main = () => {
           <UsersInfo />
           <ButtonWrap>
             <Button
-              is_margin="5% auto"
-              is_height="100%"
-              is_width="150px"
-              is_radius="8px"
-              is_border=" solid 2px black"
+              is_margin="0.29vw auto"
+              is_height="4.1vw"
+              is_width="11.72vw"
+              is_radius="1.17vw"
+              is_border=" solid 0.12vw black"
               is_background="#94d7bb"
               is_cursor
               is_hover="inset -6em 0 0 0 #f0f0f0, inset 6em 0 0 0 #f0f0f0"
@@ -231,16 +218,16 @@ const Main = () => {
                 openModal();
               }}
             >
-              <Text is_bold is_color="black">
-                방 만들기!
+              <Text is_size="1.05vw" is_bold is_color="black">
+                방 만들기
               </Text>
             </Button>
             <Button
-              is_margin="5% auto"
-              is_height="100%"
-              is_width="150px"
-              is_radius="8px"
-              is_border=" solid 2px black"
+              is_margin="0.29vw auto"
+              is_height="4.1vw"
+              is_width="11.72vw"
+              is_radius="1.17vw"
+              is_border=" solid 0.12vw black"
               is_background="#94d7bb"
               is_cursor
               is_hover="inset -6em 0 0 0 #f0f0f0, inset 6em 0 0 0 #f0f0f0"
@@ -248,16 +235,16 @@ const Main = () => {
                 dispatch(roomActions.quickStartPlayer(userId));
               }}
             >
-              <Text is_color="black" is_bold>
+              <Text is_size="1.05vw" is_color="black" is_bold>
                 플레이어 빠른 참가!
               </Text>
             </Button>
             <Button
-              is_margin="5% auto"
-              is_height="100%"
-              is_width="150px"
-              is_radius="8px"
-              is_border=" solid 2px black"
+              is_margin="0.29vw auto"
+              is_height="4.1vw"
+              is_width="11.72vw"
+              is_radius="1.17vw"
+              is_border=" solid 0.12vw black"
               is_background="#94d7bb"
               is_cursor
               is_hover="inset -6em 0 0 0 #f0f0f0, inset 6em 0 0 0 #f0f0f0"
@@ -265,13 +252,11 @@ const Main = () => {
                 dispatch(roomActions.quickStartObserver(userId));
               }}
             >
-              <Text is_color="black" is_bold>
+              <Text is_size="1.05vw" is_color="black" is_bold>
                 관전자 빠른 참가!
               </Text>
             </Button>
-            <LogoWrap>
-              <LogoImg src={Logo} />
-            </LogoWrap>
+           
           </ButtonWrap>
         </UserInfoWrap>
 
@@ -311,10 +296,11 @@ const Main = () => {
                       id="1"
                       name="state"
                       value="2 : 00"
+                      checked={state === "2 : 00" ? "checked" : ""}
                       onChange={changeRadioQ1}
                     />
                     <RadioButtonLabel for="1">
-                      <Text is_size="25px" >2: 00</Text>
+                      <Text is_size="1.46vw" >2: 00</Text>
                     </RadioButtonLabel>
                   </div>
 
@@ -327,7 +313,7 @@ const Main = () => {
                       onChange={changeRadioQ1}
                     />
                     <RadioButtonLabel for="2">
-                      <Text is_size="25px">3: 00</Text>
+                      <Text is_size="1.46vw">3: 00</Text>
                     </RadioButtonLabel>
                   </div>
                   <div className="TBTN">
@@ -339,14 +325,74 @@ const Main = () => {
                       onChange={changeRadioQ1}
                     />
                     <RadioButtonLabel for="3">
-                      <Text is_size="25px">5: 00</Text>
+                      <Text is_size="1.46vw">5: 00</Text>
                     </RadioButtonLabel>
                   </div>
                 </WaitingEnterRadio>
               </TimeChoiceTitle>
+              <ColorChoice>
+                <ColorTitle><Text is_bold>오목판</Text>  </ColorTitle>
+                
+                  <ColorRadio
+                  type="radio"
+                  id="11"
+                  name="color"
+                  value="1"
+                  checked={color ==="1"?"checked":""}
+                  onChange={changeRadioQ2}/>
+                  <Color for="11" color="#E08C4F"/>
+                  <ColorRadio
+                type="radio"
+                id="22"
+                name="color"
+                value="2"
+                onChange={changeRadioQ2}
+                />
+                <Color for="22" color="#D3EAE0"/>
+                 
+                 <ColorRadio
+                type="radio"
+                id="33"
+                name="color"
+                value="3"
+                onChange={changeRadioQ2}
+                />
+                <Color for="33" color="#FFD7E7"/>
+                  
+
+                  <ColorRadio
+                type="radio"
+                id="44"
+                name="color"
+                value="4"
+                onChange={changeRadioQ2}
+                />
+                <Color for="44" color="#D9E4F4"/>
+                  
+                  
+                 <ColorRadio
+                type="radio"
+                id="55"
+                name="color"
+                value="5"
+                onChange={changeRadioQ2}
+                />
+                <Color for="55" color="#DDDDDD"/>
+                  
+                  <ColorRadio
+                type="radio"
+                id="66"
+                name="color"
+                value="6"
+                onChange={changeRadioQ2}
+                />
+                <Color for="66" color="#8E8E8E"/>
+                  
+                
+              </ColorChoice>
             </Front>
             <TimeImg>
-              <Text is_size="40px" is_bold is_margin="0 10% 0 0">
+              <Text is_size="2.34vw" is_bold is_margin="0 10% 0 0">
                 {" "}
                 {state ? state : ""}
               </Text>
@@ -360,121 +406,102 @@ const Main = () => {
 };
 
 const Getout = styled.div`
-  width: 500px;
-  height: 300px;
-  margin: 200px auto;
-  padding: 50px;
+  width: 29.29vw;
+  height: 17.57vw;
+  margin: 11.72vw auto;
+  padding: 2.93vw;
   background-color: #f2f2f2;
 `;
 const Container = styled.div`
   display: flex;
-  width: 90%;
-  margin: 1% 8% 1% 8%;
+  width: 96.66vw;
+  height : 41.01vw;
+  margin : 2.34vw 2.93vw 0 2.93vw;
 `;
 const UserInfoWrap = styled.div`
-  width: 20%;
+  width: 23.43vw  ;
 `;
 const RoomDiv = styled.div`
-  height: 500px;
-  width: 100%;
+  height: 35.15vw;
+  width: 70.3vw;
   overflow-y: auto;
   overflow-x: hidden;
-  border-radius: 18px;
-  margin: 15px 0 0 0;
-  background-color: #f2f2f2;
-  border: 2px solid black;
+  border-radius: 1.05vw;
+  margin: 0.88vw 0 0 0;
+  background-color: white;
+  border: 0.12vw solid black;
   ::-webkit-scrollbar {
     display: none;
   }
-  box-shadow: -5px 5px 4px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: -0.29vw 0.29vw 0.23vw 0vw rgba(0, 0, 0, 0.25);
 `;
 const ListTitle = styled.div`
   display: flex;
   justify-content: space-between;
-  height: 40px;
-  width: 100%;
+  height: 2.34vw;
+  width: 72.06vw;
 `;
 const ListDiv = styled.div`
-  margin: 0 5% 0 0;
-  width: 70%;
+  margin: 0 0.29vw 0 0;
+  width: 70.3vw;
+  height: 38.08vw;
 `;
 const ButtonWrap = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  width: 100%;
-  height: 75%;
+  justify-content: space-around;
+  width: 23.43vw;
+  height: 23.43vw;
 `;
 const ListTip = styled.div`
   display: flex;
 `;
-const LogoWrap = styled.div`
-  width: 100%;
-  height: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-const LogoImg = styled.img`
-  width: 50%;
-  height: 100%;
-`;
+
 const MakeRomm = styled.input`
   width: 100%;
   height: 50%;
 
-  border: 2px black solid;
+  border: 0.12vw black solid;
   background-color: #ffffff;
-  padding-left: 25px;
-  border-radius: 15px;
+  padding-left: 1.46vw;
+  border-radius: 0.88vw;
   ::placeholder {
-    font-size: 18px;
+    font-size: 1.05vw;
   }
   :focus {
-    outline: 2px black solid;
+    outline: 0.12vw black solid;
   }
-  @media (max-width: 767px) {
-    width: 300px;
+  @media (max-width: 44.93vw) {
+    width: 17.57vw;
     ::placeholder {
-      padding: 0px 20px;
-      font-size: 16px;
+      padding: 0vw 1.17vw;
+      font-size: 0.94vw;
     }
   }
 `;
 const ModalFlex = styled.div`
   display: flex;
-  margin: 5px 0 15px 0;
+  margin: 0.29vw 0 0.88vw 0;
   width: 100%;
   height: 100%;
 `;
 const RoomFind = styled.div`
   display: flex;
-  width: 250px;
+  width: 14.65vw;
 `;
 const RoomInput = styled.input`
-  width: 120px;
-  height: 30px;
-  border: 2px solid gray;
+  width: 7.03vw;
+  height: 1.76vw;
+  border: 0.12vw solid gray;
   background-color: #e1e1e1;
-  border-radius: 15px;
+  border-radius: 0.88vw;
 `;
-const Item = styled.div`
-  display: flex;
-  width: 100%;
-  height: 50%;
-  align-items: center;
 
-  position: relative;
-
-  box-sizing: border-box;
-  border-radius: 2px;
-  margin-bottom: 10px;
-`;
 const WaitingEnterRadio = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  margin: 10% 0 0 0;
+  margin: 6.7% 0 0 0;
 `;
 
 const TimeImg = styled.div`
@@ -491,14 +518,14 @@ const TimeImg = styled.div`
 const RoomNameTitle = styled.div`
   display: flex;
   width: 100%;
-  height: 40%;
+  height: 33%;
   align-items: center;
 `;
 const RoomName = styled.div`
   width: 20%;
   height: 50%;
-  border: 2px solid black;
-  border-radius: 15px;
+  border: 0.12vw solid black;
+  border-radius: 0.88vw;
   margin: 0 6% 0 0;
 
   background-color: #94d7bb;
@@ -509,14 +536,14 @@ const RoomName = styled.div`
 const TimeChoiceTitle = styled.div`
   display: flex;
   width: 100%;
-  height: 40%;
+  height: 33%;
   align-items: center;
 `;
 const TimeChoice = styled.div`
   width: 19%;
   height: 50%;
-  border: 2px solid black;
-  border-radius: 15px;
+  border: 0.12vw solid black;
+  border-radius: 0.88vw;
   margin: 0 4% 0 0;
 
   background-color: #94d7bb;
@@ -532,7 +559,7 @@ const RadioButtonLabel = styled.label`
   width: 100%;
   height: 100%;
   z-index: 2;
-  border-radius: 15px;
+  border-radius: 0.88vw;
   background-color: transparant;
   display: flex;
   align-items: center;
@@ -543,36 +570,60 @@ const RadioButton = styled.input`
   opacity: 0;
   z-index: 1;
   cursor: pointer;
-  &:hover ~ ${RadioButtonLabel} {
-    // box-shadow: -5px 5px 4px 0px rgba(0, 0, 0, 0.25);
-    &::after {
-      color: white;
-    }
-  }
   &:checked {
     background: #94d7bb;
-    border: 2px solid #94d7bb;
-  }
-  &:checked + ${Item} {
-    background: #94d7bb;
-    border: 2px solid #94d7bb;
-  }
-  &:checked + div {
-    background-color: #94d7bb;
-    border: 2px solid #94d7bb;
+    border: 0.12vw solid #94d7bb;
   }
   &:checked + ${RadioButtonLabel} {
     background: #94d7bb;
-    border: 1px solid #94d7bb;
+    border: 0.06vw solid #94d7bb;
     &::after {
       color: white;
-      margin: 4px;
+      margin: 0.23vw;
     }
   }
 `;
-const ExitImg = styled.img`
-  width: 35%;
-  height: 70%;
-`;
 
+const ColorChoice = styled.div`
+display: flex;
+  width: 100%;
+  height: 30%;
+  align-items: center;
+`;
+const ColorTitle = styled.div`
+width: 20%;
+  height: 50%;
+  border: 0.12vw solid black;
+  border-radius: 0.88vw;
+  margin: 0 0.59vw 0 0;
+
+  background-color: #94d7bb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+const Color= styled.label`
+width : 2.34vw;
+height : 2.34vw;
+margin : 0.12vw 0.29vw;
+border : 0.12vw solid black;
+border-radius : 0.88vw;
+background-color : ${(props)=>props.color};
+
+
+`;
+const ColorRadio= styled.input`
+margin:0;
+opacity: 0;
+z-index: 1;
+cursor: pointer;
+&:checked {
+  background: #94d7bb;
+  border: 0.12vw solid #94d7bb;
+  box-shadow: -0.29vw 0.29vw 0.23vw 0vw rgba(0, 0, 0, 0.25);
+}
+&:checked + ${Color} {
+  box-shadow: -0.29vw 0.29vw 0.23vw 0vw rgba(0, 0, 0, 0.25);
+}
+`;
 export default Main;

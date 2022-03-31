@@ -27,21 +27,21 @@ function LeaderSlider(props) {
   const slideRef = React.useRef(null);
 
   const UserFaceColor = (point) => {
-    let color = "black 2px";
-    if (point >= 1300 && point < 1500) {
-      color = "#835506 3px";
+    let color = "black 0.12vw";
+    if (point >= 1300 && point < 1700) {
+      color = "#835506 0.23vw";
       return color;
     }
-    if (point >= 1500 && point < 2000) {
-      color = "#B2B2B2 3px";
+    if (point >= 1700 && point < 2500) {
+      color = "#B2B2B2 0.23vw";
       return color;
     }
-    if (point >= 2000 && point < 3000) {
-      color = "#FFF27E 3px";
+    if (point >= 2500 && point < 4000) {
+      color = "#FFF27E 0.23vw";
       return color;
     }
-    if (point >= 3000) {
-      color = "#22E1E4 3px";
+    if (point >= 4000) {
+      color = "#22E1E4 0.23vw";
       return color;
     }
     return color;
@@ -79,17 +79,22 @@ function LeaderSlider(props) {
       <Container>
         <div
           className="arrow_box"
-          style={{ display: "flex", alignItems: "center" }}
+          style={{ display: "flex", alignItems: "center" ,margin:"0"}}
         >
           <Arrow isLeft={true} onClick={handlePrevClick}>
             <IoIosArrowBack />
           </Arrow>
         </div>
-
+<LeaderWrap>
+        <Title>
+                      <Text is_size="1.17vw" is_bold>오늘의 순위</Text>
+                      </Title>
         <FillDiv ref={slideRef}>
+          
           {currentPosts(list).map((p, idx) => {
             return (
               <Wrap key={idx}>
+               <Text is_size="1.17vw" is_margin="1.76vw 1.76vw 1.17vw 0vw"  is_bold>{pickIndex+idx+1}</Text>
                 <Stone
                   color={UserFaceColor(p.point)}
                   img={
@@ -100,14 +105,14 @@ function LeaderSlider(props) {
                 />
                 <TextWrap>
                   <Text
-                    is_size="20px"
+                    is_size="1.17vw"
                     is_color="black"
-                    is_margin="7px 0 0 0px "
+                    is_margin="1.46vw 0 0 0vw "
                   >{`${p.id}`}</Text>
                   <Text
-                    is_size="15px"
+                    is_size="0.88vw"
                     is_color="black"
-                    is_margin="9px 0 0 10px "
+                    is_margin="1.52vw 0 0 0.59vw "
                   >
                     {`${p.point}`}p
                   </Text>
@@ -116,37 +121,7 @@ function LeaderSlider(props) {
             );
           })}
         </FillDiv>
-        <FillDiv ref={slideRef}>
-          {NextPosts(list).map((p, idx) => {
-            return (
-              <Wrap key={idx}>
-                <Stone
-                  color={UserFaceColor(p.point)}
-                  img={
-                    p.profileImage
-                      ? p.profileImage
-                      : "https://haksae90.shop/images/1.svg"
-                  }
-                />
-
-                <TextWrap>
-                  <Text
-                    is_size="20px"
-                    is_color="black"
-                    is_margin="7px 0 0 0px "
-                  >{`${p.id}`}</Text>
-                  <Text
-                    is_size="15px"
-                    is_color="black"
-                    is_margin="9px 0 0 10px "
-                  >
-                    {`${p.point}`}p
-                  </Text>
-                </TextWrap>
-              </Wrap>
-            );
-          })}
-        </FillDiv>
+        </LeaderWrap>
         <div
           className="arrow_box"
           style={{ display: "flex", alignItems: "center" }}
@@ -163,56 +138,66 @@ function LeaderSlider(props) {
 }
 
 const Container = styled.div`
-  width: 100%;
-  height: 100%;
+  width: 32.81vw;
+  height: 22.26vw;
   display: flex;
   margin: 0 auto;
 `;
 
 const FillDiv = styled.div`
-  width: 100%;
-  height: 200px;
-  margin: 20px 0 0 0;
+  width: 25.78vw;
+  height: 14.65vw;
+  margin: 1.17vw 0 ;
   object-fit: cover;
-  padding: 10px 0 0 5px;
-  box-shadow: -3px 7px 6px 1px #999;
+  padding: 0.59vw 0 0 0.29vw;
+  box-shadow: -0.18vw 0.41vw 0.35vw 0.06vw #999;
+  border : 0.12vw black solid;
+  border-radius : 0.88vw;
 `;
 
 const PickerWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px auto;
+  margin: 1.17vw auto;
 `;
 
 const Arrow = styled.div`
-  margin: 0 15px;
-  ${(props) => (props.isLeft ? "left: 5px" : "right: 5px")};
+  margin: 0 0.88vw;
+  ${(props) => (props.isLeft ? "left: 0.29vw" : "right: 0.29vw")};
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 30px;
+  font-size: 1.76vw;
   cursor: pointer;
 `;
 const Stone = styled.div`
-  width: 40px;
-  height: 40px;
-  border-radius: 40px;
+  width: 2.93vw;
+  height: 2.93vw;
+  border-radius: 2.93vw;
   border: solid ${(props) => props.color};
-  margin: 4% 0 0 5%;
+  margin: 0.59vw 0 0 0.59vw;
   background-image: url(${(props) => props.img});
   background-size: contain;
   background-repeat: no-repeat;
 `;
 const TextWrap = styled.div`
-  margin: 5px 0 5px 30px;
+  margin: 0.29vw 0 0.29vw 1.76vw;
   display: flex;
-  width: 200px;
-  border-bottom: 5px solid #94d7bb;
+  width: 8.79vw;
 `;
 const Wrap = styled.div`
   display: flex;
-  width: 300px;
-  height: 60px;
+  width: 17.57vw;
+  height: 4.69vw;
+  margin: 0 auto;
+  
+`;
+const Title = styled.div`
+
+`;
+const LeaderWrap =styled.div`
+margin : 1.17vw auto;
+width : 29.29vw;
 `;
 export default LeaderSlider;

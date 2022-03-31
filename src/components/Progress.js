@@ -12,8 +12,8 @@ const Progress = (props) => {
 
 const ProgressBar = styled.div`
   background: #eee;
-  width: ${(props) => (props.width ? `${props.width};` : '150px')};
-  height: 10px;
+  width: ${(props) => (props.width ? `${props.width};` : '8.79vw')};
+  height: 0.59vw;
   margin: ${(props) => (props.margin ? `${props.margin};` : '')};
 `;
 
@@ -21,7 +21,7 @@ const HighLight = styled.div`
   background: #94d7bb;
   transition: 1s;
   width: ${(props) => props.width};
-  height: 10px;
+  height: 0.59vw;
 `;
 
 export default Progress;
