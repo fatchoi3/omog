@@ -110,7 +110,7 @@ const SignupModal = forwardRef(({ visible, handleSignupModal, setModalVisible },
                 </div>
                 <div className="signup_modal_input_box" style={{ position: "relative" }}>
                     <input type="text" placeholder="아이디 : 2~12자, 영문 혹은 영문+숫자" onChange={handleIdInput} />
-                    <input type="email" placeholder="이메일" onChange={handleEmailInput} />
+                    <input type="email" placeholder="이메일 : 상품발송용 이메일 입니다!" onChange={handleEmailInput} />
                     <input type="password" placeholder="비밀번호" onChange={handlePasswordInput} />
                     <input type="password" placeholder="비밀번호 확인" onChange={handlePasswordConfirmInput} />
                     <div style={{ width: "80%", display: "flex", justifyContent: "space-around" }}>
