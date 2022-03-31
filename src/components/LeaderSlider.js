@@ -103,7 +103,7 @@ console.log("list",list)
                 </TextWrap>
                 
                   <Progress win={p.score[0].win} lose={p.score[1].lose}/>
-                  <Text is_size="10px"> 승 : {p.score[0].win} 패 : {p.score[1].lose}</Text>
+                  <Text is_size="0.88vw"> 승 : {p.score[0].win} 패 : {p.score[1].lose}</Text>
                 </div>
              </Wrap>
             );

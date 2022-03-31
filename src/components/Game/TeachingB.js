@@ -14,21 +14,21 @@ const TeachingB = memo((props) => {
   const socket = props.socket;
 
   const UserFaceColor = (point) => {
-    let color = "black 0.12vw";
+    let color = "black 2px";
     if (point >= 1300 && point < 1700) {
-      color = "#835506 0.29vw";
+      color = "#835506 5px";
       return color;
     }
     if (point >= 1700 && point < 2500) {
-      color = "#B2B2B2 0.29vw";
+      color = "#B2B2B2 5px";
       return color;
     }
     if (point >= 2500 && point < 4000) {
-      color = "#FFF27E 0.29vw";
+      color = "#FFF27E 5px";
       return color;
     }
     if (point >= 4000) {
-      color = "#22E1E4 0.29vw";
+      color = "#22E1E4 5px";
       return color;
     }
     return color;
@@ -41,13 +41,13 @@ const TeachingB = memo((props) => {
           <ChatContents key={index}>
             <ChatId playerInfo={props.playerInfo}>
               <Userurl color={UserFaceColor(id)} />
-              <Text is_size="0.76vw" is_color="black" is_margin="0.12vw 0 0 0.29vw">
+              <Text is_size="13px" is_color="black" is_margin="2px 0 0 5px">
                 {id}
               </Text>
             </ChatId>
 
             <ChatMessage playerInfo={props.playerInfo}>
-              <Text is_size="0.88vw" is_color="black ">
+              <Text is_size="15px" is_color="black ">
                 {message}
               </Text>
             </ChatMessage>
@@ -77,7 +77,7 @@ const TeachingB = memo((props) => {
           color={UserFaceColor(props.playerInfo?.point)}
           img={props.playerInfo?.profileImage}
         />
-        <Text is_size="1.41vw" is_bold>
+        <Text is_size="24px" is_bold>
           {" "}
           {props.playerInfo ? props.playerInfo.id : "1"}
         </Text>
@@ -89,72 +89,72 @@ const TeachingB = memo((props) => {
   );
 });
 const Container = styled.div`
-  width: 23.43vw;
-  height: 9.37vw;
+  width: 400px;
+  height: 160px;
   display: flex;
-  box-shadow: 0vw 0.18vw 1.41vw -0.47vw rgba(0, 0, 0, 0.75);
-  border: 0.18vw solid
+  box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
+  border: 3px solid
     ${(props) =>
       props.playerInfo?.state === "whitePlayer" ? `#94d7bb` : `#9E9E9E`};
-  border-radius: 0.59vw;
+  border-radius: 10px;
 `;
 const Chat_render_oneChat = styled.div`
-  width: 16.4vw;
-  border-radius: 0.88vw;
+  width: 280px;
+  border-radius: 15px;
   overflow-y: auto;
   overflow-x: hidden;
-  margin: 0.59vw 0.59vw 0.59vw 0vw;
-  height: 7.91vw;
-  box-shadow: 0vw 0.18vw 1.41vw -0.47vw rgba(0, 0, 0, 0.75);
+  margin: 10px 10px 10px 0px;
+  height: 135px;
+  box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
   ::-webkit-scrollbar {
     display: none;
   }
 `;
 const ChatContents = styled.div``;
 const ChatId = styled.div`
-  margin: 0.29vw;
-  border-radius: 0.29vw;
-  padding: 0.29vw;
-  width: 5.27vw;
+  margin: 5px;
+  border-radius: 5px;
+  padding: 5px;
+  width: 90px;
   display: flex;
 `;
 const ChatMessage = styled.div`
-  margin: 0.29vw 0.29vw;
-  max-width: 11.72vw;
-  padding: 0.29vw;
-  border: 0.06vw solid black;
+  margin: 5px 5px;
+  max-width: 200px;
+  padding: 5px;
+  border: 1px solid black;
   background-color: #f0f0f0;
-  border-top-right-radius: 0.29vw;
-  border-bottom-left-radius: 0.29vw;
-  border-bottom-right-radius: 0.29vw;
+  border-top-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
   overflow-wrap: break-word;
   word-break: break-word;
 `;
 const Profile = styled.div`
-  width: 7.03vw;
-  margin: 0.29vw 0vw 0.29vw 0.29vw;
+  width: 120px;
+  margin: 5px 0px 5px 5px;
   position: relative;
 `;
 const HeartImg = styled.img`
   position: absolute;
-  width: 2.93vw;
+  width: 50px;
   height: 50ps;
   z-index: 999;
 `;
 const DdongGraMe = styled.div`
-  width: 4.1vw;
-  height: 4.1vw;
-  border-radius: 4.1vw;
+  width: 70px;
+  height: 70px;
+  border-radius: 70px;
   border: solid ${(props) => props.color};
-  margin: 0.88vw 0.29vw 0.88vw 1vw;
+  margin: 15px 5px 15px 17px;
   background-image: url(${(props) => props.img});
   background-size: contain;
   background-repeat: no-repeat;
 `;
 const Userurl = styled.div`
-  height: 1.17vw;
-  width: 1.17vw;
-  border-radius: 1.17vw;
+  height: 20px;
+  width: 20px;
+  border-radius: 20px;
   border: solid ${(props) => props.color};
   background: #f0f0f0;
 `;

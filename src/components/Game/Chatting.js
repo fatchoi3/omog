@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback, memo } from "react";
 import styled, { keyframes } from "styled-components";
+import Swal from "sweetalert2";
 import useInput from "../../hook/useInput";
 import "../../shared/App.css";
 import { Button, Text } from "../../elements";
@@ -58,14 +59,14 @@ const Chatting = memo((props) => {
   }, []);
 
   const onMessageSubmit = useCallback(
-   async (e) => {
-    setDisabled(true);
+    async(e) => {
+      setDisabled(true);
       if (message === "") {
         console.log("빈값입니다.");
       } else {
         if (teaching === "Text" && isTeam === "white") {
           console.log("Text훈수W");
-          await  socket.emit("teachingW", { chat: message }, props.gameNum);
+         await socket.emit("teachingW", { chat: message }, props.gameNum);
         }
         if (teaching === "Text" && isTeam === "black") {
           console.log("Text훈수B");
@@ -77,16 +78,16 @@ const Chatting = memo((props) => {
         }
         if (teaching === "Pointer" && message === "신의한수") {
           console.log("마우스로 찍자");
-          await  socket.emit("Pointer", message, props.gameNum);
+          await socket.emit("Pointer", message, props.gameNum);
         }
-       await socket.emit("chat", { chat: message, state: isTeam }, props.gameNum);
+        await socket.emit("chat", { chat: message, state: isTeam }, props.gameNum);
         console.log("채팅보내기");
         e.preventDefault();
         setMessage("");
       }
       let delay = setTimeout(() => {
-        setDisabled(false)
-    }, 1000);
+        setDisabled(false);
+    }, 500);
     },
     [message]
   );
@@ -124,9 +125,19 @@ const Chatting = memo((props) => {
   }, []);
 
   const onKeyPress = useCallback((e) => {
-    if (e.key == "Enter") {
+    if (e.key == "Enter" && !disabled) {
       onMessageSubmit(e);
     }
+    // if(e.key == "Enter"&& disabled ){
+    //   let delay = setTimeout(() => {
+    //     Swal.fire({
+    //       title: '채팅이 너무빨라욥!',
+    //       icon: 'error',
+    //       confirmButtonText: 'Ok'
+    //     });
+    // }, 500);
+     
+    // }
   });
 
   useEffect(() => {
@@ -141,18 +152,17 @@ const Chatting = memo((props) => {
   return (
     <ChattingContainer>
       <ChatForm>
-        <Chat_render_oneChat>
-          <TopChat>
+      <TopChat>
             <Title>
-              <Text is_size="1.41vw" is_color="#FFFFFF" is_bold>
+              <Text is_size="24px" is_color="#FFFFFF" is_bold>
                 실시간 채팅
               </Text>
             </Title>
             <ExitButtonWrap>
               <Button
-                is_width="7.03vw"
-                is_height="1.76vw"
-                is_padding="0.41vw 0vw 0vw 0vw"
+                is_width="120px"
+                is_height="30px"
+                is_padding="7px 0px 0px 0px"
                 is_cursor
                 is_background="transparent"
                 is_border="#94D7BB"
@@ -161,12 +171,14 @@ const Chatting = memo((props) => {
                   Exiting();
                 }}
               >
-                <Text is_size="1.41vw" is_color="#FFFFFF" is_bold>
+                <Text is_size="24px" is_color="#FFFFFF" is_bold>
                   나가기▷
                 </Text>
               </Button>
             </ExitButtonWrap>
           </TopChat>
+        <Chat_render_oneChat>
+          
           {renderChat()}
           <div ref={scroll}></div>
         </Chat_render_oneChat>
@@ -184,13 +196,13 @@ const Chatting = memo((props) => {
             label="Message"
           />
           <Button
-            is_height="2.93vw"
-            is_width="8.79vw"
+            is_height="50px"
+            is_width="150px"
             is_border="none"
             is_background="transparent"
-            disabled={disabled}
             _onClick={onMessageSubmit}
             is_hover="inset -3.5em 0 0 0 #94D7BB, inset 3.5em 0 0 0 #94D7BB"
+            disabled={disabled}
           >
             <Text>Send</Text>
           </Button>
@@ -214,85 +226,86 @@ const Chatting = memo((props) => {
   );
 });
 const ChattingContainer = styled.div`
-  // height: 46.87vw;
-  margin: 1.46vw 0vw 1.46vw 1.17vw;
-  // box-shadow: 0vw 0.23vw 2.05vw 0.23vw rgba(162, 162, 162, 0.25);
-  border-radius: 0.94vw;
+  // height: 800px;
+  margin: 25px 0px 25px 20px;
+  // box-shadow: 0px 4px 35px 4px rgba(162, 162, 162, 0.25);
+  border-radius: 16px;
   // box-sizing: border-box;
-  width: 25.19vw;
-  border: 0.12vw solid black;
+  width: 430px;
+  border: 2px solid black;
 `;
 const ChatForm = styled.div`
-  max-width: 25.19vw;
-  width: 25.19vw;
-  height: 49.79vw;
-  border-radius: 0.88vw;
-  box-shadow: 0vw 0.18vw 1.41vw -0.47vw rgba(0, 0, 0, 0.75);
+  max-width: 430px;
+  width: 430px;
+  height: 850px;
+  border-radius: 15px;
+  box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
 `;
 const Chat_render_oneChat = styled.div`
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  height: 46.57vw;
-  max-height: 46.87vw;
-  border-radius: 0.88vw;
+  height: 700px;
+  max-height: 800px;
+  border-radius: 15px;
   ::-webkit-scrollbar {
     display: none;
   }
 `;
 const Title = styled.div`
-  margin: 0.7vw 0 0 0;
+  margin: 12px 0 0 0;
 `;
 const ExitButtonWrap = styled.div``;
 const TopChat = styled.div`
-  width: 23.67vw;
-  height: 2.64vw;
-  line-height: 2.64vw;
+  width: 404px;
+  height: 45px;
+  line-height: 45px;
   display: flex;
   background-color: #94d7bb;
   justify-content: space-between;
-  padding: 1.29vw 0.76vw;
-  border-bottom: black 0.12vw solid;
+  padding: 22px 13px;
+  border-bottom: black 2px solid;
+  border-radius : 15px 15px 0 0;
 `;
 const BottomWrap = styled.div`
   display: flex;
-  border-top: solid 0.12vw black;
-  height: 3.51vw;
-  width: 25.19vw;
+  border-top: solid 2px black;
+  height: 60px;
+  width: 430px;
 `;
 const TeachingSelect = styled.select`
-  width: 5.86vw;
-  height: 3.05vw;
+  width: 100px;
+  height: 52px;
   border: none;
-  border-bottom-right-radius: 0.47vw;
+  border-bottom-right-radius: 8px;
 `;
 const SendText = styled.input`
-  width: 23.43vw;
-  height: 2.93vw;
+  width: 400px;
+  height: 50px;
   border: none;
   background-color: #ffffff;
-  padding-left: 1.46vw;
-  border-bottom-left-radius: 0.47vw;
+  padding-left: 25px;
+  border-bottom-left-radius: 8px;
   ::placeholder {
-    font-size: 1.05vw;
+    font-size: 18px;
   }
   :focus {
     outline: none;
   }
-  @media (max-width: 44.93vw) {
-    width: 17.57vw;
+  @media (max-width: 767px) {
+    width: 300px;
     ::placeholder {
-      padding: 0vw 1.17vw;
-      font-size: 0.94vw;
+      padding: 0px 20px;
+      font-size: 16px;
     }
   }
 `;
 const GodSu = keyframes`
 from{
-  width : 0vw;
+  width : 0px;
 }
 to{
-  width : 5.86vw;
+  width : 100px;
 }
 `;
 const HighLight = styled.div`
@@ -304,14 +317,14 @@ const HighLight = styled.div`
   animation-iteration-count: 1;
   animation-fill-mode: none;
   animation-play-state: running;
-  height: 0.59vw;
+  height: 10px;
 `;
 const Team = styled.div`
-  width: 0.59vw;
-  height: 0.59vw;
-  border-radius: 0.59vw;
-  border: 0.12vw solid black;
-  margin: 0.29vw 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  border: 2px solid black;
+  margin: 5px 0;
   background-color: ${(props) => props.state};
 `;
 export default Chatting;

@@ -63,9 +63,9 @@ const ObserverGame = memo(
         ) : (
           <DialogBlock RandomNum={randomNum}>
             <Text
-              is_size="2.93vw"
-              is_margin="1.17vw 0 2.93vw"
-              is_stroke="0.18vw black"
+              is_size="50px"
+              is_margin="20px 0 50px"
+              is_stroke="3px black"
               is_color="white"
               is_bold
             >
@@ -78,9 +78,9 @@ const ObserverGame = memo(
         ) : (
           <DialogBlock RandomNum={randomNum}>
             <Text
-              is_size="2.93vw"
-              is_margin="1.17vw 0 2.93vw"
-              is_stroke="0.18vw black"
+              is_size="50px"
+              is_margin="20px 0 50px"
+              is_stroke="3px black"
               is_color="white"
               is_bold
             >
@@ -89,23 +89,23 @@ const ObserverGame = memo(
           </DialogBlock>
         )}
         <PlayerInfos>
-          <PlayerCard>
+          <>
             <PlayerCardB
               playerInfo={blackPlayer}
               min2={min2}
               sec2={sec2}
               isTeam={isTeam}
             />
-          </PlayerCard>
+          </>
 
-          <PlayerCard>
+          <>
             <PlayerCardW
               playerInfo={whitePlayer}
               min={min}
               sec={sec}
               isTeam={isTeam}
             />
-          </PlayerCard>
+          </>
         </PlayerInfos>
         <Omog
           userInfo={userInfo}
@@ -136,37 +136,32 @@ const ObserverGame = memo(
     );
   }
 );
-const PlayerCard= styled.div`
-width : 12.89vw;
-height : 41.01vw;
-`
 const PlayerInfos = styled.div`
-width : 12.89vw;
-  height: 39.84vw;
+  height: 680px;
   display: flex;
   flex-direction: column;
-  padding: 7.03vw 0vw;
-  margin: 0 1.17vw;
+  padding: 120px 0px;
+  margin: 0 20px;
 `;
 const ChattingWrap = styled.div`
-  width: 26.36vw;
-  margin: 0vw 0.59vw 0vw 0vw;
+  width: 450px;
+  margin: 0px 10px 0px 0px;
 `;
 const slideUp = keyframes`
 from {
-  transform: translateX(35.15vw);
+  transform: translateX(600px);
 }
 to {
-  transform : translateX(0vw);
+  transform : translateX(0px);
 }
 `;
 
 const DialogBlock = styled.div`
   position: absolute;
   top: ${(props) => props.RandomNum}px;
-  max-width: 35.15vw;
-  height: 5.86vw;
-  max-height: 23.43vw;
+  max-width: 600px;
+  height: 100px;
+  max-height: 400px;
   margin: auto;
  
   background-image: url(${Cloud});

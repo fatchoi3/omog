@@ -75,7 +75,7 @@ console.log("방 이름", gameInfo,is_player,boardColorNum);
       console.log("타임 아웃1");
       dispatch(
         gameActions.gameResultDB({
-          result: { win: blackPlayer.id,state : "blackPlayer" },
+          result: { win: blackPlayer.id ,state : "blackPlayer"},
           userInfo: userInfo,
           gameNum: gameNum,
         })
@@ -86,7 +86,7 @@ console.log("방 이름", gameInfo,is_player,boardColorNum);
       console.log("타임 아웃2");
       dispatch(
         gameActions.gameResultDB({
-          result: { win: whitePlayer.id, state : "whitePlayer"},
+          result: { win: whitePlayer.id, state : "whitePlayer" },
           userInfo: userInfo,
           gameNum: gameNum,
         })
@@ -99,19 +99,19 @@ console.log("방 이름", gameInfo,is_player,boardColorNum);
     <GameContainer>
      <RoomTitle>
         <Number>
-          <Text is_size="1.17vw" is_margin=" 1.17vw 0.59vw" is_bold>방 번호 {gameNum}</Text>
+          <Text is_size="20px" is_margin=" 20px 10px" is_bold>방 번호 {gameNum}</Text>
           
           </Number>
       <RoomName>
-        <Text is_size="1.17vw" is_margin=" 1.17vw 0.59vw" is_bold>
+        <Text is_size="20px" is_margin=" 20px 10px" is_bold>
           {roomName}
         </Text>
       </RoomName>
       <Member> 
-      <Text is_size="1.17vw" is_margin=" 1.17vw 0.59vw" is_bold >관전자 수 {Num} 명</Text>
+      <Text is_size="20px" is_margin=" 20px 10px" is_bold >관전자 수 {Num} 명</Text>
       </Member>
       </RoomTitle>
-      {spin ? <Spinner type={"page"} is_dim={true} width="11.72vw" /> : ""}
+      {spin ? <Spinner type={"page"} is_dim={true} width="200px" /> : ""}
       {is_player ? (
         <>
           <PlayerGame
@@ -154,35 +154,35 @@ console.log("방 이름", gameInfo,is_player,boardColorNum);
 });
 const GameContainer = styled.div`
   display: flex;
-  width: 85.3vw;
+  width: 1456px;
   margin: 0 auto;
-  padding: 2.93vw auto;
-  height: 54.13vw;
+  padding: 50px auto;
+  height: 924px;
   // background-color: pink;
   justify-content: space-between;
 `;
 const RoomTitle = styled.div`
-border : 0.12vw solid black;
-border-radius : 0.59vw;
+border : 2px solid black;
+border-radius : 10px;
 display : flex;
 position : absolute;
-width : 41.01vw;
-margin : 0.12vw 0 0.12vw 0.59vw;
+width : 700px;
+margin : 2px 0 2px 10px;
 `;
 const Number = styled.div`
-border-right : 0.12vw solid black;
-width: 11.72vw;
+border-right : 2px solid black;
+width: 200px;
 background-color : #94D7BB;
-border-radius :  0.59vw 0 0 0.59vw ;
+border-radius :  10px 0 0 10px ;
 `;
 const RoomName = styled.div`
   
-  width: 17.57vw;
+  width: 300px;
 `;
 const Member =styled.div`
-border-left : 0.12vw solid black;
-width: 11.72vw;
+border-left : 2px solid black;
+width: 200px;
 background-color : #f2f2f2;
-border-radius : 0 0.59vw 0.59vw 0;
+border-radius : 0 10px 10px 0;
 `;
 export default Game2;
