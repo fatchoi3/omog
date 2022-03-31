@@ -11,6 +11,7 @@ const Chatting = memo((props) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [message, onChangeMessage, setMessage] = useInput("");
+  const [disabled, setDisabled] = useState(false);
   const [teaching, setTeaching] = useState();
   const userid = localStorage.getItem("userId");
   console.log("blackPlayer",props.blackPlayer);
@@ -57,31 +58,35 @@ const Chatting = memo((props) => {
   }, []);
 
   const onMessageSubmit = useCallback(
-    (e) => {
+   async (e) => {
+    setDisabled(true);
       if (message === "") {
         console.log("빈값입니다.");
       } else {
         if (teaching === "Text" && isTeam === "white") {
           console.log("Text훈수W");
-          socket.emit("teachingW", { chat: message }, props.gameNum);
+          await  socket.emit("teachingW", { chat: message }, props.gameNum);
         }
         if (teaching === "Text" && isTeam === "black") {
           console.log("Text훈수B");
-          socket.emit("teachingB", { chat: message }, props.gameNum);
+          await socket.emit("teachingB", { chat: message }, props.gameNum);
         }
         if (teaching === "Fly") {
           console.log("이이상상무무");
-          socket.emit("flyingWord", { chat: message }, props.gameNum);
+          await socket.emit("flyingWord", { chat: message }, props.gameNum);
         }
         if (teaching === "Pointer" && message === "신의한수") {
           console.log("마우스로 찍자");
-          socket.emit("Pointer", message, props.gameNum);
+          await  socket.emit("Pointer", message, props.gameNum);
         }
-        socket.emit("chat", { chat: message, state: isTeam }, props.gameNum);
+       await socket.emit("chat", { chat: message, state: isTeam }, props.gameNum);
         console.log("채팅보내기");
         e.preventDefault();
         setMessage("");
       }
+      let delay = setTimeout(() => {
+        setDisabled(false)
+    }, 1000);
     },
     [message]
   );
@@ -183,6 +188,7 @@ const Chatting = memo((props) => {
             is_width="8.79vw"
             is_border="none"
             is_background="transparent"
+            disabled={disabled}
             _onClick={onMessageSubmit}
             is_hover="inset -3.5em 0 0 0 #94D7BB, inset 3.5em 0 0 0 #94D7BB"
           >

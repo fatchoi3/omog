@@ -75,7 +75,7 @@ console.log("방 이름", gameInfo,is_player,boardColorNum);
       console.log("타임 아웃1");
       dispatch(
         gameActions.gameResultDB({
-          result: { win: blackPlayer.id },
+          result: { win: blackPlayer.id,state : "blackPlayer" },
           userInfo: userInfo,
           gameNum: gameNum,
         })
@@ -86,7 +86,7 @@ console.log("방 이름", gameInfo,is_player,boardColorNum);
       console.log("타임 아웃2");
       dispatch(
         gameActions.gameResultDB({
-          result: { win: whitePlayer.id },
+          result: { win: whitePlayer.id, state : "whitePlayer"},
           userInfo: userInfo,
           gameNum: gameNum,
         })

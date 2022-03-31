@@ -1,22 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 import Text from "../elements/Text";
-
+import Progress from "./Progress";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 function LeaderSlider(props) {
   const { list } = props;
-
+console.log("list",list)
   function currentPosts(tmp) {
     let currentPosts = 0;
     currentPosts = tmp.slice(pickIndex, pickIndex + 3);
-
-    return currentPosts;
-  }
-
-  function NextPosts(tmp) {
-    let currentPosts = 0;
-    currentPosts = tmp.slice(pickIndex + 3, pickIndex + 6);
 
     return currentPosts;
   }
@@ -63,16 +56,6 @@ function LeaderSlider(props) {
     setPickIndex(pickIndex + 3);
   }, [pickIndex]);
 
-  const onPickIndex = React.useCallback(
-    (idx) => {
-      if (pickIndex === idx + 3) {
-        return;
-      }
-
-      setPickIndex(idx + 3);
-    },
-    [pickIndex]
-  );
 
   return (
     <div className="SliderContainer">
@@ -103,6 +86,7 @@ function LeaderSlider(props) {
                       : "https://haksae90.shop/images/1.svg"
                   }
                 />
+                <div>
                 <TextWrap>
                   <Text
                     is_size="1.17vw"
@@ -117,7 +101,11 @@ function LeaderSlider(props) {
                     {`${p.point}`}p
                   </Text>
                 </TextWrap>
-              </Wrap>
+                
+                  <Progress win={p.score[0].win} lose={p.score[1].lose}/>
+                  <Text is_size="10px"> 승 : {p.score[0].win} 패 : {p.score[1].lose}</Text>
+                </div>
+             </Wrap>
             );
           })}
         </FillDiv>

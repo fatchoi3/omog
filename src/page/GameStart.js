@@ -6,6 +6,7 @@ import useSocket from "../hook/useSocket";
 import Game2 from "../components/Game/Game2";
 import Game3 from "../components/Game/Game3";
 import Game5 from "../components/Game/Game5";
+import styled from "styled-components";
 
 const GameStart = (props) => {
   const dispatch = useDispatch();
@@ -34,24 +35,29 @@ const GameStart = (props) => {
 
   if (timetime === 2) {
     return (
-      <>
+      <Container>
         <Game2 gameNum={gameNum} socket={socket} />
-      </>
+      </Container>
     );
   }
   if (timetime === 3) {
     return (
-      <>
+      <Container>
         <Game3 gameNum={gameNum} socket={socket} />
-      </>
+      </Container>
     );
   }
   if (timetime === 5) {
     return (
-      <>
+      <Container>
         <Game5 gameNum={gameNum}  socket={socket}/>
-      </>
+      </Container>
     );
   }
 };
+const Container =styled.div`
+width : 100vw;
+height : 100vh;
+box-sizing : border-box;
+`;
 export default GameStart;
