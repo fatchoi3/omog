@@ -20,8 +20,8 @@ const MainFooter = () => {
   const leader_board = useSelector((state) => state.user.leader_board);
   const userId = localStorage.getItem("userId");
   const [modalOpen, setModalOpen] = useState(false);
-  const [isUser, setUser] = useState(false);
-  const [isRank, setRank] = useState(false);
+  const [isUser, setUser] = useState(true);
+  const [isRank, setRank] = useState(true);
 
   const toggleUser = () => {
     setUser(isUser => !isUser); // on,off 개념 boolean
@@ -75,7 +75,7 @@ const toggleRank = () => {
           접속 유저
         </Text>
       
-        <Text is_cursor is_margin="0 0 0 2.34vw " _onClick={()=>{toggleUser()}}>▽</Text>
+        <Text is_size="20px" is_cursor is_margin="0 0 0 2.34vw " _onClick={()=>{toggleUser()}}>▽</Text>
         
       </UserS>
       {isUser?<UserContents>
@@ -110,7 +110,7 @@ const toggleRank = () => {
             <Text is_bold  is_margin="0 1.17vw 0 0 " >
               오늘의 랭킹
             </Text>
-            <Text is_cursor is_margin="0 0 0 2.34vw " _onClick={()=>{toggleRank()}}>▽</Text>
+            <Text is_size="20px" is_cursor is_margin="0 0 0 2.34vw " _onClick={()=>{toggleRank()}}>▽</Text>
        </RankingTitle>
        
       {isRank?
@@ -183,7 +183,7 @@ const toggleRank = () => {
         is_background="transparent"
         is_cursor
         _onClick={() => {
-          window.open("https://forms.gle/AxysJH5XHe66kKDn8", "_blank");
+          window.open("https://forms.gle/gguMZCKJ9PkjoDiK9", "_blank");
         }}
       >
         <BannerImg src={Banner} />
@@ -197,7 +197,7 @@ const toggleRank = () => {
 const Container = styled.div`
   display: flex;
   width: 87.87vw;
-  margin : 1.5vw 0 0 3.51vw;
+  margin : 1vw 0 0 3.51vw;
 `;
 const UserS = styled.div`
   width: 19.63vw;
@@ -220,12 +220,13 @@ const UserContents = styled.div`
     display: none;
   }
   border-radius: 0.59vw;
-  box-shadow: 0vw 0.23vw 0.59vw 0.23vw rgba(0, 0, 0, 0.25);
+  box-shadow: -0.29vw 0.29vw 0.23vw 0vw rgba(0, 0, 0, 0.25);
 `;
 const UserContent = styled.div`
   height: 1.76vw;
   display: flex;
   margin: 0.35vw;
+  
 `;
 const Userurl = styled.div`
   height: 1.17vw;
