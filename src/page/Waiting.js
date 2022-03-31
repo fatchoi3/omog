@@ -6,7 +6,6 @@ import io from "socket.io-client";
 import WaitChat from '../components/Wait/WaitChat';
 import WaitingUsers from '../components/Wait/WaitingUsers';
 import Spinner from '../elements/Spinner';
-import GameStartTimer from '../components/Wait/GameStartTimer';
 
 
 function Waiting(props) {
