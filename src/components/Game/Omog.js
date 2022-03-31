@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Text } from "../../elements";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as gameActions } from "../../redux/modules/game";
+import Swal from "sweetalert2";
 import GameEnd from "./GameEnd";
 
 const Omog = memo(
@@ -351,7 +352,11 @@ const Omog = memo(
     useEffect(() => {
       socket.on("omog", (data, checkSamsam, state) => {
         if (checkSamsam === 0 && userInfo.state === state) {
-          alert("금수입니다!!");
+          Swal.fire({
+            title: '금수입니다!!',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+          });
           return;
         }
         if (checkSamsam === 0) {

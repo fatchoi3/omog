@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
+import Swal from 'sweetalert2';
 
 import { Button, Text } from "../elements/index";
 import Roomlist from "../components/Roomlist";
@@ -8,7 +9,7 @@ import MainFooter from "../components/MainFooter";
 import Spinner from "../elements/Spinner";
 import RoomMake from "../components/RoomMake";
 import useInput from "../hook/useInput";
-
+import GameInfo from "../components/GameInfo";
 
 
 import Time from "../pictures/Time.png";
@@ -28,6 +29,7 @@ const Main = () => {
 
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
+  const [infoOpen, setInfo]= useState(false);
   const [roomaName, onChangeRoomaName, setRoomaName] = useInput("");
   const [roomNum, onChangeRoomNum, setRoomNum] = useInput("");
   const [state, setState] = useState("2 : 00");
@@ -52,11 +54,24 @@ const Main = () => {
   const closeModal = () => {
     setModalOpen(false);
   };
+  //모달창켜기
+  const openInfo = () => {
+    setInfo(true);
+  };
+
+  //모달창끄리
+  const closeInfo = () => {
+    setInfo(false);
+  };
 
   //방만들어 입장
   const enterWaiting = () => {
     if ((roomaName === "" || state === "")||color==="") {
-      alert("모두 채워주세요");
+      Swal.fire({
+        title: '모두 채워주세요!',
+        icon: 'info',
+        confirmButtonText: 'Ok'
+      });
       return;
     }
     dispatch(roomActions.addRoomDB(roomaName, state,color));
@@ -64,7 +79,11 @@ const Main = () => {
 
   const enterNum = () => {
     if (roomNum === "") {
-      alert("비어있습니다");
+      Swal.fire({
+        title: '모두 채워주세요!',
+        icon: 'info',
+        confirmButtonText: 'Ok'
+      })
       return;
     }
     dispatch(roomActions.numJoinDB({ id: userId, roomNum: roomNum }));
@@ -163,6 +182,13 @@ const Main = () => {
               <Text is_size="1.76vw" is_margin="0.59vw 0 0 0.35vw" is_bold>
                 게임방
               </Text>
+              <Text is_size="1.17vw" is_margin="0.59vw 0 0 2.93vw" is_bold is_cursor _onClick={()=>{openInfo()}} >
+                 게임 방법?
+                 </Text>
+              <GameInfo
+               open={infoOpen}
+               close={closeInfo}
+              />
             </ListTip>
             <RoomFind>
               <Text

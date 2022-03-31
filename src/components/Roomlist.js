@@ -1,6 +1,7 @@
 import { React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import Swal from 'sweetalert2';
 
 import { Text, Button } from "../elements/index";
 import RoomEnter from "./RoomEnter";
@@ -27,12 +28,20 @@ const Roomlist = () => {
   };
   const joinWaiting = () => {
     if (!room_info.roomNum) {
-      alert("없는 방입니다~!");
+      Swal.fire({
+        title: '방이 없어요!',
+        icon: 'info',
+        confirmButtonText: 'Ok'
+      });
       window.location.reload();
       return;
     }
     if (state === "") {
-      alert("선택해주세요~~!");
+      Swal.fire({
+        title: '팀을 선택해주세요!',
+        icon: 'warning',
+        confirmButtonText: 'Ok'
+      });
       return;
     }
 
@@ -199,6 +208,7 @@ const Table = styled.table`
   border-radius: 0.88vw 0.88vw 0 0;
   background-color: white;
   border-bottom: 0.18vw solid black;
+  font-size:0.94vw;
 `;
 const Thead = styled.thead`
   background-color: #94d7bb;

@@ -1,7 +1,7 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import api from "../../api/api";
-
+import Swal from 'sweetalert2';
 // initialState
 const initialState = {
   list: [
@@ -104,7 +104,11 @@ const addRoomDB = (roomName, timer ,color) => {
         history.push(`/waiting/${response.data.roomNum}`);
       })
       .catch((error) => {
-        window.alert("방생성 실패!");
+        Swal.fire({
+          title: '방 생성 실패했어요!',
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        });
         console.log(error);
       });
   };
@@ -121,7 +125,11 @@ const joinRoomDB = (room) => {
         history.push(`/waiting/${room.roomNum}`);
       })
       .catch((error) => {
-        alert("방 입장 실패하셨습니다.");
+        Swal.fire({
+          title: '방 입장 실패했어요!',
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        });
         console.log(error);
       });
   };
@@ -163,7 +171,11 @@ const quickStartPlayer = (id) => {
         history.push(`/waiting/${response.data.roomNum}`);
       })
       .catch((error) => {
-        alert("방이 없습니다!");
+        Swal.fire({
+          title: '방이 없습니다!',
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        });
         console.log(error.message);
       });
   };
@@ -179,7 +191,11 @@ const quickStartObserver = (id) => {
         history.push(`/waiting/${response.data.roomNum}`);
       })
       .catch((error) => {
-        alert("방이 없습니다!");
+        Swal.fire({
+          title: '방이 없습니다!',
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        });
         console.log(error);
       });
   };
@@ -196,8 +212,11 @@ const numJoinDB = (data) => {
         history.push(`/waiting/${response.data.roomNum}`);
       })
       .catch((error) => {
-        alert("방이 없습니다!");
-        // window.alert("방참가 실패!");
+        Swal.fire({
+          title: '방이 없습니다!',
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        });
         console.log(error.message);
       });
   };
