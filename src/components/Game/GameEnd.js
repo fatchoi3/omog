@@ -13,8 +13,8 @@ const GameEnd = (props) => {
         <OpenModal>
           <Section>
             <Main>
-                <Text is_size="5.86vw" is_color="white" is_margin="5.86vw 0 0 0">{winner}</Text>
-                <Text is_color="white" is_margin="5.86vw 0 0 0"> 잠시 후 결과페이지로 넘어갑니다 </Text>
+                <Text is_size="100px" is_color="white" is_margin="100px 0 0 0">{winner}</Text>
+                <Text is_color="white" is_margin="100px 0 0 0"> 잠시 후 결과페이지로 넘어갑니다 </Text>
                 </Main>
           </Section>
         </OpenModal>
@@ -42,20 +42,20 @@ to {
 }
 `;
 const Section = styled.div`
-  width: 23.43vw;
-  height: 14.65vw;
+  width: 400px;
+  height: 250px;
   max-width: 58.58vw;
   max-height: 52.72vw;
   border: 0.12vw solid black;
   border-radius: 1.4rem;
   background-color: rgba(0, 0, 0, 0.2);
-  margin : 1.17vw 0 0 23.43vw;
+  margin : 20px 0 0 400px;
   animation: ${modal_show} 0.3s;
   overflow: hidden;
 `;
 const Main = styled.main`
-  width: 23.43vw;
-  height: 14.65vw;
+  width: 400px;
+  height: 250px;
   margin: 0 auto;
 `;
 
