@@ -10,7 +10,6 @@ import OmokEx5 from '../../pictures/omokex5.svg';
 import OmokEx6 from '../../pictures/omokex6.svg';
 
 
-
 function LoginPageSlider({ handleExplainModal }) {
     const images = [OmokEx1, OmokEx2, OmokEx3, OmokEx4, OmokEx5, OmokEx6]
 

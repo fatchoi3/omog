@@ -27,6 +27,7 @@ const SignupModal = forwardRef(({ closeSignupModal, visible }, modalEl) => {
     const slideRef = useRef(null);
 
     const [id, setId] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");
 
@@ -36,6 +37,10 @@ const SignupModal = forwardRef(({ closeSignupModal, visible }, modalEl) => {
 
     const handleIdInput = (e) => {
         setId(e.target.value);
+    }
+
+    const handleEmailInput = (e) => {
+        setEmail(e.target.value);
     }
 
     const handlePasswordInput = (e) => {
@@ -58,6 +63,10 @@ const SignupModal = forwardRef(({ closeSignupModal, visible }, modalEl) => {
         let _reg = /^[A-Z0-9a-z]{2,11}$/g;
         return _reg.test(id);
     }
+    const emailCheck = (email) => {
+        let regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+        return regEmail.test(email);
+    }
 
     const handleSignup = (e) => {
         e.preventDefault();
@@ -67,7 +76,7 @@ const SignupModal = forwardRef(({ closeSignupModal, visible }, modalEl) => {
             return;
         }
 
-        if (id === '' || password === '' || passwordConfirm === '') {
+        if (id === '' || email === '' || password === '' || passwordConfirm === '') {
             alert('입력하지 않은 칸이 있습니다!');
             return;
         }
@@ -77,7 +86,12 @@ const SignupModal = forwardRef(({ closeSignupModal, visible }, modalEl) => {
             return;
         }
 
-        dispatch(userActions.signupDB(id, password, passwordConfirm, pickIndex))
+        if (emailCheck(email) === false) {
+            alert('이메일 형식이 올바르지 않습니다.');
+            return;
+        }
+
+        dispatch(userActions.signupDB(id, email, password, passwordConfirm, pickIndex))
             .then(() => {
                 closeSignupModal()
             })
@@ -96,9 +110,10 @@ const SignupModal = forwardRef(({ closeSignupModal, visible }, modalEl) => {
                     <h2>회원가입</h2>
                 </div>
                 <div className="signup_modal_input_box" style={{ position: "relative" }}>
-                    <Input is_width="80%" is_max_width="20rem" is_margin="0 0 20px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="아이디 : 2~12자, 영문 혹은 영문+숫자" is_outline="none" _onChange={handleIdInput} />
-                    <Input is_width="80%" is_max_width="20rem" is_margin="20px 0 20px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="비밀번호" type="password" is_outline="none" _onChange={handlePasswordInput} />
-                    <Input is_width="80%" is_max_width="20rem" is_margin="20px 0 40px 0" is_padding="0 5px" is_height="30px" is_border="none" is_border_bottom="1px solid black" placeholder="비밀번호 확인" type="password" is_outline="none" _onChange={handlePasswordConfirmInput} />
+                    <input type="text" placeholder="아이디 : 2~12자, 영문 혹은 영문+숫자" onChange={handleIdInput} />
+                    <input type="email" placeholder="이메일" onChange={handleEmailInput} />
+                    <input type="password" placeholder="비밀번호" onChange={handlePasswordInput} />
+                    <input type="password" placeholder="비밀번호 확인" onChange={handlePasswordConfirmInput} />
                     <div style={{ width: "80%", display: "flex", justifyContent: "space-around" }}>
                         <span>프로필 사진</span>
                         <button onClick={handleIconModal}>변경</button>
@@ -116,7 +131,6 @@ const SignupModal = forwardRef(({ closeSignupModal, visible }, modalEl) => {
 
                     <Button
                         is_width="13rem"
-                        is_margin="10px 0 0 0"
                         is_size="18px"
                         is_height="50px"
                         is_radius="10px"
@@ -179,6 +193,18 @@ const SignupModalOverlay = styled.div`
             align-content: center;
             align-items: center;
             justify-content: center;
+            row-gap: 20px;
+
+            > input {
+                font-size: 14px;
+                width: 80%;
+                max-width: 20rem;
+                padding: 0 5px;
+                line-height: 30px;
+                border: none;
+                border-bottom: 1px solid #000;
+                outline: none;
+            }
         }
     }
 `

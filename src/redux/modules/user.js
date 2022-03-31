@@ -107,8 +107,9 @@ const getLeaderBorad = createAction(GET_LEADER_BOARD, (leader_board) => ({
 }));
 const logout = createAction(LOG_OUT, (user) => ({ user }));
 const clearOne = createAction(CLEAR_STATE);
+
 // middleware actions
-const signupDB = (id, password, passwordConfirm, pickIndex) => {
+const signupDB = (id, email, password, passwordConfirm, pickIndex) => {
   return async function (dispatch, getState, { history }) {
     try {
       const res = await api.post(
@@ -116,6 +117,7 @@ const signupDB = (id, password, passwordConfirm, pickIndex) => {
 
         {
           id: id,
+          email: email,
           pass: password,
           confirmPass: passwordConfirm,
           profileImage: pickIndex + 1,

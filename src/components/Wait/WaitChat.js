@@ -105,7 +105,7 @@ function WaitChat({ socket, roomNum }) {
                                     <Text is_margin="5px 5px" is_size="14px" is_bold="600" is_line_height="16.8px">{messageContent.nickname}</Text>
                                 </MessageMeta>
                                 <MessageContent isMyMessage={isMyMessage}>
-                                    <Text is_padding="3px" is_margin="3px" >{messageContent.chat}</Text>
+                                    <Text is_padding="3px" is_size="18px" is_margin="3px" is_line_height="21.6px" >{messageContent.chat}</Text>
                                 </MessageContent>
                             </div>
                         </MessageBox>

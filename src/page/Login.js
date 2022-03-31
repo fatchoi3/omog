@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { actionCreators as userActions } from '../redux/modules/user';
 
 import Logo from '../pictures/omokjomok.svg';
-import { Text, Input, Button } from '../elements';
+import { Text } from '../elements';
 
 import profile1 from '../pictures/omok-profile1.svg';
 import profile2 from '../pictures/omok-profile2.svg';
@@ -148,8 +148,8 @@ function Login(props) {
                             로그인
                         </button>
                     </div>
-                    <div className="signup_to_box">
-                        <Text is_color="#616161" is_cursor="pointer" _onClick={handleSignupModal}>회원가입 하러가기</Text>
+                    <div className="signup_box">
+                        <p onClick={handleSignupModal}>회원가입 하러가기</p>
                     </div>
                 </div>
             </LoginInputContainer>
@@ -167,7 +167,7 @@ const LoginPageContainer = styled.div`
 
 const LoginInputContainer = styled.div`
     box-sizing: border-box;
-    width: 100%;
+    width: 100vw;
 
     > div {
         display:flex;
@@ -177,7 +177,7 @@ const LoginInputContainer = styled.div`
         transform:translate(-50%, -50%);
         flex-direction: column;
         box-sizing: border-box;
-        row-gap: 30px;
+        row-gap: 20px;
 
         > div:nth-child(1){
             display: flex;
@@ -189,7 +189,7 @@ const LoginInputContainer = styled.div`
 
             > input:nth-child(1){
                 padding: 3px;
-                font-size: 14px;
+                font-size: 16px;
                 line-height: 16.8px;
                 border: none;
                 border-bottom: 2px solid black;
@@ -197,7 +197,7 @@ const LoginInputContainer = styled.div`
             }
 
             > input:nth-child(2){
-                font-size: 14px;
+                font-size: 16px;
                 line-height: 16.8px;
                 padding: 3px;
                 border:none;
@@ -219,6 +219,13 @@ const LoginInputContainer = styled.div`
         > div:nth-child(2){
             display: flex;
             justify-content: center;
+
+            > p {
+                font-size: 16px;
+                line-height: 16.8px;
+                color: #616161;
+                cursor: pointer;
+            }
         }
     }
 `

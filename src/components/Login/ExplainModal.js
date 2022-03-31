@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 import ExplainSlider from './ExplainSlider';
-import { Button } from '../../elements';
 
 function ExplainModal({ handleExplainModal }) {
     return (
@@ -32,7 +31,6 @@ const ExplainContainer = styled.div`
         display: flex;
         background: white;
         width: 100%;
-        /* min-width: 330px; */
         height: 100vh;
         box-shadow: rgb(0 0 0 / 9%) 0px 2px 12px 0px;
 
@@ -41,7 +39,6 @@ const ExplainContainer = styled.div`
             width: 100%;
             height: auto;
             margin: 0 auto;
-            /* padding: 50px 0; */
             flex-direction: column;
             align-items: center;
             justify-content: center;

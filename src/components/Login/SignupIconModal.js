@@ -18,9 +18,11 @@ function SignupIconModal({ handleIconSelect }) {
 
     return (
         <IconModalContainer>
-            {icons.map((i, idx) => {
-                return <img key={idx} src={i} alt="아이콘 선택하기" className={`icon_list_${idx}`} onClick={handleIconSelect} />
-            })}
+            <IconListBox>
+                {icons.map((i, idx) => {
+                    return <img key={idx} src={i} alt="아이콘 선택하기" className={`icon_list_${idx}`} onClick={handleIconSelect} />
+                })}
+            </IconListBox>
         </IconModalContainer>
     );
 }
@@ -28,17 +30,44 @@ function SignupIconModal({ handleIconSelect }) {
 const IconModalContainer = styled.div`
     position: absolute;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
     align-items: center;
-    padding: 5px;
+    justify-content: center;
+    flex-direction: column;
+    border: 2px solid #000000;
+    border-radius: 14px;
+    background: #94D7BB;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    padding: 17px 0;
     height: 10rem;
 
-    background: #94D7BB;
-    border: 2px solid #000000;
-    box-sizing: border-box;
-    border-radius: 14px;
-    
+    @media only screen and (max-width: 600px) {
+        position: static;
+        width: 100%;
+        margin: 20px 0;
+    }
+
+    @media only screen and (min-width: 600px) {
+        position: static;
+        width: 100%;
+        margin: 20px 0;
+    }
+
+    @media only screen and (min-width: 1200px){
+        position: absolute;
+        left: 23rem;
+        top: 14rem;
+        width: 20rem;
+        margin: 0;
+    }
+`
+
+
+const IconListBox = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
     > img {
         width: 40px;
         height: 40px;
@@ -50,24 +79,7 @@ const IconModalContainer = styled.div`
         }
     }
     
-@media only screen and (max-width: 600px) {
-    position: static;
-    width: 100%;
-    margin: 20px 0;
-}
 
-@media only screen and (min-width: 600px) {
-    position: static;
-    width: 100%;
-    margin: 20px 0;
-}
-
-@media only screen and (min-width: 1200px){
-    position: absolute;
-    left: 23rem;
-    top: 14rem;
-    width: 20rem;
-}
 `
 
 export default SignupIconModal;
