@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
-import { Text, Input, Button } from '../../elements';
+import { Text, Button } from '../../elements';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
@@ -83,28 +83,16 @@ function WaitChat({ socket, roomNum }) {
     return (
         <ChattingWindow>
             <ChattingHeader>
-                <Text
-                    is_size="1.6rem"
-                    is_center="left"
-                    is_margin="13px 22px"
-                    is_line_height="30px"
-                >
-                    실시간 채팅
-                </Text>
-                <Button
-                    is_size="1.5rem"
-                    is_width="40%"
-                    is_border="none"
-                    is_radius="0 14px 0 0"
-                    is_line_height="31px"
-                    is_color="black"
-                    is_weight="600"
-                    is_background="#94D7BB"
-                    _onClick={exitWaiting}
-                    is_hover="inset -5em 0 0 0 red, inset 5em 0 0 0 red"
-                >
-                    나가기&#9654;
-                </Button>
+                <div>
+                    <span>
+                        실시간 채팅
+                    </span>
+                </div>
+                <div>
+                    <button onClick={exitWaiting}>
+                        나가기 &gt;
+                    </button>
+                </div>
             </ChattingHeader>
             <ChattingContent ref={scrollRef}>
                 {messageList.map((messageContent, idx) => {
@@ -142,8 +130,8 @@ const ChattingWindow = styled.div`
     width: 100%;
     min-width: 20rem;
     max-width: 350px;
-    height: 50vh;
-    min-height: 32rem;
+    height: calc(100vh - 40px);
+    max-height: 50rem;
     background: white;
     border: 2px solid black;
     border-radius: 14px;
@@ -157,18 +145,41 @@ const ChattingWindow = styled.div`
 const ChattingHeader = styled.div`
     display: flex;
     height: 57px;
+    padding: 0 15px;
     border-radius: 14px 14px 0 0;
     background: #94D7BB;
     color: white;
     justify-content: space-between;
+    align-items: center;
     box-sizing: border-box;
+
+    >div:nth-child(1) {
+        >span {
+            color: #fff;
+            font-size: 18px;
+            line-height: 21.6px;
+        }
+    }
+
+    >div:nth-child(2) {
+        >button {
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 21.6px;
+            background-color: #94D7BB;
+            border: none;
+            cursor: pointer;
+        }
+    }
 `
 
 const ChattingInputForm = styled.form`
     width: 100%;
     box-sizing: border-box;
     display: flex;
-    border-top: 1px solid #D1D1D1;
+    border-top: 2px solid #000;
+    border-radius: 0;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
     height: 50px;
     overflow: hidden;
 
@@ -190,6 +201,7 @@ const ChattingInputForm = styled.form`
         border: none;
         border-radius: 0 0 14px 0;
         transition: 0.25s;
+        background-color: #fff;
 
         &:hover {
             box-shadow: 
@@ -210,7 +222,7 @@ const ChattingContent = styled.div`
 const MessageBox = styled.div`
     display: flex;
     justify-content: ${props => props.isMyMessage === true ? "flex-end" : "flex-start"};
-    margin: ${props => props.isMyMessage === true ? "5px 27px 5px 0" : "5px 0 5px 27px"};
+    margin: ${props => props.isMyMessage === true ? "5px 24px 5px 0" : "5px 0 5px 24px"};
 `;
 
 const MessageContent = styled.div`
