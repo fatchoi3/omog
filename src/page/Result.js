@@ -60,11 +60,11 @@ function Result(props) {
         history.push(`/main`);
     }
 
-    useEffect(() => {
-        let timer = setTimeout(() => { dispatch(gameActions.getGameResultDB(userId, result.gameNum, result.result)) }, 1000);
+    // useEffect(() => {
+    //     let timer = setTimeout(() => { dispatch(gameActions.getGameResultDB(userId, result.gameNum, result.result)) }, 1000);
 
-        return () => { clearTimeout(timer) }
-    }, [result, dispatch])
+    //     return () => { clearTimeout(timer) }
+    // }, [result, dispatch])
 
     useEffect(() => {
         let timer = setTimeout(() => {
