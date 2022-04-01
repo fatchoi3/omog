@@ -33,16 +33,15 @@ function Login(props) {
 
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
-    const [modalVisible, setModalVisible] = useState(false);
+    const [signupModal, setSignupModal] = useState(false);
     const [explainModal, setExplainModal] = useState(true);
     const [passModal, setPassModal] = useState(false);
-    const [newPass, setNewPass] = useState(true);
+    const [newPass, setNewPass] = useState(false);
 
     const icons = [profile1, profile2, profile3, profile4, profile5, profile6, profile7, profile8, profile9, profile10, profile11];
     const [pickers, setPickers] = useState([]);
     const [pickIndex, setPickIndex] = useState(0);
     const passUserCheck = useSelector(state => state.user.findPassCheck);
-
 
 
     const handleIdInput = (e) => {
@@ -71,11 +70,10 @@ function Login(props) {
     }
 
     const handleSignupModal = () => {
-        alert("이메일을 제대로 입력해주셔야 경품을 보내드립니다!!!")
-        if (modalVisible === false) {
-            setModalVisible(true);
+        if (signupModal === false) {
+            setSignupModal(true);
         } else {
-            setModalVisible(false);
+            setSignupModal(false);
         }
     }
 
@@ -88,9 +86,9 @@ function Login(props) {
     }
 
     const handleClickOutside = ({ target }) => {
-        if (modalVisible && (!modalEl.current || !modalEl.current.contains(target))) {
+        if (signupModal && (!modalEl.current || !modalEl.current.contains(target))) {
             console.log(modalEl.current.contains(target))
-            setModalVisible(false);
+            setSignupModal(false);
         }
 
         if (passModal && (!passModalEl.current || !passModalEl.current.contains(target))) {
@@ -138,7 +136,7 @@ function Login(props) {
         return () => {
             window.removeEventListener("click", handleClickOutside);
         };
-    }, [modalVisible]);
+    }, [signupModal]);
 
     useEffect(() => {
         window.addEventListener("click", handleClickOutside);
@@ -150,20 +148,14 @@ function Login(props) {
 
     return (
         <LoginPageContainer>
-            {explainModal &&
-                <ExplainModal handleExplainModal={handleExplainModal} />
-            }
-            {modalVisible &&
-                <SignupModal visible={modalVisible} handleSignupModal={handleSignupModal} setModalVisible={setModalVisible} ref={modalEl} />
-            }
-
-            {passModal &&
-                <PassSearchModal visible={passModal} handlePassSearchModal={handlePassSearchModal} setPassModal={setPassModal} ref={passModalEl} />
-            }
+            <ExplainModal visible={explainModal} handleExplainModal={handleExplainModal} />
+            <SignupModal visible={signupModal} handleSignupModal={handleSignupModal} setModalVisible={setSignupModal} ref={modalEl} />
+            <PassSearchModal visible={passModal} setPassModal={setPassModal} setNewPass={setNewPass} ref={passModalEl} />
 
             {passUserCheck &&
-                <NewPassModal visible={newPass} setNewPass={setNewPass} />
+                <NewPassModal setNewPass={setNewPass} />
             }
+
             <LogoBox>
                 <img src={Logo} alt="로고" />
             </LogoBox>
@@ -216,37 +208,80 @@ const LoginInputContainer = styled.div`
         > div:nth-child(1){
             display: flex;
             flex-direction: column;
-            width: 230px;
+            width: 30vmax;
             margin: 0 auto;
             text-align: center;
             row-gap: 30px;
 
-            > input:nth-child(1){
-                padding: 3px;
-                font-size: 16px;
-                line-height: 16.8px;
-                border: none;
-                border-bottom: 2px solid black;
-                outline: none;
-            }
+                @media only screen and (max-width: 600px) {
+                    width: 30vmax;
+                }
 
-            > input:nth-child(2){
-                font-size: 16px;
-                line-height: 16.8px;
-                padding: 3px;
-                border:none;
-                border-bottom: 2px solid black;
-                outline: none;
-            }
+                @media only screen and (min-width: 600px) {
+                    width: 30vmax;
+                }
+                
+                @media only screen and (min-width: 1280px) {
+                    width: 20vmax;
+                }
+
+                > input {
+                    padding: 3px;
+                    border:none;
+                    border-bottom: 2px solid black;
+                    outline: none;
+
+                    &::placeholder {
+                        color: #B1B1B1;
+                    }
+
+                    @media only screen and (max-width: 600px) {
+                        font-size: 3vmax;
+                        line-height: 3.2vmax;
+                    }
+
+                    @media only screen and (min-width: 600px) {
+                        font-size: 2.5vmax;
+                        line-height: 2.7vmax;
+                    }
+
+                    @media only screen and (min-width: 992px) {
+                        font-size: 1.8vmax;
+                        line-height: 2vmax;
+                    }
+
+                    @media only screen and (min-width: 1280px) {
+                        font-size: 1.5vmax;
+                        line-height: 1.7vmax;
+                    }
+                }
 
             > button {
                 padding: 14px 0;
-                font-size: 18px;
                 font-weight: 400;
-                line-height: 21.6px;
                 border-radius: 14px;
                 background-color: #94D7BB;
                 cursor: pointer;
+
+                @media only screen and (max-width: 600px) {
+                    font-size: 3.2vmax;
+                    line-height: 3.4vmax;
+                }
+
+                @media only screen and (min-width: 600px) {
+                    font-size: 2.7vmax;
+                    line-height: 2.9vmax;
+                }
+
+                @media only screen and (min-width: 992px) {
+                    font-size: 2vmax;
+                    line-height: 2.2vmax;
+                }
+                
+                @media only screen and (min-width: 1280px) {
+                    font-size: 1.7vmax;
+                    line-height: 1.9vmax;
+                }
             }
         }
 
@@ -259,10 +294,28 @@ const LoginInputContainer = styled.div`
 
             > p {
                 margin: 0;
-                font-size: 16px;
-                line-height: 16.8px;
                 color: #616161;
                 cursor: pointer;
+
+                @media only screen and (max-width: 600px) {
+                    font-size: 2.7vmax;
+                    line-height: 2.9vmax;
+                }
+
+                @media only screen and (min-width: 600px) {
+                    font-size: 2.2vmax;
+                    line-height: 2.4vmax;
+                }
+
+                @media only screen and (min-width: 992px) {
+                    font-size: 1.7vmax;
+                    line-height: 1.9vmax;
+                }
+
+                @media only screen and (min-width: 1280px) {
+                    font-size: 1.2vmax;
+                    line-height: 1.4vmax;
+                }
             }
         }
     }
@@ -276,7 +329,22 @@ const LogoBox = styled.div`
 
     >img {
         height: auto;
-        width: 15rem
+
+        @media only screen and (max-width: 600px) {
+            width: 30vmax;
+        }
+
+        @media only screen and (min-width: 600px) {
+            width: 30vmax;
+        }
+
+        @media only screen and (min-width: 992px) {
+            width: 23vmax;
+        }
+
+        @media only screen and (min-width: 1280px) {
+            width: 15vmax;
+        }
     }
 `
 
