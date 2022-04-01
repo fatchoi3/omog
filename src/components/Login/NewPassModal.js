@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { actionCreators as userActions } from '../../redux/modules/user';
 
 
-const NewPassModal = (({ visible, setNewPass }) => {
+const NewPassModal = (({ setNewPass }) => {
     const dispatch = useDispatch();
     const [id, setId] = useState("");
     const [email, setEmail] = useState("");
@@ -29,10 +29,11 @@ const NewPassModal = (({ visible, setNewPass }) => {
     }
 
     const closeModal = () => {
-        setNewPass(false);
+        dispatch(userActions.findPassCheck(false));
     }
 
-    const newPassUpdate = () => {
+    const newPassUpdate = (e) => {
+        e.preventDefault();
         if (id === "" || email === "" || pass === "" || confirmPass === "") {
             alert("입력하지 않은 칸이 있습니다.");
             return;
@@ -48,7 +49,7 @@ const NewPassModal = (({ visible, setNewPass }) => {
 
 
     return (
-        <PassSeachOverlay visible={visible}>
+        <PassSeachOverlay>
             <div className="search__box" tabIndex="-1">
                 <div onClick={closeModal}>
                     <span>&#10005;</span>
@@ -76,7 +77,7 @@ const PassSeachOverlay = styled.div`
     left: 0;
     width: 100%;
     height: 100vh;
-    display: ${props => props.visible ? "block" : "none"};
+    display: block;
     align-items: center;
     justify-content: center;
     background: rgba(0, 0, 0, 0.6);
