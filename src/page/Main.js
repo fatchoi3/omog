@@ -14,7 +14,7 @@ import GameInfo from "../components/GameInfo";
 
 import Time from "../pictures/Time.png";
 
-import useSocket from "../hook/useSocket";
+import useSocket from "../hook/useSocket2";
 
 import { useDispatch } from "react-redux";
 import { actionCreators as roomActions } from "../redux/modules/room";
@@ -336,6 +336,7 @@ const Main = () => {
                       id="2"
                       name="state"
                       value="3 : 00"
+                      checked={state === "3 : 00" ? "checked" : ""}
                       onChange={changeRadioQ1}
                     />
                     <RadioButtonLabel for="2">
@@ -442,7 +443,7 @@ const Container = styled.div`
   display: flex;
   width: 96.66vw;
   margin : 0 1.67vw 0;
-  padding-top : 1.5vw;
+  padding-top : 1.2vw;
   box-sizing : border-box;
 `;
 const UserInfoWrap = styled.div`
