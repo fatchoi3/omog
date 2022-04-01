@@ -211,8 +211,7 @@ const passwordSearchDB = (id, email) => {
       const res = await api.post("/findpass", { id: id, email: email })
       dispatch(findPassCheck(res.data.ok));
     } catch (error) {
-      console.log(error);
-      alert(`${error}`);
+      alert(`${error.response.data.errorMessage}`);
     }
   }
 }
@@ -223,6 +222,7 @@ const newPasswordDB = (id, email, password) => {
       const res = await api.post("/newPass", { id: id, email: email, newPass: password });
       console.log(res.data);
       alert("비밀번호가 변경되었습니다.");
+      dispatch(findPassCheck(false));
       history.replace('/');
     } catch (error) {
       console.log(error);

@@ -133,18 +133,23 @@ const Container = styled.div`
     background-color: white;
 
 @media only screen and (max-width: 600px) {
-    width: 30rem;
-    height: 30rem;
+    width: 70vmax;
+    height: 70vmax;
 }
 
 @media only screen and (min-width: 600px) {
-    width: 35rem;
-    height: 35rem;
+    width: 80vmax;
+    height: 80vmax;
 }
 
 @media only screen and (min-width: 992px) {
-    width: 40rem;
-    height: 40rem;
+    width: 80vmax;
+    height: 80vmin;
+}
+
+@media only screen and (min-width: 1280px) {
+    width: 80vmin;
+    height: 80vmin;
 }
 `;
 

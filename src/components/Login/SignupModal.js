@@ -3,9 +3,7 @@ import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 
 import { actionCreators as userActions } from '../../redux/modules/user';
-
 import Button from '../../elements/Button';
-import Input from '../../elements/Input';
 
 import profile1 from '../../pictures/omok-profile1.svg';
 import profile2 from '../../pictures/omok-profile2.svg';
@@ -203,6 +201,34 @@ const SignupModalOverlay = styled.div`
                 border: none;
                 border-bottom: 1px solid #000;
                 outline: none;
+
+                &::placeholder {
+                    color: #B1B1B1;
+                }
+
+                &:nth-child(2)::placeholder{
+                    color: red;
+                }
+
+                @media only screen and (max-width: 600px) {
+                    font-size: 1.8vmax;
+                    line-height: 2vmax;
+                }
+
+                @media only screen and (min-width: 600px) {
+                    font-size: 1.6vmax;
+                    line-height: 1.8vmax;
+                }
+
+                @media only screen and (min-width: 992px) {
+                    font-size: 1.2vmax;
+                    line-height: 1.4vmax;
+                }
+
+                @media only screen and (min-width: 1280px) {
+                    font-size: 1rem;
+                    line-height: 1.2rem;
+                }
             }
         }
     }

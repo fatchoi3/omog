@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { actionCreators as userActions } from '../../redux/modules/user';
 
 
-const PassSearchModal = forwardRef(({ visible, handlePassSearchModal, setPassModal }, passModalEl) => {
+const PassSearchModal = forwardRef(({ visible, setPassModal, setNewPass }, passModalEl) => {
     const dispatch = useDispatch();
     const [id, setId] = useState("");
     const [email, setEmail] = useState("");
@@ -27,7 +27,8 @@ const PassSearchModal = forwardRef(({ visible, handlePassSearchModal, setPassMod
 
         dispatch(userActions.passwordSearchDB(id, email))
             .then(() => {
-                handlePassSearchModal(setPassModal(false));
+                setPassModal(false);
+                setNewPass(true);
             })
     }
 

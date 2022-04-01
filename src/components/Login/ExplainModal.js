@@ -3,9 +3,9 @@ import styled from 'styled-components';
 
 import ExplainSlider from './ExplainSlider';
 
-function ExplainModal({ handleExplainModal }) {
+function ExplainModal({ visible, handleExplainModal }) {
     return (
-        <ExplainContainer>
+        <ExplainContainer visible={visible}>
             <div className="explain__wrap">
                 <div className="explain__wrap__modal">
                     <ExplainSlider handleExplainModal={handleExplainModal} />
@@ -21,7 +21,7 @@ const ExplainContainer = styled.div`
     left: 0;
     width: 100%;
     height: auto;
-    display: flex;
+    display: ${props => props.visible ? "flex" : "none"};
     align-items: center;
     justify-content: center;
     background: rgba(0, 0, 0, 0.3);
