@@ -431,7 +431,7 @@ const Main = () => {
     </>
   );
 };
-
+//
 const Getout = styled.div`
   width: 29.29vw;
   height: 17.57vw;
