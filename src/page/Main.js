@@ -336,6 +336,7 @@ const Main = () => {
                       id="2"
                       name="state"
                       value="3 : 00"
+                      checked={state === "3 : 00" ? "checked" : ""}
                       onChange={changeRadioQ1}
                     />
                     <RadioButtonLabel for="2">

@@ -183,7 +183,7 @@ const toggleRank = () => {
         is_background="transparent"
         is_cursor
         _onClick={() => {
-          window.open("https://forms.gle/gguMZCKJ9PkjoDiK9", "_blank");
+          window.open("https://forms.gle/5pS9MBLJbUVeemNW7", "_blank");
         }}
       >
         <BannerImg src={Banner} />

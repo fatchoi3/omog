@@ -4,9 +4,9 @@ import styled, { keyframes } from "styled-components";
 import Spinner from "../../elements/Spinner";
 import PlayerGame from "./PlayerGame";
 import ObserverGame from "./ObserverGame";
-
-import { Text } from "../../elements";
-import useSocket from "../../hook/useSocket";
+import ErrorModal from "./ErrorModal";
+import GameEnd from "./GameEnd";
+import { Button, Text } from "../../elements";
 
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../../redux/modules/user";
@@ -14,7 +14,12 @@ import { actionCreators as gameActions } from "../../redux/modules/game";
 
 const Game2 = memo((props) => {
   const dispatch = useDispatch();
+  
   const [spin, setsping] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [winner, setWinner] = useState("흑백");
+
   const userInfo = useSelector((state) => state.user.userInfo);
   const gameInfo = useSelector((state) => state.game.gameInfo);
   const userId = localStorage.getItem("userId");
@@ -28,11 +33,13 @@ const Game2 = memo((props) => {
       : false;
 
   const realGameInfo = gameInfo[0];
-const boardColorNum = gameInfo[1].boardColor;
-console.log("방 이름", gameInfo,is_player,boardColorNum);
+  const boardColorNum = gameInfo[1].boardColor;
+  console.log("방 이름", gameInfo,is_player,boardColorNum);
   const blackPlayer = realGameInfo.blackTeamPlayer[0];
   const whitePlayer = realGameInfo.whiteTeamPlayer[0];
+
   const Num = gameInfo[0].blackTeamObserver.length +gameInfo[0].whiteTeamObserver.length;
+  
   const [min, setMin] = useState(2);
   const [sec, setSec] = useState(0);
   const time = useRef(120);
@@ -43,7 +50,13 @@ console.log("방 이름", gameInfo,is_player,boardColorNum);
   const time2 = useRef(120);
   const timeout2 = useRef(null);
 
-  console.log("min", min);
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
 
   const timeOut = () => {
     timeout.current = setInterval(() => {
@@ -72,7 +85,9 @@ console.log("방 이름", gameInfo,is_player,boardColorNum);
   //시간 작동
   useEffect(() => {
     if (time.current < 0) {
-      console.log("타임 아웃1");
+      setWinner("흑돌 승");
+      setLoading(true);
+      let timer = setTimeout(() => {
       dispatch(
         gameActions.gameResultDB({
           result: { win: blackPlayer.id ,state : "blackPlayer"},
@@ -81,9 +96,12 @@ console.log("방 이름", gameInfo,is_player,boardColorNum);
         })
       );
       clearInterval(timeout.current);
+    }, 3000);
     }
     if (time2.current < 0) {
-      console.log("타임 아웃2");
+      setWinner("백돌 승");
+      setLoading(true);
+      let timer2 = setTimeout(() => {
       dispatch(
         gameActions.gameResultDB({
           result: { win: whitePlayer.id, state : "whitePlayer" },
@@ -92,12 +110,18 @@ console.log("방 이름", gameInfo,is_player,boardColorNum);
         })
       );
       clearInterval(timeout2.current);
+    }, 3000);
     }
   }, [sec, sec2]);
 
   return (
     <GameContainer>
-     <RoomTitle>
+      <GameEnd
+        open={loading}
+        winner={winner}
+          />
+     <AllTitle>
+      <RoomTitle>
         <Number>
           <Text is_size="20px" is_margin=" 20px 10px" is_bold>방 번호 {gameNum}</Text>
           
@@ -110,7 +134,30 @@ console.log("방 이름", gameInfo,is_player,boardColorNum);
       <Member> 
       <Text is_size="20px" is_margin=" 20px 10px" is_bold >관전자 수 {Num} 명</Text>
       </Member>
+      
       </RoomTitle>
+      <Button 
+      is_width="150px"
+      is_height= "50px"
+      is_margin="10px 0 0 50px"
+      is_size="16px"
+      is_border="none"
+      is_radius="15px"
+      is_cursor
+      is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB"
+      _onClick={
+        ()=>{
+          openModal()
+        }
+      }> 오류 보내기 </Button>
+          </AllTitle>
+          <ErrorModal
+          open={modalOpen} 
+          close={closeModal}
+          gameInfo={gameInfo}
+          gameNum={gameNum}
+          userInfo={userInfo}
+          />
       {spin ? <Spinner type={"page"} is_dim={true} width="200px" /> : ""}
       {is_player ? (
         <>
@@ -165,7 +212,7 @@ const RoomTitle = styled.div`
 border : 2px solid black;
 border-radius : 10px;
 display : flex;
-position : absolute;
+// position : absolute;
 width : 700px;
 margin : 2px 0 2px 10px;
 `;
@@ -184,5 +231,9 @@ border-left : 2px solid black;
 width: 200px;
 background-color : #f2f2f2;
 border-radius : 0 10px 10px 0;
+`;
+const AllTitle= styled.div`
+display : flex;
+position : absolute;
 `;
 export default Game2;

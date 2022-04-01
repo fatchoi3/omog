@@ -28,8 +28,9 @@ const Omog = memo(
     const [winner, setWinner] = useState("흑백");
 
     const boardColorNum = useSelector((state) => state.game.gameInfo[1].boardColor);
-    console.log("userInfo",userInfo);
-    console.log("boardColorNum",boardColorNum);
+    // console.log("userInfo",userInfo);
+    // console.log("winner",winner);
+    // console.log("loading",loading);
     const boardColorChoice= (num)=>{
       let answer1;
       let answer2;
@@ -66,7 +67,7 @@ const Omog = memo(
     }
     const boardColor =boardColorChoice(boardColorNum)[0];
     const boardLine =boardColorChoice(boardColorNum)[1];
-    console.log("boardColor",boardColor,boardLine);
+    // console.log("boardColor",boardColor,boardLine);
     const dispatch = useDispatch();
     const userid = localStorage.getItem("userId");
     const canvasRef = useRef(null);
@@ -310,7 +311,10 @@ const Omog = memo(
             console.log("흑 승");
             break;
           case 2:
+            setWinner("백돌 승");
+            setLoading(true);
             let timer2 = setTimeout(() => {
+             
               dispatch(
                 gameActions.gameResultDB({
                   result: { win: whitePlayer.id, state : "whitePlayer" },
@@ -344,7 +348,16 @@ const Omog = memo(
         drawCircle(X, Y);
       }
     }, [count, pointer]);
-
+const Timer1= useCallback(( a)=>{
+  clearInterval(a);
+  console.log("짠",a)
+  timeOut2();
+},[]);
+const Timer2= useCallback((a)=>{
+  clearInterval(a);
+  console.log("짠2",a)
+  timeOut();
+},[]);
     useEffect(() => {
       socket.on("omog", (data, checkSamsam, state) => {
         if (checkSamsam === 0 && userInfo.state === state) {
@@ -360,10 +373,14 @@ const Omog = memo(
         }
         console.log("오목 소켓 받기");
 
-        data.count % 2 == 0
-          ? clearInterval(timeout.current)
-          : clearInterval(timeout2.current);
-        data.count % 2 == 0 ? timeOut2() : timeOut();
+        data.count % 2 === 0
+          ?
+          // Timer1(timeout.current) 
+          clearInterval(timeout.current)
+          :
+          //  Timer2(timeout2.current)
+          clearInterval(timeout2.current);
+        data.count % 2 === 0 ? timeOut2() : timeOut();
 
         setBoard(data.board);
         setY(data.y);
@@ -399,9 +416,8 @@ const Omog = memo(
           omoging();
         }
       },
-      [userInfo.state],
-      pointer
-    );
+      [userInfo.state]
+      );
 
     useEffect(() => {
       socket.on("Pointer", (data, chat) => {
@@ -450,12 +466,12 @@ const Omog = memo(
           {is_player ? (
             <>
               <TimerWrapL count={count}>
-                <TimeStoneL>
+                <TimeStoneL min2={min2} sec2={sec2}>
                   <Text
                     is_bold
                     is_margin="auto 0"
-                    is_color={count % 2 == 0 ? "white" : "white"}
-                    is_size="25px"
+                    is_color={min2 === 0 && sec2 <= 15 ? "red" : "white"}
+                                        is_size="25px"
                   >
                     {min2}: {sec2}
                   </Text>
@@ -463,11 +479,11 @@ const Omog = memo(
               </TimerWrapL>
               <canvas ref={canvasRef} id="canvas" />
               <TimerWrapR count={count}>
-                <TimeStoneR>
+                <TimeStoneR min={min} sec={sec}>
                   <Text
                     is_bold
                     is_margin="auto 0"
-                    is_color={count % 2 == 0 ? "black" : "black"}
+                    is_color={min === 0 && sec <= 15 ? "red" : "black"}
                     is_size="25px"
                   >
                     {min}: {sec}

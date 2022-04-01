@@ -214,10 +214,10 @@ const Chatting = memo((props) => {
                 teachingChoice(e);
               }}
             >
-              <option defaultValue="채팅"> 채팅</option>
-              <option value="Text">플레이어에게</option>
-              <option value="Fly">날리기</option>
-              <option value="Pointer">점찍기</option>
+              <Option defaultValue="채팅"> 채팅</Option>
+              <Option value="Text">플레이어에게</Option>
+              <Option value="Fly">날리기</Option>
+              <Option value="Pointer">점찍기</Option>
             </TeachingSelect>
           )}
         </BottomWrap>
@@ -327,4 +327,9 @@ const Team = styled.div`
   margin: 5px 0;
   background-color: ${(props) => props.state};
 `;
+const Option = styled.option`
+width : 100px;
+height : 20px;
+font-size :20px;
+`
 export default Chatting;

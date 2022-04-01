@@ -9,7 +9,9 @@ import Game5 from "../components/Game/Game5";
 
 const GameStart = (props) => {
   const dispatch = useDispatch();
+
   let timetime = useSelector((state) => state.game.time);
+  
   const gameNum = props.match.params.roomNum;
   const userId = localStorage.getItem("userId");
   const [socket, disconnectSocket] = useSocket(
