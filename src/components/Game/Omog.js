@@ -416,6 +416,7 @@ const Timer2= useCallback((a)=>{
           userInfo.state === "blackPlayer"
         ) {
           omoging(SS);
+          console.log("SS",SS);
         }
       },
       []);
