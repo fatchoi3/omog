@@ -13,7 +13,7 @@ const GameStart = (props) => {
   let timetime = useSelector((state) => state.game.time);
   
   const gameNum = props.match.params.roomNum;
-  const userId = localStorage.getItem("userId");
+  const userId = sessionStorage.getItem("userId");
   const [socket, disconnectSocket] = useSocket(
     "https://haksae90.shop/game",
     gameNum,

@@ -14,7 +14,7 @@ function WaitingUsers({ socket, roomNum }) {
     console.log("대기방 유저 컴포넌트입니다. 몇 번 렌더링될까요?")
     const dispatch = useDispatch();
 
-    const userId = localStorage.getItem("userId");
+    const userId = sessionStorage.getItem("userId");
     const waitingPerson = useSelector((state) => state.room.userInfo);
     console.log(waitingPerson);
     const roomName = useSelector((state) => state.room.roomName);

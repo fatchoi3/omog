@@ -125,7 +125,7 @@ function Login(props) {
 
 
     useEffect(() => {
-        if (localStorage.getItem("token")) {
+        if (sessionStorage.getItem("token")) {
             alert("로그인 하셨습니다. 로비 페이지로 이동합니다.")
             history.push('/main')
         }

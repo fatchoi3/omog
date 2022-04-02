@@ -22,7 +22,7 @@ const Game2 = memo((props) => {
 
   const userInfo = useSelector((state) => state.user.userInfo);
   const gameInfo = useSelector((state) => state.game.gameInfo);
-  const userId = localStorage.getItem("userId");
+  const userId = sessionStorage.getItem("userId");
   const gameNum = props.gameNum;
   const socket =props.socket;
   const roomName = useSelector((state) => state.game.roomName);

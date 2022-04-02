@@ -8,7 +8,7 @@ import { actionCreators as roomActions } from '../../redux/modules/room';
 function WaitObserverList({ roomNum, socket }) {
     console.log("옵져버 컴포넌트입니다 몇 번 렌더링될까요?");
     const dispatch = useDispatch();
-    const userId = localStorage.getItem("userId")
+    const userId = sessionStorage.getItem("userId")
     const waitingPerson = useSelector((state) => state.room.userInfo);
 
     const blackObserverList = useSelector(state => state.room.blackObserverList);

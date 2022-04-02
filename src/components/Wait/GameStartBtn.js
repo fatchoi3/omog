@@ -9,7 +9,7 @@ import { actionCreators as roomActions } from '../../redux/modules/room';
 
 function GameStartBtn({ socket, roomNum }) {
     const dispatch = useDispatch();
-    const userId = localStorage.getItem("userId");
+    const userId = sessionStorage.getItem("userId");
 
     const waitingPerson = useSelector((state) => state.room.userInfo);
     const blackPlayer = useSelector(state => state.room.blackPlayer);

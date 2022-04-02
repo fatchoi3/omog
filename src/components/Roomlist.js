@@ -14,7 +14,7 @@ const Roomlist = () => {
 
   const room_list = useSelector((state) => state.room.list);
   const room_info = useSelector((state) => state.room.roomInfo);
-  const userId = localStorage.getItem("userId");
+  const userId = sessionStorage.getItem("userId");
   console.log("room_list", room_list);
 
   const openModal = () => {
