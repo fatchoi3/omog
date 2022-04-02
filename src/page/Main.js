@@ -339,7 +339,7 @@ const Main = () => {
                       checked={state === "3 : 00" ? "checked" : ""}
                       onChange={changeRadioQ1}
                     />
-                    <RadioButtonLabel for="2">
+                    <RadioButtonLabel htmlFor="2">
                       <Text is_size="1.46vw">3: 00</Text>
                     </RadioButtonLabel>
                   </div>

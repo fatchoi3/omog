@@ -314,7 +314,6 @@ const Omog = memo(
             setWinner("백돌 승");
             setLoading(true);
             let timer2 = setTimeout(() => {
-             
               dispatch(
                 gameActions.gameResultDB({
                   result: { win: whitePlayer.id, state : "whitePlayer" },
@@ -371,16 +370,16 @@ const Timer2= useCallback((a)=>{
         if (checkSamsam === 0) {
           return;
         }
-        console.log("오목 소켓 받기");
+        console.log("오목 소켓 받기",data.count );
 
         data.count % 2 === 0
           ?
-          // Timer1(timeout.current) 
-          clearInterval(timeout.current)
+          Timer1(timeout.current) 
+          // clearInterval(timeout.current)
           :
-          //  Timer2(timeout2.current)
-          clearInterval(timeout2.current);
-        data.count % 2 === 0 ? timeOut2() : timeOut();
+           Timer2(timeout2.current)
+          // clearInterval(timeout2.current);
+        // data.count % 2 === 0 ? timeOut2() : timeOut();
 
         setBoard(data.board);
         setY(data.y);
