@@ -16,21 +16,29 @@ const TeachingW = memo((props) => {
   const socket = props.socket;
 
   const UserFaceColor = (point) => {
-    let color = "black 2px";
-    if (point >= 1300 && point < 1700) {
-      color = "#835506 5px";
+    let color = "black 0.12vw";
+    if (point >= 1300 && point < 2000) {
+      color = "#835506 0.23vw";
       return color;
     }
-    if (point >= 1700 && point < 2500) {
-      color = "#B2B2B2 5px";
+    if (point >= 2000 && point < 3000) {
+      color = "#B2B2B2 0.23vw";
       return color;
     }
-    if (point >= 2500 && point < 4000) {
-      color = "#FFF27E 5px";
+    if (point >= 3000 && point < 5000) {
+      color = "#FFF27E 0.23vw";
       return color;
     }
-    if (point >= 4000) {
-      color = "#22E1E4 5px";
+    if (point >= 5000 && point < 7000) {
+      color = "#22E1E4 0.23vw";
+      return color;
+    }
+    if (point >= 7000 && point < 10000) {
+      color = "#c734ca 0.23vw";
+      return color;
+    }
+    if (point >= 10000) {
+      color = "#af2525 0.23vw";
       return color;
     }
     return color;
