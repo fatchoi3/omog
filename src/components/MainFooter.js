@@ -18,7 +18,7 @@ const MainFooter = () => {
   const user_list = useSelector((state) => state.user.list);
   const user_leaders = useSelector((state) => state.user.leader_list);
   const leader_board = useSelector((state) => state.user.leader_board);
-  const userId = localStorage.getItem("userId");
+  const userId = sessionStorage.getItem("userId");
   const [modalOpen, setModalOpen] = useState(false);
   const [isUser, setUser] = useState(true);
   const [isRank, setRank] = useState(true);

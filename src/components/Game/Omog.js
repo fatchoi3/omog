@@ -69,7 +69,7 @@ const Omog = memo(
     const boardLine =boardColorChoice(boardColorNum)[1];
     // console.log("boardColor",boardColor,boardLine);
     const dispatch = useDispatch();
-    const userid = localStorage.getItem("userId");
+    const userid = sessionStorage.getItem("userId");
     const canvasRef = useRef(null);
     const is_player =
       userInfo.state === "blackPlayer" || userInfo.state === "whitePlayer"
@@ -82,7 +82,7 @@ const Omog = memo(
 
     const [pointer, setPointer] = useState();
 
-    const omoging = useCallback(() => {
+    const omoging = useCallback((a) => {
       document.addEventListener("mouseup", (e) => {
         if (e.target.id == "canvas") {
           let x = Math.round(Math.abs(e.offsetX - 30) / 33.3);
@@ -94,8 +94,11 @@ const Omog = memo(
             e.offsetY < 640
           ) {
             const data = { x, y, board, count };
+            console.log("소켓전 ",a)
+            a++
+           
             socket.emit("omog", data, userInfo.state, gameNum);
-            console.log("난플레이어야", count);
+            console.log("난플레이어야", a);
           }
         }
       });
@@ -406,17 +409,16 @@ const Timer2= useCallback((a)=>{
       });
     }, [socket]);
 
-    useEffect(
-      () => {
+    useEffect(() => {
+      let SS=0
         if (
           userInfo.state === "whitePlayer" ||
           userInfo.state === "blackPlayer"
         ) {
-          omoging();
+          omoging(SS);
         }
       },
-      [userInfo.state]
-      );
+      []);
 
     useEffect(() => {
       socket.on("Pointer", (data, chat) => {

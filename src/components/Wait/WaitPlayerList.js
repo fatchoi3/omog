@@ -10,7 +10,7 @@ import { actionCreators as roomActions } from '../../redux/modules/room';
 function WaitPlayerList({ roomNum, socket }) {
     console.log("플레이어 컴포넌트입니다.");
     const dispatch = useDispatch();
-    const userId = localStorage.getItem("userId")
+    const userId = sessionStorage.getItem("userId")
     const waitingPerson = useSelector((state) => state.room.userInfo);
     const isWhite = true;
 

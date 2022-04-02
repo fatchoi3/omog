@@ -22,7 +22,7 @@ function Result(props) {
     console.log(result);
     const getGameResult = useSelector(state => state.game.gameResult);
     console.log(getGameResult);
-    const userId = localStorage.getItem('userId');
+    const userId = sessionStorage.getItem('userId');
 
     const main_columns = useMemo(
         () => [

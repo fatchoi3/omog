@@ -36,7 +36,7 @@ const Main = () => {
   const [color, setColor] = useState("1");
  
 
-  const userId = localStorage.getItem("userId");
+  const userId = sessionStorage.getItem("userId");
   const is_token = userId ? true : false;
 
   const [socket, disconnectSocket] = useSocket(

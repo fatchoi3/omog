@@ -90,7 +90,7 @@ const getRoomInfoDB = (roomNum) => {
 
 const addRoomDB = (roomName, timer ,color) => {
   return function (dispatch, useState, { history }) {
-    const userId = localStorage.getItem("userId");
+    const userId = sessionStorage.getItem("userId");
     api
       .post("/lobby/create", {
         roomName: roomName,

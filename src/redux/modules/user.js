@@ -141,8 +141,8 @@ const loginDB = (id, password) => {
       const res = await api.post("/login", { id: id, pass: password });
       console.log(res);
       if (res.data.token) {
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("userId", res.data.id);
+        sessionStorage.setItem("token", res.data.token);
+        sessionStorage.setItem("userId", res.data.id);
         history.push("/main");
         console.log("로그인이 되었어요");
         dispatch(loginCheckDB(id));
@@ -242,8 +242,8 @@ export default handleActions(
       }),
     [LOG_OUT]: (state, action) =>
       produce(state, (draft) => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userId");
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("userId");
         window.location.replace("/");
       }),
     [LOGIN_CHECK]: (state, action) =>
