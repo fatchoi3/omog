@@ -20,7 +20,7 @@ const Game3 = memo((props) => {
   const [loading, setLoading] = useState(false);
   const [winner, setWinner] = useState("흑백");
 
-  const userId = localStorage.getItem("userId");
+  const userId = sessionStorage.getItem("userId");
   const gameNum = props.gameNum;
   const socket =props.socket;
   

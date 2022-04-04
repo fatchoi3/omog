@@ -14,7 +14,7 @@ const Chatting = memo((props) => {
   const [message, onChangeMessage, setMessage] = useInput("");
   const [disabled, setDisabled] = useState(false);
   const [teaching, setTeaching] = useState();
-  const userid = localStorage.getItem("userId");
+  const userid = sessionStorage.getItem("userId");
   console.log("blackPlayer",props.blackPlayer);
   console.log("whitePlayer",props.blackPlayer);
   const chatList = useSelector((state) => state.game.chat_list);

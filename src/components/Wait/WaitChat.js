@@ -15,7 +15,7 @@ function WaitChat({ socket, roomNum }) {
     const scrollRef = useRef();
     const [messageList, setMessageList] = useState([]);
     const [disabled, setDisabled] = useState(false);
-    const userId = localStorage.getItem("userId")
+    const userId = sessionStorage.getItem("userId")
 
     const sendMessages = useCallback(async (e) => {
         setDisabled(true);

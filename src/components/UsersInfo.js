@@ -28,7 +28,7 @@ const UsersInfo = () => {
   const [state, setState] = useState("");
   const get_user = useSelector((state) => state.user.userInfo);
 
-  const userId = localStorage.getItem("userId");
+  const userId = sessionStorage.getItem("userId");
   const profileImage = get_user.profileImage;
   console.log("get_user", get_user.score);
   const win = get_user.score[0].win;
