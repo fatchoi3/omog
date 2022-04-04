@@ -173,7 +173,7 @@ const Omog = memo(
 
       const ctx = canvas.getContext("2d");
 
-      // 바둑판 그리기 함수
+      // 오목판 그리기 함수
       function draw() {
         ctx.fillStyle = boardColor;
         ctx.fillRect(0, 0, cw, ch);
@@ -185,7 +185,7 @@ const Omog = memo(
             ctx.strokeRect(w * x + margin, w * y + margin, w, w);
           }
         }
-        // 화점에 점 찍기
+        // 오목판에 점 찍기
         for (let a = 0; a < 3; a++) {
           for (let b = 0; b < 3; b++) {
             ctx.fillStyle = boardLine;
@@ -203,7 +203,7 @@ const Omog = memo(
         }
       }
 
-      // 방금 둔 바둑돌에 사각 표시
+      // 방금 둔 오목돌 표시
       const drawRect = (x, y) => {
         let w = rowSize / 2;
 
@@ -216,7 +216,7 @@ const Omog = memo(
           w / 2
         );
       };
-      //바둑알 그리기. 실제로는 바둑판까지 매번 통째로 그려줌
+      //오목알 그리기. 실제로는 오목판까지 매번 통째로 그려줌
       const drawCircle = (x, y) => {
         const ctx = canvas.getContext("2d");
         draw();
