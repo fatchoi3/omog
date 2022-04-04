@@ -63,9 +63,7 @@ const WaitingContainer = styled.div`
     }
 
     >div:nth-child(2){
-        /* width: 25%; */
         height: auto;
-        /* padding: 20px 0 20px 23px; */
     }
 `
 

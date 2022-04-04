@@ -138,12 +138,12 @@ const Container = styled.div`
 }
 
 @media only screen and (min-width: 600px) {
-    width: 80vmax;
-    height: 80vmax;
+    width: 75vmin;
+    height: 75vmin;
 }
 
 @media only screen and (min-width: 992px) {
-    width: 80vmax;
+    width: 80vmin;
     height: 80vmin;
 }
 

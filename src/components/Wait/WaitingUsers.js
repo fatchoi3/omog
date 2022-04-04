@@ -7,7 +7,6 @@ import { actionCreators as roomActions } from '../../redux/modules/room';
 import WaitPlayerList from './WaitPlayerList';
 import WaitObserverList from './WaitObserverList';
 import GameStartBtn from './GameStartBtn';
-import { Text } from '../../elements';
 
 
 function WaitingUsers({ socket, roomNum }) {
