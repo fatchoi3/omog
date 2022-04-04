@@ -33,8 +33,8 @@ const Game = memo((props) => {
       : false;
     
   const realGameInfo = gameInfo[0];
-  const boardColor = gameInfo[1].boardColor;
-  console.log("방 이름", gameInfo,is_player,boardColor);
+  // const boardColorNum = gameInfo[1]?.boardColor? gameInfo[1].boardColor:1;
+  // console.log("방 이름", gameInfo,is_player,boardColorNum);
   const blackPlayer = realGameInfo.blackTeamPlayer[0];
   const whitePlayer = realGameInfo.whiteTeamPlayer[0];
 
@@ -80,25 +80,27 @@ const Game = memo((props) => {
       setsping(false);
     }, 1500);
   }, []);
-  //시간 작동
-  useEffect(() => {
+   //시간 작동
+   useEffect(() => {
     if (time.current < 0) {
-      setWinner("흑돌 승");
+      clearInterval(timeout.current);
+      setWinner("흑돌 타임 승");
       setLoading(true);
       let timer = setTimeout(() => {
       dispatch(
         gameActions.gameResultDB({
-          result: { win: blackPlayer.id,state : "blackPlayer" },
+          result: { win: blackPlayer.id ,state : "blackPlayer"},
           userInfo: userInfo,
           gameNum: gameNum,
         })
       );
-      clearInterval(timeout.current);
+      
     }, 3000);
     }
     if (time2.current < 0) {
-      setWinner("백돌 승");
-      setLoading(true);
+      clearInterval(timeout2.current);
+      setWinner("백돌 타임 승");
+            setLoading(true);
       let timer2 = setTimeout(() => {
       dispatch(
         gameActions.gameResultDB({
@@ -107,7 +109,7 @@ const Game = memo((props) => {
           gameNum: gameNum,
         })
       );
-      clearInterval(timeout2.current);
+     
     }, 3000);
     }
   }, [sec, sec2]);
