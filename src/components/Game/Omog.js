@@ -26,8 +26,10 @@ const Omog = memo(
   }) => {
     const [loading, setLoading] = useState(false);
     const [winner, setWinner] = useState("흑백");
+    const [beam,setBeam]= useState(true);
+    
 
-    const boardColorNum = useSelector((state) => state.game.gameInfo[1].boardColor);
+    const boardColorNum = (useSelector((state) => state.game.gameInfo[1]? state.game.gameInfo[1].boardColor:1))
     // console.log("userInfo",userInfo);
     // console.log("winner",winner);
     // console.log("loading",loading);
@@ -81,8 +83,8 @@ const Omog = memo(
     const [board, setBoard] = useState();
 
     const [pointer, setPointer] = useState();
-
-    const omoging = useCallback((a) => {
+ 
+    const omoging = useCallback((a) => {;
       document.addEventListener("mouseup", (e) => {
         if (e.target.id == "canvas") {
           let x = Math.round(Math.abs(e.offsetX - 30) / 33.3);
@@ -96,14 +98,17 @@ const Omog = memo(
             const data = { x, y, board, count };
             console.log("소켓전 ",a)
             a++
+            let timer = setTimeout(() => {
+              socket.emit("omog", data, userInfo.state, gameNum);
+            }, 100);
            
-            socket.emit("omog", data, userInfo.state, gameNum);
             console.log("난플레이어야", a);
+            document.removeEventListener("mouseup", e);
           }
         }
       });
     }, []);
-
+  
     const pointerTeaching = useCallback(() => {
       document.addEventListener("mouseup", (e) => {
         if (e.target.id == "canvas") {
@@ -118,12 +123,29 @@ const Omog = memo(
             const data = { x, y, board };
             console.log("pointer", pointer);
             socket.emit("pointerOmog", data, gameNum);
+      
             console.log("안녕난 훈수야");
+           
             // }
           }
         }
       });
     }, []);
+    useEffect(() => {
+      let SS=0
+        if (
+         ( userInfo.state === "whitePlayer" ||
+          userInfo.state === "blackPlayer")
+         
+        ) {
+          omoging(SS);
+          console.log("SS",SS);
+        }
+        return()=>{
+        document.removeEventListener("mouseup",canvasRef);
+      }
+      },
+      []);
 
     useEffect(() => {
       const canvas = canvasRef.current;
@@ -300,6 +322,7 @@ const Omog = memo(
       const winShow = (x) => {
         switch (x) {
           case 1:
+            clearInterval(timeout.current);
             setWinner("흑돌 승");
             setLoading(true);
             let timer = setTimeout(() => {
@@ -314,6 +337,7 @@ const Omog = memo(
             console.log("흑 승");
             break;
           case 2:
+            clearInterval(timeout2.current);
             setWinner("백돌 승");
             setLoading(true);
             let timer2 = setTimeout(() => {
@@ -350,16 +374,19 @@ const Omog = memo(
         drawCircle(X, Y);
       }
     }, [count, pointer]);
+
 const Timer1= useCallback(( a)=>{
   clearInterval(a);
   console.log("짠",a)
   timeOut2();
 },[]);
+
 const Timer2= useCallback((a)=>{
   clearInterval(a);
   console.log("짠2",a)
   timeOut();
 },[]);
+
     useEffect(() => {
       socket.on("omog", (data, checkSamsam, state) => {
         if (checkSamsam === 0 && userInfo.state === state) {
@@ -378,12 +405,11 @@ const Timer2= useCallback((a)=>{
         data.count % 2 === 0
           ?
           Timer1(timeout.current) 
-          // clearInterval(timeout.current)
+      
           :
            Timer2(timeout2.current)
-          // clearInterval(timeout2.current);
-        // data.count % 2 === 0 ? timeOut2() : timeOut();
-
+      
+      
         setBoard(data.board);
         setY(data.y);
         setX(data.x);
@@ -409,17 +435,7 @@ const Timer2= useCallback((a)=>{
       });
     }, [socket]);
 
-    useEffect(() => {
-      let SS=0
-        if (
-          userInfo.state === "whitePlayer" ||
-          userInfo.state === "blackPlayer"
-        ) {
-          omoging(SS);
-          console.log("SS",SS);
-        }
-      },
-      []);
+  
 
     useEffect(() => {
       socket.on("Pointer", (data, chat) => {
@@ -473,7 +489,7 @@ const Timer2= useCallback((a)=>{
                     is_bold
                     is_margin="auto 0"
                     is_color={min2 === 0 && sec2 <= 15 ? "red" : "white"}
-                                        is_size="25px"
+                   is_size="25px"
                   >
                     {min2}: {sec2}
                   </Text>
