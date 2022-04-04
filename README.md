@@ -1,11 +1,12 @@
 # 실시간 관전자 참여형 훈수 오목 서비스
-
 [오목조목 바로가기](https://omogjomog.com/)
 
 <br>
 
 # 프로젝트 기간
 > 2022년 2월 25일 ~ 2022년 4월 8일
+
+<br>
 
 # 팀 구성
 | 이름 | Github 주소 | 포지션 |
@@ -18,6 +19,7 @@
 | 백수진 | | 디자이너 |
 | 허화영 | | 디자이너 |
 
+<br>
 
 # 핵심 기능
 <details>
@@ -45,11 +47,13 @@
 
 # 기술 스택
 > 프론트엔드
+
 HTML, CSS, JAVASCRIPT, REACT, REDUX, Socket io, axios, S3
 
 <br>
 
 > 백엔드
+
 Node.js, Express.js, PM2, MongoDB, Mongoose, Socket io, EC2
 
 <br>
@@ -62,6 +66,4 @@ Node.js, Express.js, PM2, MongoDB, Mongoose, Socket io, EC2
 <br>
 
 # More Information
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-starte
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started)
+- 블라블라~
