@@ -48,7 +48,7 @@
 # 기술 스택
 > 프론트엔드
 
-HTML, CSS, JAVASCRIPT, REACT, REDUX, Socket io, axios, S3
+HTML, CSS, JAVASCRIPT, REACT, REDUX, Styled Components, Socket io, axios, S3
 
 <br>
 
@@ -66,4 +66,7 @@ Node.js, Express.js, PM2, MongoDB, Mongoose, Socket io, EC2
 <br>
 
 # More Information
-- 블라블라~
+- 영상
+- API 명세서
+- ERD
+- 서비스 
