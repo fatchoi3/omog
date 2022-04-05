@@ -99,12 +99,7 @@ const getGameDB = (gameNum, isMount) => {
       dispatch(RoomName(res.data.gameName.gameName));
       console.log("gameInfo time", res.data.gameInfo[0].timer);
       dispatch(time(res.data.gameInfo[0].timer));
-
-    }
-    catch (error) {
-      console.log(error);
-    };
-      }
+         }
        catch(error) {
         Sentry.captureException(error);
       };
