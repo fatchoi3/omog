@@ -83,8 +83,10 @@ const Omog = memo(
     const [board, setBoard] = useState();
 
     const [pointer, setPointer] = useState();
- 
-    const omoging = useCallback((a) => {;
+
+    const OP = document.getElementById("canvas");
+
+    const omoging = useCallback((a) => {
       document.addEventListener("mouseup", (e) => {
         if (e.target.id == "canvas") {
           let x = Math.round(Math.abs(e.offsetX - 30) / 33.3);
@@ -101,12 +103,12 @@ const Omog = memo(
             let timer = setTimeout(() => {
               socket.emit("omog", data, userInfo.state, gameNum);
             }, 100);
+            console.log("난플레이어야", a,e);
            
-            console.log("난플레이어야", a);
-            document.removeEventListener("mouseup", e);
           }
         }
       });
+      document.removeEventListener("mouseup", OP);
     }, []);
   
     const pointerTeaching = useCallback(() => {
@@ -123,10 +125,8 @@ const Omog = memo(
             const data = { x, y, board };
             console.log("pointer", pointer);
             socket.emit("pointerOmog", data, gameNum);
-      
             console.log("안녕난 훈수야");
            
-            // }
           }
         }
       });
@@ -139,10 +139,9 @@ const Omog = memo(
          
         ) {
           omoging(SS);
-          console.log("SS",SS);
         }
         return()=>{
-        document.removeEventListener("mouseup",canvasRef);
+        document.removeEventListener("mouseup",OP);
       }
       },
       []);
