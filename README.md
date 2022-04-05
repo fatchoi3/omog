@@ -14,12 +14,7 @@
 <br>
 
 # 게임 설명
-<img src="https://user-images.githubusercontent.com/84789580/161703362-1ab8fdd4-b0d2-4b15-abdd-5450922535d3.svg"  width="200" height="200">
-<img src="https://user-images.githubusercontent.com/84789580/161703432-3bac2413-a50a-43a8-a638-2ca50e44a8c9.svg"  width="200" height="200">
-<img src="https://user-images.githubusercontent.com/84789580/161703444-db66dbb5-605d-4f62-97b4-580f981f9b96.svg"  width="200" height="200">
-<img src="https://user-images.githubusercontent.com/84789580/161703460-82649826-2599-4270-99c0-a1495f187249.svg"  width="200" height="200">
-<img src="https://user-images.githubusercontent.com/84789580/161703473-2430314b-a271-4aaf-99c0-3f291973564c.svg"  width="200" height="200">
-<img src="https://user-images.githubusercontent.com/84789580/161703478-169577b3-c281-42ed-9401-32092aca8c0b.svg"  width="200" height="200">
+<img src="https://user-images.githubusercontent.com/84789580/161703362-1ab8fdd4-b0d2-4b15-abdd-5450922535d3.svg"  width="300" height="350"><img src="https://user-images.githubusercontent.com/84789580/161703432-3bac2413-a50a-43a8-a638-2ca50e44a8c9.svg"  width="300" height="350"><img src="https://user-images.githubusercontent.com/84789580/161703444-db66dbb5-605d-4f62-97b4-580f981f9b96.svg"  width="300" height="350"><img src="https://user-images.githubusercontent.com/84789580/161703460-82649826-2599-4270-99c0-a1495f187249.svg"  width="300" height="350"><img src="https://user-images.githubusercontent.com/84789580/161703473-2430314b-a271-4aaf-99c0-3f291973564c.svg"  width="300" height="350"><img src="https://user-images.githubusercontent.com/84789580/161703478-169577b3-c281-42ed-9401-32092aca8c0b.svg"  width="300" height="350">
 
 <br>
 
