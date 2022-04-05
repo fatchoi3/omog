@@ -49,7 +49,7 @@
 > 프론트엔드
 
 HTML, CSS, JAVASCRIPT, REACT, REDUX, Styled Components, Socket io, axios, S3
-
+https://camo.githubusercontent.com/ad176bb5a61237550550e47d7e77dd5d1a846518df44c522d2ba9c0a7da6379c/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6769746875622d3138313731373f7374796c653d666f722d7468652d6261646765266c6f676f3d676974687562266c6f676f436f6c6f723d7768697465
 <br>
 
 > 백엔드
@@ -59,14 +59,14 @@ Node.js, Express.js, PM2, MongoDB, Mongoose, Socket io, EC2
 <br>
 
 # Links
-- 프로젝트 홈페이지
-- 프론트엔드 깃허브
-- 백엔드 깃허브
+- [프로젝트 홈페이지](https://omogjomog.com/)
+- [프론트엔드 깃허브](https://github.com/fatchoi3/omog)
+- [백엔드 깃허브](https://github.com/Omok-BE/Omok-BE)
 
 <br>
 
 # More Information
 - 영상
-- API 명세서
+- [API 명세서](https://wool-chard-0a2.notion.site/API-b2107de5871142b6a76f2cf3b3e20e42)
 - ERD
 - 서비스 
