@@ -96,7 +96,7 @@ const getRoomInfoDB = (roomNum) => {
   };
 };
 
-const addRoomDB = (roomName, timer ,color) => {
+const addRoomDB = (roomName, timer, color) => {
   return function (dispatch, useState, { history }) {
     const userId = sessionStorage.getItem("userId");
     api
@@ -164,6 +164,12 @@ const gameStartDB = (
       console.log(roomNum);
       history.push(`/game/${roomNum}`);
     } catch (error) {
+
+      Swal.fire({
+        icon: 'warning',
+        title: '게임 시작 실패',
+        text: `${error}`,
+      });
       Sentry.captureException(error);
     }
   };

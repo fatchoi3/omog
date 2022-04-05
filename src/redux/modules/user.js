@@ -1,5 +1,6 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
+import Swal from 'sweetalert2';
 
 import api from "../../api/api";
 import * as Sentry from "@sentry/react";
@@ -129,9 +130,17 @@ const signupDB = (id, email, password, passwordConfirm, pickIndex) => {
         }
       );
       console.log(res);
-      alert("회원가입이 완료되었습니다. 로그인해주세요.");
+      Swal.fire({
+        icon: 'success',
+        title: '회원가입 성공',
+        text: '회원가입에 성공했습니다. 로그인해주세요.',
+      });
     } catch (error) {
-      alert(`${error.response.data.errorMessage}`);
+      Swal.fire({
+        icon: 'warning',
+        title: '회원가입 실패',
+        text: `${error.response.data.errorMessage}`,
+      });
       Sentry.captureException(error);
     }
   };
@@ -146,11 +155,14 @@ const loginDB = (id, password) => {
         sessionStorage.setItem("token", res.data.token);
         sessionStorage.setItem("userId", res.data.id);
         history.push("/main");
-        console.log("로그인이 되었어요");
         dispatch(loginCheckDB(id));
       }
     } catch (error) {
-      alert(`${error.response.data.errorMessage}`);
+      Swal.fire({
+        icon: 'warning',
+        title: '로그인 실패',
+        text: `${error.response.data.errorMessage}`,
+      });
       Sentry.captureException(error);
     }
   };
@@ -225,8 +237,12 @@ const passwordSearchDB = (id, email) => {
       const res = await api.post("/findpass", { id: id, email: email })
       dispatch(findPassCheck(res.data.ok));
     } catch (error) {
+      Swal.fire({
+        icon: 'warning',
+        title: '아이디, 이메일 인증 실패',
+        text: `${error.response.data.errorMessage}`,
+      });
       Sentry.captureException(error);
-      alert(`${error.response.data.errorMessage}`);
     }
   }
 }
@@ -236,12 +252,15 @@ const newPasswordDB = (id, email, password) => {
     try {
       const res = await api.post("/newPass", { id: id, email: email, newPass: password });
       console.log(res.data);
-      alert("비밀번호가 변경되었습니다.");
       dispatch(findPassCheck(false));
       history.replace('/');
     } catch (error) {
+      Swal.fire({
+        icon: 'warning',
+        title: '패스워드 변경 실패',
+        text: `${error.response.data.errorMessage}`,
+      });
       Sentry.captureException(error);
-      alert(`${error.response.data.errorMessage}`);
     }
   };
 }

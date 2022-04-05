@@ -1,5 +1,6 @@
 import React, { useState, forwardRef } from 'react';
 import styled from 'styled-components';
+import Swal from 'sweetalert2';
 import { useDispatch } from 'react-redux';
 
 import { actionCreators as userActions } from '../../redux/modules/user';
@@ -21,7 +22,11 @@ const PassSearchModal = forwardRef(({ visible, setPassModal, setNewPass }, passM
     const passwordSearch = (e) => {
         e.preventDefault();
         if (id === "" || email === "") {
-            alert("입력하지 않은 칸이 있습니다.")
+            Swal.fire({
+                icon: 'warning',
+                title: '입력 오류',
+                text: '입력하지 않은 칸이 있습니다.',
+            });
             return;
         }
 
@@ -74,6 +79,10 @@ const PassSeachOverlay = styled.div`
         border: 2px solid #000;
         border-radius: 14px;
         background: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
 
         > div:nth-child(1) {
             width: 100%;
