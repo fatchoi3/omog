@@ -364,7 +364,7 @@ const ExplainModalOut = styled.button`
     background: #94D7BB;
     font-size: 18px;
     font-weight: 800;
-    color: white;
+    color: #195e20;
     text-align: center;
     border: 2px solid #000000;
     border-radius: 10px;

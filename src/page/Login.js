@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, lazy } from 'react';
 import styled from 'styled-components';
+import Swal from 'sweetalert2';
 
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,10 +20,13 @@ import profile9 from '../pictures/omok-profile9.svg';
 import profile10 from '../pictures/omok-profile10.svg';
 import profile11 from '../pictures/omok-profile11.svg';
 
-import SignupModal from '../components/Login/SignupModal';
 import ExplainModal from '../components/Login/ExplainModal';
-import PassSearchModal from '../components/Login/PassSearchModal';
-import NewPassModal from '../components/Login/NewPassModal';
+
+const SignupModal = lazy(() => import('../components/Login/SignupModal'));
+const PassSearchModal = lazy(() => import('../components/Login/PassSearchModal'));
+const NewPassModal = lazy(() => import('../components/Login/NewPassModal'));
+
+
 
 
 function Login(props) {
@@ -56,17 +60,16 @@ function Login(props) {
         e.preventDefault();
 
         if (id === '' || password === '') {
-            alert('입력하지 않은 칸이 있습니다!');
+            Swal.fire({
+                icon: 'warning',
+                title: '입력 오류',
+                text: '아이디 혹은 비밀번호가 빈 칸입니다.',
+                cancelButtonColor: '#d33',
+                cancelButtonText: '취소'
+            });
             return;
         }
-        dispatch(userActions.loginDB(id, password)).then(
-            (res) => {
-                if (res === 'ok') {
-                    alert('로그인 되었습니다!');
-                    props.close();
-                }
-            }
-        )
+        dispatch(userActions.loginDB(id, password))
     }
 
     const handleSignupModal = () => {
@@ -126,7 +129,11 @@ function Login(props) {
 
     useEffect(() => {
         if (sessionStorage.getItem("token")) {
-            alert("로그인 하셨습니다. 로비 페이지로 이동합니다.")
+            Swal.fire({
+                icon: 'warning',
+                title: '로그인 된 상태',
+                text: '이미 로그인 하셨습니다. 로비 페이지로 이동합니다.',
+            });
             history.push('/main')
         }
     }, [])
@@ -328,23 +335,8 @@ const LogoBox = styled.div`
     transform:translate(-50%,10%);
 
     >img {
-        height: auto;
-
-        @media only screen and (max-width: 600px) {
-            width: 30vmax;
-        }
-
-        @media only screen and (min-width: 600px) {
-            width: 30vmax;
-        }
-
-        @media only screen and (min-width: 992px) {
-            width: 23vmax;
-        }
-
-        @media only screen and (min-width: 1280px) {
-            width: 15vmax;
-        }
+        width: 50vw;
+        height: 20vh;
     }
 `
 

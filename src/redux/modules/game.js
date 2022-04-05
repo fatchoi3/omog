@@ -1,5 +1,6 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
+import Swal from 'sweetalert2';
 import api from "../../api/api";
 
 const TimerCheck = (time) => {
@@ -41,7 +42,7 @@ const initialState = {
       whiteTeamObserver: ["e", "f", "d", "w"],
     },
     {
-      boardColor:1
+      boardColor: 1
     }
   ],
   userInfo: {
@@ -87,21 +88,21 @@ const clearOne = createAction(CLEAR_ONE);
 
 // middleware actions
 
-const getGameDB = (gameNum,isMount) => {
+const getGameDB = (gameNum, isMount) => {
   return async function (dispatch, getState, { history }) {
-      try{
+    try {
       const res = await api.get(`/game/start/${gameNum}`);
       // if(isMount){
-        console.log("gameInfo 미들웨어", res);
-        dispatch(getGame(res.data.gameInfo));
-        dispatch(RoomName(res.data.gameName.gameName));
-        console.log("gameInfo time", res.data.gameInfo[0].timer);
-        dispatch(time(res.data.gameInfo[0].timer));
+      console.log("gameInfo 미들웨어", res);
+      dispatch(getGame(res.data.gameInfo));
+      dispatch(RoomName(res.data.gameName.gameName));
+      console.log("gameInfo time", res.data.gameInfo[0].timer);
+      dispatch(time(res.data.gameInfo[0].timer));
       // }
-      }
-       catch(error) {
-        console.log(error);
-      };
+    }
+    catch (error) {
+      console.log(error);
+    };
   };
 };
 const sendError = (result) => {
@@ -144,7 +145,11 @@ const getGameResultDB = (userId, gameNum, result) => {
       console.log(res);
       dispatch(getGameResult(res.data));
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        icon: 'warning',
+        title: '게임 결과창 가져오기 실패',
+        text: `${error}`,
+      });
     }
   };
 };

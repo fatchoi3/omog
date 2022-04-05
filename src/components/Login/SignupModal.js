@@ -1,5 +1,6 @@
 import React, { useState, forwardRef, useRef } from 'react';
 import styled from 'styled-components';
+import Swal from 'sweetalert2';
 import { useDispatch } from 'react-redux';
 
 import { actionCreators as userActions } from '../../redux/modules/user';
@@ -70,22 +71,38 @@ const SignupModal = forwardRef(({ visible, handleSignupModal, setModalVisible },
         e.preventDefault();
 
         if (password !== passwordConfirm) {
-            alert('비밀번호가 일치하지 않습니다!');
+            Swal.fire({
+                icon: 'warning',
+                title: '비밀번호 일치 오류',
+                text: '비밀번호가 일치하지 않습니다.',
+            });
             return;
         }
 
         if (id === '' || email === '' || password === '' || passwordConfirm === '') {
-            alert('입력하지 않은 칸이 있습니다!');
+            Swal.fire({
+                icon: 'warning',
+                title: '입력 오류',
+                text: '입력하지 않은 칸이 있습니다.',
+            });
             return;
         }
 
         if (idCheck(id) === false) {
-            alert('아이디 형식이 올바르지 않습니다.');
+            Swal.fire({
+                icon: 'warning',
+                title: '아이디 형식 오류',
+                text: '아이디 형식이 올바르지 않습니다.',
+            });
             return;
         }
 
         if (emailCheck(email) === false) {
-            alert('이메일 형식이 올바르지 않습니다.');
+            Swal.fire({
+                icon: 'warning',
+                title: '이메일 형식 오류',
+                text: '이메일 형식이 올바르지 않습니다.',
+            });
             return;
         }
 
