@@ -22,11 +22,11 @@ const GameStart = (props) => {
   
   console.log("선택해", timetime, gameNum);
   
-  // useEffect(() => {
-  //   let timer = setTimeout(() => {
-  //     dispatch(gameActions.getGameDB(gameNum));
-  //   }, 1000);
-  // }, []);
+  useEffect(() => {
+    let timer = setTimeout(() => {
+      dispatch(gameActions.getGameDB(gameNum));
+    }, 1000);
+  }, []);
   useEffect(() => {
     return () => {
       disconnectSocket();

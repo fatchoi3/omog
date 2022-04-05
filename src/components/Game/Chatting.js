@@ -45,6 +45,7 @@ const Chatting = memo((props) => {
       console.log("블랙 플레이어 나가기")
       return;
     } else if (props.userInfo.state === "whitePlayer") {
+      console.log("props.whitePlayer.id",props.blackPlayer)
       socket.emit(
         "byebye",
         props.userInfo.state,
