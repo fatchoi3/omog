@@ -1,17 +1,17 @@
 import { React, useEffect, useState } from "react";
 import styled from "styled-components";
 
-import { Text, Button } from "../elements/index";
-import Banner from "../pictures/banner.png";
-import Logo from "../pictures/omogLogo.png";
+import { Text, Button } from "../../elements/index";
+import Banner from "../../pictures/banner.png";
+import Logo from "../../pictures/omogLogo.png";
 
 import LeaderBoard from "./LeaderBoard";
 import LeaderSlider from "./LeaderSlider";
-import First from "../pictures/1.svg";
-import Second from "../pictures/2.svg";
-import Third from "../pictures/3.svg";
+import First from "../../pictures/1.svg";
+import Second from "../../pictures/2.svg";
+import Third from "../../pictures/3.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { actionCreators as userActions } from "../redux/modules/user";
+import { actionCreators as userActions } from "../../redux/modules/user";
 
 const MainFooter = () => {
   const dispatch = useDispatch();
@@ -205,7 +205,7 @@ const toggleRank = () => {
 const Container = styled.div`
   display: flex;
   width: 87.87vw;
-  margin : 1vw 0 0 3.51vw;
+  margin : 0.5vw 0 0 3.51vw;
 `;
 const UserS = styled.div`
   width: 19.63vw;
@@ -285,7 +285,7 @@ const BannerImg = styled.img`
 `;
 const LogoWrap = styled.div`
 
-  width: 9.72vw;
+  width: 11.5vw;
   height: 8.79vw;
   margin : 0 0 0 7.03vw;
   display: flex;
@@ -293,7 +293,7 @@ const LogoWrap = styled.div`
   justify-content: center;
 `;
 const LogoImg = styled.img`
-  width: 9.72vw;
+  width: 11.5vw;
   height: 8.79vw;
 `;
 export default MainFooter;

@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import Heart from "../../pictures/Heart.png";
 import { Text } from "../../elements/index";
-import Progress from "../Progress";
+import Progress from "../Lobby/Progress";
 
 const PlayerCardB = memo(({ playerInfo, min2, sec2, isTeam }) => {
   const win = playerInfo?.score[0].win;

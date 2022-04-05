@@ -2,6 +2,7 @@ import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import Swal from 'sweetalert2';
 import api from "../../api/api";
+import * as Sentry from "@sentry/react";
 
 const TimerCheck = (time) => {
   let answer;
@@ -92,17 +93,21 @@ const getGameDB = (gameNum, isMount) => {
   return async function (dispatch, getState, { history }) {
     try {
       const res = await api.get(`/game/start/${gameNum}`);
-      // if(isMount){
+
       console.log("gameInfo 미들웨어", res);
       dispatch(getGame(res.data.gameInfo));
       dispatch(RoomName(res.data.gameName.gameName));
       console.log("gameInfo time", res.data.gameInfo[0].timer);
       dispatch(time(res.data.gameInfo[0].timer));
-      // }
+
     }
     catch (error) {
       console.log(error);
     };
+      }
+       catch(error) {
+        Sentry.captureException(error);
+      };
   };
 };
 const sendError = (result) => {
@@ -114,7 +119,7 @@ const sendError = (result) => {
         console.log(response);
       })
       .catch((error) => {
-        console.log(error);
+        Sentry.captureException(error);
       });
   };
 };
@@ -128,7 +133,7 @@ const gameResultDB = (result) => {
         dispatch(GameEnd(result));
       })
       .catch((error) => {
-        console.log(error);
+        Sentry.captureException(error);
       });
   };
 };
@@ -150,17 +155,20 @@ const getGameResultDB = (userId, gameNum, result) => {
         title: '게임 결과창 가져오기 실패',
         text: `${error}`,
       });
+      Sentry.captureException(error);
     }
   };
 };
 
 const gameOutDB = (gameNum) => {
-  return function (dispatch, getState, { history }) {
+  return async function (dispatch, getState, { history }) {
     console.log("gameNum", gameNum);
-    api.delete(`/game/delete/${gameNum}`).then(function (response) {
-      console.log(response);
-      // history.push("/main");
-    });
+    try{
+      const res = await api.delete(`/game/delete/${gameNum}`)
+      console.log(res);
+    }  catch (error){
+      Sentry.captureException(error);
+    }        
   };
 };
 

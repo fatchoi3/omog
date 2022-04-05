@@ -3,6 +3,7 @@ import { produce } from "immer";
 import Swal from 'sweetalert2';
 
 import api from "../../api/api";
+import * as Sentry from "@sentry/react";
 
 // initialState
 const initialState = {
@@ -140,6 +141,7 @@ const signupDB = (id, email, password, passwordConfirm, pickIndex) => {
         title: '회원가입 실패',
         text: `${error.response.data.errorMessage}`,
       });
+      Sentry.captureException(error);
     }
   };
 };
@@ -161,6 +163,7 @@ const loginDB = (id, password) => {
         title: '로그인 실패',
         text: `${error.response.data.errorMessage}`,
       });
+      Sentry.captureException(error);
     }
   };
 };
@@ -175,16 +178,20 @@ const logoutDB = (id) => {
       }
     } catch (error) {
       alert(`${error.response.data.errorMessage}`);
+      Sentry.captureException(error);
     }
   };
 };
 
 const getUserDB = (id) => {
-  return function (dispatch, getState, { history }) {
-    api.get(`/lobby/userList/${id}`).then(function (response) {
-      console.log(response.data);
-      dispatch(getUserInfo(response.data));
-    });
+  return async function (dispatch, getState, { history }) {
+    try{
+      const res = await   api.get(`/lobby/userList/${id}`);
+      dispatch(getUserInfo(res.data));
+    }
+ catch(error){
+  Sentry.captureException(error);
+ }
   };
 };
 
@@ -194,26 +201,33 @@ const loginCheckDB = (id) => {
       const res = await api.get(`/userinfo/${id}`);
       dispatch(loginCheck(res.data));
     } catch (error) {
+      Sentry.captureException(error);
       console.log(error);
     }
   };
 };
 
 const getLeaderDB = () => {
-  return function (dispatch, getState, { history }) {
-    api.get("/lobby/leaderList").then(function (response) {
-      console.log(response.data);
-      dispatch(getLeaders(response.data));
-    });
+  return async function (dispatch, getState, { history }) {
+    try{
+      const res = await api.get("/lobby/leaderList");
+      dispatch(getLeaders(res.data));
+    }
+    catch(error){
+      Sentry.captureException(error);
+    }
   };
 };
 
 const getLeaderBoardDB = () => {
-  return function (dispatch, getState, { history }) {
-    api.get("/leaderBoard").then(function (response) {
-      console.log(response.data);
-      dispatch(getLeaderBorad(response.data));
-    });
+  return async function (dispatch, getState, { history }) {
+    try{
+      const res = await api.get("/leaderBoard");
+      dispatch(getLeaderBorad(res.data));
+    }
+    catch(error){
+      Sentry.captureException(error);
+    }
   };
 };
 
@@ -228,6 +242,7 @@ const passwordSearchDB = (id, email) => {
         title: '아이디, 이메일 인증 실패',
         text: `${error.response.data.errorMessage}`,
       });
+      Sentry.captureException(error);
     }
   }
 }
@@ -240,12 +255,12 @@ const newPasswordDB = (id, email, password) => {
       dispatch(findPassCheck(false));
       history.replace('/');
     } catch (error) {
-      console.log(error);
       Swal.fire({
         icon: 'warning',
         title: '패스워드 변경 실패',
         text: `${error.response.data.errorMessage}`,
       });
+      Sentry.captureException(error);
     }
   };
 }

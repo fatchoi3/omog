@@ -1,13 +1,13 @@
 import { React, useEffect} from "react";
 import styled from "styled-components";
 
-import { Text, Button } from "../elements/index";
+import { Text, Button } from "../../elements/index";
 
 import Progress from "./Progress";
-import exit from "../pictures/exit.png";
+import exit from "../../pictures/exit.png";
 
 import { useDispatch, useSelector } from "react-redux";
-import { actionCreators as userActions } from "../redux/modules/user";
+import { actionCreators as userActions } from "../../redux/modules/user";
 
 
 

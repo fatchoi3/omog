@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Text from "../elements/Text";
+import Text from "../../elements/Text";
 import Progress from "./Progress";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 

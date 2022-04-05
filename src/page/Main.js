@@ -3,13 +3,13 @@ import styled from "styled-components";
 import Swal from 'sweetalert2';
 
 import { Button, Text } from "../elements/index";
-import Roomlist from "../components/Roomlist";
-import UsersInfo from "../components/UsersInfo";
-import MainFooter from "../components/MainFooter";
+import Roomlist from "../components/Lobby/Roomlist";
+import UsersInfo from "../components/Lobby/UsersInfo";
+import MainFooter from "../components/Lobby/MainFooter";
 import Spinner from "../elements/Spinner";
-import RoomMake from "../components/RoomMake";
+import RoomMake from "../components/Lobby/RoomMake";
 import useInput from "../hook/useInput";
-import GameInfo from "../components/GameInfo";
+import GameInfo from "../components/Lobby/GameInfo";
 
 
 import Time from "../pictures/Time.png";
@@ -21,7 +21,9 @@ import { actionCreators as roomActions } from "../redux/modules/room";
 
 import { useHistory } from "react-router-dom";
 
-import "../components/lobby.css"
+import "../components/Lobby/lobby.css"
+
+
 
 const Main = () => {
   const dispatch = useDispatch();
@@ -168,10 +170,14 @@ const Main = () => {
         <ListDiv>
           <ListTitle>
             <ListTip>
+             
+              <Text is_size="1.76vw" is_margin="0.59vw 0 0 0.35vw" is_bold>
+                게임방
+              </Text>
               <Button
                 is_height="1.76vw"
                 is_width="1.76vw"
-                is_margin="0.29vw 0 0 0"
+                is_margin="0.29vw 0 0 0.3vw"
                 is_background="transparent"
                 _onClick={() => {
                   window.location.reload();
@@ -179,9 +185,6 @@ const Main = () => {
               >
                 <Text is_size="0.88vw">↻</Text>
               </Button>
-              <Text is_size="1.76vw" is_margin="0.59vw 0 0 0.35vw" is_bold>
-                게임방
-              </Text>
               <Text is_size="1.17vw" is_margin="0.59vw 0 0 2.93vw" is_bold is_cursor _onClick={()=>{openInfo()}} >
                  게임 방법?
                  </Text>
@@ -218,6 +221,7 @@ const Main = () => {
                 is_border="none"
                 _onClick={() => {
                   enterNum();
+                  setRoomNum("")
                 }}
               >
                 <Text is_size="1.46vw">🔍</Text>
