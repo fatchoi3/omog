@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Swal from 'sweetalert2';
 
-import { Text, Button } from "../elements/index";
+import { Text, Button } from "../../elements/index";
 import RoomEnter from "./RoomEnter";
-import { actionCreators as roomActions } from "../redux/modules/room";
+import { actionCreators as roomActions } from "../../redux/modules/room";
 import "./lobby.css"
 const Roomlist = () => {
   const dispatch = useDispatch();

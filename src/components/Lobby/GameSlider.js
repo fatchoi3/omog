@@ -2,12 +2,12 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styled from 'styled-components';
 
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
-import OmokEx1 from '../pictures/omokex1.svg';
-import OmokEx2 from '../pictures/omokex2.svg';
-import OmokEx3 from '../pictures/omokex3.svg';
-import OmokEx4 from '../pictures/omokex4.svg';
-import OmokEx5 from '../pictures/omokex5.svg';
-import OmokEx6 from '../pictures/omokex6.svg';
+import OmokEx1 from '../../pictures/omokex1.svg';
+import OmokEx2 from '../../pictures/omokex2.svg';
+import OmokEx3 from '../../pictures/omokex3.svg';
+import OmokEx4 from '../../pictures/omokex4.svg';
+import OmokEx5 from '../../pictures/omokex5.svg';
+import OmokEx6 from '../../pictures/omokex6.svg';
 
 
 

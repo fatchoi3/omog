@@ -1,6 +1,7 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import api from "../../api/api";
+import * as Sentry from "@sentry/react";
 
 const TimerCheck = (time) => {
   let answer;
@@ -100,7 +101,7 @@ const getGameDB = (gameNum,isMount) => {
       // }
       }
        catch(error) {
-        console.log(error);
+        Sentry.captureException(error);
       };
   };
 };
@@ -113,7 +114,7 @@ const sendError = (result) => {
         console.log(response);
       })
       .catch((error) => {
-        console.log(error);
+        Sentry.captureException(error);
       });
   };
 };
@@ -127,7 +128,7 @@ const gameResultDB = (result) => {
         dispatch(GameEnd(result));
       })
       .catch((error) => {
-        console.log(error);
+        Sentry.captureException(error);
       });
   };
 };
@@ -144,18 +145,20 @@ const getGameResultDB = (userId, gameNum, result) => {
       console.log(res);
       dispatch(getGameResult(res.data));
     } catch (error) {
-      console.log(error);
+      Sentry.captureException(error);
     }
   };
 };
 
 const gameOutDB = (gameNum) => {
-  return function (dispatch, getState, { history }) {
+  return async function (dispatch, getState, { history }) {
     console.log("gameNum", gameNum);
-    api.delete(`/game/delete/${gameNum}`).then(function (response) {
-      console.log(response);
-      // history.push("/main");
-    });
+    try{
+      const res = await api.delete(`/game/delete/${gameNum}`)
+      console.log(res);
+    }  catch (error){
+      Sentry.captureException(error);
+    }        
   };
 };
 

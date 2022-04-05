@@ -2,6 +2,7 @@ import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import api from "../../api/api";
 import Swal from 'sweetalert2';
+import * as Sentry from "@sentry/react";
 // initialState
 const initialState = {
   list: [
@@ -72,19 +73,26 @@ const changeUserInfo = createAction(CHANGE_USERINFO, (id, someone, state) => ({
 // middleware actions
 const getRoomListDB = (id) => {
   return async function (dispatch, getState, { history }) {
-    await api.get(`/lobby`).then(function (response) {
-      // console.log(response.data);
-      dispatch(getRoomList(response.data));
-    });
+    try{
+      const res =await api.get(`/lobby`)
+      dispatch(getRoomList(res.data));
+    }
+    catch(error){
+      Sentry.captureException(error);
+    }
   };
 };
 const getRoomInfoDB = (roomNum) => {
-  return function (dispatch, getState, { history }) {
+  return async function (dispatch, getState, { history }) {
     console.log("roomNum", roomNum);
-    api.get(`/lobby/joinroom/${roomNum}`).then(function (response) {
-      // console.log(response.data);
-      dispatch(getRoomInfo(response.data));
-    });
+
+    try{
+        const res = await api.get(`/lobby/joinroom/${roomNum}`);
+        dispatch(getRoomInfo(res.data));
+    }
+  catch(error) {
+    Sentry.captureException(error);
+  }
   };
 };
 
@@ -109,7 +117,7 @@ const addRoomDB = (roomName, timer ,color) => {
           icon: 'error',
           confirmButtonText: 'Ok'
         });
-        console.log(error);
+        Sentry.captureException(error);
       });
   };
 };
@@ -130,7 +138,7 @@ const joinRoomDB = (room) => {
           icon: 'error',
           confirmButtonText: 'Ok'
         });
-        console.log(error);
+        Sentry.captureException(error);
       });
   };
 };
@@ -156,7 +164,7 @@ const gameStartDB = (
       console.log(roomNum);
       history.push(`/game/${roomNum}`);
     } catch (error) {
-      console.log(error);
+      Sentry.captureException(error);
     }
   };
 };
@@ -176,7 +184,7 @@ const quickStartPlayer = (id) => {
           icon: 'error',
           confirmButtonText: 'Ok'
         });
-        console.log(error.message);
+        Sentry.captureException(error);
       });
   };
 };
@@ -196,7 +204,7 @@ const quickStartObserver = (id) => {
           icon: 'error',
           confirmButtonText: 'Ok'
         });
-        console.log(error);
+        Sentry.captureException(error);
       });
   };
 };
@@ -212,12 +220,14 @@ const numJoinDB = (data) => {
         history.push(`/waiting/${response.data.roomNum}`);
       })
       .catch((error) => {
+        Sentry.captureException(error);
         Swal.fire({
           title: '방이 없습니다!',
           icon: 'error',
           confirmButtonText: 'Ok'
         });
-        console.log(error.message);
+        console.log(error)
+        
       });
   };
 };

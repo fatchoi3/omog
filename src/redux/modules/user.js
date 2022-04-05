@@ -2,6 +2,7 @@ import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 
 import api from "../../api/api";
+import * as Sentry from "@sentry/react";
 
 // initialState
 const initialState = {
@@ -131,6 +132,7 @@ const signupDB = (id, email, password, passwordConfirm, pickIndex) => {
       alert("회원가입이 완료되었습니다. 로그인해주세요.");
     } catch (error) {
       alert(`${error.response.data.errorMessage}`);
+      Sentry.captureException(error);
     }
   };
 };
@@ -149,6 +151,7 @@ const loginDB = (id, password) => {
       }
     } catch (error) {
       alert(`${error.response.data.errorMessage}`);
+      Sentry.captureException(error);
     }
   };
 };
@@ -163,16 +166,20 @@ const logoutDB = (id) => {
       }
     } catch (error) {
       alert(`${error.response.data.errorMessage}`);
+      Sentry.captureException(error);
     }
   };
 };
 
 const getUserDB = (id) => {
-  return function (dispatch, getState, { history }) {
-    api.get(`/lobby/userList/${id}`).then(function (response) {
-      console.log(response.data);
-      dispatch(getUserInfo(response.data));
-    });
+  return async function (dispatch, getState, { history }) {
+    try{
+      const res = await   api.get(`/lobby/userList/${id}`);
+      dispatch(getUserInfo(res.data));
+    }
+ catch(error){
+  Sentry.captureException(error);
+ }
   };
 };
 
@@ -182,26 +189,33 @@ const loginCheckDB = (id) => {
       const res = await api.get(`/userinfo/${id}`);
       dispatch(loginCheck(res.data));
     } catch (error) {
+      Sentry.captureException(error);
       console.log(error);
     }
   };
 };
 
 const getLeaderDB = () => {
-  return function (dispatch, getState, { history }) {
-    api.get("/lobby/leaderList").then(function (response) {
-      console.log(response.data);
-      dispatch(getLeaders(response.data));
-    });
+  return async function (dispatch, getState, { history }) {
+    try{
+      const res = await api.get("/lobby/leaderList");
+      dispatch(getLeaders(res.data));
+    }
+    catch(error){
+      Sentry.captureException(error);
+    }
   };
 };
 
 const getLeaderBoardDB = () => {
-  return function (dispatch, getState, { history }) {
-    api.get("/leaderBoard").then(function (response) {
-      console.log(response.data);
-      dispatch(getLeaderBorad(response.data));
-    });
+  return async function (dispatch, getState, { history }) {
+    try{
+      const res = await api.get("/leaderBoard");
+      dispatch(getLeaderBorad(res.data));
+    }
+    catch(error){
+      Sentry.captureException(error);
+    }
   };
 };
 
@@ -211,6 +225,7 @@ const passwordSearchDB = (id, email) => {
       const res = await api.post("/findpass", { id: id, email: email })
       dispatch(findPassCheck(res.data.ok));
     } catch (error) {
+      Sentry.captureException(error);
       alert(`${error.response.data.errorMessage}`);
     }
   }
@@ -225,7 +240,7 @@ const newPasswordDB = (id, email, password) => {
       dispatch(findPassCheck(false));
       history.replace('/');
     } catch (error) {
-      console.log(error);
+      Sentry.captureException(error);
       alert(`${error.response.data.errorMessage}`);
     }
   };
