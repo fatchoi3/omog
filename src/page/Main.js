@@ -32,7 +32,7 @@ const Main = () => {
   const [infoOpen, setInfo]= useState(false);
   const [roomaName, onChangeRoomaName, setRoomaName] = useInput("");
   const [roomNum, onChangeRoomNum, setRoomNum] = useInput("");
-  const [state, setState] = useState("2 : 00");
+  const [state, setState] = useState("5 : 00");
   const [color, setColor] = useState("1");
  
 
@@ -325,7 +325,7 @@ const Main = () => {
                       checked={state === "2 : 00" ? "checked" : ""}
                       onChange={changeRadioQ1}
                     />
-                    <RadioButtonLabel for="1">
+                    <RadioButtonLabel htmlFor="1">
                       <Text is_size="1.46vw" >2: 00</Text>
                     </RadioButtonLabel>
                   </div>
@@ -348,10 +348,11 @@ const Main = () => {
                       type="radio"
                       id="3"
                       name="state"
+                      checked={state === "5 : 00" ? "checked" : ""}
                       value="5 : 00"
                       onChange={changeRadioQ1}
                     />
-                    <RadioButtonLabel for="3">
+                    <RadioButtonLabel htmlFor="3">
                       <Text is_size="1.46vw">5: 00</Text>
                     </RadioButtonLabel>
                   </div>
@@ -367,7 +368,7 @@ const Main = () => {
                   value="1"
                   checked={color ==="1"?"checked":""}
                   onChange={changeRadioQ2}/>
-                  <Color for="11" color="#E08C4F"/>
+                  <Color htmlFor="11" color="#E08C4F"/>
                   <ColorRadio
                 type="radio"
                 id="22"
@@ -375,7 +376,7 @@ const Main = () => {
                 value="2"
                 onChange={changeRadioQ2}
                 />
-                <Color for="22" color="#D3EAE0"/>
+                <Color htmlFor="22" color="#D3EAE0"/>
                  
                  <ColorRadio
                 type="radio"
@@ -384,7 +385,7 @@ const Main = () => {
                 value="3"
                 onChange={changeRadioQ2}
                 />
-                <Color for="33" color="#FFD7E7"/>
+                <Color htmlFor="33" color="#FFD7E7"/>
                   
 
                   <ColorRadio
@@ -394,7 +395,7 @@ const Main = () => {
                 value="4"
                 onChange={changeRadioQ2}
                 />
-                <Color for="44" color="#D9E4F4"/>
+                <Color htmlFor="44" color="#D9E4F4"/>
                   
                   
                  <ColorRadio
@@ -404,7 +405,7 @@ const Main = () => {
                 value="5"
                 onChange={changeRadioQ2}
                 />
-                <Color for="55" color="#DDDDDD"/>
+                <Color htmlFor="55" color="#DDDDDD"/>
                   
                   <ColorRadio
                 type="radio"
@@ -413,7 +414,7 @@ const Main = () => {
                 value="6"
                 onChange={changeRadioQ2}
                 />
-                <Color for="66" color="#8E8E8E"/>
+                <Color htmlFor="66" color="#8E8E8E"/>
                   
                 
               </ColorChoice>

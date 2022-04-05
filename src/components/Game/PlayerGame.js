@@ -150,5 +150,7 @@ margin : auto;
   animation-name: ${slideUp};
   animation-fill-mode: forwards;
   zIndex: 9999;
+  overflow-wrap: break-word;
+  word-break: break-word;
 `;
 export default PlayerGame;

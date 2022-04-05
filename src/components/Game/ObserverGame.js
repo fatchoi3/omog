@@ -174,5 +174,7 @@ const DialogBlock = styled.div`
   animation-name: ${slideUp};
   animation-fill-mode: forwards;
   zindex: 9999;
+  overflow-wrap: break-word;
+  word-break: break-word;
 `;
 export default ObserverGame;

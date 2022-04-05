@@ -116,7 +116,7 @@ const Roomlist = () => {
               onChange={changeRadioQ1}
               disabled={room_info.blackTeamPlayer ? true : false}
             />
-            <RadioButtonLabelBP for="1">
+            <RadioButtonLabelBP htmlFor="1">
               <div>
                <Text is_margin="0 0 0 0.12vw" is_bold is_color="white" is_stroke="0.04vw black" is_size="1.41vw">
                   Black Player
@@ -137,7 +137,7 @@ const Roomlist = () => {
               onChange={changeRadioQ1}
               disabled={room_info.whiteTeamPlayer ? true : false}
             />
-            <RadioButtonLabelWP for="2">
+            <RadioButtonLabelWP htmlFor="2">
               <div>
               <Text is_margin="0 0 0 0.12vw" is_bold is_color="white" is_stroke="0.05vw #94D7BB" is_size="1.41vw">
                   White Player
@@ -157,7 +157,7 @@ const Roomlist = () => {
               value="blackObserver"
               onChange={changeRadioQ1}
             />
-            <RadioButtonLabelBO for="3">
+            <RadioButtonLabelBO htmlFor="3">
               <div>
               <Text is_margin="0 0 0 0.12vw" is_bold is_color="white" is_stroke="0.04vw black" is_size="1.41vw">
                   Black Observer
@@ -181,7 +181,7 @@ const Roomlist = () => {
               value="whiteObserver"
               onChange={changeRadioQ1}
             />
-            <RadioButtonLabelWO for="4">
+            <RadioButtonLabelWO htmlFor="4">
               <div>
               <Text is_margin="0 0 0 0.12vw" is_bold is_color="white" is_stroke="0.05vw #94D7BB" is_size="1.41vw">
                   White Observer
