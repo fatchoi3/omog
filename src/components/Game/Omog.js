@@ -24,15 +24,23 @@ const Omog = memo(
     timeOut,
     timeOut2,
   }) => {
+
+    const dispatch = useDispatch();
+
     const [loading, setLoading] = useState(false);
     const [winner, setWinner] = useState("흑백");
-    const [beam,setBeam]= useState(true);
-    
+
+    const [X, setX] = useState();
+    const [Y, setY] = useState();
+    const [count, setCount] = useState();
+    const [board, setBoard] = useState();
+
+    const [pointer, setPointer] = useState();
+
+    const userid = sessionStorage.getItem("userId");
+    const canvasRef = useRef(null);
 
     const boardColorNum = (useSelector((state) => state.game.gameInfo[1]? state.game.gameInfo[1].boardColor:1))
-    // console.log("userInfo",userInfo);
-    // console.log("winner",winner);
-    // console.log("loading",loading);
     const boardColorChoice= (num)=>{
       let answer1;
       let answer2;
@@ -67,22 +75,14 @@ const Omog = memo(
         return [answer1,answer2];
         };
     }
-    const boardColor =boardColorChoice(boardColorNum)[0];
-    const boardLine =boardColorChoice(boardColorNum)[1];
-    // console.log("boardColor",boardColor,boardLine);
-    const dispatch = useDispatch();
-    const userid = sessionStorage.getItem("userId");
-    const canvasRef = useRef(null);
+    const boardColor = boardColorChoice(boardColorNum)[0];
+    const boardLine = boardColorChoice(boardColorNum)[1];
+
     const is_player =
       userInfo.state === "blackPlayer" || userInfo.state === "whitePlayer"
         ? true
         : false;
-    const [X, setX] = useState();
-    const [Y, setY] = useState();
-    const [count, setCount] = useState();
-    const [board, setBoard] = useState();
-
-    const [pointer, setPointer] = useState();
+ 
 
     const OP = document.getElementById("canvas");
 

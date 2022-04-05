@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { Text, Button } from "../elements";
-import Home from "../pictures/Home.png";
+import { Text, Button } from "../../elements";
+import Home from "../../pictures/Home.png";
 import "./RoomEnter.css";
 
 const RoomEnter = (props) => {

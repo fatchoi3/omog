@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import Text from '../../elements/Text';
-import Progress from '../Progress';
+import Progress from '../Lobby/Progress';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { actionCreators as roomActions } from '../../redux/modules/room';

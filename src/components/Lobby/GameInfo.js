@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import { Text, Button } from "../elements";
+import { Text, Button } from "../../elements";
 import GameSlider from "./GameSlider"
 
 const GameInfo = (props) => {
