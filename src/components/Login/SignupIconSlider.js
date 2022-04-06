@@ -120,7 +120,6 @@ const FillImage = styled.img`
     height: auto;
     object-fit: cover;
     outline: ${props => props.isClicked ? "4px solid #94D7BB" : ""};
-    /* box-shadow: 3px 3px 3px #999; */
 
     &:hover {
         outline: 4px solid #94D7BB;

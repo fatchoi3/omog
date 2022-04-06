@@ -135,7 +135,6 @@ const ObserverContainer = styled.div`
 const ObserverCard = styled.div`
     width: 384px;
     height: 320px;
-    /* padding: ${props => props.isWhite ? "15px 0 15px 0" : ""}; */
     margin: ${props => props.leftObserver ? "0 9px 0 0" : "0 0 0 9px"};
     box-shadow: -3px 3px 6px 3px #A8937340;
     border-radius: 14px;
@@ -159,7 +158,6 @@ const ObserverCardInnerBox = styled.div`
     align-items: center;
     justify-content: center;
     border-right: 2px solid #000;
-    /* border-right: 1px solid #AFADAD; */
     background-color: ${props => props.isWhite ? "white" : "#5B5B5B"}; 
 `
 
