@@ -38,7 +38,6 @@ const TableSheet = styled.table`
     width: 100%;
     margin: 50px auto;
     border-radius: 14px;
-    // border-collapse: collapse;
     border-color: black;
     overflow: hidden;
 `

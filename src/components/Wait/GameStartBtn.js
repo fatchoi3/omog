@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { Button, Text } from '../../elements';
+import { Text } from '../../elements';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { history } from '../../redux/configureStore';

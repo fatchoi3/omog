@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
-import { Text, Button } from '../../elements';
+import { Text } from '../../elements';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 

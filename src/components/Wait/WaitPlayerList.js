@@ -12,7 +12,6 @@ function WaitPlayerList({ roomNum, socket }) {
     const dispatch = useDispatch();
     const userId = sessionStorage.getItem("userId")
     const waitingPerson = useSelector((state) => state.room.userInfo);
-    const isWhite = true;
 
     const blackPlayer = useSelector(state => state.room.blackPlayer);
     const whitePlayer = useSelector(state => state.room.whitePlayer);
@@ -54,13 +53,13 @@ function WaitPlayerList({ roomNum, socket }) {
                             <Text is_color="white">{blackPlayer?.id}</Text>
                         </div>
                     </div>
-                    <div className="player__info__box" style={{ padding: "18px 24px 23px 23px", display: "flex", justifyContent: "space-between" }}>
-                        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                    <div className="player__info__box">
+                        <div>
                             <Text is_bold="800" is_size="17px" is_line_height="19px" width="100%" is_margin="0 0 10px 0">
                                 Point {blackPlayer?.point}p
                             </Text>
                             <Progress win={blackPlayer.score[0]?.win} lose={blackPlayer.score[1]?.lose} width="100%" margin="0 0 10px 0" />
-                            <div style={{ display: "flex", justifyContent: "space-between", width: "219px" }}>
+                            <div>
                                 <Text is_bold="600">
                                     승률:
                                     {blackPlayer?.score
@@ -116,13 +115,13 @@ function WaitPlayerList({ roomNum, socket }) {
                             <Text>{whitePlayer?.id}</Text>
                         </div>
                     </div>
-                    <div className="player__info__box" style={{ padding: "18px 24px 23px 23px", display: "flex", justifyContent: "space-between" }}>
-                        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                    <div className="player__info__box">
+                        <div>
                             <Text is_bold="800" is_size="17px" is_line_height="19px" is_margin="0 0 10px 0">
                                 Point {whitePlayer?.point}p
                             </Text>
                             <Progress win={whitePlayer.score[0]?.win} lose={whitePlayer.score[1]?.lose} width="100%" margin="0 0 10px 0" />
-                            <div style={{ display: "flex", justifyContent: "space-between", width: "219px" }}>
+                            <div>
                                 <Text is_bold="600">
                                     승률:
                                     {whitePlayer?.score
@@ -176,25 +175,9 @@ const PlayerContainer = styled.div`
     justify-content: space-between;
     box-sizing: border-box;
 
-    /* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
-  /* ... */
-}
-/* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (min-width: 600px) {
-  /* ... */
-}
-/* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (min-width: 768px) {
-  /* ... */
-}
-/* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) {
-}
-/* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (min-width: 1200px) {
-    justify-content: space-between;
-}
+    @media only screen and (min-width: 1200px) {
+        justify-content: space-between;
+    }
 `
 
 const PlayerCard = styled.div`
@@ -214,6 +197,24 @@ const PlayerCard = styled.div`
         padding: 20px;
         border-right: 2px solid #000;
         background-color: ${props => props.leftPlayer ? "#5B5B5B" : ""};
+    }
+
+    .player__info__box {
+        padding: 18px 24px 23px 23px;
+        display: flex;
+        justify-content: space-between;
+
+        > div:nth-child(1){
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            >div {
+                display: flex;
+                justify-content: space-between;
+                width: 219px;
+            }
+        }
     }
 
     &:hover {

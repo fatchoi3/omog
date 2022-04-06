@@ -1,4 +1,4 @@
-import React, { useState, forwardRef } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 
