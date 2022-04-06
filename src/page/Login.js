@@ -21,7 +21,7 @@ import profile10 from '../pictures/omok-profile10.svg';
 import profile11 from '../pictures/omok-profile11.svg';
 
 import ExplainModal from '../components/Login/ExplainModal';
-import Alarm from '../components/Login/Alarm';
+
 
 const SignupModal = lazy(() => import('../components/Login/SignupModal'));
 const PassSearchModal = lazy(() => import('../components/Login/PassSearchModal'));
@@ -187,9 +187,7 @@ function Login(props) {
                     </div>
                 </div>
             </LoginInputContainer>
-            <Absolute>
-            <Alarm/>
-            </Absolute>
+            
         </LoginPageContainer>
     );
 }
