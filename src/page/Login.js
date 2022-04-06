@@ -21,6 +21,7 @@ import profile10 from '../pictures/omok-profile10.svg';
 import profile11 from '../pictures/omok-profile11.svg';
 
 import ExplainModal from '../components/Login/ExplainModal';
+import Alarm from '../components/Login/Alarm';
 
 const SignupModal = lazy(() => import('../components/Login/SignupModal'));
 const PassSearchModal = lazy(() => import('../components/Login/PassSearchModal'));
@@ -186,6 +187,9 @@ function Login(props) {
                     </div>
                 </div>
             </LoginInputContainer>
+            <Absolute>
+            <Alarm/>
+            </Absolute>
         </LoginPageContainer>
     );
 }
@@ -347,6 +351,11 @@ const Picker = styled.div`
     background-color: ${(props) => props.background};
     margin: 0 6px;
     cursor: pointer;
+`;
+const Absolute =styled.div`
+position : absolute;
+top : 11.72vw;
+left : 11.72vw;
 `;
 
 export default Login;

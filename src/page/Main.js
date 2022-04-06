@@ -192,7 +192,10 @@ const Main = () => {
                open={infoOpen}
                close={closeInfo}
               />
-            </ListTip>
+               <Text is_size="1.17vw" is_margin="0.59vw 0 0 15.93vw"  >
+                 ※오전 4: 00 ~ 4: 30은 서버 점검 시간입니다※
+                 </Text>
+                </ListTip>
             <RoomFind>
               <Text
                 is_size="0.88vw"
