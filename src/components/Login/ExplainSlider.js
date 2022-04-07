@@ -178,7 +178,7 @@ const ExplainModalOut = styled.button`
     text-align: center;
     border: 2px solid #000000;
     border-radius: 10px;
-    transition: all 0.2s linear 0s;
+    transition: all 0s linear 0s;
     cursor: pointer;
 
     &:before {

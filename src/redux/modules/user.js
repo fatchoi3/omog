@@ -86,8 +86,8 @@ const initialState = {
     point: 1000,
     state: "whitePlayer",
   },
-  findPassCheck: false
-  ,
+  findPassCheck: false,
+  signupCheck: false,
 };
 
 // actions
@@ -99,6 +99,7 @@ const GET_LEADERS = "GET_LEADERS";
 const GET_LEADER_BOARD = "GET_LEADER_BOARD";
 const CLEAR_STATE = "CLEAR_STATE";
 const FIND_PASS_CHECK = "FIND_PASS_CHECK";
+const SIGNUP_PASS_CHECK = "SIGNUP_PASS_CHECK";
 
 // action creators
 const loginCheck = createAction(LOGIN_CHECK, (userInfo) => ({ userInfo }));
@@ -112,7 +113,8 @@ const getLeaderBorad = createAction(GET_LEADER_BOARD, (leader_board) => ({
 }));
 const logout = createAction(LOG_OUT, (user) => ({ user }));
 const clearOne = createAction(CLEAR_STATE);
-const findPassCheck = createAction(FIND_PASS_CHECK, (boo) => ({ boo }));
+const findPassCheck = createAction(FIND_PASS_CHECK, (bool) => ({ bool }));
+const signupPassCheck = createAction(SIGNUP_PASS_CHECK, (bool) => ({ bool }));
 
 // middleware actions
 const signupDB = (id, email, password, passwordConfirm, pickIndex) => {
@@ -135,12 +137,14 @@ const signupDB = (id, email, password, passwordConfirm, pickIndex) => {
         title: '회원가입 성공',
         text: '회원가입에 성공했습니다. 로그인해주세요.',
       });
+      dispatch(signupPassCheck(false));
     } catch (error) {
       Swal.fire({
         icon: 'warning',
         title: '회원가입 실패',
         text: `${error.response.data.errorMessage}`,
       });
+      console.log(getState())
       Sentry.captureException(error);
     }
   };
@@ -185,13 +189,13 @@ const logoutDB = (id) => {
 
 const getUserDB = (id) => {
   return async function (dispatch, getState, { history }) {
-    try{
-      const res = await   api.get(`/lobby/userList/${id}`);
+    try {
+      const res = await api.get(`/lobby/userList/${id}`);
       dispatch(getUserInfo(res.data));
     }
- catch(error){
-  Sentry.captureException(error);
- }
+    catch (error) {
+      Sentry.captureException(error);
+    }
   };
 };
 
@@ -209,11 +213,11 @@ const loginCheckDB = (id) => {
 
 const getLeaderDB = () => {
   return async function (dispatch, getState, { history }) {
-    try{
+    try {
       const res = await api.get("/lobby/leaderList");
       dispatch(getLeaders(res.data));
     }
-    catch(error){
+    catch (error) {
       Sentry.captureException(error);
     }
   };
@@ -221,11 +225,11 @@ const getLeaderDB = () => {
 
 const getLeaderBoardDB = () => {
   return async function (dispatch, getState, { history }) {
-    try{
+    try {
       const res = await api.get("/leaderBoard");
       dispatch(getLeaderBorad(res.data));
     }
-    catch(error){
+    catch (error) {
       Sentry.captureException(error);
     }
   };
@@ -302,8 +306,12 @@ export default handleActions(
         draft.userInfo = {};
       }),
     [FIND_PASS_CHECK]: (state, action) => produce(state, (draft) => {
-      draft.findPassCheck = action.payload.boo;
-    })
+      draft.findPassCheck = action.payload.bool;
+    }),
+    [SIGNUP_PASS_CHECK]: (state, action) => produce(state, (draft) => {
+      console.log(action.payload.bool)
+      draft.signupCheck = action.payload.bool;
+    }),
   },
   initialState
 );
@@ -323,6 +331,7 @@ const actionCreators = {
   passwordSearchDB,
   findPassCheck,
   newPasswordDB,
+  signupPassCheck,
 };
 
 export { actionCreators };
