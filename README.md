@@ -14,7 +14,7 @@
 <br>
 
 # 게임 설명
-<img src="https://user-images.githubusercontent.com/84789580/161703362-1ab8fdd4-b0d2-4b15-abdd-5450922535d3.svg"  width="300" height="350"><img src="https://user-images.githubusercontent.com/84789580/161703432-3bac2413-a50a-43a8-a638-2ca50e44a8c9.svg"  width="300" height="350"><img src="https://user-images.githubusercontent.com/84789580/161703444-db66dbb5-605d-4f62-97b4-580f981f9b96.svg"  width="300" height="350"><img src="https://user-images.githubusercontent.com/84789580/161703460-82649826-2599-4270-99c0-a1495f187249.svg"  width="300" height="350"><img src="https://user-images.githubusercontent.com/84789580/161703473-2430314b-a271-4aaf-99c0-3f291973564c.svg"  width="300" height="350"><img src="https://user-images.githubusercontent.com/84789580/161703478-169577b3-c281-42ed-9401-32092aca8c0b.svg"  width="300" height="350">
+<img src="https://user-images.githubusercontent.com/84789580/161703362-1ab8fdd4-b0d2-4b15-abdd-5450922535d3.svg"  width="250" height="250"><img src="https://user-images.githubusercontent.com/84789580/161703432-3bac2413-a50a-43a8-a638-2ca50e44a8c9.svg"  width="250" height="250"><img src="https://user-images.githubusercontent.com/84789580/161703444-db66dbb5-605d-4f62-97b4-580f981f9b96.svg"  width="250" height="250"><img src="https://user-images.githubusercontent.com/84789580/161703460-82649826-2599-4270-99c0-a1495f187249.svg"  width="250" height="250"><img src="https://user-images.githubusercontent.com/84789580/161703473-2430314b-a271-4aaf-99c0-3f291973564c.svg"  width="250" height="250"><img src="https://user-images.githubusercontent.com/84789580/161703478-169577b3-c281-42ed-9401-32092aca8c0b.svg"  width="250" height="250">
 
 <br>
 
@@ -58,14 +58,16 @@
 # 기술 스택
 > 프론트엔드
 
-<img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=black"><img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=CSS3&logoColor=black"><img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black"><img src="https://img.shields.io/badge/Redux-764ABC?style=for-the-badge&logo=Redux&logoColor=black"><img src="https://img.shields.io/badge/styled components-DB7093?style=for-the-badge&logo=styled components&logoColor=black"><img src="https://img.shields.io/badge/Socket.io-010101?style=for-the-badge&logo=Socket.io&logoColor=white"><img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=black"><img src="https://img.shields.io/badge/Sentry-362D59?style=for-the-badge&logo=Sentry&logoColor=black">
+<img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=black"><img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=CSS3&logoColor=black"><img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black"><img src="https://img.shields.io/badge/Redux-764ABC?style=for-the-badge&logo=Redux&logoColor=black"><img src="https://img.shields.io/badge/styled components-DB7093?style=for-the-badge&logo=styled components&logoColor=black"><img src="https://img.shields.io/badge/Socket.io-010101?style=for-the-badge&logo=Socket.io&logoColor=white"><img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=black"><img src="https://img.shields.io/badge/Sentry-362D59?style=for-the-badge&logo=Sentry&logoColor=black"><img src="https://img.shields.io/badge/SweetAlert2-362D59?style=for-the-badge&logo=SweetAlert2&logoColor=black">
 
 
 <br>
 
 > 백엔드
 
-<img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white"><img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=Express&logoColor=white"><img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=MongoDB&logoColor=white"><img src="https://img.shields.io/badge/PM2-2B037A?style=for-the-badge&logo=PM2&logoColor=white"><img src="https://img.shields.io/badge/Socket.io-010101?style=for-the-badge&logo=Socket.io&logoColor=white"><img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=for-the-badge&logo=Amazon AWS&logoColor=white"><img src="https://img.shields.io/badge/Sentry-362D59?style=for-the-badge&logo=Sentry&logoColor=black">
+<img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white"><img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=Express&logoColor=white"><img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=MongoDB&logoColor=white"><img src="https://img.shields.io/badge/PM2-2B037A?style=for-the-badge&logo=PM2&logoColor=white"><img src="https://img.shields.io/badge/Socket.io-010101?style=for-the-badge&logo=Socket.io&logoColor=white"><img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=for-the-badge&logo=Amazon AWS&logoColor=white"><img src="https://img.shields.io/badge/Sentry-362D59?style=for-the-badge&logo=Sentry&logoColor=black"><img src="https://img.shields.io/badge/Artillery-339933?style=for-the-badge&logo=Artillery&logoColor=black"><img src="https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=Swagger&logoColor=black"><img src="https://img.shields.io/badge/CORS-339933?style=for-the-badge&logo=CORS&logoColor=black"><img src="https://img.shields.io/badge/JSON Web Tokens-000000?style=for-the-badge&logo=JSON Web Tokens&logoColor=white"><img src="https://img.shields.io/badge/Crypto-339933?style=for-the-badge&logo=Crypto&logoColor=black"><img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=Prettier&logoColor=black"><img src="https://img.shields.io/badge/dotenv-F7B93E?style=for-the-badge&logo=dotenv&logoColor=black"><img src="https://img.shields.io/badge/ejs-F7B93E?style=for-the-badge&logo=ejs&logoColor=black">
+
+
 
 <br>
 
@@ -86,6 +88,7 @@
 # More Information
 - [API 명세서](https://wool-chard-0a2.notion.site/API-b2107de5871142b6a76f2cf3b3e20e42)
 - 서비스 아키텍쳐
-  ![서비스 아키텍쳐](https://user-images.githubusercontent.com/84789580/161915571-3f6f66fb-5528-4e95-8378-89790320f5a3.png)
+  ![서비스 아키텍쳐](https://user-images.githubusercontent.com/84789580/161981911-e545ac02-e213-405f-a757-3b2e07f403d8.png)
 - ERD
+
 
