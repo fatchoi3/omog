@@ -46,6 +46,7 @@ function Login(props) {
     const [pickers, setPickers] = useState([]);
     const [pickIndex, setPickIndex] = useState(0);
     const passUserCheck = useSelector(state => state.user.findPassCheck);
+    const signupPassCheck = useSelector(state => state.user.signupCheck);
 
 
     const handleIdInput = (e) => {
@@ -73,11 +74,7 @@ function Login(props) {
     }
 
     const handleSignupModal = () => {
-        if (signupModal === false) {
-            setSignupModal(true);
-        } else {
-            setSignupModal(false);
-        }
+        dispatch(userActions.signupPassCheck(true));
     }
 
     const handlePassSearchModal = () => {
@@ -143,20 +140,17 @@ function Login(props) {
         return () => {
             window.removeEventListener("click", handleClickOutside);
         };
-    }, [signupModal]);
-
-    useEffect(() => {
-        window.addEventListener("click", handleClickOutside);
-        return () => {
-            window.removeEventListener("click", handleClickOutside);
-        };
     }, [passModal]);
 
 
     return (
         <LoginPageContainer>
             <ExplainModal visible={explainModal} handleExplainModal={handleExplainModal} />
-            <SignupModal visible={signupModal} handleSignupModal={handleSignupModal} setModalVisible={setSignupModal} ref={modalEl} />
+
+            {signupPassCheck &&
+                <SignupModal ref={modalEl} />
+            }
+
             <PassSearchModal visible={passModal} setPassModal={setPassModal} setNewPass={setNewPass} ref={passModalEl} />
 
             {passUserCheck &&

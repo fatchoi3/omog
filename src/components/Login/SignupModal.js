@@ -19,11 +19,14 @@ import profile10 from '../../pictures/omok-profile10.svg';
 import profile11 from '../../pictures/omok-profile11.svg';
 import SignupIconModal from './SignupIconModal';
 
-const SignupModal = forwardRef(({ visible, handleSignupModal, setModalVisible }, modalEl) => {
+const SignupModal = forwardRef(({ props }, modalEl) => {
     const icons = [profile1, profile2, profile3, profile4, profile5, profile6, profile7, profile8, profile9, profile10, profile11];
 
     const dispatch = useDispatch();
     const slideRef = useRef(null);
+    const inputIdRef = useRef(null);
+    const inputEmailRef = useRef(null);
+    const inputPassRef = useRef(null);
 
     const [id, setId] = useState("");
     const [email, setEmail] = useState("");
@@ -58,6 +61,10 @@ const SignupModal = forwardRef(({ visible, handleSignupModal, setModalVisible },
         }
     }
 
+    const handleSignupModal = () => {
+        dispatch(userActions.signupPassCheck(false));
+    }
+
     const idCheck = (id) => {
         let _reg = /^[A-Z0-9a-z]{2,11}$/g;
         return _reg.test(id);
@@ -70,7 +77,28 @@ const SignupModal = forwardRef(({ visible, handleSignupModal, setModalVisible },
     const handleSignup = (e) => {
         e.preventDefault();
 
+        if (idCheck(id) === false) {
+            inputIdRef.current.focus();
+            Swal.fire({
+                icon: 'warning',
+                title: '아이디 형식 오류',
+                text: '아이디 형식이 올바르지 않습니다.',
+            });
+            return;
+        }
+
+        if (emailCheck(email) === false) {
+            inputEmailRef.current.focus();
+            Swal.fire({
+                icon: 'warning',
+                title: '이메일 형식 오류',
+                text: '이메일 형식이 올바르지 않습니다.',
+            });
+            return;
+        }
+
         if (password !== passwordConfirm) {
+            inputPassRef.current.focus();
             Swal.fire({
                 icon: 'warning',
                 title: '비밀번호 일치 오류',
@@ -88,28 +116,7 @@ const SignupModal = forwardRef(({ visible, handleSignupModal, setModalVisible },
             return;
         }
 
-        if (idCheck(id) === false) {
-            Swal.fire({
-                icon: 'warning',
-                title: '아이디 형식 오류',
-                text: '아이디 형식이 올바르지 않습니다.',
-            });
-            return;
-        }
-
-        if (emailCheck(email) === false) {
-            Swal.fire({
-                icon: 'warning',
-                title: '이메일 형식 오류',
-                text: '이메일 형식이 올바르지 않습니다.',
-            });
-            return;
-        }
-
         dispatch(userActions.signupDB(id, email, password, passwordConfirm, pickIndex))
-            .then(() => {
-                handleSignupModal(setModalVisible(false))
-            })
     }
 
     const handleIconSelect = (e) => {
@@ -118,15 +125,18 @@ const SignupModal = forwardRef(({ visible, handleSignupModal, setModalVisible },
 
 
     return (
-        <SignupModalOverlay signup="true" visible={visible}>
+        <SignupModalOverlay signup="true">
             <div className="signup_modal_box" ref={modalEl} tabIndex="-1">
+                <div onClick={handleSignupModal}>
+                    <span>&#10005;</span>
+                </div>
                 <div className="signup_modal_title_box">
                     <h2>회원가입</h2>
                 </div>
                 <div className="signup_modal_input_box" style={{ position: "relative" }}>
-                    <input type="text" placeholder="아이디 : 2~12자, 영문 혹은 영문+숫자" onChange={handleIdInput} />
-                    <input type="email" placeholder="이메일 : 상품발송용 이메일 입니다!" onChange={handleEmailInput} />
-                    <input type="password" placeholder="비밀번호" onChange={handlePasswordInput} />
+                    <input ref={inputIdRef} type="text" placeholder="아이디 : 2~12자, 영문 혹은 영문+숫자" onChange={handleIdInput} />
+                    <input ref={inputEmailRef} type="email" placeholder="이메일 : 상품발송용 이메일 입니다!" onChange={handleEmailInput} />
+                    <input ref={inputPassRef} type="password" placeholder="비밀번호" onChange={handlePasswordInput} />
                     <input type="password" placeholder="비밀번호 확인" onChange={handlePasswordConfirmInput} />
                     <div style={{ width: "80%", display: "flex", justifyContent: "space-around" }}>
                         <span>프로필 사진</span>
@@ -166,7 +176,7 @@ const SignupModalOverlay = styled.div`
     left: 0;
     width: 100%;
     height: 100vh;
-    display: ${props => props.visible ? "block" : "none"};
+    display: block;
     align-items: center;
     justify-content: center;
     background: rgba(0, 0, 0, 0.6);
@@ -187,6 +197,17 @@ const SignupModalOverlay = styled.div`
         background: #fff;
 
         > div:nth-child(1) {
+            display:flex;
+            justify-content: flex-end;
+
+            > span {
+                font-size: 18px;
+                font-weight: 800;
+                cursor: pointer;
+            }
+        }
+
+        > div:nth-child(2) {
             width: 70%;
             margin: 0 auto 30px auto;
             text-align: center;
@@ -199,7 +220,7 @@ const SignupModalOverlay = styled.div`
             }
         }
 
-        > div:nth-child(2) {
+        > div:nth-child(3) {
             width: 100%;
             margin: 0 auto;
             display: flex;

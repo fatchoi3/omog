@@ -106,10 +106,7 @@ const PassSeachOverlay = styled.div`
         border: 2px solid #000;
         border-radius: 14px;
         background: #fff;
-        display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
 
 
         > div:nth-child(1) {
@@ -127,6 +124,9 @@ const PassSeachOverlay = styled.div`
             width: 100%;
             margin: 0 auto 30px auto;
             text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
             > h2 {
                 color: #189FFB;
