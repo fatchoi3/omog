@@ -83,6 +83,6 @@
 <br>
 
 # More Information
-- [API 명세서](https://wool-chard-0a2.notion.site/API-b2107de5871142b6a76f2cf3b3e20e42)
+- [API 명세서](https://wool-chard-0a2.notion.site/API-6d0bc66baee54f9fb606ccb0970a2323)
 - ERD
 - 서비스 
