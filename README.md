@@ -83,7 +83,7 @@
 <br>
 
 # More Information
-- [API 명세서](https://wool-chard-0a2.notion.site/API-6d0bc66baee54f9fb606ccb0970a2323)
+- [HTTP 및 Socket API 명세서](https://wool-chard-0a2.notion.site/API-6d0bc66baee54f9fb606ccb0970a2323)
 - [DB Modeling](https://wool-chard-0a2.notion.site/DB-Modeling-253f60c0231842c29f044bf6b374ce1b)
 - [와이어프레임 및 디자인](https://www.figma.com/file/xe93TTBrEOv0uUJykYl7cN/%ED%95%AD%ED%95%B4-99-2%EC%A1%B0-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8?node-id=0%3A1)
  
