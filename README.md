@@ -4,7 +4,7 @@
 <br>
 
 # 시연 영상
-- 영상
+- [영상].(https://youtu.be/NFCZEkAfxQ4)
 
 <br>
 
