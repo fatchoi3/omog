@@ -1,12 +1,14 @@
 import { React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
-import Swal from 'sweetalert2';
 
-import { Text, Button } from "../../elements/index";
+import { Text } from "../../elements/index";
 import RoomEnter from "./RoomEnter";
 import { actionCreators as roomActions } from "../../redux/modules/room";
-import "./lobby.css"
+
+import styled from "styled-components";
+import Swal from "sweetalert2";
+import "./lobby.css";
+
 const Roomlist = () => {
   const dispatch = useDispatch();
   const [modalOpen, setModalOpen] = useState(false);
@@ -15,7 +17,6 @@ const Roomlist = () => {
   const room_list = useSelector((state) => state.room.list);
   const room_info = useSelector((state) => state.room.roomInfo);
   const userId = sessionStorage.getItem("userId");
-  console.log("room_list", room_list);
 
   const openModal = () => {
     setModalOpen(true);
@@ -29,18 +30,18 @@ const Roomlist = () => {
   const joinWaiting = () => {
     if (!room_info.roomNum) {
       Swal.fire({
-        title: '방이 없어요!',
-        icon: 'info',
-        confirmButtonText: 'Ok'
+        title: "방이 없어요!",
+        icon: "info",
+        confirmButtonText: "Ok",
       });
       window.location.reload();
       return;
     }
     if (state === "") {
       Swal.fire({
-        title: '팀을 선택해주세요!',
-        icon: 'warning',
-        confirmButtonText: 'Ok'
+        title: "팀을 선택해주세요!",
+        icon: "warning",
+        confirmButtonText: "Ok",
       });
       return;
     }
@@ -54,13 +55,12 @@ const Roomlist = () => {
     );
   };
 
-  const aaa = () => {
+  const TimingRoomlist = () => {
     dispatch(roomActions.getRoomListDB(userId));
   };
 
   useEffect(() => {
-    setInterval(aaa, 10000);
-    dispatch(roomActions.getRoomListDB(userId));
+    setInterval(TimingRoomlist, 10000);
   }, []);
 
   return (
@@ -83,16 +83,19 @@ const Roomlist = () => {
               <TdP>{n.playerCnt}</TdP>
               <TdO>{n.observerCnt}</TdO>
               <TdS>
-                <button 
-                className="EBTN"
-            
+                <button
+                  className="EBTN"
                   disabled={n.state == "wait" ? false : true}
                   onClick={() => {
                     dispatch(roomActions.getRoomInfoDB(n.roomNum));
                     openModal();
                   }}
                 >
-                 {n.state==="wait"? <Text>방 입장</Text>:<Text>게임중</Text> }
+                  {n.state === "wait" ? (
+                    <Text>방 입장</Text>
+                  ) : (
+                    <Text>게임중</Text>
+                  )}
                 </button>
               </TdS>
             </Tr>
@@ -102,7 +105,7 @@ const Roomlist = () => {
       <RoomEnter
         open={modalOpen}
         close={closeModal}
-        header="방 입장하기"  
+        header="방 입장하기"
         enterName="방 입장"
         enter={joinWaiting}
       >
@@ -118,7 +121,13 @@ const Roomlist = () => {
             />
             <RadioButtonLabelBP htmlFor="1">
               <div>
-               <Text is_margin="0 0 0 0.12vw" is_bold is_color="white" is_stroke="0.04vw black" is_size="1.41vw">
+                <Text
+                  is_margin="0 0 0 0.12vw"
+                  is_bold
+                  is_color="white"
+                  is_stroke="0.04vw black"
+                  is_size="1.41vw"
+                >
                   Black Player
                 </Text>
                 <Text is_margin="0.59vw 0 0 0" is_bold is_color="black">
@@ -139,7 +148,13 @@ const Roomlist = () => {
             />
             <RadioButtonLabelWP htmlFor="2">
               <div>
-              <Text is_margin="0 0 0 0.12vw" is_bold is_color="white" is_stroke="0.05vw #94D7BB" is_size="1.41vw">
+                <Text
+                  is_margin="0 0 0 0.12vw"
+                  is_bold
+                  is_color="white"
+                  is_stroke="0.05vw #94D7BB"
+                  is_size="1.41vw"
+                >
                   White Player
                 </Text>
                 <Text is_margin="0.29vw 0 0 0" is_bold is_color="#94D7BB">
@@ -159,7 +174,13 @@ const Roomlist = () => {
             />
             <RadioButtonLabelBO htmlFor="3">
               <div>
-              <Text is_margin="0 0 0 0.12vw" is_bold is_color="white" is_stroke="0.04vw black" is_size="1.41vw">
+                <Text
+                  is_margin="0 0 0 0.12vw"
+                  is_bold
+                  is_color="white"
+                  is_stroke="0.04vw black"
+                  is_size="1.41vw"
+                >
                   Black Observer
                 </Text>
                 <Text is_margin="0.29vw 0 0 0" is_bold>
@@ -183,7 +204,13 @@ const Roomlist = () => {
             />
             <RadioButtonLabelWO htmlFor="4">
               <div>
-              <Text is_margin="0 0 0 0.12vw" is_bold is_color="white" is_stroke="0.05vw #94D7BB" is_size="1.41vw">
+                <Text
+                  is_margin="0 0 0 0.12vw"
+                  is_bold
+                  is_color="white"
+                  is_stroke="0.05vw #94D7BB"
+                  is_size="1.41vw"
+                >
                   White Observer
                 </Text>
                 <Text is_margin="0.29vw 0 0 0" is_bold is_color="#94D7BB">
@@ -208,7 +235,7 @@ const Table = styled.table`
   border-radius: 0.88vw 0.88vw 0 0;
   background-color: white;
   border-bottom: 0.18vw solid black;
-  font-size:0.94vw;
+  font-size: 0.94vw;
 `;
 const Thead = styled.thead`
   background-color: #94d7bb;
@@ -217,7 +244,7 @@ const Thead = styled.thead`
 `;
 const Tbody = styled.tbody`
   background-color: white;
-  width : 70.3vw;
+  width: 70.3vw;
 `;
 const Tr = styled.tr`
   height: 3.51vw;
@@ -226,7 +253,7 @@ const Tr = styled.tr`
 const Th = styled.th`
   border-bottom: 0.06vw solid black;
   border-right: 0.06vw solid black;
-    border-radius: 0.88vw 0vw 0 0;
+  border-radius: 0.88vw 0vw 0 0;
   width: 11.72vw;
   height: 3.51vw;
 `;
@@ -269,7 +296,6 @@ const WaitingEnterRadio = styled.div`
   justify-content: center;
 `;
 
-
 const RadioButtonLabelBP = styled.label`
   width: 100%;
   height: 100%;
@@ -278,31 +304,31 @@ const RadioButtonLabelBP = styled.label`
   display: flex;
   align-items: center;
   justify-content: center;
-  position : absolute;
+  position: absolute;
 `;
 
 const RadioButtonBP = styled.input`
   opacity: 0;
   z-index: 1;
   cursor: pointer;
-    &:checked {
+  &:checked {
     background: black;
     border: 0.12vw solid #e5e5e5;
   }
-   &:checked + ${RadioButtonLabelBP} {
+  &:checked + ${RadioButtonLabelBP} {
     background: black;
     border: 0.06vw solid #e5e5e5;
   }
 `;
 const RadioButtonLabelWP = styled.label`
-width: 100%;
-height: 100%;
-border-radius: 0.88vw;
-background-color: transparent;
-display: flex;
-align-items: center;
-justify-content: center;
-position : absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 0.88vw;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
 `;
 const RadioButtonWP = styled.input`
   opacity: 0;
@@ -313,19 +339,19 @@ const RadioButtonWP = styled.input`
     border: 0.12vw solid #e5e5e5;
   }
   &:checked + ${RadioButtonLabelWP} {
-    background: #94D7BB;
+    background: #94d7bb;
     border: 0.06vw solid #e5e5e5;
   }
 `;
 const RadioButtonLabelBO = styled.label`
-width: 100%;
-height: 100%;
-border-radius: 0.88vw;
-background-color: transparent;
-display: flex;
-align-items: center;
-justify-content: center;
-position : absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 0.88vw;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
 `;
 const RadioButtonBO = styled.input`
   opacity: 0;
@@ -338,31 +364,30 @@ const RadioButtonBO = styled.input`
   &:checked + ${RadioButtonLabelBO} {
     background: black;
     border: 0.06vw solid black;
-   
   }
 `;
 const RadioButtonLabelWO = styled.label`
-width: 100%;
-height: 100%;
-border-radius: 0.88vw;
-background-color: transparent;
-display: flex;
-align-items: center;
-justify-content: center;
-position : absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 0.88vw;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
 `;
 const RadioButtonWO = styled.input`
   opacity: 0;
   z-index: 1;
   cursor: pointer;
- 
+
   &:checked {
-    background: #94D7BB;
+    background: #94d7bb;
     border: 0.12vw solid #e5e5e5;
   }
- 
+
   &:checked + ${RadioButtonLabelWO} {
-    background:#94D7BB;
+    background: #94d7bb;
     border: 0.06vw solid #e5e5e5;
     &::after {
       color: white;

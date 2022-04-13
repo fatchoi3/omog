@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 import { Button, Text } from "../elements/index";
 import Roomlist from "../components/Lobby/Roomlist";
@@ -11,7 +11,6 @@ import RoomMake from "../components/Lobby/RoomMake";
 import useInput from "../hook/useInput";
 import GameInfo from "../components/Lobby/GameInfo";
 
-
 import Time from "../pictures/Time.png";
 
 import useSocket from "../hook/useSocket2";
@@ -21,9 +20,7 @@ import { actionCreators as roomActions } from "../redux/modules/room";
 
 import { useHistory } from "react-router-dom";
 
-import "../components/Lobby/lobby.css"
-
-
+import "../components/Lobby/lobby.css";
 
 const Main = () => {
   const dispatch = useDispatch();
@@ -31,12 +28,11 @@ const Main = () => {
 
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
-  const [infoOpen, setInfo]= useState(false);
+  const [infoOpen, setInfo] = useState(false);
   const [roomaName, onChangeRoomaName, setRoomaName] = useInput("");
   const [roomNum, onChangeRoomNum, setRoomNum] = useInput("");
   const [state, setState] = useState("5 : 00");
   const [color, setColor] = useState("1");
- 
 
   const userId = sessionStorage.getItem("userId");
   const is_token = userId ? true : false;
@@ -46,46 +42,42 @@ const Main = () => {
     -1,
     userId
   );
-  
-  //모달창켜기
+
   const openModal = () => {
     setModalOpen(true);
   };
 
-  //모달창끄리
   const closeModal = () => {
     setModalOpen(false);
   };
-  //모달창켜기
+
   const openInfo = () => {
     setInfo(true);
   };
 
-  //모달창끄리
   const closeInfo = () => {
     setInfo(false);
   };
 
-  //방만들어 입장
   const enterWaiting = () => {
-    if ((roomaName === "" || state === "")||color==="") {
+    if (roomaName === "" || state === "" || color === "") {
       Swal.fire({
-        title: '모두 채워주세요!',
-        icon: 'info',
-        confirmButtonText: 'Ok'
+        title: "모두 채워주세요!",
+        icon: "info",
+        confirmButtonText: "Ok",
       });
       return;
     }
-    dispatch(roomActions.addRoomDB(roomaName, state,color));
+    dispatch(roomActions.addRoomDB(roomaName, state, color));
   };
 
   const enterNum = () => {
     if (roomNum === "") {
       Swal.fire({
-        title: '모두 채워주세요!',
-        icon: 'info',
-        confirmButtonText: 'Ok'
-      })
+        title: "모두 채워주세요!",
+        icon: "info",
+        confirmButtonText: "Ok",
+      });
       return;
     }
     dispatch(roomActions.numJoinDB({ id: userId, roomNum: roomNum }));
@@ -95,7 +87,7 @@ const Main = () => {
     setState(e.target.value);
   };
   const changeRadioQ2 = (e) => {
-    console.log("e",e.target.value)
+    console.log("e", e.target.value);
     setColor(e.target.value);
   };
 
@@ -163,14 +155,11 @@ const Main = () => {
 
   return (
     <>
-      
-
       <Container>
         {loading ? <Spinner type={"page"} is_dim={true} width="11.72vw" /> : ""}
         <ListDiv>
           <ListTitle>
             <ListTip>
-             
               <Text is_size="1.76vw" is_margin="0.59vw 0 0 0.35vw" is_bold>
                 게임방
               </Text>
@@ -185,17 +174,22 @@ const Main = () => {
               >
                 <Text is_size="0.88vw">↻</Text>
               </Button>
-              <Text is_size="1.17vw" is_margin="0.59vw 0 0 2.93vw" is_bold is_cursor _onClick={()=>{openInfo()}} >
-                 게임 방법?
-                 </Text>
-              <GameInfo
-               open={infoOpen}
-               close={closeInfo}
-              />
-               <Text is_size="1.17vw" is_margin="0.59vw 0 0 15.93vw"  >
-                 ※오전 4: 00 ~ 4: 30은 서버 점검 시간입니다※
-                 </Text>
-                </ListTip>
+              <Text
+                is_size="1.17vw"
+                is_margin="0.59vw 0 0 2.93vw"
+                is_bold
+                is_cursor
+                _onClick={() => {
+                  openInfo();
+                }}
+              >
+                게임 방법?
+              </Text>
+              <GameInfo open={infoOpen} close={closeInfo} />
+              <Text is_size="1.17vw" is_margin="0.59vw 0 0 15.93vw">
+                ※오전 4: 00 ~ 4: 30은 서버 점검 시간입니다※
+              </Text>
+            </ListTip>
             <RoomFind>
               <Text
                 is_size="0.88vw"
@@ -224,7 +218,7 @@ const Main = () => {
                 is_border="none"
                 _onClick={() => {
                   enterNum();
-                  setRoomNum("")
+                  setRoomNum("");
                 }}
               >
                 <Text is_size="1.46vw">🔍</Text>
@@ -289,7 +283,6 @@ const Main = () => {
                 관전자 빠른 참가!
               </Text>
             </Button>
-           
           </ButtonWrap>
         </UserInfoWrap>
 
@@ -333,7 +326,7 @@ const Main = () => {
                       onChange={changeRadioQ1}
                     />
                     <RadioButtonLabel htmlFor="1">
-                      <Text is_size="1.46vw" >2: 00</Text>
+                      <Text is_size="1.46vw">2: 00</Text>
                     </RadioButtonLabel>
                   </div>
 
@@ -366,64 +359,63 @@ const Main = () => {
                 </WaitingEnterRadio>
               </TimeChoiceTitle>
               <ColorChoice>
-                <ColorTitle><Text is_bold>오목판</Text>  </ColorTitle>
-                
-                  <ColorRadio
+                <ColorTitle>
+                  <Text is_bold>오목판</Text>{" "}
+                </ColorTitle>
+
+                <ColorRadio
                   type="radio"
                   id="11"
                   name="color"
                   value="1"
-                  checked={color ==="1"?"checked":""}
-                  onChange={changeRadioQ2}/>
-                  <Color htmlFor="11" color="#E08C4F"/>
-                  <ColorRadio
-                type="radio"
-                id="22"
-                name="color"
-                value="2"
-                onChange={changeRadioQ2}
+                  checked={color === "1" ? "checked" : ""}
+                  onChange={changeRadioQ2}
                 />
-                <Color htmlFor="22" color="#D3EAE0"/>
-                 
-                 <ColorRadio
-                type="radio"
-                id="33"
-                name="color"
-                value="3"
-                onChange={changeRadioQ2}
+                <Color htmlFor="11" color="#E08C4F" />
+                <ColorRadio
+                  type="radio"
+                  id="22"
+                  name="color"
+                  value="2"
+                  onChange={changeRadioQ2}
                 />
-                <Color htmlFor="33" color="#FFD7E7"/>
-                  
+                <Color htmlFor="22" color="#D3EAE0" />
 
-                  <ColorRadio
-                type="radio"
-                id="44"
-                name="color"
-                value="4"
-                onChange={changeRadioQ2}
+                <ColorRadio
+                  type="radio"
+                  id="33"
+                  name="color"
+                  value="3"
+                  onChange={changeRadioQ2}
                 />
-                <Color htmlFor="44" color="#D9E4F4"/>
-                  
-                  
-                 <ColorRadio
-                type="radio"
-                id="55"
-                name="color"
-                value="5"
-                onChange={changeRadioQ2}
+                <Color htmlFor="33" color="#FFD7E7" />
+
+                <ColorRadio
+                  type="radio"
+                  id="44"
+                  name="color"
+                  value="4"
+                  onChange={changeRadioQ2}
                 />
-                <Color htmlFor="55" color="#DDDDDD"/>
-                  
-                  <ColorRadio
-                type="radio"
-                id="66"
-                name="color"
-                value="6"
-                onChange={changeRadioQ2}
+                <Color htmlFor="44" color="#D9E4F4" />
+
+                <ColorRadio
+                  type="radio"
+                  id="55"
+                  name="color"
+                  value="5"
+                  onChange={changeRadioQ2}
                 />
-                <Color htmlFor="66" color="#8E8E8E"/>
-                  
-                
+                <Color htmlFor="55" color="#DDDDDD" />
+
+                <ColorRadio
+                  type="radio"
+                  id="66"
+                  name="color"
+                  value="6"
+                  onChange={changeRadioQ2}
+                />
+                <Color htmlFor="66" color="#8E8E8E" />
               </ColorChoice>
             </Front>
             <TimeImg>
@@ -450,12 +442,12 @@ const Getout = styled.div`
 const Container = styled.div`
   display: flex;
   width: 96.66vw;
-  margin : 0 1.67vw 0;
-  padding-top : 1.2vw;
-  box-sizing : border-box;
+  margin: 0 1.67vw 0;
+  padding-top: 1.2vw;
+  box-sizing: border-box;
 `;
 const UserInfoWrap = styled.div`
-  width: 23.43vw  ;
+  width: 23.43vw;
 `;
 const RoomDiv = styled.div`
   height: 34vw;
@@ -600,7 +592,7 @@ const RadioButtonLabel = styled.label`
   display: flex;
   align-items: center;
   justify-content: center;
-  position : absolute;
+  position: absolute;
 `;
 const RadioButton = styled.input`
   opacity: 0;
@@ -621,13 +613,13 @@ const RadioButton = styled.input`
 `;
 
 const ColorChoice = styled.div`
-display: flex;
+  display: flex;
   width: 100%;
   height: 30%;
   align-items: center;
 `;
 const ColorTitle = styled.div`
-width: 20%;
+  width: 20%;
   height: 50%;
   border: 0.12vw solid black;
   border-radius: 0.88vw;
@@ -637,29 +629,27 @@ width: 20%;
   display: flex;
   align-items: center;
   justify-content: center;
-`
-const Color= styled.label`
-width : 2.34vw;
-height : 2.34vw;
-margin : 0.12vw 0.29vw;
-border : 0.12vw solid black;
-border-radius : 0.88vw;
-background-color : ${(props)=>props.color};
-
-
 `;
-const ColorRadio= styled.input`
-margin:0;
-opacity: 0;
-z-index: 1;
-cursor: pointer;
-&:checked {
-  background: #94d7bb;
-  border: 0.12vw solid #94d7bb;
-  box-shadow: -0.29vw 0.29vw 0.23vw 0vw rgba(0, 0, 0, 0.25);
-}
-&:checked + ${Color} {
-  box-shadow: -0.29vw 0.29vw 0.23vw 0vw rgba(0, 0, 0, 0.25);
-}
+const Color = styled.label`
+  width: 2.34vw;
+  height: 2.34vw;
+  margin: 0.12vw 0.29vw;
+  border: 0.12vw solid black;
+  border-radius: 0.88vw;
+  background-color: ${(props) => props.color};
+`;
+const ColorRadio = styled.input`
+  margin: 0;
+  opacity: 0;
+  z-index: 1;
+  cursor: pointer;
+  &:checked {
+    background: #94d7bb;
+    border: 0.12vw solid #94d7bb;
+    box-shadow: -0.29vw 0.29vw 0.23vw 0vw rgba(0, 0, 0, 0.25);
+  }
+  &:checked + ${Color} {
+    box-shadow: -0.29vw 0.29vw 0.23vw 0vw rgba(0, 0, 0, 0.25);
+  }
 `;
 export default Main;

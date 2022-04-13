@@ -1,26 +1,26 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import { Text, Button } from "../../elements";
-import GameSlider from "./GameSlider"
+import { Text } from "../../elements";
+import GameSlider from "./GameSlider";
 
 const GameInfo = (props) => {
-  const { open, close, header, enter, enterName } = props;
+  const { open, close } = props;
 
   return (
-    // 모달이 열릴때 openModal 클래스가 생성된다.
-
     <>
       {open ? (
         <OpenModal>
           <Section>
             <Header>
               <DDiv></DDiv>
-              <Text is_size="2.64vw" is_margin="0.7vw 0 0 0" is_bold >게임 방법 설명!</Text>
+              <Text is_size="2.64vw" is_margin="0.7vw 0 0 0" is_bold>
+                게임 방법 설명!
+              </Text>
               <Xbutton onClick={close}>✕</Xbutton>
             </Header>
             <Main>
-            <GameSlider/>
-                </Main>
+              <GameSlider />
+            </Main>
           </Section>
         </OpenModal>
       ) : null}

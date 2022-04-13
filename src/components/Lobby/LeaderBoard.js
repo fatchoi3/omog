@@ -1,14 +1,11 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import { Text, Button } from "../../elements";
-
+import { Text } from "../../elements";
 
 const LeaderBoard = (props) => {
-  const { open, close, header, enter, enterName } = props;
+  const { open, close, header } = props;
 
   return (
-    // 모달이 열릴때 openModal 클래스가 생성된다.
-
     <>
       {open ? (
         <OpenModal>
@@ -22,9 +19,7 @@ const LeaderBoard = (props) => {
               </RoomTitle>
               <Xbutton onClick={close}>✕</Xbutton>
             </Header>
-            <Main>
-              {props.children}
-                </Main>
+            <Main>{props.children}</Main>
           </Section>
         </OpenModal>
       ) : null}

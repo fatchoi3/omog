@@ -1,26 +1,20 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import { Text, Button } from "../elements";
-
 
 const UserModal = (props) => {
-  const { open, close, header, enter, enterName } = props;
+  const { open, close } = props;
 
   return (
-    // 모달이 열릴때 openModal 클래스가 생성된다.
-
     <>
       {open ? (
         <OpenModal>
           <Section>
             <Header>
               <DDiv></DDiv>
-             
+
               <Xbutton onClick={close}>✕</Xbutton>
             </Header>
-            <Main>
-              {props.children}
-                </Main>
+            <Main>{props.children}</Main>
           </Section>
         </OpenModal>
       ) : null}
@@ -49,7 +43,7 @@ to {
 const Section = styled.div`
   width: 30%;
   height: 40%;
-  
+
   max-height: 900px;
   margin: 0 0 400px 1000px;
   border: 2px solid black;

@@ -24,12 +24,11 @@ const MainFooter = () => {
   const [isRank, setRank] = useState(true);
 
   const toggleUser = () => {
-    setUser(isUser => !isUser); // on,off 개념 boolean
-}
-const toggleRank = () => {
-  setRank(isRank => !isRank); // on,off 개념 boolean
-}
-
+    setUser((isUser) => !isUser); // on,off 개념 boolean
+  };
+  const toggleRank = () => {
+    setRank((isRank) => !isRank); // on,off 개념 boolean
+  };
 
   const openModal = () => {
     setModalOpen(true);
@@ -76,113 +75,135 @@ const toggleRank = () => {
   return (
     <Container>
       <div>
-      <UserS>
-      
-        <Nemo />
-        <Text is_bold is_margin="0 2.34vw 0 0 ">
-          접속 유저
-        </Text>
-      
-        <Text is_size="20px" is_cursor is_margin="0 0 0 2.34vw " _onClick={()=>{toggleUser()}}>▽</Text>
-        
-      </UserS>
-      {isUser?<UserContents>
-          {user_list.map((p, idx) => {
-            return (
-              <UserContent key={idx}>
-                <Userurl
-                  color={UserFaceColor(p.point)}
-                  img={
-                    p.profileImage
-                      ? p.profileImage
-                      : "https://haksae90.shop/images/1.svg"
-                  }
-                />
-
-                <Text
-                  is_size="1.17vw"
-                  is_color="black"
-                  is_margin="0.23vw"
-                >{`${p.id}`}</Text>
-              </UserContent>
-            );
-          })}
-        </UserContents>:""}
-        </div>
-      <Ranking>
-      <div>
-        <RankingTitle>
-      
+        <UserS>
           <Nemo />
-      
-            <Text is_bold  is_margin="0 1.17vw 0 0 " >
+          <Text is_bold is_margin="0 2.34vw 0 0 ">
+            접속 유저
+          </Text>
+
+          <Text
+            is_size="20px"
+            is_cursor
+            is_margin="0 0 0 2.34vw "
+            _onClick={() => {
+              toggleUser();
+            }}
+          >
+            ▽
+          </Text>
+        </UserS>
+        {isUser ? (
+          <UserContents>
+            {user_list.map((p, idx) => {
+              return (
+                <UserContent key={idx}>
+                  <Userurl
+                    color={UserFaceColor(p.point)}
+                    img={
+                      p.profileImage
+                        ? p.profileImage
+                        : "https://haksae90.shop/images/1.svg"
+                    }
+                  />
+
+                  <Text
+                    is_size="1.17vw"
+                    is_color="black"
+                    is_margin="0.23vw"
+                  >{`${p.id}`}</Text>
+                </UserContent>
+              );
+            })}
+          </UserContents>
+        ) : (
+          ""
+        )}
+      </div>
+      <Ranking>
+        <div>
+          <RankingTitle>
+            <Nemo />
+
+            <Text is_bold is_margin="0 1.17vw 0 0 ">
               오늘의 랭킹
             </Text>
-            <Text is_size="20px" is_cursor is_margin="0 0 0 2.34vw " _onClick={()=>{toggleRank()}}>▽</Text>
-       </RankingTitle>
-       
-      {isRank?
-      <Button is_width="5.86vw" is_border="none" is_background="white" is_cursor  _onClick={()=>{openModal()}}>
-      <UserContents>
-        {user_leaders.map((p, idx) => {
-          return (
-            <UserContent key={idx}>
-              <Userurl
-                color={UserFaceColor(p.point)}
-                img={
-                  p.profileImage
-                    ? p.profileImage
-                    : "https://haksae90.shop/images/1.svg"
-                }
-              />
-              <Text
-                is_size="1.17vw"
-                is_color="black"
-                is_margin="0.23vw"
-              >{`${p.id}`}</Text>
-            </UserContent>
-          );
-        })}
-      </UserContents>
-      </Button>:""}
-      </div>
+            <Text
+              is_size="20px"
+              is_cursor
+              is_margin="0 0 0 2.34vw "
+              _onClick={() => {
+                toggleRank();
+              }}
+            >
+              ▽
+            </Text>
+          </RankingTitle>
+
+          {isRank ? (
+            <Button
+              is_width="5.86vw"
+              is_border="none"
+              is_background="white"
+              is_cursor
+              _onClick={() => {
+                openModal();
+              }}
+            >
+              <UserContents>
+                {user_leaders.map((p, idx) => {
+                  return (
+                    <UserContent key={idx}>
+                      <Userurl
+                        color={UserFaceColor(p.point)}
+                        img={
+                          p.profileImage
+                            ? p.profileImage
+                            : "https://haksae90.shop/images/1.svg"
+                        }
+                      />
+                      <Text
+                        is_size="1.17vw"
+                        is_color="black"
+                        is_margin="0.23vw"
+                      >{`${p.id}`}</Text>
+                    </UserContent>
+                  );
+                })}
+              </UserContents>
+            </Button>
+          ) : (
+            ""
+          )}
+        </div>
         <LeaderBoard open={modalOpen} close={closeModal} header="오늘의 랭킹">
-            <SuperLeaders>
-              <Leader>
-                <FirstImg
-                  src={First}
-                />
+          <SuperLeaders>
+            <Leader>
+              <FirstImg src={First} />
 
-                <Text is_size="1.46vw" is_bold is_margin=" 0 0 0.47vw 0.47vw">
-                  {leader_board[0]?.id}
-                </Text>
-                <Text is_margin=" 0 0 0 0.7vw"> {leader_board[0]?.point} p </Text>
-              </Leader>
-              <Leader>
-                <SecondImg
-                  src={Second}
-              
-                />
+              <Text is_size="1.46vw" is_bold is_margin=" 0 0 0.47vw 0.47vw">
+                {leader_board[0]?.id}
+              </Text>
+              <Text is_margin=" 0 0 0 0.7vw"> {leader_board[0]?.point} p </Text>
+            </Leader>
+            <Leader>
+              <SecondImg src={Second} />
 
-                <Text is_size="1.46vw" is_bold is_margin=" 0 0 0.47vw 0.47vw">
-                  {leader_board[1]?.id}
-                </Text>
-                <Text  is_margin=" 0 0 0 0.7vw"> {leader_board[1]?.point} p </Text>
-              </Leader>
-              <Leader>
-                <ThirdImg
-                  src={Third}
-                
-                />
+              <Text is_size="1.46vw" is_bold is_margin=" 0 0 0.47vw 0.47vw">
+                {leader_board[1]?.id}
+              </Text>
+              <Text is_margin=" 0 0 0 0.7vw"> {leader_board[1]?.point} p </Text>
+            </Leader>
+            <Leader>
+              <ThirdImg src={Third} />
 
-                <Text is_size="1.46vw" is_bold is_margin=" 0 0 0.47vw 0.47vw">
-                  {leader_board[2]?.id}
-                </Text>
-                <Text  is_margin=" 0 0 0 0.7vw"> {leader_board[2]?.point} p</Text>
-              </Leader>
-            </SuperLeaders>
-            <LeaderSlider list={leader_board} />
-          </LeaderBoard>
+              <Text is_size="1.46vw" is_bold is_margin=" 0 0 0.47vw 0.47vw">
+                {leader_board[2]?.id}
+              </Text>
+              <Text is_margin=" 0 0 0 0.7vw"> {leader_board[2]?.point} p</Text>
+            </Leader>
+          </SuperLeaders>
+          <LeaderSlider list={leader_board} />
+        </LeaderBoard>
       </Ranking>
       <Button
         is_width="29.29vw"
@@ -197,20 +218,19 @@ const toggleRank = () => {
         <BannerImg src={Banner} />
       </Button>
       <LogoWrap>
-              <LogoImg src={Logo} />
-            </LogoWrap>
+        <LogoImg src={Logo} />
+      </LogoWrap>
     </Container>
   );
 };
 const Container = styled.div`
   display: flex;
   width: 87.87vw;
-  margin : 0.5vw 0 0 3.51vw;
+  margin: 0.5vw 0 0 3.51vw;
 `;
 const UserS = styled.div`
   width: 19.63vw;
   display: flex;
-
 `;
 const Ranking = styled.div`
   width: 19.63vw;
@@ -234,7 +254,6 @@ const UserContent = styled.div`
   height: 1.76vw;
   display: flex;
   margin: 0.35vw;
-  
 `;
 const Userurl = styled.div`
   height: 1.17vw;
@@ -248,7 +267,7 @@ const Userurl = styled.div`
 `;
 const RankingTitle = styled.div`
   display: flex;
-  width : 11.72vw;
+  width: 11.72vw;
 `;
 const Nemo = styled.div`
   width: 0.88vw;
@@ -270,7 +289,6 @@ const Leader = styled.div`
 const FirstImg = styled.img`
   width: 5.86vw;
   height: 7.03vw;
-
 `;
 const SecondImg = styled.img`
   width: 5.86vw;
@@ -284,10 +302,9 @@ const BannerImg = styled.img`
   width: 29.29vw;
 `;
 const LogoWrap = styled.div`
-
   width: 11.5vw;
   height: 8.79vw;
-  margin : 0 0 0 7.03vw;
+  margin: 0 0 0 7.03vw;
   display: flex;
   align-items: center;
   justify-content: center;

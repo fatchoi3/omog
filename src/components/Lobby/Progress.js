@@ -1,20 +1,19 @@
 import React from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
 
 const Progress = (props) => {
   return (
     <ProgressBar width={props.width} margin={props.margin}>
-      <HighLight width={((props.win) / (props.win + props.lose)) * 100 + "%"} />
+      <HighLight width={(props.win / (props.win + props.lose)) * 100 + "%"} />
     </ProgressBar>
   );
 };
 
 const ProgressBar = styled.div`
   background: #eee;
-  width: ${(props) => (props.width ? `${props.width};` : '8.79vw')};
+  width: ${(props) => (props.width ? `${props.width};` : "8.79vw")};
   height: 0.59vw;
-  margin: ${(props) => (props.margin ? `${props.margin};` : '')};
+  margin: ${(props) => (props.margin ? `${props.margin};` : "")};
 `;
 
 const HighLight = styled.div`

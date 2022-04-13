@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect, memo, useCallback } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actionCreators as userActions } from "../redux/modules/user";
+
 import { actionCreators as gameActions } from "../redux/modules/game";
 import useSocket from "../hook/useSocket";
 import Game2 from "../components/Game/Game2";

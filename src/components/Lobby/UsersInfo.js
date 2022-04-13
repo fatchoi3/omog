@@ -1,4 +1,4 @@
-import { React, useEffect} from "react";
+import { React, useEffect } from "react";
 import styled from "styled-components";
 
 import { Text, Button } from "../../elements/index";
@@ -9,15 +9,12 @@ import exit from "../../pictures/exit.png";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../../redux/modules/user";
 
-
-
 const UsersInfo = () => {
   const dispatch = useDispatch();
-  const get_user = useSelector((state) => state.user.userInfo); 
+  const get_user = useSelector((state) => state.user.userInfo);
 
   const userId = sessionStorage.getItem("userId");
   const profileImage = get_user.profileImage;
-  console.log("get_user", get_user.score);
   const win = get_user.score[0].win;
   const lose = get_user.score[1].lose;
   const point = get_user.point;
@@ -72,32 +69,42 @@ const UsersInfo = () => {
           dispatch(userActions.logoutDB(userId));
         }}
       >
-        
-        <Text is_size="1.05vw" is_margin="0.59vw 0 0 0.29vw" is_color="#C4C4C4" is_bold>
+        <Text
+          is_size="1.05vw"
+          is_margin="0.59vw 0 0 0.29vw"
+          is_color="#C4C4C4"
+          is_bold
+        >
           로그아웃
         </Text>
         <ExitImg src={exit} />
       </Button>
       <User>
-          <UserFace
-            color={color}
-            img={
-              profileImage ? profileImage : "https://haksae90.shop/images/1.svg"
-            }
-          />
-        {/* </Button> */}
+        <UserFace
+          color={color}
+          img={
+            profileImage ? profileImage : "https://haksae90.shop/images/1.svg"
+          }
+        />
 
         <UserName>
           <Text is_bold is_size="2.34vw" is_margin="0.59vw">
             {get_user.id}
           </Text>
-          <Text is_margin="1.46vw 0 0 0" is_size="1.17vw"> Point {get_user.point} P</Text>
+          <Text is_margin="1.46vw 0 0 0" is_size="1.17vw">
+            Point {get_user.point} P
+          </Text>
         </UserName>
       </User>
-      <Progress win={win} lose={lose} width="20.5vw" margin=" 1.46vw auto 0.59vw" />
+      <Progress
+        win={win}
+        lose={lose}
+        width="20.5vw"
+        margin=" 1.46vw auto 0.59vw"
+      />
       <UserScore>
         <Text is_size="1.17vw" is_margin="0vw 1.17vw" is_bold>
-          승률{" "}
+          승률
           {Math.ceil(win / (win + lose))
             ? Math.ceil((win / (win + lose)) * 100) + "%"
             : 0 + "%"}
@@ -112,13 +119,12 @@ const UsersInfo = () => {
 const UserInfoContainer = styled.div`
   height: 14.65vw;
   width: 23.43vw;
-
 `;
 const User = styled.div`
   display: flex;
   height: 5.86vw;
   width: 23.43vw;
-  margin : 0 2.93vw;
+  margin: 0 2.93vw;
 `;
 
 const UserScore = styled.div`
@@ -126,7 +132,7 @@ const UserScore = styled.div`
   justify-content: space-between;
   padding: 0.29vw 0 0 0;
   text-align: center;
-  width : 23.43vw;
+  width: 23.43vw;
 `;
 const UserFace = styled.div`
   background-image: url(${(props) => props.img});
@@ -143,75 +149,6 @@ const UserName = styled.div`
   height: 5.27vw;
   width: 7.91vw;
   padding: 0.76vw 0 0 0;
-`;
-const UserM = styled.div`
-  display: flex;
-`;
-
-const UserScoreM = styled.div`
-  display: flex;
-  justify-content: center;
-  padding: 0.29vw 1.17vw 0 1.17vw;
-  text-align: center;
-`;
-const UserFaceM = styled.div`
-  background-image: url(${(props) => props.img});
-  background-size: contain;
-  background-repeat: no-repeat;
-  border-inline: solid 0.18vw black;
-  width: 4.1vw;
-  height: 4.1vw;
-  border-radius: 4.1vw;
-  border: solid ${(props) => props.color};
-  margin: 0vw 4.1vw 0.59vw 4.69vw;
-`;
-const UserNameM = styled.div`
-  height: 5.27vw;
-  width: 7.91vw;
-  padding: 0.76vw 0 0 0;
-`;
-const ProfileWrap = styled.div`
-  width: 23.43vw;
-  height: 11.72vw;
-  display: flex;
-  flex-wrap: wrap;
-`;
-
-const ProfileLabel = styled.div`
-  width: 2.34vw;
-  height: 2.34vw;
-
-  border: 0.12vw solid black;
-  border-radius: 2.34vw;
-  background-image: url(${(props) => props.profile});
-  background-size: contain;
-  background-repeat: no-repeat;
-`;
-const ProfileRadio = styled.input`
-  opacity: 0;
-  z-index: 1;
-  cursor: pointer;
-  &:checked {
-    background: #94d7bb;
-    border: 0.12vw solid #94d7bb;
-  }
-  &:checked + ${ProfileLabel} {
-    border: 0.06vw solid #94d7bb;
-    box-shadow: 0vw 0.23vw 0.59vw 0.23vw rgba(0, 0, 0, 0.25);
-  }
-
-`;
-const Label = styled.label`
-width: 2.93vw;
-height: 2.93vw;
-margint : 0 0.12vw;
-border : 0.12vw solid black;
-border-radius: 0.88vw;
-background-color: transparent;
-display: flex;
-align-items: center;
-justify-content: center;
-position : absolute;
 `;
 const ExitImg = styled.img`
   width: 35%;

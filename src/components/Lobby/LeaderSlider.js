@@ -6,7 +6,7 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 function LeaderSlider(props) {
   const { list } = props;
-console.log("list",list)
+  console.log("list", list);
   function currentPosts(tmp) {
     let currentPosts = 0;
     currentPosts = tmp.slice(pickIndex, pickIndex + 3);
@@ -64,59 +64,68 @@ console.log("list",list)
     setPickIndex(pickIndex + 3);
   }, [pickIndex]);
 
-
   return (
     <div className="SliderContainer">
       <Container>
         <div
           className="arrow_box"
-          style={{ display: "flex", alignItems: "center" ,margin:"0"}}
+          style={{ display: "flex", alignItems: "center", margin: "0" }}
         >
           <Arrow isLeft={true} onClick={handlePrevClick}>
             <IoIosArrowBack />
           </Arrow>
         </div>
-<LeaderWrap>
-        <Title>
-                      <Text is_size="1.17vw" is_bold>오늘의 순위</Text>
-                      </Title>
-        <FillDiv ref={slideRef}>
-          
-          {currentPosts(list).map((p, idx) => {
-            return (
-              <Wrap key={idx}>
-               <Text is_size="1.17vw" is_margin="1.76vw 1.76vw 1.17vw 0vw"  is_bold>{pickIndex+idx+1}</Text>
-                <Stone
-                  color={UserFaceColor(p.point)}
-                  img={
-                    p.profileImage
-                      ? p.profileImage
-                      : "https://haksae90.shop/images/1.svg"
-                  }
-                />
-                <div>
-                <TextWrap>
+        <LeaderWrap>
+          <Title>
+            <Text is_size="1.17vw" is_bold>
+              오늘의 순위
+            </Text>
+          </Title>
+          <FillDiv ref={slideRef}>
+            {currentPosts(list).map((p, idx) => {
+              return (
+                <Wrap key={idx}>
                   <Text
                     is_size="1.17vw"
-                    is_color="black"
-                    is_margin="1.46vw 0 0 0vw "
-                  >{`${p.id}`}</Text>
-                  <Text
-                    is_size="0.88vw"
-                    is_color="black"
-                    is_margin="1.52vw 0 0 0.59vw "
+                    is_margin="1.76vw 1.76vw 1.17vw 0vw"
+                    is_bold
                   >
-                    {`${p.point}`}p
+                    {pickIndex + idx + 1}
                   </Text>
-                </TextWrap>
-                
-                  <Progress win={p.score[0].win} lose={p.score[1].lose}/>
-                  <Text is_size="0.88vw"> 승 : {p.score[0].win} 패 : {p.score[1].lose}</Text>
-                </div>
-             </Wrap>
-            );
-          })}
-        </FillDiv>
+                  <Stone
+                    color={UserFaceColor(p.point)}
+                    img={
+                      p.profileImage
+                        ? p.profileImage
+                        : "https://haksae90.shop/images/1.svg"
+                    }
+                  />
+                  <div>
+                    <TextWrap>
+                      <Text
+                        is_size="1.17vw"
+                        is_color="black"
+                        is_margin="1.46vw 0 0 0vw "
+                      >{`${p.id}`}</Text>
+                      <Text
+                        is_size="0.88vw"
+                        is_color="black"
+                        is_margin="1.52vw 0 0 0.59vw "
+                      >
+                        {`${p.point}`}p
+                      </Text>
+                    </TextWrap>
+
+                    <Progress win={p.score[0].win} lose={p.score[1].lose} />
+                    <Text is_size="0.88vw">
+                      {" "}
+                      승 : {p.score[0].win} 패 : {p.score[1].lose}
+                    </Text>
+                  </div>
+                </Wrap>
+              );
+            })}
+          </FillDiv>
         </LeaderWrap>
         <div
           className="arrow_box"
@@ -143,12 +152,12 @@ const Container = styled.div`
 const FillDiv = styled.div`
   width: 25.78vw;
   height: 14.65vw;
-  margin: 1.17vw 0 ;
+  margin: 1.17vw 0;
   object-fit: cover;
   padding: 0.59vw 0 0 0.29vw;
   box-shadow: -0.18vw 0.41vw 0.35vw 0.06vw #999;
-  border : 0.12vw black solid;
-  border-radius : 0.88vw;
+  border: 0.12vw black solid;
+  border-radius: 0.88vw;
 `;
 
 const PickerWrapper = styled.div`
@@ -187,13 +196,10 @@ const Wrap = styled.div`
   width: 17.57vw;
   height: 4.69vw;
   margin: 0 auto;
-  
 `;
-const Title = styled.div`
-
-`;
-const LeaderWrap =styled.div`
-margin : 1.17vw auto;
-width : 29.29vw;
+const Title = styled.div``;
+const LeaderWrap = styled.div`
+  margin: 1.17vw auto;
+  width: 29.29vw;
 `;
 export default LeaderSlider;
