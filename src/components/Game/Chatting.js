@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect, useCallback, memo } from "react";
 import styled, { keyframes } from "styled-components";
-import Swal from "sweetalert2";
 import useInput from "../../hook/useInput";
-import "../../shared/App.css";
 import { Button, Text } from "../../elements";
+
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as gameActions } from "../../redux/modules/game";
 import { useHistory } from "react-router-dom";
+
+import "../../shared/App.css";
 
 const Chatting = memo((props) => {
   const history = useHistory();
@@ -14,18 +15,19 @@ const Chatting = memo((props) => {
   const [message, onChangeMessage, setMessage] = useInput("");
   const [disabled, setDisabled] = useState(false);
   const [teaching, setTeaching] = useState();
+
   const userid = sessionStorage.getItem("userId");
-  console.log("blackPlayer",props.blackPlayer);
-  console.log("whitePlayer",props.blackPlayer);
   const chatList = useSelector((state) => state.game.chat_list);
   const scroll = useRef(null);
   const socket = props.socket;
+
   const isTeam =
     props.userInfo.state === "blackPlayer" ||
     props.userInfo.state === "blackObserver"
       ? "black"
       : "white";
   const isPlayer = props.is_player;
+
   const teachingChoice = useCallback(
     (e) => {
       setTeaching(e.target.value);
@@ -33,41 +35,42 @@ const Chatting = memo((props) => {
     },
     [teaching]
   );
+
   const Exiting = useCallback(() => {
     if (props.userInfo.state === "blackPlayer") {
-      console.log("props.whitePlayer.id",props.whitePlayer.id)
+      console.log("props.whitePlayer.id", props.whitePlayer.id);
       socket.emit(
         "byebye",
         props.userInfo.state,
         props.gameNum,
         props.whitePlayer.id
       );
-      console.log("블랙 플레이어 나가기")
+      console.log("블랙 플레이어 나가기");
       return;
     } else if (props.userInfo.state === "whitePlayer") {
-      console.log("props.whitePlayer.id",props.blackPlayer)
+      console.log("props.whitePlayer.id", props.blackPlayer);
       socket.emit(
         "byebye",
         props.userInfo.state,
         props.gameNum,
         props.blackPlayer.id
       );
-      console.log("화이트 플레이어 나가기")
+      console.log("화이트 플레이어 나가기");
       return;
     }
-    console.log("관전자 나가기")
+    console.log("관전자 나가기");
     history.push("/main");
   }, []);
 
   const onMessageSubmit = useCallback(
-    async(e) => {
+    async (e) => {
       setDisabled(true);
       if (message === "") {
         console.log("빈값입니다.");
       } else {
         if (teaching === "Text" && isTeam === "white") {
           console.log("Text훈수W");
-         await socket.emit("teachingW", { chat: message }, props.gameNum);
+          await socket.emit("teachingW", { chat: message }, props.gameNum);
         }
         if (teaching === "Text" && isTeam === "black") {
           console.log("Text훈수B");
@@ -81,14 +84,18 @@ const Chatting = memo((props) => {
           console.log("마우스로 찍자");
           await socket.emit("Pointer", message, props.gameNum);
         }
-        await socket.emit("chat", { chat: message, state: isTeam }, props.gameNum);
+        await socket.emit(
+          "chat",
+          { chat: message, state: isTeam },
+          props.gameNum
+        );
         console.log("채팅보내기");
         e.preventDefault();
         setMessage("");
       }
       let delay = setTimeout(() => {
         setDisabled(false);
-    }, 500);
+      }, 500);
     },
     [message]
   );
@@ -129,16 +136,6 @@ const Chatting = memo((props) => {
     if (e.key == "Enter" && !disabled) {
       onMessageSubmit(e);
     }
-    // if(e.key == "Enter"&& disabled ){
-    //   let delay = setTimeout(() => {
-    //     Swal.fire({
-    //       title: '채팅이 너무빨라욥!',
-    //       icon: 'error',
-    //       confirmButtonText: 'Ok'
-    //     });
-    // }, 500);
-     
-    // }
   });
 
   useEffect(() => {
@@ -153,33 +150,32 @@ const Chatting = memo((props) => {
   return (
     <ChattingContainer>
       <ChatForm>
-      <TopChat>
-            <Title>
+        <TopChat>
+          <Title>
+            <Text is_size="24px" is_color="#FFFFFF" is_bold>
+              실시간 채팅
+            </Text>
+          </Title>
+          <ExitButtonWrap>
+            <Button
+              is_width="120px"
+              is_height="30px"
+              is_padding="7px 0px 0px 0px"
+              is_cursor
+              is_background="transparent"
+              is_border="#94D7BB"
+              is_hover="inset -5em 0 0 0 #f0f0f0, inset 5em 0 0 0 #f0f0f0"
+              _onClick={() => {
+                Exiting();
+              }}
+            >
               <Text is_size="24px" is_color="#FFFFFF" is_bold>
-                실시간 채팅
+                나가기▷
               </Text>
-            </Title>
-            <ExitButtonWrap>
-              <Button
-                is_width="120px"
-                is_height="30px"
-                is_padding="7px 0px 0px 0px"
-                is_cursor
-                is_background="transparent"
-                is_border="#94D7BB"
-                is_hover="inset -5em 0 0 0 #f0f0f0, inset 5em 0 0 0 #f0f0f0"
-                _onClick={() => {
-                  Exiting();
-                }}
-              >
-                <Text is_size="24px" is_color="#FFFFFF" is_bold>
-                  나가기▷
-                </Text>
-              </Button>
-            </ExitButtonWrap>
-          </TopChat>
+            </Button>
+          </ExitButtonWrap>
+        </TopChat>
         <Chat_render_oneChat>
-          
           {renderChat()}
           <div ref={scroll}></div>
         </Chat_render_oneChat>
@@ -266,7 +262,7 @@ const TopChat = styled.div`
   justify-content: space-between;
   padding: 22px 13px;
   border-bottom: black 2px solid;
-  border-radius : 15px 15px 0 0;
+  border-radius: 15px 15px 0 0;
 `;
 const BottomWrap = styled.div`
   display: flex;
@@ -329,8 +325,8 @@ const Team = styled.div`
   background-color: ${(props) => props.state};
 `;
 const Option = styled.option`
-width : 100px;
-height : 20px;
-font-size :20px;
-`
+  width: 100px;
+  height: 20px;
+  font-size: 20px;
+`;
 export default Chatting;

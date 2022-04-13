@@ -18,11 +18,8 @@ const nickname = {id:userId,gameNum:gameNum};
   if (!sockets[gameNum]) {
     sockets[gameNum] = io.connect(serverUrl);
     sockets[gameNum].emit("joinGame", gameNum,userId);
-    // sockets[gameNum].emit("nickname", userId);
     sockets[gameNum].emit("nickname", nickname);
 
-    
-   /// console.log(" nickname", nickname);
     console.info("create socket", gameNum, sockets[gameNum]);
   }
 

@@ -1,21 +1,24 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import { Text, Button } from "../../elements";
-
+import { Text } from "../../elements";
 
 const GameEnd = (props) => {
   const { open, winner } = props;
 
   return (
-
     <>
       {open ? (
         <OpenModal>
           <Section>
             <Main>
-                <Text is_size="100px" is_color="white" is_margin="100px 0 0 0">{winner}</Text>
-                <Text is_color="white" is_margin="100px 0 0 0"> 잠시 후 결과페이지로 넘어갑니다 </Text>
-                </Main>
+              <Text is_size="100px" is_color="white" is_margin="100px 0 0 0">
+                {winner}
+              </Text>
+              <Text is_color="white" is_margin="100px 0 0 0">
+                {" "}
+                잠시 후 결과페이지로 넘어갑니다{" "}
+              </Text>
+            </Main>
           </Section>
         </OpenModal>
       ) : null}
@@ -49,7 +52,7 @@ const Section = styled.div`
   border: 0.12vw solid black;
   border-radius: 1.4rem;
   background-color: rgba(0, 0, 0, 0.2);
-  margin : 20px 0 0 400px;
+  margin: 20px 0 0 400px;
   animation: ${modal_show} 0.3s;
   overflow: hidden;
 `;
@@ -69,7 +72,7 @@ const OpenModal = styled.div`
   z-index: 99;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-    animation: ${modal_bg_show} 0.3s;
+  animation: ${modal_bg_show} 0.3s;
 `;
 
 export default GameEnd;

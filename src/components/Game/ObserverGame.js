@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo, useCallback } from "react";
+import React, { useState, useEffect, memo } from "react";
 
 import { Text } from "../../elements";
 import styled, { keyframes } from "styled-components";
@@ -163,11 +163,11 @@ const DialogBlock = styled.div`
   height: 100px;
   max-height: 400px;
   margin: auto;
- 
+
   background-image: url(${Cloud});
   background-size: contain;
   background-repeat: no-repeat;
- 
+
   text-align: center;
   animation-duration: 1s;
   animation-timing-fuction: ease-out;

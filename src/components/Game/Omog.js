@@ -24,7 +24,6 @@ const Omog = memo(
     timeOut,
     timeOut2,
   }) => {
-
     const dispatch = useDispatch();
 
     const [loading, setLoading] = useState(false);
@@ -40,41 +39,43 @@ const Omog = memo(
     const userid = sessionStorage.getItem("userId");
     const canvasRef = useRef(null);
 
-    const boardColorNum = (useSelector((state) => state.game.gameInfo[1]? state.game.gameInfo[1].boardColor:1))
-    const boardColorChoice= (num)=>{
+    const boardColorNum = useSelector((state) =>
+      state.game.gameInfo[1] ? state.game.gameInfo[1].boardColor : 1
+    );
+    const boardColorChoice = (num) => {
       let answer1;
       let answer2;
-      if(num == 1){
-      answer1= "#E08C4F";
-      answer2= "black";
-      return [answer1,answer2];
-      };
-      if(num == 2){
-        answer1= "#D3EAE0";
-        answer2="#00858C";
-        return [answer1,answer2];
-        };
-      if(num == 3){
-        answer1= "#FFD7E7";
-        answer2="#F97DB6";
-        return [answer1,answer2];
-        };
-      if(num == 4){
-        answer1= "#D9E4F4";
-        answer2= "#8DB0DB";
-        return [answer1,answer2];
-        };
-      if(num == 5){
-        answer1= "#DDDDDD"
-        answer2="#727272"
-        return [answer1,answer2];
-        };
-      if(num == 6){
-        answer1= "#8E8E8E"
-        answer2="#CCCCCC"
-        return [answer1,answer2];
-        };
-    }
+      if (num == 1) {
+        answer1 = "#E08C4F";
+        answer2 = "black";
+        return [answer1, answer2];
+      }
+      if (num == 2) {
+        answer1 = "#D3EAE0";
+        answer2 = "#00858C";
+        return [answer1, answer2];
+      }
+      if (num == 3) {
+        answer1 = "#FFD7E7";
+        answer2 = "#F97DB6";
+        return [answer1, answer2];
+      }
+      if (num == 4) {
+        answer1 = "#D9E4F4";
+        answer2 = "#8DB0DB";
+        return [answer1, answer2];
+      }
+      if (num == 5) {
+        answer1 = "#DDDDDD";
+        answer2 = "#727272";
+        return [answer1, answer2];
+      }
+      if (num == 6) {
+        answer1 = "#8E8E8E";
+        answer2 = "#CCCCCC";
+        return [answer1, answer2];
+      }
+    };
     const boardColor = boardColorChoice(boardColorNum)[0];
     const boardLine = boardColorChoice(boardColorNum)[1];
 
@@ -82,8 +83,8 @@ const Omog = memo(
       userInfo.state === "blackPlayer" || userInfo.state === "whitePlayer"
         ? true
         : false;
- 
 
+    //이벤트 제거할 때 사용
     const OP = document.getElementById("canvas");
 
     const omoging = useCallback((a) => {
@@ -98,19 +99,18 @@ const Omog = memo(
             e.offsetY < 640
           ) {
             const data = { x, y, board, count };
-            console.log("소켓전 ",a)
-            a++
+            console.log("소켓전 ", a);
+            a++;
             let timer = setTimeout(() => {
               socket.emit("omog", data, userInfo.state, gameNum);
             }, 100);
-            console.log("난플레이어야", a,e);
-           
+            console.log("난플레이어야", a, e);
           }
         }
       });
       document.removeEventListener("mouseup", OP);
     }, []);
-  
+
     const pointerTeaching = useCallback(() => {
       document.addEventListener("mouseup", (e) => {
         if (e.target.id == "canvas") {
@@ -126,25 +126,23 @@ const Omog = memo(
             console.log("pointer", pointer);
             socket.emit("pointerOmog", data, gameNum);
             console.log("안녕난 훈수야");
-           
           }
         }
       });
     }, []);
+
     useEffect(() => {
-      let SS=0
-        if (
-         ( userInfo.state === "whitePlayer" ||
-          userInfo.state === "blackPlayer")
-         
-        ) {
-          omoging(SS);
-        }
-        return()=>{
-        document.removeEventListener("mouseup",OP);
+      let SS = 0;
+      if (
+        userInfo.state === "whitePlayer" ||
+        userInfo.state === "blackPlayer"
+      ) {
+        omoging(SS);
       }
-      },
-      []);
+      return () => {
+        document.removeEventListener("mouseup", OP);
+      };
+    }, []);
 
     useEffect(() => {
       const canvas = canvasRef.current;
@@ -263,7 +261,7 @@ const Omog = memo(
             }
           }
         }
-        drawRect(x, y);
+        drawRect(x, y); // 방금 둔 오목돌 표시
         checkWin(x, y); // 돌이 5개 연속 놓였는지 확인 함수 실행
       };
 
@@ -315,9 +313,6 @@ const Omog = memo(
           }
         }
       }
-      // 승리확인 함수 끝
-      // 승리 화면 표시
-
       const winShow = (x) => {
         switch (x) {
           case 1:
@@ -327,7 +322,7 @@ const Omog = memo(
             let timer = setTimeout(() => {
               dispatch(
                 gameActions.gameResultDB({
-                  result: { win: blackPlayer.id , state : "blackPlayer"},
+                  result: { win: blackPlayer.id, state: "blackPlayer" },
                   userInfo: userInfo,
                   gameNum: gameNum,
                 })
@@ -342,7 +337,7 @@ const Omog = memo(
             let timer2 = setTimeout(() => {
               dispatch(
                 gameActions.gameResultDB({
-                  result: { win: whitePlayer.id, state : "whitePlayer" },
+                  result: { win: whitePlayer.id, state: "whitePlayer" },
                   userInfo: userInfo,
                   gameNum: gameNum,
                 })
@@ -353,7 +348,6 @@ const Omog = memo(
           default:
             console.log("누구세...요?");
             break;
-          ////
         }
       };
       // x,y 좌표를 배열의 index값으로 변환
@@ -374,41 +368,37 @@ const Omog = memo(
       }
     }, [count, pointer]);
 
-const Timer1= useCallback(( a)=>{
-  clearInterval(a);
-  console.log("짠",a)
-  timeOut2();
-},[]);
+    const Timer1 = useCallback((a) => {
+      clearInterval(a);
+      console.log("짠", a);
+      timeOut2();
+    }, []);
 
-const Timer2= useCallback((a)=>{
-  clearInterval(a);
-  console.log("짠2",a)
-  timeOut();
-},[]);
+    const Timer2 = useCallback((a) => {
+      clearInterval(a);
+      console.log("짠2", a);
+      timeOut();
+    }, []);
 
     useEffect(() => {
       socket.on("omog", (data, checkSamsam, state) => {
         if (checkSamsam === 0 && userInfo.state === state) {
           Swal.fire({
-            title: '금수입니다!!',
-            icon: 'error',
-            confirmButtonText: 'Ok'
+            title: "금수입니다!!",
+            icon: "error",
+            confirmButtonText: "Ok",
           });
           return;
         }
         if (checkSamsam === 0) {
           return;
         }
-        console.log("오목 소켓 받기",data.count );
+        console.log("오목 소켓 받기", data.count);
 
         data.count % 2 === 0
-          ?
-          Timer1(timeout.current) 
-      
-          :
-           Timer2(timeout2.current)
-      
-      
+          ? Timer1(timeout.current)
+          : Timer2(timeout2.current);
+
         setBoard(data.board);
         setY(data.y);
         setX(data.x);
@@ -434,8 +424,6 @@ const Timer2= useCallback((a)=>{
       });
     }, [socket]);
 
-  
-
     useEffect(() => {
       socket.on("Pointer", (data, chat) => {
         console.log("data.name", data.name);
@@ -448,20 +436,21 @@ const Timer2= useCallback((a)=>{
         console.log("내가 아냐", data.pointer);
       });
     }, [socket]);
+
     useEffect(() => {
       socket.on("byebye", (state, id) => {
         console.log("state", state);
         if (state === "blackPlayer") {
           dispatch(
             gameActions.gameResultDB({
-              result: { win: id , state: "whitePlayer" },
+              result: { win: id, state: "whitePlayer" },
               userInfo: userInfo,
               gameNum: gameNum,
             })
           );
         }
         if (state === "whitePlayer") {
-          console.log("userInfo",userInfo)
+          console.log("userInfo", userInfo);
           dispatch(
             gameActions.gameResultDB({
               result: { win: id, state: "blackPlayer" },
@@ -475,10 +464,7 @@ const Timer2= useCallback((a)=>{
 
     return (
       <div>
-        <GameEnd
-        open={loading}
-        winner={winner}
-          />
+        <GameEnd open={loading} winner={winner} />
         <GameWrap>
           {is_player ? (
             <>
@@ -488,7 +474,7 @@ const Timer2= useCallback((a)=>{
                     is_bold
                     is_margin="auto 0"
                     is_color={min2 === 0 && sec2 <= 15 ? "red" : "white"}
-                   is_size="25px"
+                    is_size="25px"
                   >
                     {min2}: {sec2}
                   </Text>

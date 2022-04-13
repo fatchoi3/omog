@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect, memo, useCallback } from "react";
-import styled, { keyframes } from "styled-components";
+import React, { useState, useRef, useEffect, memo } from "react";
+import styled from "styled-components";
 
 import Spinner from "../../elements/Spinner";
 import PlayerGame from "./PlayerGame";
@@ -14,7 +14,7 @@ import { actionCreators as gameActions } from "../../redux/modules/game";
 
 const Game2 = memo((props) => {
   const dispatch = useDispatch();
-  
+
   const [spin, setsping] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -24,7 +24,7 @@ const Game2 = memo((props) => {
   const gameInfo = useSelector((state) => state.game.gameInfo);
   const userId = sessionStorage.getItem("userId");
   const gameNum = props.gameNum;
-  const socket =props.socket;
+  const socket = props.socket;
   const roomName = useSelector((state) => state.game.roomName);
 
   const is_player =
@@ -33,13 +33,12 @@ const Game2 = memo((props) => {
       : false;
 
   const realGameInfo = gameInfo[0];
-  // const boardColorNum = gameInfo[1]?.boardColor? gameInfo[1].boardColor:1;
-  // console.log("방 이름", gameInfo,is_player,boardColorNum);
   const blackPlayer = realGameInfo.blackTeamPlayer[0];
   const whitePlayer = realGameInfo.whiteTeamPlayer[0];
 
-  const Num = gameInfo[0].blackTeamObserver.length +gameInfo[0].whiteTeamObserver.length;
-  
+  const Num =
+    gameInfo[0].blackTeamObserver.length + gameInfo[0].whiteTeamObserver.length;
+
   const [min, setMin] = useState(2);
   const [sec, setSec] = useState(0);
   const time = useRef(120);
@@ -57,7 +56,6 @@ const Game2 = memo((props) => {
     setModalOpen(false);
   };
 
-
   const timeOut = () => {
     timeout.current = setInterval(() => {
       setMin(parseInt(time.current / 60));
@@ -74,7 +72,6 @@ const Game2 = memo((props) => {
     }, 1000);
   };
 
-
   useEffect(() => {
     let timer = setTimeout(() => {
       dispatch(gameActions.getGameDB(gameNum));
@@ -82,84 +79,84 @@ const Game2 = memo((props) => {
       setsping(false);
     }, 1500);
   }, []);
-   //시간 작동
-   useEffect(() => {
+
+  //시간 작동
+  useEffect(() => {
     if (time.current < 0) {
       clearInterval(timeout.current);
       setWinner("흑돌 타임 승");
       setLoading(true);
       let timer = setTimeout(() => {
-      dispatch(
-        gameActions.gameResultDB({
-          result: { win: blackPlayer.id ,state : "blackPlayer"},
-          userInfo: userInfo,
-          gameNum: gameNum,
-        })
-      );
-      
-    }, 3000);
+        dispatch(
+          gameActions.gameResultDB({
+            result: { win: blackPlayer.id, state: "blackPlayer" },
+            userInfo: userInfo,
+            gameNum: gameNum,
+          })
+        );
+      }, 3000);
     }
     if (time2.current < 0) {
       clearInterval(timeout2.current);
       setWinner("백돌 타임 승");
-            setLoading(true);
+      setLoading(true);
       let timer2 = setTimeout(() => {
-      dispatch(
-        gameActions.gameResultDB({
-          result: { win: whitePlayer.id , state : "whitePlayer" },
-          userInfo: userInfo,
-          gameNum: gameNum,
-        })
-      );
-     
-    }, 3000);
+        dispatch(
+          gameActions.gameResultDB({
+            result: { win: whitePlayer.id, state: "whitePlayer" },
+            userInfo: userInfo,
+            gameNum: gameNum,
+          })
+        );
+      }, 3000);
     }
-  }, [sec, sec2]);  
+  }, [sec, sec2]);
 
   return (
     <GameContainer>
-      <GameEnd
-        open={loading}
-        winner={winner}
-          />
-     <AllTitle>
-      <RoomTitle>
-        <Number>
-          <Text is_size="20px" is_margin=" 20px 10px" is_bold>방 번호 {gameNum}</Text>
-          
+      <GameEnd open={loading} winner={winner} />
+      <AllTitle>
+        <RoomTitle>
+          <Number>
+            <Text is_size="20px" is_margin=" 20px 10px" is_bold>
+              방 번호 {gameNum}
+            </Text>
           </Number>
-      <RoomName>
-        <Text is_size="20px" is_margin=" 20px 10px" is_bold>
-          {roomName}
-        </Text>
-      </RoomName>
-      <Member> 
-      <Text is_size="20px" is_margin=" 20px 10px" is_bold >관전자 수 {Num} 명</Text>
-      </Member>
-      
-      </RoomTitle>
-      <Button 
-      is_width="150px"
-      is_height= "50px"
-      is_margin="10px 0 0 50px"
-      is_size="16px"
-      is_border="none"
-      is_radius="15px"
-      is_cursor
-      is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB"
-      _onClick={
-        ()=>{
-          openModal()
-        }
-      }> 오류 보내기 </Button>
-          </AllTitle>
-          <ErrorModal
-          open={modalOpen} 
-          close={closeModal}
-          gameInfo={gameInfo}
-          gameNum={gameNum}
-          userInfo={userInfo}
-          />
+          <RoomName>
+            <Text is_size="20px" is_margin=" 20px 10px" is_bold>
+              {roomName}
+            </Text>
+          </RoomName>
+          <Member>
+            <Text is_size="20px" is_margin=" 20px 10px" is_bold>
+              관전자 수 {Num} 명
+            </Text>
+          </Member>
+        </RoomTitle>
+        <Button
+          is_width="150px"
+          is_height="50px"
+          is_margin="10px 0 0 50px"
+          is_size="16px"
+          is_border="none"
+          is_radius="15px"
+          is_cursor
+          is_hover="inset -5em 0 0 0 #94D7BB, inset 5em 0 0 0 #94D7BB"
+          _onClick={() => {
+            openModal();
+          }}
+        >
+          {" "}
+          오류 보내기{" "}
+        </Button>
+      </AllTitle>
+      <ErrorModal
+        open={modalOpen}
+        close={closeModal}
+        gameInfo={gameInfo}
+        gameNum={gameNum}
+        userInfo={userInfo}
+      />
       {spin ? <Spinner type={"page"} is_dim={true} width="200px" /> : ""}
       {is_player ? (
         <>
@@ -207,35 +204,32 @@ const GameContainer = styled.div`
   margin: 0 auto;
   padding: 50px auto;
   height: 924px;
-  // background-color: pink;
   justify-content: space-between;
 `;
 const RoomTitle = styled.div`
-border : 2px solid black;
-border-radius : 10px;
-display : flex;
-// position : absolute;
-width : 700px;
-margin : 2px 0 2px 10px;
+  border: 2px solid black;
+  border-radius: 10px;
+  display: flex;
+  width: 700px;
+  margin: 2px 0 2px 10px;
 `;
 const Number = styled.div`
-border-right : 2px solid black;
-width: 200px;
-background-color : #94D7BB;
-border-radius :  10px 0 0 10px ;
+  border-right: 2px solid black;
+  width: 200px;
+  background-color: #94d7bb;
+  border-radius: 10px 0 0 10px;
 `;
 const RoomName = styled.div`
-  
   width: 300px;
 `;
-const Member =styled.div`
-border-left : 2px solid black;
-width: 200px;
-background-color : #f2f2f2;
-border-radius : 0 10px 10px 0;
+const Member = styled.div`
+  border-left: 2px solid black;
+  width: 200px;
+  background-color: #f2f2f2;
+  border-radius: 0 10px 10px 0;
 `;
-const AllTitle= styled.div`
-display : flex;
-position : absolute;
+const AllTitle = styled.div`
+  display: flex;
+  position: absolute;
 `;
 export default Game2;

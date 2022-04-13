@@ -36,8 +36,8 @@ const PlayerGame = memo(
     const rand = (max, min) => {
       return Math.floor(Math.random() * (max - min)) + min;
     };
-    console.log("blackPlayer",blackPlayer);
-    console.log("whitePlayer",whitePlayer);
+    console.log("blackPlayer", blackPlayer);
+    console.log("whitePlayer", whitePlayer);
     const [randomNum, setRandomNum] = useState();
     const [flying, setFlying] = useState();
     useEffect(() => {
@@ -134,12 +134,12 @@ to {
 `;
 
 const DialogBlock = styled.div`
-position: absolute;
-top: ${(props) => props.RandomNum}px;
-max-width: 35.15vw;
-height : 5.86vw;
-max-height: 23.43vw;
-margin : auto;
+  position: absolute;
+  top: ${(props) => props.RandomNum}px;
+  max-width: 35.15vw;
+  height: 5.86vw;
+  max-height: 23.43vw;
+  margin: auto;
   background-image: url(${Cloud});
   background-size: contain;
   background-repeat: no-repeat;
@@ -149,7 +149,7 @@ margin : auto;
   animation-timing-fuction: ease-out;
   animation-name: ${slideUp};
   animation-fill-mode: forwards;
-  zIndex: 9999;
+  zindex: 9999;
   overflow-wrap: break-word;
   word-break: break-word;
 `;

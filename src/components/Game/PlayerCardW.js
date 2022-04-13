@@ -45,17 +45,16 @@ const PlayerCardW = memo(({ playerInfo, min, sec, isTeam }) => {
         img={playerInfo?.profileImage}
       />
       <Text is_bold is_size="30px" is_margin="20px 0">
-        {" "}
         {playerInfo ? playerInfo.id : "1"}
       </Text>
       <ProgressWrap>
         <Progress win={win} lose={lose} />
       </ProgressWrap>
       <Text is_margin="10px">
-        승률{" "}
+        승률
         {win / (win + lose)
           ? Math.ceil((win / (win + lose)) * 100) + "%"
-          : 0 + "%"}{" "}
+          : 0 + "%"}
       </Text>
       <Text is_size="15px">
         (전체 {win}승{lose}패 )
